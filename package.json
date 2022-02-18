@@ -2,7 +2,10 @@
   "name": "stud-asso",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "build": "npx nx run backend:build:production",
+    "start": "node dist/packages/backend/main.js"
+  },
   "private": true,
   "devDependencies": {
     "@nestjs/schematics": "^8.0.0",
