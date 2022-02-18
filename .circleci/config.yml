@@ -3,6 +3,8 @@ orbs:
   nx: nrwl/nx@1.0.0
 jobs:
   main:
+    docker:
+      - image: 'cimg/node:14.17-browsers'
     steps:
       - checkout
       - run: npm install
@@ -10,6 +12,8 @@ jobs:
       - run: npx nx affected --base=$NX_BASE --target=build --parallel=3
       - run: npx nx affected --base=$NX_BASE --target=test --parallel=2
   pr:
+    docker:
+      - image: 'cimg/node:14.17-browsers'
     steps:
       - checkout
       - run: npm install
