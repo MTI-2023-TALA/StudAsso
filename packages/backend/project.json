@@ -48,5 +48,5 @@
       }
     }
   },
-  "tags": ["api backend"]
+  "tags": ["api", "backend"]
 }
