@@ -3,6 +3,8 @@ orbs:
   nx: nrwl/nx@1.0.0
 jobs:
   agent:
+    docker:
+      - image: 'cimg/node:14.17-browsers'
     steps:
       - checkout
       - run: npm install
