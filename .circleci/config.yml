@@ -4,7 +4,7 @@ orbs:
 jobs:
   agent:
     docker:
-      - image: 'cimg/node:14.17-browsers'
+      - image: 'cimg/node:17.5-browsers'
     steps:
       - checkout
       - run: npm install
@@ -13,7 +13,7 @@ jobs:
           no_output_timeout: 60m
   main:
     docker:
-      - image: 'cimg/node:14.17-browsers'
+      - image: 'cimg/node:17.5-browsers'
     environment:
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'true'
     steps:
@@ -25,7 +25,7 @@ jobs:
       - run: npx nx-cloud stop-all-agents
   pr:
     docker:
-      - image: 'cimg/node:14.17-browsers'
+      - image: 'cimg/node:17.5-browsers'
     environment:
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'true'
     steps:
