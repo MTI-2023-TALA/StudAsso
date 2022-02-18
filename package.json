@@ -4,10 +4,10 @@
   "license": "MIT",
   "scripts": {},
   "private": true,
-  "dependencies": {},
   "devDependencies": {
     "@nrwl/cli": "13.8.2",
     "@nrwl/js": "13.8.2",
+    "@nrwl/nest": "^13.8.2",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/tao": "13.8.2",
     "@nrwl/workspace": "13.8.2",
