@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "nx backend:build:production",
+    "build": "nx run backend:build:production",
     "test": "nx test",
     "cd": "node dist/apps/backend/main.js"
   },
