@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start": "nx serve",
-    "build": "nx build",
-    "test": "nx test"
+    "build": "nx backend:build:production",
+    "test": "nx test",
+    "cd": "node dist/apps/backend/main.js"
   },
   "private": true,
   "devDependencies": {
