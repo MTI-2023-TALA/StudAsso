@@ -1,0 +1,98 @@
+{
+  "projectType": "application",
+  "root": "apps/frontend/association",
+  "sourceRoot": "apps/frontend/association/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/frontend/association",
+        "index": "apps/frontend/association/src/index.html",
+        "main": "apps/frontend/association/src/main.ts",
+        "polyfills": "apps/frontend/association/src/polyfills.ts",
+        "tsConfig": "apps/frontend/association/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/frontend/association/src/favicon.ico",
+          "apps/frontend/association/src/assets"
+        ],
+        "styles": ["apps/frontend/association/src/styles.scss"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/frontend/association/src/environments/environment.ts",
+              "with": "apps/frontend/association/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "frontend-association:build:production"
+        },
+        "development": {
+          "browserTarget": "frontend-association:build:development"
+        }
+      },
+      "defaultConfiguration": "development",
+      "options": {
+        "port": 4201,
+        "proxyConfig": "apps/frontend/association/proxy.conf.json"
+      }
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "frontend-association:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/frontend/association/src/**/*.ts",
+          "apps/frontend/association/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/frontend/association"],
+      "options": {
+        "jestConfig": "apps/frontend/association/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["frontend"]
+}
