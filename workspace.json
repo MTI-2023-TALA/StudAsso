@@ -1,6 +1,8 @@
 {
   "version": 2,
   "projects": {
-    "backend": "apps/backend"
+    "backend": "apps/backend",
+    "frontend-school": "apps/frontend/school",
+    "frontend-school-e2e": "apps/frontend/school-e2e"
   }
 }
