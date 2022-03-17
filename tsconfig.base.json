@@ -14,7 +14,11 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@stud-asso/frontend/login": [
+        "libs/frontend/login/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
