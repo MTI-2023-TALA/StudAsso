@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@stud-asso/frontend/login": [
-        "libs/frontend/login/src/index.ts"
+      "@stud-asso/frontend/auth": [
+        "libs/frontend/auth/src/index.ts"
       ]
     }
   },

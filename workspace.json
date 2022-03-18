@@ -2,7 +2,7 @@
   "version": 2,
   "projects": {
     "backend": "apps/backend",
-    "frontend-login": "libs/frontend/login",
+    "frontend-auth": "libs/frontend/auth",
     "frontend-association": "apps/frontend/association",
     "frontend-association-e2e": "apps/frontend/association-e2e",
     "frontend-school": "apps/frontend/school",

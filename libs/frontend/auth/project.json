@@ -1,14 +1,14 @@
 {
   "projectType": "library",
-  "root": "libs/frontend/login",
-  "sourceRoot": "libs/frontend/login/src",
+  "root": "libs/frontend/auth",
+  "sourceRoot": "libs/frontend/auth/src",
   "prefix": "stud-asso",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/login"],
+      "outputs": ["coverage/libs/frontend/auth"],
       "options": {
-        "jestConfig": "libs/frontend/login/jest.config.js",
+        "jestConfig": "libs/frontend/auth/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -16,8 +16,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/frontend/login/src/**/*.ts",
-          "libs/frontend/login/src/**/*.html"
+          "libs/frontend/auth/src/**/*.ts",
+          "libs/frontend/auth/src/**/*.html"
         ]
       }
     }

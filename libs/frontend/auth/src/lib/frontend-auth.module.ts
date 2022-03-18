@@ -6,4 +6,4 @@ import { LoginPageComponent } from './login-page/login-page.component';
   imports: [CommonModule],
   declarations: [LoginPageComponent],
 })
-export class FrontendLoginModule {}
+export class AuthModule {}
