@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/api",
+  "sourceRoot": "libs/frontend/api/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/api"],
+      "options": {
+        "jestConfig": "libs/frontend/api/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/api/src/**/*.ts",
+          "libs/frontend/api/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

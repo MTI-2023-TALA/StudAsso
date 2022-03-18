@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AuthModule } from '@stud-asso/frontend/auth';
+import { FrontendApiModule } from '@stud-asso/frontend/api';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, FrontendApiModule],
   providers: [],
   bootstrap: [AppComponent],
 })

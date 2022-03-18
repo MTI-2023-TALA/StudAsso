@@ -98,3 +98,7 @@ buck-out/
 node_modules/
 
 apps/mobile/student-e2e/artifacts
+
+## Custom
+
+.vscode/settings.json
