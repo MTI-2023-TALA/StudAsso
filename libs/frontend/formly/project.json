@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/formly",
+  "sourceRoot": "libs/frontend/formly/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/formly"],
+      "options": {
+        "jestConfig": "libs/frontend/formly/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/formly/src/**/*.ts",
+          "libs/frontend/formly/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

@@ -18,7 +18,10 @@
           "apps/frontend/school/src/favicon.ico",
           "apps/frontend/school/src/assets"
         ],
-        "styles": ["apps/frontend/school/src/styles.scss", "node_modules/bulma/css/bulma.min.css"],
+        "styles": [
+          "apps/frontend/school/src/styles.scss",
+          "node_modules/bulma/css/bulma.min.css"
+        ],
         "scripts": []
       },
       "configurations": {
