@@ -8,7 +8,11 @@
     "test": "nx test",
     "cd": "node dist/apps/backend/main.js",
     "prepare": "husky install",
-    "postinstall": "ngcc --properties es2015 browser module main"
+    "postinstall": "ngcc --properties es2015 browser module main",
+    "migration:create": "npx typeorm migration:create -f ormconfig.local",
+    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run -f ormconfig.local",
+    "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert -f ormconfig.local",
+    "docker": "docker-compose -f docker-compose.yml up"
   },
   "private": true,
   "devDependencies": {
@@ -89,11 +93,14 @@
     "@ngx-formly/core": "^5.11.2",
     "bootstrap-icons": "^1.8.1",
     "bulma": "^0.9.3",
+    "@nestjs/typeorm": "^8.0.3",
+    "pg": "^8.7.3",
     "react": "17.0.2",
     "react-native": "0.67.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.0.0",
+    "typeorm": "^0.2.45",
     "zone.js": "~0.11.4"
   }
 }

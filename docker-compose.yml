@@ -13,14 +13,16 @@ services:
     ports:
       - '3333:3333'
   database:
-    image: postgres
+    image: postgres:14-alpine3.15
     environment:
-      POSTGRES_PASSWORD: default-password
-      POSTGRES_USER: stud-asso
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: studasso
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
     volumes:
       - stud-asso:/db
-    ports:
-      - '5432:5432'
+
 
 volumes:
   stud-asso:
