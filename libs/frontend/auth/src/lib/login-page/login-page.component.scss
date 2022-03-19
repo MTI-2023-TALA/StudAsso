@@ -4,3 +4,25 @@
   align-items: center;
   flex-direction: column;
 }
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 500px;
+  margin: 5%;
+}
+
+.login-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: white;
+  color: #8247e5;
+  border-color: #8247e5;
+  border-radius: 5px;
+  padding: 3px 20px;
+  margin: 15%;
+}

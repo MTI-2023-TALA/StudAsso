@@ -7,7 +7,7 @@ import { ApiService } from '@stud-asso/frontend/api';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent {
-  @Input() title = 'Test';
+  @Input() title = 'Portail Ecole';
 
   constructor(private api: ApiService) {
     this.api.get('').subscribe((res) => {
