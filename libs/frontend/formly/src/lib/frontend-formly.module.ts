@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormlyInputFieldComponent } from './formly-input-field/formly-input-field.component';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormlyFormFieldComponent } from './formly-form-field/formly-form-field.component';
 
 @NgModule({
   imports: [
@@ -10,10 +11,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     FormlyModule.forRoot({
-      types: [{ name: 'input', component: FormlyInputFieldComponent }],
+      wrappers: [{ name: 'field', component: FormlyFormFieldComponent }],
+      types: [
+        {
+          name: 'input',
+          component: FormlyInputFieldComponent,
+          wrappers: ['field'],
+        },
+      ],
     }),
   ],
-  declarations: [FormlyInputFieldComponent],
+  declarations: [FormlyInputFieldComponent, FormlyFormFieldComponent],
   exports: [FormlyModule, ReactiveFormsModule, FormsModule],
 })
 export class FrontendFormlyModule {}
