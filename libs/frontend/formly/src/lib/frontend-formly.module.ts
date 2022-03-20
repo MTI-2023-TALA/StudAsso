@@ -4,6 +4,7 @@ import { FormlyInputFieldComponent } from './formly-input-field/formly-input-fie
 import { FormlyModule } from '@ngx-formly/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFormFieldComponent } from './formly-form-field/formly-form-field.component';
+import { Form } from './formly-enum.model';
 
 @NgModule({
   imports: [
@@ -11,12 +12,12 @@ import { FormlyFormFieldComponent } from './formly-form-field/formly-form-field.
     FormsModule,
     ReactiveFormsModule,
     FormlyModule.forRoot({
-      wrappers: [{ name: 'field', component: FormlyFormFieldComponent }],
+      wrappers: [{ name: Form.Field, component: FormlyFormFieldComponent }],
       types: [
         {
-          name: 'input',
+          name: Form.Input,
           component: FormlyInputFieldComponent,
-          wrappers: ['field'],
+          wrappers: [Form.Field],
         },
       ],
     }),

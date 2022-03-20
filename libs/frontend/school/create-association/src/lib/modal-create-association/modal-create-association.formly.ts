@@ -1,11 +1,12 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Form } from '@stud-asso/frontend/formly';
 
 export class ModalCreateAssociationFormly {
   public static getForm(): FormlyFieldConfig[] {
     return [
       {
         key: 'associationName',
-        type: 'input',
+        type: Form.Input,
         templateOptions: {
           label: "Nom de l'association",
           placeholder: "Nom de l'association",
@@ -14,7 +15,7 @@ export class ModalCreateAssociationFormly {
       },
       {
         key: 'presidentName',
-        type: 'input',
+        type: Form.Input,
         templateOptions: {
           label: 'Nom du président',
           placeholder: 'Nom du président',
