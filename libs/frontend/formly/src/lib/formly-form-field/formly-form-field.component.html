@@ -1,9 +1,11 @@
-<div class="field mb-4">
+<div class="field">
   <label class="label">{{ to.label }}</label>
   <div class="control">
     <ng-template #fieldComponent></ng-template>
   </div>
-  <p class="help is-danger" *ngIf="showError">
+  <!-- TODO: Should have the same height ! -->
+  <div class="help is-danger pb-2" *ngIf="showError">
     <formly-validation-message [field]="field"></formly-validation-message>
-  </p>
+  </div>
+  <div class="pb-5" *ngIf="!showError"></div>
 </div>

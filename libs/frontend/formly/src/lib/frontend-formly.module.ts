@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormlyInputFieldComponent } from './formly-input-field/formly-input-field.component';
+import { FormlyInputComponent } from './formly-input/formly-input.component';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyFormFieldComponent } from './formly-form-field/formly-form-field.component';
@@ -16,7 +16,7 @@ import { Form } from './formly-enum.model';
       types: [
         {
           name: Form.Input,
-          component: FormlyInputFieldComponent,
+          component: FormlyInputComponent,
           wrappers: [Form.Field],
         },
       ],
@@ -25,7 +25,7 @@ import { Form } from './formly-enum.model';
       ],
     }),
   ],
-  declarations: [FormlyInputFieldComponent, FormlyFormFieldComponent],
+  declarations: [FormlyInputComponent, FormlyFormFieldComponent],
   exports: [FormlyModule, ReactiveFormsModule, FormsModule],
 })
 export class FrontendFormlyModule {}
