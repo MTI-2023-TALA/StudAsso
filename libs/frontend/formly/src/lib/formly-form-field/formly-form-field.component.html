@@ -3,4 +3,7 @@
   <div class="control">
     <ng-template #fieldComponent></ng-template>
   </div>
+  <p class="help is-danger" *ngIf="showError">
+    <formly-validation-message [field]="field"></formly-validation-message>
+  </p>
 </div>

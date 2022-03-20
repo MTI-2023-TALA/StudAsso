@@ -20,6 +20,9 @@ import { Form } from './formly-enum.model';
           wrappers: [Form.Field],
         },
       ],
+      validationMessages: [
+        { name: 'required', message: 'le champ est obligatoire' },
+      ],
     }),
   ],
   declarations: [FormlyInputFieldComponent, FormlyFormFieldComponent],
