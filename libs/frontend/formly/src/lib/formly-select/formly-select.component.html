@@ -1,0 +1,9 @@
+<div class="select" [class.is-danger]="showError">
+  <select [formControl]="formControl" [formlyAttributes]="field">
+    <ng-container *ngIf="to.options">
+      <ng-container *ngFor="let opt of selectOptions">
+        <option value="{{ opt.value }}">{{ opt.label }}</option>
+      </ng-container>
+    </ng-container>
+  </select>
+</div>
