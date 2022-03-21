@@ -25,7 +25,7 @@ export class LoginPageComponent implements OnInit {
   public onClickSignInButton() {
     const success = this.authService.tryToSign();
     if (success) {
-      this.router.navigateByUrl('/create-association');
+      this.router.navigateByUrl('/');
       return;
     }
   }

@@ -6,6 +6,7 @@ import {
   LoginPageComponent,
 } from '@stud-asso/frontend/auth';
 import { ModalCreateAssociationComponent } from '@stud-asso/frontend/school/create-association';
+import { HomePageComponent } from '@stud-asso/frontend/school/home-page';
 
 const routes: Routes = [
   {
@@ -16,12 +17,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: LoginPageComponent,
-    canActivate: [IsSignGuard],
-  },
-  {
-    path: 'create-association',
-    component: ModalCreateAssociationComponent,
+    component: HomePageComponent,
     canActivate: [IsSignGuard],
   },
 ];

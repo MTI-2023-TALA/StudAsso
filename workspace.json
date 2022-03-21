@@ -10,6 +10,7 @@
     "frontend-school": "apps/frontend/school",
     "frontend-school-create-association": "libs/frontend/school/create-association",
     "frontend-school-e2e": "apps/frontend/school-e2e",
+    "frontend-school-home-page": "libs/frontend/school/home-page",
     "mobile-student": "apps/mobile/student",
     "mobile-student-e2e": "apps/mobile/student-e2e"
   }
