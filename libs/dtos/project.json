@@ -1,0 +1,15 @@
+{
+  "root": "libs/dtos",
+  "sourceRoot": "libs/dtos/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/dtos/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}
