@@ -1,6 +1,6 @@
-import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateUserTable1647711248627 implements MigrationInterface {
+export class CreateUsersTable1647711248627 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -10,6 +10,7 @@ export class CreateUserTable1647711248627 implements MigrationInterface {
             name: 'id',
             type: 'int',
             isPrimary: true,
+            generationStrategy: 'increment',
           },
           {
             name: 'firstname',
@@ -19,22 +20,17 @@ export class CreateUserTable1647711248627 implements MigrationInterface {
             name: 'lastname',
             type: 'varchar',
           },
+          {
+            name: 'email',
+            type: 'varchar',
+          },
         ],
       }),
       true
     );
-
-    await queryRunner.createIndex(
-      'users',
-      new TableIndex({
-        name: 'IDX_USERS_NAME',
-        columnNames: ['firstname', 'lastname'],
-      })
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropIndex('users', 'IDX_USERS_NAME');
     await queryRunner.dropTable('users');
   }
 }
