@@ -6,13 +6,13 @@ export class User {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   firstname: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   lastname: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   email: string;
 
   @OneToMany(

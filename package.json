@@ -9,9 +9,9 @@
     "cd": "node dist/apps/backend/main.js",
     "prepare": "husky install",
     "postinstall": "ngcc --properties es2015 browser module main",
-    "migration:create": "npx typeorm migration:create -f ormconfig",
-    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run -f ormconfig",
-    "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert -f ormconfig",
+    "migration:create": "npx typeorm migration:create -f tools/migrations/ormconfig.local.ts",
+    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run -f tools/migrations/ormconfig.local.ts",
+    "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert -f tools/migrations/ormconfig.local.ts",
     "docker": "docker-compose -f docker-compose.yml up"
   },
   "private": true,
