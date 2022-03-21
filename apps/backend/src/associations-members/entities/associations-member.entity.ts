@@ -2,9 +2,9 @@ import { Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('associations_members')
 export class AssociationsMember {
-  @PrimaryColumn({ name: 'association_id' })
+  @PrimaryColumn({ type: 'int', name: 'association_id' })
   associationId: number;
 
-  @PrimaryColumn({ name: 'user_id' })
+  @PrimaryColumn({ type: 'int', name: 'user_id' })
   userId: number;
 }

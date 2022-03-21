@@ -6,7 +6,7 @@ export class Association {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   name: string;
 
   @OneToMany(
