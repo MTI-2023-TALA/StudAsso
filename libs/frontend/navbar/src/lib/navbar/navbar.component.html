@@ -1,0 +1,32 @@
+<div class="host has-background-white-ter">
+  <h1 class="is-size-2">Stud'Asso</h1>
+  <div class="flex flex-center">
+    <!-- TODO: Change for logo -->
+    <div class="gray-box"></div>
+  </div>
+  <h2 class="is-size-4">{{ title }}</h2>
+
+  <nav>
+    <ul>
+      <a
+        *ngFor="let item of navbarItems"
+        class="is-size-6 has-text-weight-bold"
+        [routerLink]="[item.url]"
+      >
+        <li
+          routerLinkActive="router-link-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <!-- TODO: Add icon -->
+          {{ item.title }}
+
+          <div
+            class="indicator"
+            routerLinkActive="router-link-indicator"
+            [routerLinkActiveOptions]="{ exact: true }"
+          ></div>
+        </li>
+      </a>
+    </ul>
+  </nav>
+</div>

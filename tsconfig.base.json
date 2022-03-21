@@ -18,6 +18,7 @@
       "@stud-asso/frontend/api": ["libs/frontend/api/src/index.ts"],
       "@stud-asso/frontend/auth": ["libs/frontend/auth/src/index.ts"],
       "@stud-asso/frontend/formly": ["libs/frontend/formly/src/index.ts"],
+      "@stud-asso/frontend/navbar": ["libs/frontend/navbar/src/index.ts"],
       "@stud-asso/frontend/school/create-association": [
         "libs/frontend/school/create-association/src/index.ts"
       ],

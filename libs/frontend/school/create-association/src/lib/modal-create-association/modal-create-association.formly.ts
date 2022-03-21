@@ -15,9 +15,10 @@ export class ModalCreateAssociationFormly {
       },
       {
         key: 'presidentName',
-        type: Form.Checkbox,
+        type: Form.TextArea,
         templateOptions: {
           label: 'Nom du président',
+          required: true,
         },
       },
     ];

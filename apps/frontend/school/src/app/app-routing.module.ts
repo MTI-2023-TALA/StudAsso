@@ -18,7 +18,16 @@ const routes: Routes = [
   {
     path: '',
     component: HomePageComponent,
+    data: { title: 'Portail Ecole' },
     canActivate: [IsSignGuard],
+    children: [
+      {
+        path: 'stats',
+        component: ModalCreateAssociationComponent,
+        data: { title: 'Portail Ecole' },
+        canActivate: [IsSignGuard],
+      },
+    ],
   },
 ];
 

@@ -1,0 +1,67 @@
+.host {
+  overflow: hidden;
+  height: 100vh;
+}
+
+h1, h2 {
+  padding: 1rem;
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.gray-box {
+  width: 64px;
+  height: 64px;
+  background-color: green;
+}
+
+ul {
+  padding-top: 5rem;
+
+  a {
+    width: 100%;
+
+    li {
+      &:hover:not(.router-link-active) {
+        color: hsl(0, 0%, 29%);
+
+        .indicator {
+          width: 0.75rem;
+          height: 1.5rem;
+          border-radius: 4px 0 0 4px;
+          background-color: hsl(219, 100%, 83%);
+        }
+      }
+    }
+
+  }
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+
+  padding-left: 2rem;
+  margin-bottom: 1.5rem;
+  color: hsl(0, 0%, 48%);
+}
+
+.router-link-active {
+  color: hsl(217, 71%, 53%);
+}
+
+.router-link-indicator {
+  width: 0.75rem;
+  height: 1.5rem;
+  border-radius: 4px 0 0 4px;
+  background-color: hsl(217, 71%, 53%);
+}
