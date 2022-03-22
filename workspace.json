@@ -16,6 +16,7 @@
     "frontend-scss": "libs/frontend/scss",
     "frontend-toast": "libs/frontend/toast",
     "mobile-student": "apps/mobile/student",
-    "mobile-student-e2e": "apps/mobile/student-e2e"
+    "mobile-student-e2e": "apps/mobile/student-e2e",
+    "shared-dtos": "libs/shared/dtos"
   }
 }

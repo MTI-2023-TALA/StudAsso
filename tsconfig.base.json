@@ -10,7 +10,10 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -26,8 +29,14 @@
       "@stud-asso/frontend/school/create-association": [
         "libs/frontend/school/create-association/src/index.ts"
       ],
-      "@stud-asso/frontend/toast": ["libs/frontend/toast/src/index.ts"]
+      "@stud-asso/frontend/toast": ["libs/frontend/toast/src/index.ts"],
+      "@stud-asso/shared/dtos": [
+        "libs/shared/dtos/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }
