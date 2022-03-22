@@ -12,6 +12,7 @@ export class CreateAssociationsTable1647813383509
             name: 'id',
             type: 'int',
             isPrimary: true,
+            isGenerated: true,
             generationStrategy: 'increment',
           },
           {
