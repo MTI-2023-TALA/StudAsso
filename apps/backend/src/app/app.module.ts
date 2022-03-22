@@ -10,6 +10,7 @@ import { AssociationsModule } from '../associations/associations.module';
 
 @Module({
   imports: [
+    UsersModule,
     TypeOrmModule.forRootAsync({
       useFactory: async () =>
         Object.assign(await getConnectionOptions(), { autoLoadEntities: true }),
