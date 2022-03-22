@@ -1,13 +1,13 @@
 {
-  "root": "libs/dtos",
-  "sourceRoot": "libs/dtos/src",
+  "root": "libs/share/dtos",
+  "sourceRoot": "libs/share/dtos/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/dtos/**/*.ts"]
+        "lintFilePatterns": ["libs/share/dtos/**/*.ts"]
       }
     }
   },
