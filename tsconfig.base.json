@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@dtos": ["libs/share/dtos/src/index.ts"]
+      "@dtos": ["libs/shared/dtos/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

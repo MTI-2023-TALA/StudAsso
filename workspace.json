@@ -8,6 +8,6 @@
     "frontend-school-e2e": "apps/frontend/school-e2e",
     "mobile-student": "apps/mobile/student",
     "mobile-student-e2e": "apps/mobile/student-e2e",
-    "share-dtos": "libs/share/dtos"
+    "shared-dtos": "libs/shared/dtos"
   }
 }
