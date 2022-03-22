@@ -1,7 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { AssociationsService } from './associations.service';
-import { CreateAssociationDto } from './dto/create-association.dto';
-import { UpdateAssociationDto } from './dto/update-association.dto';
+import {
+  CreateAssociationDto,
+  UpdateAssociationDto,
+} from '@stud-asso/shared/dtos';
 
 @Controller('associations')
 export class AssociationsController {
@@ -23,7 +33,10 @@ export class AssociationsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAssociationDto: UpdateAssociationDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateAssociationDto: UpdateAssociationDto
+  ) {
     return this.associationsService.update(+id, updateAssociationDto);
   }
 
