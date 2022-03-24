@@ -11,8 +11,8 @@ export class HomePageComponent implements OnInit {
   title = '';
 
   navbarItems: NavbarItem[] = [
-    { title: 'Tableau de bord', icon: '', url: '/' },
-    { title: 'Statistiques', icon: '', url: '/stats' },
+    { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
+    { title: 'Statistiques', icon: 'graph-down', url: '/stats' },
   ];
 
   constructor(private activatedRoute: ActivatedRoute) {}
