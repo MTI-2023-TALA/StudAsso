@@ -9,6 +9,7 @@ import { NavbarItem } from '@stud-asso/frontend/navbar';
 })
 export class HomePageComponent implements OnInit {
   title = '';
+  shouldShowLargeNavbar = true;
 
   navbarItems: NavbarItem[] = [
     { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
@@ -21,5 +22,9 @@ export class HomePageComponent implements OnInit {
     this.activatedRoute.data.subscribe((data: Data) => {
       this.title = data['title'];
     });
+  }
+
+  toggleShowLargeNavbar(shouldShowLargeNavbar: boolean) {
+    this.shouldShowLargeNavbar = shouldShowLargeNavbar;
   }
 }

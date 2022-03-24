@@ -1,9 +1,16 @@
-<div class="host">
+<div class="host" [ngClass]="{ showLargeNavbar: shouldShowLargeNavbar }">
   <h1 class="title t-center p-4">
     <!-- TODO: Add logo -->
     <i class="bi bi-border-outer"></i>
-    Stud'Asso
+    <span *ngIf="shouldShowLargeNavbar">Stud'Asso</span>
   </h1>
+
+  <div class="center">
+    <button class="button" (click)="toggleShowLargeNavbar()">
+      <i *ngIf="shouldShowLargeNavbar" class="bi bi-arrow-left-square"></i>
+      <i *ngIf="!shouldShowLargeNavbar" class="bi bi-arrow-right-square"></i>
+    </button>
+  </div>
 
   <nav>
     <ul>
@@ -18,7 +25,7 @@
         >
           <p>
             <i class="bi bi-{{ item.icon }} p-2"></i>
-            {{ item.title }}
+            <span *ngIf="shouldShowLargeNavbar">{{ item.title }}</span>
           </p>
 
           <div

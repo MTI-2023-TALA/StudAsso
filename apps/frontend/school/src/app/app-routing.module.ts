@@ -23,9 +23,8 @@ const routes: Routes = [
     children: [
       {
         path: 'stats',
-        component: LoginPageComponent,
+        component: ModalCreateAssociationComponent,
         data: { title: 'Portail Ecole' },
-        canActivate: [IsSignGuard],
       },
     ],
   },

@@ -1,4 +1,10 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  Input,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { NavbarItem } from './navbar.model';
 
 @Component({
@@ -10,4 +16,13 @@ import { NavbarItem } from './navbar.model';
 export class NavbarComponent {
   @Input() title = '';
   @Input() navbarItems: NavbarItem[] = [];
+  @Output() emitShouldShowLargeNavbar = new EventEmitter<boolean>();
+
+  // TODO: Load from config ?
+  shouldShowLargeNavbar = true;
+
+  toggleShowLargeNavbar() {
+    this.shouldShowLargeNavbar = !this.shouldShowLargeNavbar;
+    this.emitShouldShowLargeNavbar.emit(this.shouldShowLargeNavbar);
+  }
 }

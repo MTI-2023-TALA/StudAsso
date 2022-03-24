@@ -4,6 +4,17 @@
   overflow-y: auto;
   height: 100vh;
   background-color: #FAFAFB;
+
+  &:not(.showLargeNavbar) {
+    li {
+     padding: 0.5rem 0rem;
+
+     p {
+       width: 100%;
+       text-align: center;
+     }
+    }
+   }
 }
 
 .t-center {
@@ -61,4 +72,14 @@ li {
   height: 1.5em;
   border-radius: 8px 0 0 8px;
   background-color: #6433C4;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  border: none;
 }

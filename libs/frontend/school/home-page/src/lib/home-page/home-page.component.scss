@@ -1,6 +1,15 @@
-:host {
+div {
+  transition: 2s;
   display: grid;
-  grid-template-columns: 2fr 0fr 5fr;
+  grid-template-columns: 80px 0fr 5fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+}
+
+.showLargeNavbar {
+  display: grid;
+  grid-template-columns: 240px 0fr 5fr;
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
