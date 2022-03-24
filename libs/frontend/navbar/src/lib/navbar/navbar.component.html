@@ -1,10 +1,9 @@
-<div class="host has-background-white-ter">
-  <h1 class="is-size-2">Stud'Asso</h1>
-  <div class="flex flex-center">
-    <!-- TODO: Change for logo -->
-    <div class="gray-box"></div>
-  </div>
-  <h2 class="is-size-4">{{ title }}</h2>
+<div class="host">
+  <h1 class="title t-center p-4">
+    <!-- TODO: Add logo -->
+    <i class="bi bi-border-outer"></i>
+    Stud'Asso
+  </h1>
 
   <nav>
     <ul>
@@ -17,8 +16,10 @@
           routerLinkActive="router-link-active"
           [routerLinkActiveOptions]="{ exact: true }"
         >
-          <i class="bi bi-{{ item.icon }}"></i>
-          {{ item.title }}
+          <p>
+            <i class="bi bi-{{ item.icon }} p-2"></i>
+            {{ item.title }}
+          </p>
 
           <div
             class="indicator"

@@ -1,46 +1,39 @@
 @import 'libs/frontend/scss/src/lib/colors';
 
 .host {
-  overflow: hidden;
+  overflow-y: auto;
   height: 100vh;
+  background-color: #FAFAFB;
 }
 
-h1, h2 {
-  padding: 1rem;
+.t-center {
   text-align: center;
 }
 
-.flex {
-  display: flex;
+.title {
+  background: linear-gradient(135deg, #72EDF2 0%, #5151E5 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.gray-box {
-  width: 64px;
-  height: 64px;
-  background-color: $bg-red;
-}
 
 ul {
-  padding-top: 5rem;
+  padding-top: 3rem;
 
   a {
     width: 100%;
 
     li {
+      transition: 100ms ease-in-out;
+
       &:hover:not(.router-link-active) {
-        color: hsl(0, 0%, 29%);
+        color: #7E6EA1;
 
         .indicator {
-          width: 0.75rem;
-          height: 1.5rem;
-          border-radius: 4px 0 0 4px;
-          background-color: hsl(219, 100%, 83%);
+          width: 2px;
+          height: 1.5em;
+          border-radius: 8px 0 0 8px;
+          background-color: #7E6EA1;
         }
       }
     }
@@ -53,17 +46,19 @@ li {
   justify-content: space-between;
 
   padding-left: 2rem;
+  padding: 0.5rem 0rem 0.5rem 2rem;
   margin-bottom: 1.5rem;
-  color: hsl(0, 0%, 48%);
+  color: #8C93A3;
 }
 
 .router-link-active {
-  color: hsl(217, 71%, 53%);
+  background-color: #f0f0f0;
+  color: #6433C4;
 }
 
 .router-link-indicator {
-  width: 0.75rem;
-  height: 1.5rem;
-  border-radius: 4px 0 0 4px;
-  background-color: hsl(217, 71%, 53%);
+  width: 2px;
+  height: 1.5em;
+  border-radius: 8px 0 0 8px;
+  background-color: #6433C4;
 }
