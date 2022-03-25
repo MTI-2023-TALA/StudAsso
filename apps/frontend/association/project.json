@@ -18,7 +18,10 @@
           "apps/frontend/association/src/favicon.ico",
           "apps/frontend/association/src/assets"
         ],
-        "styles": ["apps/frontend/association/src/styles.scss"],
+        "styles": [
+          "apps/frontend/association/src/styles.scss",
+          "node_modules/bulma/css/bulma.min.css"
+        ],
         "scripts": []
       },
       "configurations": {

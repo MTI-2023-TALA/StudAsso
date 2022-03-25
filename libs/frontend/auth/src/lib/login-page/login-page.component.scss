@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+
+  height: 100vh;
+}
+
+button {
+  svg {
+    padding-right: 0.5em;
+  }
+}

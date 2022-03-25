@@ -1,0 +1,22 @@
+<div class="modal is-active">
+  <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Nouvelle association</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <formly-form
+          [form]="form"
+          [fields]="fields"
+          [model]="model"
+        ></formly-form>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success">Créer</button>
+        <button class="button is-ghost">Annuler</button>
+      </footer>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,34 @@
+<div class="host" [ngClass]="{ showLargeNavbar: shouldShowLargeNavbar }">
+  <h1 class="title t-center p-4">
+    <!-- TODO: Add logo -->
+    <i class="bi bi-border-outer"></i>
+    <span *ngIf="shouldShowLargeNavbar">Stud'Asso</span>
+  </h1>
+
+  <div class="center">
+    <button class="button" (click)="toggleShowLargeNavbar()">
+      <i *ngIf="shouldShowLargeNavbar" class="bi bi-arrow-left-square"></i>
+      <i *ngIf="!shouldShowLargeNavbar" class="bi bi-arrow-right-square"></i>
+    </button>
+  </div>
+
+  <nav>
+    <ul>
+      <a
+        *ngFor="let item of navbarItems"
+        class="is-size-6 has-text-weight-bold"
+        [routerLink]="[item.url]"
+      >
+        <li
+          routerLinkActive="router-link-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <p>
+            <i class="bi bi-{{ item.icon }} p-2"></i>
+            <span *ngIf="shouldShowLargeNavbar">{{ item.title }}</span>
+          </p>
+        </li>
+      </a>
+    </ul>
+  </nav>
+</div>

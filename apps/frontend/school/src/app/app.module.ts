@@ -2,16 +2,22 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { AppRoutingModule } from './app-routing.module';
+import { FrontendApiModule } from '@stud-asso/frontend/api';
 import { RouterModule } from '@angular/router';
+import { FrontendSchoolCreateAssociationModule } from '@stud-asso/frontend/school/create-association';
+import { FrontendSchoolHomePageModule } from '@stud-asso/frontend/school/home-page';
 
 @NgModule({
-  declarations: [AppComponent, NxWelcomeComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([], { initialNavigation: 'enabledBlocking' }),
+    AppRoutingModule,
+    FrontendApiModule,
+    RouterModule,
+    FrontendSchoolCreateAssociationModule,
+    FrontendSchoolHomePageModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

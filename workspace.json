@@ -2,10 +2,17 @@
   "version": 2,
   "projects": {
     "backend": "apps/backend",
+    "frontend-api": "libs/frontend/api",
     "frontend-association": "apps/frontend/association",
     "frontend-association-e2e": "apps/frontend/association-e2e",
+    "frontend-auth": "libs/frontend/auth",
+    "frontend-formly": "libs/frontend/formly",
+    "frontend-navbar": "libs/frontend/navbar",
     "frontend-school": "apps/frontend/school",
+    "frontend-school-create-association": "libs/frontend/school/create-association",
     "frontend-school-e2e": "apps/frontend/school-e2e",
+    "frontend-school-home-page": "libs/frontend/school/home-page",
+    "frontend-scss": "libs/frontend/scss",
     "mobile-student": "apps/mobile/student",
     "mobile-student-e2e": "apps/mobile/student-e2e"
   }

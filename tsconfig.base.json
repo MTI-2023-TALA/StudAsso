@@ -14,7 +14,18 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@stud-asso/frontend/api": ["libs/frontend/api/src/index.ts"],
+      "@stud-asso/frontend/auth": ["libs/frontend/auth/src/index.ts"],
+      "@stud-asso/frontend/formly": ["libs/frontend/formly/src/index.ts"],
+      "@stud-asso/frontend/navbar": ["libs/frontend/navbar/src/index.ts"],
+      "@stud-asso/frontend/school/create-association": [
+        "libs/frontend/school/create-association/src/index.ts"
+      ],
+      "@stud-asso/frontend/school/home-page": [
+        "libs/frontend/school/home-page/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
