@@ -5,4 +5,5 @@ export enum Form {
   Select = 'select',
   Checkbox = 'checkbox',
   Radio = 'radio',
+  File = 'file',
 }

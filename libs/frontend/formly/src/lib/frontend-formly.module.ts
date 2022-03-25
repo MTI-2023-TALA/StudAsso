@@ -9,6 +9,7 @@ import { FormlyTextareaComponent } from './formly-textarea/formly-textarea.compo
 import { FormlySelectComponent } from './formly-select/formly-select.component';
 import { FormlyCheckboxComponent } from './formly-checkbox/formly-checkbox.component';
 import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
+import { FormlyFileComponent } from './formly-file/formly-file.component';
 
 @NgModule({
   imports: [
@@ -41,6 +42,10 @@ import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
           name: Form.Radio,
           component: FormlyRadioComponent,
         },
+        {
+          name: Form.File,
+          component: FormlyFileComponent,
+        },
       ],
       validationMessages: [
         { name: 'required', message: 'Le champ est obligatoire' },
@@ -54,6 +59,7 @@ import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
     FormlySelectComponent,
     FormlyCheckboxComponent,
     FormlyRadioComponent,
+    FormlyFileComponent,
   ],
   exports: [FormlyModule, ReactiveFormsModule, FormsModule],
 })
