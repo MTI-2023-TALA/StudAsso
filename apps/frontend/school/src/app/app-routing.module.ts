@@ -25,7 +25,6 @@ const routes: Routes = [
         path: 'stats',
         component: ModalCreateAssociationComponent,
         data: { title: 'Portail Ecole' },
-        canActivate: [IsSignGuard],
       },
     ],
   },

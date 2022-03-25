@@ -1,47 +1,49 @@
 @import 'libs/frontend/scss/src/lib/colors';
 
 .host {
-  overflow: hidden;
+  overflow-y: auto;
   height: 100vh;
+  background-color: #FAFAFB;
+
+  // Handle navbar without title
+  &:not(.showLargeNavbar) {
+    li {
+     padding: 0.5rem 0rem;
+
+     p {
+       width: 100%;
+       text-align: center;
+     }
+    }
+   }
 }
 
-h1, h2 {
-  padding: 1rem;
-  text-align: center;
-}
-
-.flex {
+.t-center {
   display: flex;
-}
-
-.flex-center {
-  display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 
-.gray-box {
-  width: 64px;
-  height: 64px;
-  background-color: $bg-red;
+.title {
+  background: linear-gradient(135deg, #72EDF2 0%, #5151E5 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+
 ul {
-  padding-top: 5rem;
+  padding-top: 3rem;
 
   a {
     width: 100%;
 
     li {
-      &:hover:not(.router-link-active) {
-        color: hsl(0, 0%, 29%);
+      transition: 100ms ease-in-out;
 
-        .indicator {
-          width: 0.75rem;
-          height: 1.5rem;
-          border-radius: 4px 0 0 4px;
-          background-color: hsl(219, 100%, 83%);
-        }
+      &:hover:not(.router-link-active) {
+        color: #7E6EA1;
+        border-right: 2px solid #7E6EA1;
+        background-color: #f0f0f0;
       }
     }
 
@@ -53,17 +55,23 @@ li {
   justify-content: space-between;
 
   padding-left: 2rem;
+  padding: 0.5rem 0rem 0.5rem 2rem;
   margin-bottom: 1.5rem;
-  color: hsl(0, 0%, 48%);
+  color: #8C93A3;
 }
 
 .router-link-active {
-  color: hsl(217, 71%, 53%);
+  background-color: #f0f0f0;
+  color: #6433C4;
+  border-right: 2px solid #6433C4;
 }
 
-.router-link-indicator {
-  width: 0.75rem;
-  height: 1.5rem;
-  border-radius: 4px 0 0 4px;
-  background-color: hsl(217, 71%, 53%);
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  border: none;
 }
