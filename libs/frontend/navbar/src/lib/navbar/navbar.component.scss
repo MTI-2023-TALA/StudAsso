@@ -5,6 +5,7 @@
   height: 100vh;
   background-color: #FAFAFB;
 
+  // Handle navbar without title
   &:not(.showLargeNavbar) {
     li {
      padding: 0.5rem 0rem;
@@ -18,7 +19,9 @@
 }
 
 .t-center {
-  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .title {
@@ -39,13 +42,8 @@ ul {
 
       &:hover:not(.router-link-active) {
         color: #7E6EA1;
-
-        .indicator {
-          width: 2px;
-          height: 1.5em;
-          border-radius: 8px 0 0 8px;
-          background-color: #7E6EA1;
-        }
+        border-right: 2px solid #7E6EA1;
+        background-color: #f0f0f0;
       }
     }
 
@@ -65,13 +63,7 @@ li {
 .router-link-active {
   background-color: #f0f0f0;
   color: #6433C4;
-}
-
-.router-link-indicator {
-  width: 2px;
-  height: 1.5em;
-  border-radius: 8px 0 0 8px;
-  background-color: #6433C4;
+  border-right: 2px solid #6433C4;
 }
 
 .center {

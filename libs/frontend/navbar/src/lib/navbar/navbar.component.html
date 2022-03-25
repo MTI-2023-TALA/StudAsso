@@ -27,12 +27,6 @@
             <i class="bi bi-{{ item.icon }} p-2"></i>
             <span *ngIf="shouldShowLargeNavbar">{{ item.title }}</span>
           </p>
-
-          <div
-            class="indicator"
-            routerLinkActive="router-link-indicator"
-            [routerLinkActiveOptions]="{ exact: true }"
-          ></div>
         </li>
       </a>
     </ul>
