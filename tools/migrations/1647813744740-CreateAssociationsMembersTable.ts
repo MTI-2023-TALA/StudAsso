@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import { dateDataColumns } from './base-migration/DefaultColumns';
 
 export class CreateAssociationsMembersTable1647813744740
   implements MigrationInterface
@@ -8,6 +9,7 @@ export class CreateAssociationsMembersTable1647813744740
       new Table({
         name: 'associations_members',
         columns: [
+          ...dateDataColumns,
           {
             name: 'association_id',
             type: 'int',

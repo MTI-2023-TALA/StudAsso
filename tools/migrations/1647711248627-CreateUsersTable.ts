@@ -1,4 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  dateDataColumns,
+  dateDataColumnsWithId,
+} from './base-migration/DefaultColumns';
 
 export class CreateUsersTable1647711248627 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -6,13 +10,7 @@ export class CreateUsersTable1647711248627 implements MigrationInterface {
       new Table({
         name: 'users',
         columns: [
-          {
-            name: 'id',
-            type: 'int',
-            isPrimary: true,
-            isGenerated: true,
-            generationStrategy: 'increment',
-          },
+          ...dateDataColumnsWithId,
           {
             name: 'firstname',
             type: 'varchar',
