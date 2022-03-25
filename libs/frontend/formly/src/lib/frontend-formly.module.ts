@@ -8,6 +8,7 @@ import { Form } from './formly-enum.model';
 import { FormlyTextareaComponent } from './formly-textarea/formly-textarea.component';
 import { FormlySelectComponent } from './formly-select/formly-select.component';
 import { FormlyCheckboxComponent } from './formly-checkbox/formly-checkbox.component';
+import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
 
 @NgModule({
   imports: [
@@ -36,9 +37,13 @@ import { FormlyCheckboxComponent } from './formly-checkbox/formly-checkbox.compo
           name: Form.Checkbox,
           component: FormlyCheckboxComponent,
         },
+        {
+          name: Form.Radio,
+          component: FormlyRadioComponent,
+        },
       ],
       validationMessages: [
-        { name: 'required', message: 'le champ est obligatoire' },
+        { name: 'required', message: 'Le champ est obligatoire' },
       ],
     }),
   ],
@@ -48,6 +53,7 @@ import { FormlyCheckboxComponent } from './formly-checkbox/formly-checkbox.compo
     FormlyTextareaComponent,
     FormlySelectComponent,
     FormlyCheckboxComponent,
+    FormlyRadioComponent,
   ],
   exports: [FormlyModule, ReactiveFormsModule, FormsModule],
 })
