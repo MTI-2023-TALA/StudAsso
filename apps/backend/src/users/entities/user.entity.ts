@@ -1,8 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AssociationsMember } from '../../associations-members/entities/associations-member.entity';
+import { Base } from '../../base/entities/base.entity';
 
 @Entity('users')
-export class User {
+export class User extends Base {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
