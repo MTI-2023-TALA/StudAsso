@@ -45,6 +45,7 @@ import { FormlyFileComponent } from './formly-file/formly-file.component';
         {
           name: Form.File,
           component: FormlyFileComponent,
+          wrappers: [Form.Field],
         },
       ],
       validationMessages: [
