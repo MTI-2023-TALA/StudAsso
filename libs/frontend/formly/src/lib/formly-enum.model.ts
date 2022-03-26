@@ -6,4 +6,5 @@ export enum Form {
   Checkbox = 'checkbox',
   Radio = 'radio',
   File = 'file',
+  InputList = 'list',
 }

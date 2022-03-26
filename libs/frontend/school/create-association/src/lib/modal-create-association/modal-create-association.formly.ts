@@ -21,6 +21,31 @@ export class ModalCreateAssociationFormly {
           required: true,
         },
       },
+      {
+        key: 'associationType',
+        type: Form.InputList,
+        templateOptions: {
+          label: 'Type',
+          options: [
+            {
+              value: 'Divertissement',
+              label: 'Divertisemment',
+            },
+            {
+              value: 'Diversité',
+              label: 'Diversité',
+            },
+            {
+              label: 'Jeux vidéos',
+              value: 'Jeux vidéos',
+            },
+            {
+              label: 'Lecture',
+              value: 'Lecture',
+            },
+          ],
+        },
+      },
     ];
   }
 }

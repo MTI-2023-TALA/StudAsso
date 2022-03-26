@@ -10,6 +10,7 @@ import { FormlySelectComponent } from './formly-select/formly-select.component';
 import { FormlyCheckboxComponent } from './formly-checkbox/formly-checkbox.component';
 import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
 import { FormlyFileComponent } from './formly-file/formly-file.component';
+import { FormlyInputListComponent } from './formly-input-list/formly-input-list.component';
 
 @NgModule({
   imports: [
@@ -32,6 +33,11 @@ import { FormlyFileComponent } from './formly-file/formly-file.component';
         {
           name: Form.Select,
           component: FormlySelectComponent,
+          wrappers: [Form.Field],
+        },
+        {
+          name: Form.InputList,
+          component: FormlyInputListComponent,
           wrappers: [Form.Field],
         },
         {
@@ -61,6 +67,7 @@ import { FormlyFileComponent } from './formly-file/formly-file.component';
     FormlyCheckboxComponent,
     FormlyRadioComponent,
     FormlyFileComponent,
+    FormlyInputListComponent,
   ],
   exports: [FormlyModule, ReactiveFormsModule, FormsModule],
 })
