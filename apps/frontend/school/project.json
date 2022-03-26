@@ -22,6 +22,9 @@
           "node_modules/bulma/css/bulma.min.css",
           "libs/frontend/scss/src/lib/style.scss"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/frontend/scss/src/lib/"]
+        },
         "scripts": []
       },
       "configurations": {

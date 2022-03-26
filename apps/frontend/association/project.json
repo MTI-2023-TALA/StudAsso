@@ -21,6 +21,9 @@
         "styles": [
           "node_modules/bulma/css/bulma.min.css"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/frontend/scss/src/lib/"]
+        },
         "scripts": []
       },
       "configurations": {
