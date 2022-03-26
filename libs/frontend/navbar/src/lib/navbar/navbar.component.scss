@@ -1,7 +1,9 @@
+@import "colors";
+
 .host {
   overflow-y: auto;
   height: 100vh;
-  background-color: #FAFAFB;
+  background-color: $light-grey-100;
 
   // Handle navbar without title
   &:not(.showLargeNavbar) {
@@ -39,9 +41,9 @@ ul {
       transition: 100ms ease-in-out;
 
       &:hover:not(.router-link-active) {
-        color: #7E6EA1;
-        border-right: 2px solid #7E6EA1;
-        background-color: #f0f0f0;
+        color: $dark-grey-300;
+        border-right: 2px solid $dark-grey-300;
+        background-color: $light-grey-200;
       }
     }
 
@@ -55,13 +57,13 @@ li {
   padding-left: 2rem;
   padding: 0.5rem 0rem 0.5rem 2rem;
   margin-bottom: 1.5rem;
-  color: #8C93A3;
+  color: $light-grey-900;
 }
 
 .router-link-active {
-  background-color: #f0f0f0;
-  color: #6433C4;
-  border-right: 2px solid #6433C4;
+  background-color: $light-grey-200;
+  color: $primary-600;
+  border-right: 2px solid $primary-600;
 }
 
 .center {
