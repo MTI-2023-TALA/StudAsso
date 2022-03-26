@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/toast",
+  "sourceRoot": "libs/frontend/toast/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/toast"],
+      "options": {
+        "jestConfig": "libs/frontend/toast/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/toast/src/**/*.ts",
+          "libs/frontend/toast/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

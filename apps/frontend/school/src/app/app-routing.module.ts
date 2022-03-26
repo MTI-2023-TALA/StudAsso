@@ -7,6 +7,7 @@ import {
 } from '@stud-asso/frontend/auth';
 import { ModalCreateAssociationComponent } from '@stud-asso/frontend/school/create-association';
 import { HomePageComponent } from '@stud-asso/frontend/school/home-page';
+import { ToastExempleComponent } from '@stud-asso/frontend/toast';
 
 const routes: Routes = [
   {
@@ -23,7 +24,7 @@ const routes: Routes = [
     children: [
       {
         path: 'stats',
-        component: ModalCreateAssociationComponent,
+        component: ToastExempleComponent,
         data: { title: 'Portail Ecole' },
       },
     ],

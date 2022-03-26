@@ -24,7 +24,8 @@
       ],
       "@stud-asso/frontend/school/home-page": [
         "libs/frontend/school/home-page/src/index.ts"
-      ]
+      ],
+      "@stud-asso/frontend/toast": ["libs/frontend/toast/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -13,6 +13,7 @@
     "frontend-school-e2e": "apps/frontend/school-e2e",
     "frontend-school-home-page": "libs/frontend/school/home-page",
     "frontend-scss": "libs/frontend/scss",
+    "frontend-toast": "libs/frontend/toast",
     "mobile-student": "apps/mobile/student",
     "mobile-student-e2e": "apps/mobile/student-e2e"
   }

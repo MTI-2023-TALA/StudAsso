@@ -1,0 +1,19 @@
+.toast {
+  background-color: #FFE3D6;
+  border: 1px solid #FF3236;
+  color: #DB2438;
+  box-shadow: 0px 4px 5px -1px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  width: 280px;
+
+  display: flex;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.text {
+  padding-left: 0.4rem;
+}
