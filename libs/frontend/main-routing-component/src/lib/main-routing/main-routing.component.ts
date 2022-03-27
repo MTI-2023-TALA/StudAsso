@@ -1,27 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
 import { NavbarItem } from '@stud-asso/frontend/navbar';
-import {
-  ToastDirective,
-  ToastService,
-  ToastType,
-} from '@stud-asso/frontend/toast';
+import { ToastDirective, ToastService } from '@stud-asso/frontend/toast';
 
 @Component({
-  selector: 'stud-asso-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss'],
+  selector: 'stud-asso-main-routing',
+  templateUrl: './main-routing.component.html',
+  styleUrls: ['./main-routing.component.scss'],
 })
-export class HomePageComponent implements OnInit {
+export class MainRoutingComponent implements OnInit {
   @ViewChild(ToastDirective, { static: true }) toastDirective!: ToastDirective;
 
   title = '';
-  shouldShowLargeNavbar = true;
+  navbarItems: NavbarItem[] = [];
 
-  navbarItems: NavbarItem[] = [
-    { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
-    { title: 'Statistiques', icon: 'graph-down', url: '/stats' },
-  ];
+  shouldShowLargeNavbar = true;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,23 +24,12 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data) => {
       this.title = data['title'];
+      this.navbarItems = data['navbarItems'];
     });
 
     this.toastService.setRootViewContainerRef(
       this.toastDirective.viewContainerRef
     );
-
-    this.toastService.addAlert({
-      title: 'Hello !',
-      subTitle: '',
-      type: ToastType.Error,
-    });
-
-    this.toastService.addAlert({
-      title: 'Hello !',
-      subTitle: '',
-      type: ToastType.Error,
-    });
   }
 
   toggleShowLargeNavbar(shouldShowLargeNavbar: boolean) {

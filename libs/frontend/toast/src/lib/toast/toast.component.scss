@@ -35,6 +35,12 @@
   color: $success-600;
 }
 
+.toast-information {
+  background-color: $information-100;
+  border: 1px solid $information-500;
+  color: $information-600;
+}
+
 h1 {
   font-weight: bold;
 }

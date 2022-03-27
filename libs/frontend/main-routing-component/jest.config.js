@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'frontend-school-home-page',
-  preset: '../../../../jest.preset.js',
+  displayName: 'frontend-main-routing-component',
+  preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/frontend/school/home-page',
+  coverageDirectory: '../../../coverage/libs/frontend/main-routing-component',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

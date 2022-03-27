@@ -5,9 +5,14 @@ import {
   IsSignGuard,
   LoginPageComponent,
 } from '@stud-asso/frontend/auth';
-import { ModalCreateAssociationComponent } from '@stud-asso/frontend/school/create-association';
-import { HomePageComponent } from '@stud-asso/frontend/school/home-page';
+import { MainRoutingComponent } from '@stud-asso/frontend/main-routing-component';
+import { NavbarItem } from '@stud-asso/frontend/navbar';
 import { ToastExempleComponent } from '@stud-asso/frontend/toast';
+
+const mainRouteConfing: NavbarItem[] = [
+  { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
+  { title: 'Toast Alert', icon: 'graph-down', url: '/stats' },
+];
 
 const routes: Routes = [
   {
@@ -18,14 +23,13 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: HomePageComponent,
-    data: { title: 'Portail Ecole' },
+    component: MainRoutingComponent,
+    data: { title: 'Portail Ecole', navbarItems: mainRouteConfing },
     canActivate: [IsSignGuard],
     children: [
       {
         path: 'stats',
         component: ToastExempleComponent,
-        data: { title: 'Portail Ecole' },
       },
     ],
   },

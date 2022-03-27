@@ -3,6 +3,7 @@
   [class.toast-error]="data.type === ToastType.Error"
   [class.toast-warning]="data.type === ToastType.Warning"
   [class.toast-success]="data.type === ToastType.Success"
+  [class.toast-information]="data.type === ToastType.Information"
 >
   <div class="flex">
     <div>
@@ -11,6 +12,7 @@
         [class.bi-exclamation-octagon]="data.type === ToastType.Error"
         [class.bi-exclamation-triangle]="data.type === ToastType.Warning"
         [class.bi-check2-square]="data.type === ToastType.Success"
+        [class.bi-info-square]="data.type === ToastType.Information"
       ></i>
     </div>
     <div class="text">
