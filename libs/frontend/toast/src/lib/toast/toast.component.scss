@@ -9,24 +9,30 @@
   display: flex;
 
   margin-bottom: 1rem;
+
+  justify-content: space-between;
+}
+
+.flex {
+  display: flex;
 }
 
 .toast-error {
-  background-color: #FFE3D6;
-  border: 1px solid #FF3236;
-  color: #DB2438;
+  background-color: $error-100;
+  border: 1px solid $error-500;
+  color: $error-600;
 }
 
 .toast-warning {
-  background-color: #FFE3D6;
-  border: 1px solid #FF3236;
-  color: #DB2438;
+  background-color: $warning-100;
+  border: 1px solid $warning-500;
+  color: $warning-600;
 }
 
 .toast-success {
-  background-color: #FFE3D6;
-  border: 1px solid #FF3236;
-  color: #DB2438;
+  background-color: $success-100;
+  border: 1px solid $success-500;
+  color: $success-600;
 }
 
 h1 {
@@ -35,4 +41,8 @@ h1 {
 
 .text {
   padding-left: 0.4rem;
+}
+
+.close-toast {
+  cursor: pointer;
 }

@@ -22,6 +22,7 @@ export class ToastService {
       this.rootViewContainer?.createComponent(ToastComponent);
     if (componentRef) {
       componentRef.instance.data = data;
+      componentRef.instance.cmpRef = componentRef;
     }
   }
 }

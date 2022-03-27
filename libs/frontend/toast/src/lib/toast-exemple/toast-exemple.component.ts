@@ -10,11 +10,11 @@ import { ToastType } from '../toast/toast.model';
 export class ToastExempleComponent {
   constructor(private toastService: ToastService) {}
 
-  addAlert() {
+  addAlert(toastType: string) {
     this.toastService.addAlert({
       title: 'Test',
       subTitle: 'Other',
-      type: ToastType.Error,
+      type: toastType as ToastType,
     });
     return;
   }
