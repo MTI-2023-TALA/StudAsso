@@ -1,6 +1,12 @@
-$bg-red: red;
 
-// Defining main color and their variant
+/*
+ * Defining all color use for this project
+ * Inspired from : Finity Design System
+ */
+
+$white: #ffffff;
+$black: #000000;
+
 $primary-100: #EDDAFD;
 $primary-200: #D8B6FC;
 $primary-300: #BE90F7;
@@ -70,3 +76,30 @@ $light-grey-600: #B2B7C2;
 $light-grey-700: #A4A9B6;
 $light-grey-800: #959CAB;
 $light-grey-900: #8C93A3;
+
+/*
+ * Defining all font-size use in this project
+ * Inspired from : Finity Design System
+ */
+
+$font-size-xxs: 0.625rem;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-md: 1rem;
+$font-size-xm: 1.125rem;
+$font-size-xxm: 1.25rem;
+$font-size-lg: 1.75rem;
+$font-size-xl: 2rem;
+$font-size-xxl: 2.625rem;
+$font-size-xxxl: 3.5rem;
+
+/*
+ * Defining all font-weight use in this project
+ */
+$font-weight-ligth: 300;
+$font-weight-normal: 400;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-black: 900;
+
+$font-family-sans-serif: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
