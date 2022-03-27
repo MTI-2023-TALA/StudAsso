@@ -1,4 +1,4 @@
-div {
+.grid {
   transition: 2s;
   display: grid;
   grid-template-columns: 80px 0fr 5fr;
@@ -13,4 +13,10 @@ div {
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+}
+
+.toast-placement {
+  position: absolute;
+  bottom: 0;
+  right: 1rem;
 }
