@@ -7,11 +7,7 @@ import { ToastData } from './toast/toast.model';
   providedIn: 'root',
 })
 export class ToastService {
-  rootViewContainer: ViewContainerRef | null = null;
-
-  constructor() {
-    return;
-  }
+  rootViewContainer: ViewContainerRef | undefined;
 
   setRootViewContainerRef(viewContainerRef: ViewContainerRef) {
     this.rootViewContainer = viewContainerRef;

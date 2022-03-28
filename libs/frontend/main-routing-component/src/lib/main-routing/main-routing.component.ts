@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
+import { ModalDirective, ModalService } from '@stud-asso/frontend/modal';
 import { NavbarItem } from '@stud-asso/frontend/navbar';
 import { ToastDirective, ToastService } from '@stud-asso/frontend/toast';
 
@@ -10,6 +11,7 @@ import { ToastDirective, ToastService } from '@stud-asso/frontend/toast';
 })
 export class MainRoutingComponent implements OnInit {
   @ViewChild(ToastDirective, { static: true }) toastDirective!: ToastDirective;
+  @ViewChild(ModalDirective, { static: true }) modalDirective!: ModalDirective;
 
   title = '';
   navbarItems: NavbarItem[] = [];
@@ -18,7 +20,8 @@ export class MainRoutingComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private modalService: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +32,10 @@ export class MainRoutingComponent implements OnInit {
 
     this.toastService.setRootViewContainerRef(
       this.toastDirective.viewContainerRef
+    );
+
+    this.modalService.setRootViewContainerRef(
+      this.modalDirective.viewContainerRef
     );
   }
 

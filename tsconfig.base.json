@@ -21,6 +21,7 @@
       "@stud-asso/frontend/main-routing-component": [
         "libs/frontend/main-routing-component/src/index.ts"
       ],
+      "@stud-asso/frontend/modal": ["libs/frontend/modal/src/index.ts"],
       "@stud-asso/frontend/navbar": ["libs/frontend/navbar/src/index.ts"],
       "@stud-asso/frontend/school/create-association": [
         "libs/frontend/school/create-association/src/index.ts"

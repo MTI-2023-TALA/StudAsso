@@ -4,7 +4,11 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Nouvelle association</p>
-        <button class="delete" aria-label="close"></button>
+        <button
+          class="delete"
+          aria-label="close"
+          (click)="closeModal()"
+        ></button>
       </header>
       <section class="modal-card-body">
         <formly-form
@@ -15,7 +19,7 @@
       </section>
       <footer class="modal-card-foot">
         <button class="button is-success">Créer</button>
-        <button class="button is-ghost">Annuler</button>
+        <button class="button is-ghost" (click)="closeModal()">Annuler</button>
       </footer>
     </div>
   </form>

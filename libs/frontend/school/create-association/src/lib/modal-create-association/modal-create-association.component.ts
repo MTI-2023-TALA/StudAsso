@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { BaseModalComponent } from '@stud-asso/frontend/modal';
 import { ModalCreateAssociationFormly } from './modal-create-association.formly';
 
 @Component({
@@ -7,12 +8,13 @@ import { ModalCreateAssociationFormly } from './modal-create-association.formly'
   templateUrl: './modal-create-association.component.html',
   styleUrls: ['./modal-create-association.component.scss'],
 })
-export class ModalCreateAssociationComponent {
+export class ModalCreateAssociationComponent extends BaseModalComponent {
   public form = new FormGroup({});
   public model = {};
   public fields = ModalCreateAssociationFormly.getForm();
 
   constructor() {
+    super();
     return;
   }
 

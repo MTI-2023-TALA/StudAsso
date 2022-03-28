@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/modal",
+  "sourceRoot": "libs/frontend/modal/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/modal"],
+      "options": {
+        "jestConfig": "libs/frontend/modal/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/modal/src/**/*.ts",
+          "libs/frontend/modal/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
