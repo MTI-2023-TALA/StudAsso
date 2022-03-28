@@ -1,28 +1,29 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { TestingModule } from '@nestjs/testing';
+import { CreateMockRepo } from '../base/base-service-spec';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
   let service: UsersService;
 
-  const mockedRepo = {
+  const mockRepo = {
     // TODO set mock value
-    findOne: jest.fn().mockResolvedValue(42),
+    find: jest.fn().mockResolvedValue(42),
   };
 
   beforeEach(async () => {
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      providers: [
-        UsersService,
-        { provide: getRepositoryToken(User), useValue: mockedRepo },
-      ],
-    }).compile();
+    const moduleRef: TestingModule = await CreateMockRepo(
+      UsersService,
+      User,
+      mockRepo
+    );
 
     service = moduleRef.get<UsersService>(UsersService);
   });
 
-  it('should be defined', () => {
+  it('should be defined', async () => {
+    const obj = await service.findAll();
+    console.log(obj);
     expect(service).toBeDefined();
   });
 });
