@@ -1,0 +1,26 @@
+<div
+  class="toast"
+  [class.toast-error]="data.type === ToastType.Error"
+  [class.toast-warning]="data.type === ToastType.Warning"
+  [class.toast-success]="data.type === ToastType.Success"
+  [class.toast-information]="data.type === ToastType.Information"
+>
+  <div class="flex">
+    <div>
+      <i
+        class="bi"
+        [class.bi-exclamation-octagon]="data.type === ToastType.Error"
+        [class.bi-exclamation-triangle]="data.type === ToastType.Warning"
+        [class.bi-check2-square]="data.type === ToastType.Success"
+        [class.bi-info-square]="data.type === ToastType.Information"
+      ></i>
+    </div>
+    <div class="text">
+      <h1>{{ data.title }}</h1>
+      <p>{{ data.subTitle }}</p>
+    </div>
+  </div>
+  <div class="close-toast" (click)="closeToast()">
+    <i class="bi bi-x"></i>
+  </div>
+</div>
