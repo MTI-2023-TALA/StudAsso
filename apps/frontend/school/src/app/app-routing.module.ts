@@ -11,7 +11,7 @@ import { ToastExempleComponent } from '@stud-asso/frontend/toast';
 
 const mainRouteConfing: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
-  { title: 'Toast Alert', icon: 'graph-down', url: '/stats' },
+  { title: 'Demo', icon: 'graph-down', url: '/stats' },
 ];
 
 const routes: Routes = [

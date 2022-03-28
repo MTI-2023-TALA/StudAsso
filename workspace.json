@@ -8,6 +8,7 @@
     "frontend-auth": "libs/frontend/auth",
     "frontend-formly": "libs/frontend/formly",
     "frontend-main-routing-component": "libs/frontend/main-routing-component",
+    "frontend-modal": "libs/frontend/modal",
     "frontend-navbar": "libs/frontend/navbar",
     "frontend-school": "apps/frontend/school",
     "frontend-school-create-association": "libs/frontend/school/create-association",
