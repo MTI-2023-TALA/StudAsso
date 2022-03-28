@@ -1,7 +1,7 @@
 import { TestingModule } from '@nestjs/testing';
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
-import { CreateMockService } from '../base/base-controller-spec';
+import { CreateMockService } from '../../helpers/generic-spec/generic-controller-spec';
 
 describe('AssociationsController', () => {
   let controller: AssociationsController;

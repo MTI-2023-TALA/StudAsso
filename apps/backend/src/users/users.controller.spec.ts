@@ -1,5 +1,5 @@
 import { TestingModule } from '@nestjs/testing';
-import { CreateMockService } from '../base/base-controller-spec';
+import { CreateMockService } from '../../helpers/generic-spec/generic-controller-spec';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 

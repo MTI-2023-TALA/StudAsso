@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Base } from './entities/base.entity';
+import { Base } from '../../src/base/entities/base.entity';
 
 // TODO: change type of mockRepo
 export const CreateMockRepo = (
