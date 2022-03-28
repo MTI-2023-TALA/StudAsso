@@ -2,7 +2,7 @@ import { IsEmpty } from 'class-validator';
 
 export abstract class CreateBaseDto {
   @IsEmpty()
-  id: string;
+  id: number;
 
   @IsEmpty()
   createdAt: string;

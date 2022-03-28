@@ -31,6 +31,24 @@
         "${workspaceFolder}/**",
         "!**/node_modules/**" // Disable the "could not read source map" error for node_modules
       ]
+    },
+    {
+      "name": "Jest Current File",
+      "type": "pwa-node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/.bin/jest",
+      "args": [
+        "--config",
+        "${workspaceRoot}/apps/backend/jest.config.js",
+        "--runInBand",
+        "--watch",
+        "${file}"
+      ],
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "${workspaceRoot}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ]
     }
   ]
 }
