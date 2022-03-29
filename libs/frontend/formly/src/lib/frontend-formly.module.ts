@@ -11,6 +11,7 @@ import { FormlyCheckboxComponent } from './formly-checkbox/formly-checkbox.compo
 import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
 import { FormlyFileComponent } from './formly-file/formly-file.component';
 import { FormlyInputListComponent } from './formly-input-list/formly-input-list.component';
+import { FormlyDatepickerComponent } from './formly-datepicker/formly-datepicker.component';
 
 @NgModule({
   imports: [
@@ -47,11 +48,15 @@ import { FormlyInputListComponent } from './formly-input-list/formly-input-list.
         {
           name: Form.Radio,
           component: FormlyRadioComponent,
-          wrappers: [Form.Field]
+          wrappers: [Form.Field],
         },
         {
           name: Form.File,
           component: FormlyFileComponent,
+        },
+        {
+          name: Form.Datepicker,
+          component: FormlyDatepickerComponent,
           wrappers: [Form.Field],
         },
       ],
@@ -69,6 +74,7 @@ import { FormlyInputListComponent } from './formly-input-list/formly-input-list.
     FormlyRadioComponent,
     FormlyFileComponent,
     FormlyInputListComponent,
+    FormlyDatepickerComponent,
   ],
   exports: [FormlyModule, ReactiveFormsModule, FormsModule],
 })
