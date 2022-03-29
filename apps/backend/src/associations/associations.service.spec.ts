@@ -1,15 +1,24 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import { AssociationsService } from './associations.service';
+import { Association } from './entities/association.entity';
+import { CreateMockRepo } from '../../helpers/generic-spec/generic-service-spec';
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [AssociationsService],
-    }).compile();
+  const mockRepo = {
+    // TODO set mock value
+    findOne: jest.fn().mockResolvedValue(42),
+  };
 
-    service = module.get<AssociationsService>(AssociationsService);
+  beforeEach(async () => {
+    const moduleRef: TestingModule = await CreateMockRepo(
+      AssociationsService,
+      Association,
+      mockRepo
+    );
+
+    service = moduleRef.get<AssociationsService>(AssociationsService);
   });
 
   it('should be defined', () => {

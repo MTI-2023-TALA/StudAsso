@@ -1,18 +1,27 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
+import { CreateMockRepo } from '../../helpers/generic-spec/generic-service-spec';
+import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
   let service: UsersService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
-    }).compile();
+  const mockRepo = {
+    // TODO set mock value
+    find: jest.fn().mockResolvedValue(42),
+  };
 
-    service = module.get<UsersService>(UsersService);
+  beforeEach(async () => {
+    const moduleRef: TestingModule = await CreateMockRepo(
+      UsersService,
+      User,
+      mockRepo
+    );
+
+    service = moduleRef.get<UsersService>(UsersService);
   });
 
-  it('should be defined', () => {
+  it('should be defined', async () => {
     expect(service).toBeDefined();
   });
 });
