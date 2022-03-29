@@ -1,4 +1,4 @@
-@import "base/variables";
+@import 'base/variables';
 
 .host {
   overflow-y: auto;
@@ -8,14 +8,14 @@
   // Handle navbar without title
   &:not(.showLargeNavbar) {
     li {
-     padding: 0.5rem 0rem;
+      padding: 0.5rem 0rem;
 
-     p {
-       width: 100%;
-       text-align: center;
-     }
+      p {
+        width: 100%;
+        text-align: center;
+      }
     }
-   }
+  }
 }
 
 .t-center {
@@ -25,11 +25,10 @@
 }
 
 .title {
-  background: linear-gradient(135deg, #72EDF2 0%, #5151E5 100%);
+  background: linear-gradient(135deg, #72edf2 0%, #5151e5 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-
 
 ul {
   padding-top: 3rem;
@@ -46,7 +45,6 @@ ul {
         background-color: $light-grey-200;
       }
     }
-
   }
 }
 

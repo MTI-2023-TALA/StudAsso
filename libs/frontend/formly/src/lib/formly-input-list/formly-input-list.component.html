@@ -1,0 +1,10 @@
+<div class="list" [class.is-danger]="showError">
+  <input list="list" />
+  <datalist id="list">
+    <ng-container *ngIf="to.options">
+      <ng-container *ngFor="let opt of selectOptions">
+        <option value="{{ opt.value }}">{{ opt.label }}</option>
+      </ng-container>
+    </ng-container>
+  </datalist>
+</div>

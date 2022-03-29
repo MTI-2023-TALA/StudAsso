@@ -21,6 +21,54 @@ export class ModalCreateAssociationFormly {
           required: true,
         },
       },
+      {
+        key: 'files',
+        type: Form.File,
+        templateOptions: {
+          label: 'Nom du président',
+          required: true,
+          multiple: true,
+          extensions: ['.pdf', '.png'],
+        },
+      },
+      {
+        key: 'radios',
+        type: Form.Radio,
+        templateOptions: {
+          label: 'Exemple de Radios',
+          required: true,
+          options: [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+          ],
+        },
+      },
+      {
+        key: 'associationType',
+        type: Form.InputList,
+        templateOptions: {
+          label: 'Type',
+          options: [
+            {
+              value: 'Divertissement',
+              label: 'Divertisemment',
+            },
+            {
+              value: 'Diversité',
+              label: 'Diversité',
+            },
+            {
+              label: 'Jeux vidéos',
+              value: 'Jeux vidéos',
+            },
+            {
+              label: 'Lecture',
+              value: 'Lecture',
+            },
+          ],
+        },
+      },
     ];
   }
 }

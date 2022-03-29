@@ -4,4 +4,7 @@ export enum Form {
   TextArea = 'textarea',
   Select = 'select',
   Checkbox = 'checkbox',
+  Radio = 'radio',
+  File = 'file',
+  InputList = 'list',
 }

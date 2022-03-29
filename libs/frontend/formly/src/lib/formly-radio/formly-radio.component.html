@@ -1,0 +1,14 @@
+<ng-container *ngIf="to.options">
+  <ng-container *ngFor="let opt of radioOptions">
+    <label class="radio">
+      <input
+        type="radio"
+        [attr.value]="opt.value"
+        [value]="opt.value"
+        [formControl]="formControl"
+        [formlyAttributes]="field"
+      />
+      {{ opt.label }}
+    </label>
+  </ng-container>
+</ng-container>
