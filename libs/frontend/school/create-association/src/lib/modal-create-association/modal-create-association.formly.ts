@@ -32,6 +32,19 @@ export class ModalCreateAssociationFormly {
         },
       },
       {
+        key: 'radios',
+        type: Form.Radio,
+        templateOptions: {
+          label: 'Exemple de Radios',
+          required: true,
+          options: [
+            { value: 'A', label: 'A' },
+            { value: 'B', label: 'B' },
+            { value: 'C', label: 'C' },
+          ],
+        },
+      },
+      {
         key: 'associationType',
         type: Form.InputList,
         templateOptions: {

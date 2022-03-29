@@ -47,6 +47,7 @@ import { FormlyInputListComponent } from './formly-input-list/formly-input-list.
         {
           name: Form.Radio,
           component: FormlyRadioComponent,
+          wrappers: [Form.Field]
         },
         {
           name: Form.File,
