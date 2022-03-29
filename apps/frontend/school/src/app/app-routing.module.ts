@@ -9,7 +9,7 @@ import { MainRoutingComponent } from '@stud-asso/frontend/main-routing-component
 import { NavbarItem } from '@stud-asso/frontend/navbar';
 import { ToastExempleComponent } from '@stud-asso/frontend/toast';
 
-const mainRouteConfing: NavbarItem[] = [
+const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
   { title: 'Demo', icon: 'graph-down', url: '/stats' },
 ];
@@ -24,7 +24,7 @@ const routes: Routes = [
   {
     path: '',
     component: MainRoutingComponent,
-    data: { title: 'Portail Ecole', navbarItems: mainRouteConfing },
+    data: { title: 'Portail Ecole', navbarItems: mainRouteConfig },
     canActivate: [IsSignGuard],
     children: [
       {
