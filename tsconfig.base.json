@@ -26,6 +26,7 @@
       "@stud-asso/frontend/school/create-association": [
         "libs/frontend/school/create-association/src/index.ts"
       ],
+      "@stud-asso/frontend/table": ["libs/frontend/table/src/index.ts"],
       "@stud-asso/frontend/toast": ["libs/frontend/toast/src/index.ts"]
     }
   },

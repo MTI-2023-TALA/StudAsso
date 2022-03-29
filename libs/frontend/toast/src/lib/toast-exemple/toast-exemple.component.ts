@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ModalService } from '@stud-asso/frontend/modal';
 import { ModalCreateAssociationComponent } from '@stud-asso/frontend/school/create-association';
+import { TableHeaderItem } from '@stud-asso/frontend/table';
 import { ToastService } from '../toast.service';
 import { ToastType } from '../toast/toast.model';
 
@@ -10,6 +11,21 @@ import { ToastType } from '../toast/toast.model';
   styleUrls: ['./toast-exemple.component.scss'],
 })
 export class ToastExempleComponent {
+  testTableHeader: TableHeaderItem[] = [
+    {
+      label: 'Association',
+      size: 1,
+    },
+    {
+      label: 'Nom du président',
+      size: 2,
+    },
+    {
+      label: 'Actions',
+      size: 1,
+    },
+  ];
+
   constructor(
     private toastService: ToastService,
     private modalService: ModalService
