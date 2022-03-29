@@ -19,10 +19,12 @@
           "apps/frontend/school/src/assets"
         ],
         "styles": [
-          "apps/frontend/school/src/styles.scss",
           "node_modules/bulma/css/bulma.min.css",
           "libs/frontend/scss/src/lib/style.scss"
         ],
+        "stylePreprocessorOptions": {
+          "includePaths": ["libs/frontend/scss/src/lib/"]
+        },
         "scripts": []
       },
       "configurations": {

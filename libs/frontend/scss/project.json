@@ -3,7 +3,6 @@
   "root": "libs/frontend/scss",
   "sourceRoot": "libs/frontend/scss/src",
   "prefix": "stud-asso",
-  "targets": {
-  },
+  "targets": {},
   "tags": []
 }

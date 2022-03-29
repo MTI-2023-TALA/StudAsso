@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { FrontendApiModule } from '@stud-asso/frontend/api';
 import { RouterModule } from '@angular/router';
 import { FrontendSchoolCreateAssociationModule } from '@stud-asso/frontend/school/create-association';
-import { FrontendSchoolHomePageModule } from '@stud-asso/frontend/school/home-page';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +15,6 @@ import { FrontendSchoolHomePageModule } from '@stud-asso/frontend/school/home-pa
     FrontendApiModule,
     RouterModule,
     FrontendSchoolCreateAssociationModule,
-    FrontendSchoolHomePageModule,
   ],
   bootstrap: [AppComponent],
 })

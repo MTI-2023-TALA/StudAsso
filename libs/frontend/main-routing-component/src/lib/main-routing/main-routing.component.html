@@ -1,0 +1,14 @@
+<div class="grid" [ngClass]="{ showLargeNavbar: shouldShowLargeNavbar }">
+  <stud-asso-navbar
+    title="{{ title }}"
+    [navbarItems]="navbarItems"
+    (emitShouldShowLargeNavbar)="toggleShowLargeNavbar($event)"
+  ></stud-asso-navbar>
+  <router-outlet></router-outlet>
+</div>
+<div class="toast-placement">
+  <ng-container studAssoToastContainer></ng-container>
+</div>
+<div class="modal-placement">
+  <ng-container studAssoModalContainer></ng-container>
+</div>

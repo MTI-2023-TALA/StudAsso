@@ -1,0 +1,54 @@
+@import 'base/variables';
+
+.toast {
+  box-shadow: 0px 4px 5px -1px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  width: 280px;
+
+  display: flex;
+
+  margin-bottom: 1rem;
+
+  justify-content: space-between;
+}
+
+.flex {
+  display: flex;
+}
+
+.toast-error {
+  background-color: $error-100;
+  border: 1px solid $error-500;
+  color: $error-600;
+}
+
+.toast-warning {
+  background-color: $warning-100;
+  border: 1px solid $warning-500;
+  color: $warning-600;
+}
+
+.toast-success {
+  background-color: $success-100;
+  border: 1px solid $success-500;
+  color: $success-600;
+}
+
+.toast-information {
+  background-color: $information-100;
+  border: 1px solid $information-500;
+  color: $information-600;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+.text {
+  padding-left: 0.4rem;
+}
+
+.close-toast {
+  cursor: pointer;
+}
