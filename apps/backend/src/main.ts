@@ -15,7 +15,11 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.useGlobalPipes(
-    new ValidationPipe({ errorHttpStatusCode: HttpStatus.BAD_REQUEST })
+    new ValidationPipe({
+      errorHttpStatusCode: HttpStatus.BAD_REQUEST,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    })
   );
 
   const port = process.env.PORT || 3333;
