@@ -20,8 +20,6 @@ describe('AssociationsController', () => {
   });
 
   it('should be defined', async () => {
-    const obj = await controller.findAll();
-    console.log(obj);
     expect(controller).toBeDefined();
   });
 });

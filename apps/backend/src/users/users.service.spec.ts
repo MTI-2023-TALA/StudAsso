@@ -22,8 +22,6 @@ describe('UsersService', () => {
   });
 
   it('should be defined', async () => {
-    const obj = await service.findAll();
-    console.log(obj);
     expect(service).toBeDefined();
   });
 });
