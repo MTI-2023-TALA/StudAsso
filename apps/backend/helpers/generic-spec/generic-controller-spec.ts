@@ -11,9 +11,6 @@ const moduleMocker = new ModuleMocker(global);
 export const CreateMockService = (controllers: any[], service: IService) =>
   Test.createTestingModule({ controllers: [...controllers] })
     .useMocker((token) => {
-      console.log(token);
-
-      console.log(service.type);
       if (token === service.type) {
         return service.methods;
       }
