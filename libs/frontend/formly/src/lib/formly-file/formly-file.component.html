@@ -15,9 +15,10 @@
       <span class="file-icon">
         <i class="bi bi-upload"></i>
       </span>
-      <span *ngIf="!multiple" class="file-label"> Choisissez un fichier… </span>
-      <span *ngIf="multiple" class="file-label">
-        Choisissez des fichiers…
+      <span class="file-label">
+        {{
+          multiple ? 'Choisissez des fichiers...' : 'Choisissez un fichier...'
+        }}
       </span>
     </span>
     <span class="file-name">
