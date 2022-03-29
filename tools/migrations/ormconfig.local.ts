@@ -8,6 +8,6 @@ module.exports = {
   entities: [__dirname + './**/*.entity{.ts,.js}'],
   migrations: ['tools/migrations/*.ts'],
   cli: {
-    migrationsDir: 'apps/backend/src/migrations',
+    migrationsDir: 'tools/migrations',
   },
 };
