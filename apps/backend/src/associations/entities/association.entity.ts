@@ -1,14 +1,15 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 import { AssociationsMember } from '../../associations-members/entities/associations-member.entity';
 import { Base } from '../../base/entities/base.entity';
 import { Role } from '../../roles/entities/role.entity';
 
 @Entity('associations')
+@Unique(['name'])
 export class Association extends Base {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar'})
   name: string;
 
   @OneToMany(
