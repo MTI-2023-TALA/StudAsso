@@ -22,6 +22,16 @@ export class ModalCreateAssociationFormly {
         },
       },
       {
+        key: 'files',
+        type: Form.File,
+        templateOptions: {
+          label: 'Nom du président',
+          required: true,
+          multiple: true,
+          extensions: ['.pdf', '.png'],
+        },
+      },
+      {
         key: 'associationType',
         type: Form.InputList,
         templateOptions: {

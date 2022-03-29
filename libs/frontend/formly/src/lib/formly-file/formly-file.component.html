@@ -1,8 +1,28 @@
-<input
-  type="file"
-  [accept]="getExtensions()"
-  [multiple]="isMultiple()"
-  [formControl]="formControl"
-  [formlyAttributes]="field"
-  [class.is-danger]="showError"
-/>
+<div class="file">
+  <label class="file-label">
+    <input
+      class="file-input"
+      name="resume"
+      type="file"
+      (change)="onFileSelect($event)"
+      [accept]="extensions"
+      [multiple]="multiple"
+      [formControl]="formControl"
+      [formlyAttributes]="field"
+      [class.is-danger]="showError"
+    />
+    <span class="file-cta">
+      <span class="file-icon">
+        <i class="bi bi-upload"></i>
+      </span>
+      <span *ngIf="!multiple" class="file-label"> Choisissez un fichier… </span>
+      <span *ngIf="multiple" class="file-label">
+        Choisissez des fichiers…
+      </span>
+    </span>
+    <span class="file-name">
+      <span *ngIf="files.length === 0">Aucun fichier selectionné</span>
+      <span *ngFor="let file of files">{{ file.name }} </span>
+    </span>
+  </label>
+</div>

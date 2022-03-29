@@ -20,6 +20,7 @@ export class FormlyInputListComponent
     super();
     this.selectOptions = [];
   }
+
   ngOnInit(): void {
     this.selectOptions = this.to.options as selectOption[];
   }
