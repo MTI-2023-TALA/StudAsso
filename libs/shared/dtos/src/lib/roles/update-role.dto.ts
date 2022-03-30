@@ -6,8 +6,4 @@ export class UpdateRoleDto extends UpdateBaseDto {
   @IsOptional()
   @IsString()
   name: string;
-
-  @IsOptional()
-  @IsInt()
-  associationId: number;
 }
