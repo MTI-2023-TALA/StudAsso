@@ -7,4 +7,5 @@ export enum Form {
   Radio = 'radio',
   File = 'file',
   InputList = 'list',
+  Datepicker = 'datepicker',
 }

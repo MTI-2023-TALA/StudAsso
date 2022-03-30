@@ -18,7 +18,10 @@
           "apps/frontend/association/src/favicon.ico",
           "apps/frontend/association/src/assets"
         ],
-        "styles": ["node_modules/bulma/css/bulma.min.css"],
+        "styles": [
+          "node_modules/bulma/css/bulma.min.css",
+          "libs/frontend/scss/src/lib/style.scss"
+        ],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/frontend/scss/src/lib/"]
         },

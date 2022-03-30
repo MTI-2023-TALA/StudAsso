@@ -69,6 +69,14 @@ export class ModalCreateAssociationFormly {
           ],
         },
       },
+      {
+        key: 'dateBegin',
+        type: Form.Datepicker,
+        templateOptions: {
+          label: 'test',
+          required: true,
+        },
+      },
     ];
   }
 }

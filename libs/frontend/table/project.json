@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/table",
+  "sourceRoot": "libs/frontend/table/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/table"],
+      "options": {
+        "jestConfig": "libs/frontend/table/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/table/src/**/*.ts",
+          "libs/frontend/table/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
