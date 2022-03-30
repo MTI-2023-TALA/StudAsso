@@ -8,7 +8,11 @@
     "test": "nx test",
     "cd": "node dist/apps/backend/main.js",
     "prepare": "husky install",
-    "postinstall": "ngcc --properties es2015 browser module main"
+    "postinstall": "ngcc --properties es2015 browser module main",
+    "migration:create": "npx typeorm migration:create -f tools/migrations/ormconfig.local.ts",
+    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run -f tools/migrations/ormconfig.local.ts",
+    "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert -f tools/migrations/ormconfig.local.ts",
+    "docker": "docker-compose -f docker-compose.yml up"
   },
   "private": true,
   "devDependencies": {
@@ -43,7 +47,6 @@
     "@testing-library/jest-native": "4.0.4",
     "@testing-library/react-native": "9.0.0",
     "@types/jest": "27.0.2",
-    "@types/node": "16.11.7",
     "@types/react": "17.0.30",
     "@types/react-native": "0.66.15",
     "@typescript-eslint/eslint-plugin": "~5.10.0",
@@ -61,6 +64,7 @@
     "husky": "^7.0.4",
     "jest": "27.2.3",
     "jest-circus": "27.2.3",
+    "jest-mock": "^27.5.1",
     "jest-preset-angular": "11.1.1",
     "jest-react-native": "18.0.0",
     "metro": "0.67.0",
@@ -85,15 +89,21 @@
     "@angular/router": "~13.2.0",
     "@nestjs/common": "^8.0.0",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/mapped-types": "^1.0.1",
     "@nestjs/platform-express": "^8.0.0",
     "@ngx-formly/core": "^5.11.2",
     "bootstrap-icons": "^1.8.1",
     "bulma": "^0.9.3",
+    "@nestjs/typeorm": "^8.0.3",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.13.2",
+    "pg": "^8.7.3",
     "react": "17.0.2",
     "react-native": "0.67.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.0.0",
+    "typeorm": "^0.2.45",
     "zone.js": "~0.11.4"
   }
 }

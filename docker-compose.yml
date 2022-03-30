@@ -1,0 +1,28 @@
+version: '3'
+services:
+  frontend-school:
+    build: ./apps/frontend/school/
+    ports:
+      - '8081:8081'
+  frontend-association:
+    build: ./apps/frontend/association/
+    ports:
+      - '4201:4201'
+  backend:
+    build: ./apps/backend/
+    ports:
+      - '3333:3333'
+  database:
+    image: postgres:14-alpine3.15
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: studasso
+      POSTGRES_USER: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - stud-asso:/db
+
+
+volumes:
+  stud-asso:
