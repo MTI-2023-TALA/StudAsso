@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Data } from '@angular/router';
 import { ModalDirective, ModalService } from '@stud-asso/frontend/modal';
 import { NavbarItem } from '@stud-asso/frontend/navbar';
+import { UseStorage } from '@stud-asso/frontend/storage';
 import { ToastDirective, ToastService } from '@stud-asso/frontend/toast';
 
 @Component({
@@ -16,7 +17,7 @@ export class MainRoutingComponent implements OnInit {
   title = '';
   navbarItems: NavbarItem[] = [];
 
-  shouldShowLargeNavbar = true;
+  @UseStorage('shouldShowLargeNavbar', true) shouldShowLargeNavbar: boolean | undefined;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -30,16 +31,8 @@ export class MainRoutingComponent implements OnInit {
       this.navbarItems = data['navbarItems'];
     });
 
-    this.toastService.setRootViewContainerRef(
-      this.toastDirective.viewContainerRef
-    );
+    this.toastService.setRootViewContainerRef(this.toastDirective.viewContainerRef);
 
-    this.modalService.setRootViewContainerRef(
-      this.modalDirective.viewContainerRef
-    );
-  }
-
-  toggleShowLargeNavbar(shouldShowLargeNavbar: boolean) {
-    this.shouldShowLargeNavbar = shouldShowLargeNavbar;
+    this.modalService.setRootViewContainerRef(this.modalDirective.viewContainerRef);
   }
 }
