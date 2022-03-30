@@ -2,8 +2,6 @@
  * This is not a production server yet!
  * This is only a minimal backend to get started.
  */
-
-import {} from 'reflect-metadata';
 import { HttpStatus, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 

@@ -8,8 +8,8 @@ export class ModalCreateAssociationFormly {
         key: 'associationName',
         type: Form.Input,
         templateOptions: {
-          label: "Nom de l'association",
-          placeholder: "Nom de l'association",
+          label: `Nom de l'association`,
+          placeholder: `Nom de l'association`,
           required: true,
         },
       },
