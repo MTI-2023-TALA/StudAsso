@@ -14,6 +14,7 @@
     "frontend-school-create-association": "libs/frontend/school/create-association",
     "frontend-school-e2e": "apps/frontend/school-e2e",
     "frontend-scss": "libs/frontend/scss",
+    "frontend-table": "libs/frontend/table",
     "frontend-toast": "libs/frontend/toast",
     "mobile-student": "apps/mobile/student",
     "mobile-student-e2e": "apps/mobile/student-e2e"
