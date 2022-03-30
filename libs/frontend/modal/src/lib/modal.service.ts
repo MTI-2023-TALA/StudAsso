@@ -5,15 +5,14 @@ import { BaseModalComponent } from './base-modal/base-modal.component';
   providedIn: 'root',
 })
 export class ModalService {
-  rootViewContainer: ViewContainerRef | undefined;
+  rootViewContainer: ViewContainerRef;
 
   setRootViewContainerRef(viewContainerRef: ViewContainerRef) {
     this.rootViewContainer = viewContainerRef;
   }
 
   createModal(componentClass: typeof BaseModalComponent, data: any = {}) {
-    const componentRef =
-      this.rootViewContainer?.createComponent(componentClass);
+    const componentRef = this.rootViewContainer?.createComponent(componentClass);
     componentRef?.instance.setComponentRef(componentRef);
     componentRef?.instance.setData(data);
     return componentRef;

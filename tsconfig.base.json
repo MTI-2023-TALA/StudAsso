@@ -14,6 +14,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "strictPropertyInitialization": false,
     "paths": {
       "@stud-asso/frontend/api": ["libs/frontend/api/src/index.ts"],
       "@stud-asso/frontend/auth": ["libs/frontend/auth/src/index.ts"],

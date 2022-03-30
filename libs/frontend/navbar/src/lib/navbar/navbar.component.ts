@@ -11,7 +11,7 @@ export class NavbarComponent {
   @Input() title = '';
   @Input() navbarItems: NavbarItem[] = [];
 
-  @Input() shouldShowLargeNavbar: boolean | undefined = true;
+  @Input() shouldShowLargeNavbar = true;
   @Output() shouldShowLargeNavbarChange = new EventEmitter<boolean>();
 
   toggleShowLargeNavbar() {

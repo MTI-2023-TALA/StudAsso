@@ -17,7 +17,7 @@ export class MainRoutingComponent implements OnInit {
   title = '';
   navbarItems: NavbarItem[] = [];
 
-  @UseStorage('shouldShowLargeNavbar', true) shouldShowLargeNavbar: boolean | undefined;
+  @UseStorage('shouldShowLargeNavbar', true) shouldShowLargeNavbar: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,

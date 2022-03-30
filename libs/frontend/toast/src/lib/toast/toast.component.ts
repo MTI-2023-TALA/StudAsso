@@ -8,16 +8,16 @@ import { ToastData, ToastType } from './toast.model';
 })
 export class ToastComponent implements OnInit, OnDestroy {
   ToastType: typeof ToastType = ToastType;
-  cmpRef: ComponentRef<ToastComponent> | undefined;
+  cmpRef: ComponentRef<ToastComponent>;
   data: ToastData = {
     type: ToastType.Error,
     title: 'Une erreur est survenue !',
     subTitle: '',
   };
-  interval: number | undefined;
+  interval: number;
 
   ngOnInit(): void {
-    this.interval = setInterval(() => this.cmpRef?.destroy(), 5000);
+    this.interval = window.setInterval(() => this.cmpRef?.destroy(), 5000);
   }
 
   ngOnDestroy(): void {
