@@ -1,12 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginPageComponent } from '@stud-asso/frontend/auth';
+import {
+  IsNotSignGuard,
+  IsSignGuard,
+  LoginPageComponent,
+} from '@stud-asso/frontend/auth';
+import { MainRoutingComponent } from '@stud-asso/frontend/main-routing-component';
+import { NavbarItem } from '@stud-asso/frontend/navbar';
+
+const mainRouteConfig: NavbarItem[] = [
+  { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
+];
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginPageComponent,
     data: { title: 'Portail Association' },
+    canActivate: [IsNotSignGuard],
+  },
+  {
+    path: '',
+    component: MainRoutingComponent,
+    data: { title: 'Portail Association', navbarItems: mainRouteConfig },
+    canActivate: [IsSignGuard],
   },
 ];
 
