@@ -37,7 +37,6 @@ export class RolesController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
-    // TODO: check after merge of "setup-db" if we can still modify associationId of a role
     return this.rolesService.update(+id, updateRoleDto);
   }
 
