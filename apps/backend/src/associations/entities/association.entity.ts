@@ -9,7 +9,7 @@ export class Association extends Base {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ type: 'varchar'})
+  @Column({ type: 'varchar' })
   name: string;
 
   @OneToMany(
