@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BaseModalComponent } from '@stud-asso/frontend/modal';
-import { UseStorageForm } from '@stud-asso/frontend/storage';
+import { UseStorageUnoptimized } from '@stud-asso/frontend/storage';
 import { ModalCreateAssociationFormly } from './modal-create-association.formly';
 
 @Component({
@@ -11,7 +11,7 @@ import { ModalCreateAssociationFormly } from './modal-create-association.formly'
 })
 export class ModalCreateAssociationComponent extends BaseModalComponent {
   form = new FormGroup({});
-  @UseStorageForm('form:createAssociation') model = {};
+  @UseStorageUnoptimized('form:createAssociation') model = {};
   fields = ModalCreateAssociationFormly.getForm();
 
   constructor() {

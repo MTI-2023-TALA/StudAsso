@@ -32,7 +32,7 @@ export function UseStorage(storageKey: string) {
   };
 }
 
-export function UseStorageForm(storageKey: string) {
+export function UseStorageUnoptimized(storageKey: string) {
   return function (target: any, key: string | symbol) {
     let val = target[key];
 
