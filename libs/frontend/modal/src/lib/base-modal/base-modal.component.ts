@@ -4,7 +4,7 @@ import { Component, ComponentRef } from '@angular/core';
   template: '',
 })
 export class BaseModalComponent {
-  protected componentRef: ComponentRef<BaseModalComponent> | undefined;
+  protected componentRef: ComponentRef<BaseModalComponent>;
   public data: any = {};
 
   constructor() {

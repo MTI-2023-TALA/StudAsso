@@ -1,5 +1,12 @@
 <div class="list" [class.is-danger]="showError">
-  <input list="list" />
+  <input
+    list="list"
+    class="input"
+    type="text"
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    [class.is-danger]="showError"
+  />
   <datalist id="list">
     <ng-container *ngIf="to.options">
       <ng-container *ngFor="let opt of selectOptions">

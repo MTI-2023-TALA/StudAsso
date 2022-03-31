@@ -2,7 +2,7 @@
   <stud-asso-navbar
     title="{{ title }}"
     [navbarItems]="navbarItems"
-    (emitShouldShowLargeNavbar)="toggleShowLargeNavbar($event)"
+    [(shouldShowLargeNavbar)]="shouldShowLargeNavbar"
   ></stud-asso-navbar>
   <router-outlet></router-outlet>
 </div>

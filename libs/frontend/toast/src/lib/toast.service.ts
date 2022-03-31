@@ -7,15 +7,14 @@ import { ToastData } from './toast/toast.model';
   providedIn: 'root',
 })
 export class ToastService {
-  rootViewContainer: ViewContainerRef | undefined;
+  rootViewContainer: ViewContainerRef;
 
   setRootViewContainerRef(viewContainerRef: ViewContainerRef) {
     this.rootViewContainer = viewContainerRef;
   }
 
   addAlert(data: ToastData) {
-    const componentRef =
-      this.rootViewContainer?.createComponent(ToastComponent);
+    const componentRef = this.rootViewContainer?.createComponent(ToastComponent);
     if (componentRef) {
       componentRef.instance.data = data;
       componentRef.instance.cmpRef = componentRef;
