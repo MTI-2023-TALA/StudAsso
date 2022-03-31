@@ -21,7 +21,7 @@ export function UseStorage(storageKey: string) {
         firstime = false;
         return;
       }
-      setData(storageKey, newVal);
+      setData(storageKey, val);
     };
 
     Object.defineProperty(target, key, {
