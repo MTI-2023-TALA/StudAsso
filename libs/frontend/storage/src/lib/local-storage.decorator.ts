@@ -19,6 +19,7 @@ export function UseStorage(storageKey: string) {
       if (firstime && valStorage) {
         val = JSON.parse(valStorage);
         firstime = false;
+        return;
       }
       setData(storageKey, newVal);
     };
@@ -52,6 +53,7 @@ export function UseStorageUnoptimized(storageKey: string) {
       if (firstime && valStorage) {
         val = JSON.parse(valStorage);
         firstime = false;
+        return;
       }
       setData(storageKey, val);
     };
