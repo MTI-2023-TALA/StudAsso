@@ -15,10 +15,14 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "libs/frontend/table/src/**/*.ts",
-          "libs/frontend/table/src/**/*.html"
-        ]
+        "lintFilePatterns": ["libs/frontend/table/src/**/*.ts", "libs/frontend/table/src/**/*.html"]
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/table/**/*.css"]
       }
     }
   },
