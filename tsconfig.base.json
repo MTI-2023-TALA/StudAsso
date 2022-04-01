@@ -16,18 +16,16 @@
     "baseUrl": ".",
     "strictPropertyInitialization": false,
     "paths": {
+      "@stud-asso/backend/utils/base": ["libs/backend/utils/base/src/index.ts"],
+      "@stud-asso/backend/utils/mock": ["libs/backend/utils/mock/src/index.ts"],
       "@stud-asso/backend/migrations": ["libs/backend/migrations/src/index.ts"],
       "@stud-asso/frontend/api": ["libs/frontend/api/src/index.ts"],
       "@stud-asso/frontend/auth": ["libs/frontend/auth/src/index.ts"],
       "@stud-asso/frontend/formly": ["libs/frontend/formly/src/index.ts"],
-      "@stud-asso/frontend/main-routing-component": [
-        "libs/frontend/main-routing-component/src/index.ts"
-      ],
+      "@stud-asso/frontend/main-routing-component": ["libs/frontend/main-routing-component/src/index.ts"],
       "@stud-asso/frontend/modal": ["libs/frontend/modal/src/index.ts"],
       "@stud-asso/frontend/navbar": ["libs/frontend/navbar/src/index.ts"],
-      "@stud-asso/frontend/school/create-association": [
-        "libs/frontend/school/create-association/src/index.ts"
-      ],
+      "@stud-asso/frontend/school/create-association": ["libs/frontend/school/create-association/src/index.ts"],
       "@stud-asso/frontend/storage": ["libs/frontend/storage/src/index.ts"],
       "@stud-asso/frontend/table": ["libs/frontend/table/src/index.ts"],
       "@stud-asso/frontend/toast": ["libs/frontend/toast/src/index.ts"],

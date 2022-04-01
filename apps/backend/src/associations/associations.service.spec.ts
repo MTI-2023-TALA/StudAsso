@@ -1,7 +1,7 @@
 import { TestingModule } from '@nestjs/testing';
 import { AssociationsService } from './associations.service';
 import { Association } from './entities/association.entity';
-import { CreateMockRepo } from '../../helpers/generic-spec/generic-service-spec';
+import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
@@ -12,11 +12,7 @@ describe('AssociationsService', () => {
   };
 
   beforeEach(async () => {
-    const moduleRef: TestingModule = await CreateMockRepo(
-      AssociationsService,
-      Association,
-      mockRepo
-    );
+    const moduleRef: TestingModule = await CreateMockRepo(AssociationsService, Association, mockRepo);
 
     service = moduleRef.get<AssociationsService>(AssociationsService);
   });
