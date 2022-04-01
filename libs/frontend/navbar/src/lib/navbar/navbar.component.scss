@@ -1,33 +1,11 @@
 @import 'base/variables';
 
-.host {
-  overflow-y: auto;
-  height: 100vh;
-  background-color: $light-grey-100;
-
-  // Handle navbar without title
-  &:not(.showLargeNavbar) {
-    li {
-      padding: 0.5rem 0rem;
-
-      p {
-        width: 100%;
-        text-align: center;
-      }
-    }
-  }
-}
-
-.t-center {
+li {
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
-.title {
-  background: linear-gradient(135deg, #72edf2 0%, #5151e5 100%);
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  justify-content: space-between;
+  padding: 0.5rem 0 0.5rem 2rem;
+  margin-bottom: 1.5rem;
+  color: $light-grey-900;
 }
 
 ul {
@@ -48,14 +26,34 @@ ul {
   }
 }
 
-li {
-  display: flex;
-  justify-content: space-between;
+.host {
+  overflow-y: auto;
+  height: 100vh;
+  background-color: $light-grey-100;
 
-  padding-left: 2rem;
-  padding: 0.5rem 0rem 0.5rem 2rem;
-  margin-bottom: 1.5rem;
-  color: $light-grey-900;
+  // Handle navbar without title
+  &:not(.show-large-navbar) {
+    li {
+      padding: 0.5rem 0;
+
+      p {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  }
+}
+
+.t-center {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.title {
+  background: linear-gradient(135deg, #72edf2 0%, #5151e5 100%);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .router-link-active {

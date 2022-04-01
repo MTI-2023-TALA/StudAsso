@@ -22,7 +22,7 @@
       "executor": "nx-stylelint:lint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/frontend/table/**/*.css"]
+        "lintFilePatterns": ["libs/frontend/table/**/*.css", "libs/frontend/table/**/*.scss"]
       }
     }
   },

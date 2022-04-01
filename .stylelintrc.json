@@ -4,7 +4,17 @@
     {
       "files": ["**/*.scss"],
       "extends": ["stylelint-config-standard-scss", "stylelint-config-prettier"],
-      "rules": {}
+      "rules": {
+        "no-descending-specificity": null,
+        "color-hex-length": "long",
+        "scss/dollar-variable-empty-line-before": null,
+        "value-keyword-case": null
+      }
     }
-  ]
+  ],
+  "rules": {
+    "no-descending-specificity": null,
+    "color-hex-length": "long",
+    "value-keyword-case": null
+  }
 }

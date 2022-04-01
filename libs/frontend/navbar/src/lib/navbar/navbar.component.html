@@ -1,4 +1,4 @@
-<div class="host" [ngClass]="{ showLargeNavbar: shouldShowLargeNavbar }">
+<div class="host" [ngClass]="{ show-large-navbar: shouldShowLargeNavbar }">
   <h1 class="title t-center p-4">
     <!-- TODO: Add logo -->
     <i class="bi bi-border-outer"></i>
@@ -14,15 +14,8 @@
 
   <nav>
     <ul>
-      <a
-        *ngFor="let item of navbarItems"
-        class="is-size-6 has-text-weight-bold"
-        [routerLink]="[item.url]"
-      >
-        <li
-          routerLinkActive="router-link-active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
+      <a *ngFor="let item of navbarItems" class="is-size-6 has-text-weight-bold" [routerLink]="[item.url]">
+        <li routerLinkActive="router-link-active" [routerLinkActiveOptions]="{ exact: true }">
           <p>
             <i class="bi bi-{{ item.icon }} p-2"></i>
             <span *ngIf="shouldShowLargeNavbar">{{ item.title }}</span>

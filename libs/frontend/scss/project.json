@@ -3,6 +3,14 @@
   "root": "libs/frontend/scss",
   "sourceRoot": "libs/frontend/scss/src",
   "prefix": "stud-asso",
-  "targets": {},
+  "targets": {
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/scss/**/*.css", "libs/frontend/scss/**/*.scss"]
+      }
+    }
+  },
   "tags": []
 }

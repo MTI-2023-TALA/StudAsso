@@ -20,6 +20,16 @@
           "libs/frontend/main-routing-component/src/**/*.html"
         ]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/main-routing-component/**/*.css",
+          "libs/frontend/main-routing-component/**/*.scss"
+        ]
+      }
     }
   },
   "tags": []

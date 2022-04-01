@@ -17,6 +17,13 @@
       "options": {
         "lintFilePatterns": ["libs/frontend/formly/src/**/*.ts", "libs/frontend/formly/src/**/*.html"]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/formly/**/*.css", "libs/frontend/formly/**/*.scss"]
+      }
     }
   },
   "tags": []

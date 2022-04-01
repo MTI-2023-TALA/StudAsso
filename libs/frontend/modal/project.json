@@ -17,6 +17,13 @@
       "options": {
         "lintFilePatterns": ["libs/frontend/modal/src/**/*.ts", "libs/frontend/modal/src/**/*.html"]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/modal/**/*.css", "libs/frontend/modal/**/*.scss"]
+      }
     }
   },
   "tags": []
