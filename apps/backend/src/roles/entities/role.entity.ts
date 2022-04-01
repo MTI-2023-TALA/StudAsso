@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
-import { Base } from '../../base/entities/base.entity';
+import { Base } from '@stud-asso/backend/utils/base';
 
 @Entity('roles')
 @Unique(['name', 'associationId'])
@@ -7,9 +7,9 @@ export class Role extends Base {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
-  @Column({ type: 'varchar'})
+  @Column({ type: 'varchar' })
   name: string;
 
-  @Column({ type: 'int', name: 'association_id'})
+  @Column({ type: 'int', name: 'association_id' })
   associationId: number;
 }
