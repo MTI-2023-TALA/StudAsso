@@ -2,6 +2,8 @@
   "version": 2,
   "projects": {
     "backend": "apps/backend",
+    "backend-utils-base": "libs/backend/utils/base",
+    "backend-utils-mock": "libs/backend/utils/mock",
     "frontend-api": "libs/frontend/api",
     "frontend-association": "apps/frontend/association",
     "frontend-association-e2e": "apps/frontend/association-e2e",

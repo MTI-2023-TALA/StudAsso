@@ -1,5 +1,5 @@
 import { TestingModule } from '@nestjs/testing';
-import { CreateMockRepo } from '../../helpers/generic-spec/generic-service-spec';
+import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -12,11 +12,7 @@ describe('UsersService', () => {
   };
 
   beforeEach(async () => {
-    const moduleRef: TestingModule = await CreateMockRepo(
-      UsersService,
-      User,
-      mockRepo
-    );
+    const moduleRef: TestingModule = await CreateMockRepo(UsersService, User, mockRepo);
 
     service = moduleRef.get<UsersService>(UsersService);
   });

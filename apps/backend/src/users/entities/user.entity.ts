@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AssociationsMember } from '../../associations-members/entities/associations-member.entity';
-import { Base } from '../../base/entities/base.entity';
+import { Base } from '@stud-asso/backend/utils/base';
 
 @Entity('users')
 export class User extends Base {
@@ -16,9 +16,6 @@ export class User extends Base {
   @Column({ type: 'varchar' })
   email: string;
 
-  @OneToMany(
-    () => AssociationsMember,
-    (associationsMember) => associationsMember.associationId
-  )
+  @OneToMany(() => AssociationsMember, (associationsMember) => associationsMember.associationId)
   associations: AssociationsMember[];
 }
