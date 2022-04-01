@@ -15,10 +15,7 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "libs/frontend/modal/src/**/*.ts",
-          "libs/frontend/modal/src/**/*.html"
-        ]
+        "lintFilePatterns": ["libs/frontend/modal/src/**/*.ts", "libs/frontend/modal/src/**/*.html"]
       }
     }
   },

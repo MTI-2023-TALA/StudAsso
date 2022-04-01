@@ -14,14 +14,8 @@
         "polyfills": "apps/frontend/association/src/polyfills.ts",
         "tsConfig": "apps/frontend/association/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/frontend/association/src/favicon.ico",
-          "apps/frontend/association/src/assets"
-        ],
-        "styles": [
-          "node_modules/bulma/css/bulma.min.css",
-          "libs/frontend/scss/src/lib/style.scss"
-        ],
+        "assets": ["apps/frontend/association/src/favicon.ico", "apps/frontend/association/src/assets"],
+        "styles": ["node_modules/bulma/css/bulma.min.css", "libs/frontend/scss/src/lib/style.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/frontend/scss/src/lib/"]
         },
@@ -85,10 +79,7 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "apps/frontend/association/src/**/*.ts",
-          "apps/frontend/association/src/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/frontend/association/src/**/*.ts", "apps/frontend/association/src/**/*.html"]
       }
     },
     "test": {

@@ -2,9 +2,9 @@
   "version": 2,
   "projects": {
     "backend": "apps/backend",
+    "backend-migrations": "libs/backend/migrations",
     "backend-utils-base": "libs/backend/utils/base",
     "backend-utils-mock": "libs/backend/utils/mock",
-    "backend-migrations": "libs/backend/migrations",
     "frontend-api": "libs/frontend/api",
     "frontend-association": "apps/frontend/association",
     "frontend-association-e2e": "apps/frontend/association-e2e",
@@ -20,8 +20,6 @@
     "frontend-storage": "libs/frontend/storage",
     "frontend-table": "libs/frontend/table",
     "frontend-toast": "libs/frontend/toast",
-    "mobile-student": "apps/mobile/student",
-    "mobile-student-e2e": "apps/mobile/student-e2e",
     "shared-dtos": "libs/shared/dtos"
   }
 }

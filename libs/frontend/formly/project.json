@@ -15,10 +15,7 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "libs/frontend/formly/src/**/*.ts",
-          "libs/frontend/formly/src/**/*.html"
-        ]
+        "lintFilePatterns": ["libs/frontend/formly/src/**/*.ts", "libs/frontend/formly/src/**/*.html"]
       }
     }
   },

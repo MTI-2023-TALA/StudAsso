@@ -14,14 +14,8 @@
         "polyfills": "apps/frontend/school/src/polyfills.ts",
         "tsConfig": "apps/frontend/school/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/frontend/school/src/favicon.ico",
-          "apps/frontend/school/src/assets"
-        ],
-        "styles": [
-          "node_modules/bulma/css/bulma.min.css",
-          "libs/frontend/scss/src/lib/style.scss"
-        ],
+        "assets": ["apps/frontend/school/src/favicon.ico", "apps/frontend/school/src/assets"],
+        "styles": ["node_modules/bulma/css/bulma.min.css", "libs/frontend/scss/src/lib/style.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/frontend/scss/src/lib/"]
         },
@@ -84,10 +78,7 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": [
-          "apps/frontend/school/src/**/*.ts",
-          "apps/frontend/school/src/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/frontend/school/src/**/*.ts", "apps/frontend/school/src/**/*.html"]
       }
     },
     "test": {
