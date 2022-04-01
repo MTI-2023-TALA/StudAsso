@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 
 import { UsersModule } from '../users/users.module'
 import { AssociationsModule } from '../associations/associations.module';
+import { RolesModule } from '../roles/roles.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AssociationsModule } from '../associations/associations.module';
         Object.assign(await getConnectionOptions(), { autoLoadEntities: true }),
     }),
     AssociationsModule,
+    RolesModule,
     UsersModule,
   ],
   controllers: [AppController],

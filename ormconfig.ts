@@ -7,6 +7,6 @@ module.exports = {
   database: 'studasso',
   entities: [__dirname + './**/*.entity{.ts,.js}'],
   cli: {
-    migrationsDir: 'apps/backend/src/migrations',
+    migrationsDir: 'libs/backend/migrations/src/lib',
   },
 };
