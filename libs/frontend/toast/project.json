@@ -17,6 +17,13 @@
       "options": {
         "lintFilePatterns": ["libs/frontend/toast/src/**/*.ts", "libs/frontend/toast/src/**/*.html"]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/toast/**/*.css", "libs/frontend/toast/**/*.scss"]
+      }
     }
   },
   "tags": []
