@@ -20,6 +20,16 @@
           "libs/frontend/school/create-association/src/**/*.html"
         ]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/school/create-association/**/*.css",
+          "libs/frontend/school/create-association/**/*.scss"
+        ]
+      }
     }
   },
   "tags": []

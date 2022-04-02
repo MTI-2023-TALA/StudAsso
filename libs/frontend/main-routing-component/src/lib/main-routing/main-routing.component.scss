@@ -2,16 +2,14 @@
   display: grid;
   grid-template-columns: 80px 0fr 5fr;
   grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-gap: 0;
 }
 
-.showLargeNavbar {
+.show-large-navbar {
   display: grid;
   grid-template-columns: 240px 0fr 5fr;
   grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
+  grid-gap: 0;
 }
 
 .toast-placement {

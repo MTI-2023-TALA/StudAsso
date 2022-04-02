@@ -8,7 +8,6 @@ import { ToastType } from '../toast/toast.model';
 @Component({
   selector: 'stud-asso-toast-exemple',
   templateUrl: './toast-exemple.component.html',
-  styleUrls: ['./toast-exemple.component.scss'],
 })
 export class ToastExempleComponent {
   testTableHeader: TableHeaderItem[] = [
@@ -26,10 +25,7 @@ export class ToastExempleComponent {
     },
   ];
 
-  constructor(
-    private toastService: ToastService,
-    private modalService: ModalService
-  ) {}
+  constructor(private toastService: ToastService, private modalService: ModalService) {}
 
   addAlert(toastType: string) {
     this.toastService.addAlert({

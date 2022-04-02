@@ -17,6 +17,13 @@
       "options": {
         "lintFilePatterns": ["libs/frontend/navbar/src/**/*.ts", "libs/frontend/navbar/src/**/*.html"]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/navbar/**/*.css", "libs/frontend/navbar/**/*.scss"]
+      }
     }
   },
   "tags": []
