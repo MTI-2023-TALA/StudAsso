@@ -15,9 +15,9 @@
         "tsConfig": "apps/frontend/school/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/frontend/school/src/favicon.ico", "apps/frontend/school/src/assets"],
-        "styles": ["node_modules/bulma/css/bulma.min.css", "libs/frontend/scss/src/lib/style.scss"],
+        "styles": ["node_modules/bulma/css/bulma.min.css", "libs/frontend/core/scss/src/lib/style.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["libs/frontend/scss/src/lib/"]
+          "includePaths": ["libs/frontend/core/scss/src/lib/"]
         },
         "scripts": []
       },

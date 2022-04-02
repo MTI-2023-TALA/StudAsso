@@ -1,0 +1,30 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/shared/modal",
+  "sourceRoot": "libs/frontend/shared/modal/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/shared/modal"],
+      "options": {
+        "jestConfig": "libs/frontend/shared/modal/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/frontend/shared/modal/src/**/*.ts", "libs/frontend/shared/modal/src/**/*.html"]
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/shared/modal/**/*.css", "libs/frontend/shared/modal/**/*.scss"]
+      }
+    }
+  },
+  "tags": []
+}

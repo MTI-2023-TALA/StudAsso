@@ -1,0 +1,30 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/shared/navbar",
+  "sourceRoot": "libs/frontend/shared/navbar/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/shared/navbar"],
+      "options": {
+        "jestConfig": "libs/frontend/shared/navbar/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/frontend/shared/navbar/src/**/*.ts", "libs/frontend/shared/navbar/src/**/*.html"]
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/shared/navbar/**/*.css", "libs/frontend/shared/navbar/**/*.scss"]
+      }
+    }
+  },
+  "tags": []
+}

@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/core/storage",
+  "sourceRoot": "libs/frontend/core/storage/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/core/storage"],
+      "options": {
+        "jestConfig": "libs/frontend/core/storage/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/frontend/core/storage/src/**/*.ts", "libs/frontend/core/storage/src/**/*.html"]
+      }
+    }
+  },
+  "tags": []
+}
