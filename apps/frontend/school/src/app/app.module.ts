@@ -3,20 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { FrontendApiModule } from '@stud-asso/frontend/api';
+import { FrontendCoreApiModule } from '@stud-asso/frontend-core-api';
 import { RouterModule } from '@angular/router';
-import { FrontendSchoolCreateAssociationModule } from '@stud-asso/frontend/school/create-association';
-import { FrontendTableModule } from '@stud-asso/frontend/table';
+import { FrontendFeatureSchoolCreateAssociationModule } from '@stud-asso/frontend-feature-school-create-association';
+import { FrontendSharedTableModule } from '@stud-asso/frontend-shared-table';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FrontendApiModule,
+    FrontendCoreApiModule,
     RouterModule,
-    FrontendSchoolCreateAssociationModule,
-    FrontendTableModule,
+    FrontendFeatureSchoolCreateAssociationModule,
+    FrontendSharedTableModule,
   ],
   bootstrap: [AppComponent],
 })

@@ -1,0 +1,36 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/shared/main-routing-component",
+  "sourceRoot": "libs/frontend/shared/main-routing-component/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/shared/main-routing-component"],
+      "options": {
+        "jestConfig": "libs/frontend/shared/main-routing-component/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/shared/main-routing-component/src/**/*.ts",
+          "libs/frontend/shared/main-routing-component/src/**/*.html"
+        ]
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/shared/main-routing-component/**/*.css",
+          "libs/frontend/shared/main-routing-component/**/*.scss"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
