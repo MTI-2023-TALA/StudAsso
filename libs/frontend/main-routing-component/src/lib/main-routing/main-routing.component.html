@@ -1,4 +1,4 @@
-<div class="grid" [ngClass]="{ show-large-navbar: shouldShowLargeNavbar }">
+<div class="grid" [class.show-large-navbar]="shouldShowLargeNavbar">
   <stud-asso-navbar
     title="{{ title }}"
     [navbarItems]="navbarItems"
