@@ -10,6 +10,7 @@
     "frontend-core-api": "libs/frontend/core/api",
     "frontend-core-auth": "libs/frontend/core/auth",
     "frontend-core-storage": "libs/frontend/core/storage",
+    "frontend-feature-school-association-page": "libs/frontend/feature/school/association-page",
     "frontend-feature-school-create-association": "libs/frontend/feature/school/create-association",
     "frontend-school": "apps/frontend/school",
     "frontend-school-e2e": "apps/frontend/school-e2e",
