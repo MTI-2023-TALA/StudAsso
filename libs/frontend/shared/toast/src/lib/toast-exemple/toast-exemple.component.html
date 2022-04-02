@@ -9,5 +9,8 @@
 <h2 class="subtitle">Modal</h2>
 <button class="button" (click)="createModal()">Create a modal</button>
 <stud-asso-table [headerList]="testTableHeader">
-  <p>Create your table here !</p>
+  <ng-container *ngFor="let association of associationList">
+    <div class="title">{{ association.name }}</div>
+  </ng-container>
 </stud-asso-table>
+<button class="button" (click)="createAssociation()">Create association</button>
