@@ -14,8 +14,8 @@ export class Role extends Base {
   @Column({ type: 'int', name: 'association_id' })
   associationId: number;
 
-  constructor(dto: RoleDto) {
+  constructor(dto?: RoleDto) {
     super();
-    Object.assign(this, dto);
+    if (dto) Object.assign(this, dto);
   }
 }

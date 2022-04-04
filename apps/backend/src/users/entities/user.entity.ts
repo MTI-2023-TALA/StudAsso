@@ -20,8 +20,8 @@ export class User extends Base {
   @OneToMany(() => AssociationsMember, (associationsMember) => associationsMember.associationId)
   associations: AssociationsMember[];
 
-  constructor(dto: UserDto) {
+  constructor(dto?: UserDto) {
     super();
-    Object.assign(this, dto);
+    if (dto) Object.assign(this, dto);
   }
 }

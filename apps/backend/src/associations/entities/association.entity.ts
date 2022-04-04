@@ -19,8 +19,8 @@ export class Association extends Base {
   @OneToMany(() => Role, (role) => role.id)
   roles: Role[];
 
-  constructor(dto: AssociationDto) {
+  constructor(dto?: AssociationDto) {
     super();
-    Object.assign(this, dto);
+    if (dto) Object.assign(this, dto);
   }
 }
