@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/feature/asso/members-list",
+  "sourceRoot": "libs/frontend/feature/asso/members-list/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/feature/asso/members-list"],
+      "options": {
+        "jestConfig": "libs/frontend/feature/asso/members-list/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/feature/asso/members-list/src/**/*.ts",
+          "libs/frontend/feature/asso/members-list/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

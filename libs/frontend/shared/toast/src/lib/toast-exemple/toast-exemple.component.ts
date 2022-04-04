@@ -51,7 +51,7 @@ export class ToastExempleComponent implements OnInit {
   addAlert(toastType: string) {
     this.toastService.addAlert({
       title: 'Test',
-      subTitle: 'Other',
+      subTitle: 'Other', 
       type: toastType as ToastType,
     });
     return;
