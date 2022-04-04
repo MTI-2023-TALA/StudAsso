@@ -13,8 +13,8 @@ export class AuthenticationController {
     return this.authenticationService.getHello();
   }
 
-  @Get('authentication/callback')
-  @UseGuards(AzureGuard)
+  @Get('/callback')
+  //@UseGuards(AzureGuard)
   azureGoogleRedirect(@Req() req) {
     return this.authenticationService.azureLogin(req);
   }

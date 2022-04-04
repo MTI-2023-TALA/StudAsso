@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { BearerStrategy } from 'passport-azure-ad';
+import { config } from 'rxjs';
 
 const clientID = '077eb444-be5d-4ee1-b6a5-d0acbc4b0f3d';
 const tenantID = '3534b3d7-316c-4bc9-9ede-605c860f49d2';
