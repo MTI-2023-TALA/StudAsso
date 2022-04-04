@@ -2,6 +2,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeo
 import { AssociationsMember } from '../../associations-members/entities/associations-member.entity';
 import { Base } from '@stud-asso/backend/utils/base';
 import { Role } from '../../roles/entities/role.entity';
+import { AssociationDto } from '@stud-asso/shared/dtos';
 
 @Entity('associations')
 @Unique(['name'])
@@ -15,9 +16,11 @@ export class Association extends Base {
   @OneToMany(() => AssociationsMember, (associationsMember) => associationsMember.userId)
   users: AssociationsMember[];
 
-  @OneToMany(
-    () => Role,
-    (role) => role.id
-  )
-  roles: Role[]
+  @OneToMany(() => Role, (role) => role.id)
+  roles: Role[];
+
+  constructor(dto: AssociationDto) {
+    super();
+    Object.assign(this, dto);
+  }
 }
