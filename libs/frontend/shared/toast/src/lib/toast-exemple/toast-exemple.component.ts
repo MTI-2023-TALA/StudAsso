@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { ModalCreateAssociationComponent } from '@stud-asso/frontend-feature-school-create-association';
-import { TableHeaderItem } from '@stud-asso/frontend-shared-table';
+import { TableConfiguration, TableHeaderItem } from '@stud-asso/frontend-shared-table';
 import { ToastService } from '../toast.service';
 import { ToastType } from '../toast/toast.model';
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
@@ -11,20 +11,26 @@ import { ApiAssociationService } from '@stud-asso/frontend-core-api';
   templateUrl: './toast-exemple.component.html',
 })
 export class ToastExempleComponent implements OnInit {
-  testTableHeader: TableHeaderItem[] = [
-    {
-      label: 'Association',
-      size: 1,
-    },
-    {
-      label: 'Nom du président',
-      size: 2,
-    },
-    {
-      label: 'Actions',
-      size: 1,
-    },
-  ];
+  tableConfiguration: TableConfiguration = {
+    columns: [
+      {
+        title: 'Association',
+        size: 1,
+        dataProperty: 'name',
+      },
+      {
+        title: 'Nom du président',
+        size: 2,
+        dataProperty: 'name',
+      },
+      {
+        title: 'Actions',
+        size: 1,
+        dataProperty: 'name',
+      },
+    ],
+    actions: [],
+  };
 
   associationList: any[] = [];
 

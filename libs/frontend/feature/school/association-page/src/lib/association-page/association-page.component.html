@@ -4,7 +4,7 @@
     <button class="button" (click)="createModalAssociation()">Créer une association</button>
   </div>
 </div>
-<stud-asso-table [headerList]="headerList">
+<stud-asso-table [tableConfiguration]="tableConfiguration" [data]="associationList">
   <ng-container *ngFor="let association of associationList">
     <div class="flex flex-sb">
       <div class="title">{{ association.name }}</div>

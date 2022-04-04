@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TableConfiguration } from '../table/table.model';
 import { TableHeaderItem } from './table-header.model';
 
 @Component({
@@ -7,5 +8,5 @@ import { TableHeaderItem } from './table-header.model';
   styleUrls: ['./table-header.component.scss'],
 })
 export class TableHeaderComponent {
-  @Input() headerList: TableHeaderItem[] = [];
+  @Input() tableConfiguration: TableConfiguration;
 }

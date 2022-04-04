@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
 import { Form } from '@stud-asso/frontend-shared-formly';
 import { FormModalComponent, ModalService } from '@stud-asso/frontend-shared-modal';
-import { TableHeaderItem } from '@stud-asso/frontend-shared-table';
+import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 @Component({
@@ -11,12 +11,26 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
   styleUrls: ['./association-page.component.scss'],
 })
 export class AssociationPageComponent implements OnInit {
-  headerList: TableHeaderItem[] = [
-    {
-      label: 'Association',
-      size: 2,
-    },
-  ];
+  tableConfiguration: TableConfiguration = {
+    columns: [
+      {
+        title: 'Association',
+        size: 2,
+        dataProperty: 'name',
+      },
+      {
+        title: 'Actions',
+        size: 1,
+        dataProperty: '',
+      },
+    ],
+    actions: [
+      {
+        label: 'Modifier',
+        action: 1,
+      },
+    ],
+  };
 
   associationList: any[] = [];
 

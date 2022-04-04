@@ -1,5 +1,5 @@
 <div class="table-header">
-  <div *ngFor="let item of headerList" class="table-header-item flex-size-{{ item.size }}">
-    {{ item.label }}
+  <div *ngFor="let item of tableConfiguration.columns" class="table-header-item flex-size-{{ item.size }}">
+    {{ item.title }}
   </div>
 </div>

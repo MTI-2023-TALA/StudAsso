@@ -14,11 +14,3 @@
   font-family: $font-family-sans-serif;
   padding: 0 1rem 0 0;
 }
-
-$numbers-flex-grow: 0, 1, 2, 3, 4, 5;
-
-@each $number in $numbers-flex-grow {
-  .flex-size-#{$number} {
-    flex: $number;
-  }
-}

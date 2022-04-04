@@ -8,7 +8,7 @@
 <br />
 <h2 class="subtitle">Modal</h2>
 <button class="button" (click)="createModal()">Create a modal</button>
-<stud-asso-table [headerList]="testTableHeader">
+<stud-asso-table [tableConfiguration]="tableConfiguration">
   <ng-container *ngFor="let association of associationList">
     <div class="title">{{ association.name }}</div>
   </ng-container>
