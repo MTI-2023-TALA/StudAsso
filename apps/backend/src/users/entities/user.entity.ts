@@ -1,6 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AssociationsMember } from '../../associations-members/entities/associations-member.entity';
 import { Base } from '@stud-asso/backend/utils/base';
+import { UserDto } from '@stud-asso/shared/dtos';
 
 @Entity('users')
 export class User extends Base {
@@ -18,4 +19,9 @@ export class User extends Base {
 
   @OneToMany(() => AssociationsMember, (associationsMember) => associationsMember.associationId)
   associations: AssociationsMember[];
+
+  constructor(dto?: UserDto) {
+    super();
+    if (dto) Object.assign(this, dto);
+  }
 }
