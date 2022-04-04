@@ -1,7 +1,7 @@
 import { Exclude } from 'class-transformer';
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from 'typeorm';
 
-export abstract class Base {
+export abstract class Base<DtoType> {
   @CreateDateColumn({
     type: 'timestamp',
     name: 'created_at',
@@ -22,4 +22,8 @@ export abstract class Base {
   @DeleteDateColumn({ type: 'timestamp', name: 'deleted_at' })
   @Exclude()
   deletedAt: Date;
+
+  constructor(dto?: DtoType) {
+    if (dto) Object.assign(this, dto);
+  }
 }

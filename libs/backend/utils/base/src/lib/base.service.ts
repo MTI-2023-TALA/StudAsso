@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBaseDto, UpdateBaseDto } from '@stud-asso/shared/dtos';
+import { BaseDto, CreateBaseDto, UpdateBaseDto } from '@stud-asso/shared/dtos';
 import { Repository, UpdateResult } from 'typeorm';
 import { Base } from './entities/base.entity';
 import { IBaseService } from './ibase.service';
 
 @Injectable()
-export abstract class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto>
-  implements IBaseService<Entity, CreateBaseDto, UpdateBaseDto>
+export abstract class BaseService<
+  Entity extends Base<BaseDto>,
+  CreateDto extends CreateBaseDto,
+  UpdateDto extends UpdateBaseDto
+> implements IBaseService<Entity, CreateBaseDto, UpdateBaseDto>
 {
   constructor(private readonly baseRepository: Repository<Entity>) {}
 

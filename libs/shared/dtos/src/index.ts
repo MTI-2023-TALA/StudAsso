@@ -1,3 +1,4 @@
+export * from './lib/base/base.dto';
 export * from './lib/base/create-base.dto';
 export * from './lib/base/update-base.dto';
 

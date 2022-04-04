@@ -6,7 +6,7 @@ import { AssociationDto } from '@stud-asso/shared/dtos';
 
 @Entity('associations')
 @Unique(['name'])
-export class Association extends Base {
+export class Association extends Base<AssociationDto> {
   @PrimaryGeneratedColumn('increment')
   id: number;
 
@@ -18,9 +18,4 @@ export class Association extends Base {
 
   @OneToMany(() => Role, (role) => role.id)
   roles: Role[];
-
-  constructor(dto?: AssociationDto) {
-    super();
-    if (dto) Object.assign(this, dto);
-  }
 }
