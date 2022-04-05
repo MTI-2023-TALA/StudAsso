@@ -2,16 +2,13 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AuthenticationService {
-  getHello(): string {
-    return 'Hello World!';
-  }
-
-  azureLogin(req) {
+  googleLogin(req) {
     if (!req.user) {
-      return 'No user from Azure';
+      return 'No user from google';
     }
+
     return {
-      message: 'User Info from Azure',
+      message: 'User information from google',
       user: req.user,
     };
   }
