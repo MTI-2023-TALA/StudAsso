@@ -4,6 +4,12 @@ import { Form } from '@stud-asso/frontend-shared-formly';
 import { FormModalComponent, ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
+import { createAssociationFormly } from './association-page.formly';
+
+enum Action {
+  EDIT = 1,
+  DELETE = 2,
+}
 
 @Component({
   selector: 'stud-asso-association-page',
@@ -18,16 +24,17 @@ export class AssociationPageComponent implements OnInit {
         size: 2,
         dataProperty: 'name',
       },
-      {
-        title: 'Actions',
-        size: 1,
-        dataProperty: '',
-      },
     ],
     actions: [
       {
         label: 'Modifier',
-        action: 1,
+        action: Action.EDIT,
+        dataProperty: 'id',
+      },
+      {
+        label: 'Supprimer',
+        action: Action.DELETE,
+        dataProperty: 'id',
       },
     ],
   };
@@ -40,32 +47,41 @@ export class AssociationPageComponent implements OnInit {
     this.reloadData();
   }
 
-  handleError() {
-    return () =>
-      this.toast.addAlert({ title: 'Erreur lors de la récupération des associations', type: ToastType.Error });
-  }
-
   reloadData() {
     this.api.findAll().subscribe((associations) => {
       this.associationList = associations as any;
     });
   }
 
+  handleError() {
+    return () =>
+      this.toast.addAlert({ title: 'Erreur lors de la récupération des associations', type: ToastType.Error });
+  }
+
+  handleTableEvent(event: { action: number; data: any }) {
+    switch (event.action) {
+      case Action.EDIT:
+        this.modifyModalAssociation(event.data);
+        break;
+      case Action.DELETE:
+        this.deleteAssociation(event.data);
+        break;
+    }
+  }
+
   createModalAssociation() {
-    this.modal.createModal(FormModalComponent, {
+    this.modal.createForm({
       title: 'Créer une association',
-      fields: [
-        {
-          key: 'name',
-          type: Form.Input,
-          templateOptions: {
-            label: `Nom de l'association`,
-            placeholder: `Nom de l'association`,
-            required: true,
-          },
-        },
-      ],
+      fields: createAssociationFormly,
       submit: this.createAssociation(),
+    });
+  }
+
+  modifyModalAssociation(id: number) {
+    this.modal.createForm({
+      title: 'Modifier une association',
+      fields: createAssociationFormly,
+      submit: this.modifiAssociation(id),
     });
   }
 
@@ -81,22 +97,8 @@ export class AssociationPageComponent implements OnInit {
     };
   }
 
-  modifyModalAssociation(id: number) {
-    this.modal.createModal(FormModalComponent, {
-      title: 'Modifier une association',
-      fields: [
-        {
-          key: 'name',
-          type: Form.Input,
-          templateOptions: {
-            label: `Nom de l'association`,
-            placeholder: `Nom de l'association`,
-            required: true,
-          },
-        },
-      ],
-      submit: this.modifiAssociation(id),
-    });
+  deleteAssociation(id: number) {
+    this.api.remove(id).subscribe({ complete: () => this.reloadData() });
     return;
   }
 
@@ -104,16 +106,11 @@ export class AssociationPageComponent implements OnInit {
     return (model: any) => {
       this.api.update(id, model).subscribe({
         complete: () => {
-          this.toast.addAlert({ title: `Nom de l'association créer`, type: ToastType.Success });
+          this.toast.addAlert({ title: `Nom de l'association modifier`, type: ToastType.Success });
           this.reloadData();
         },
         error: this.handleError(),
       });
     };
-  }
-
-  deleteModalAssociation(id: number) {
-    this.api.remove(id).subscribe({ complete: () => this.reloadData() });
-    return;
   }
 }

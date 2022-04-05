@@ -4,14 +4,9 @@
     <button class="button" (click)="createModalAssociation()">Créer une association</button>
   </div>
 </div>
-<stud-asso-table [tableConfiguration]="tableConfiguration" [data]="associationList">
-  <ng-container *ngFor="let association of associationList">
-    <div class="flex flex-sb">
-      <div class="title">{{ association.name }}</div>
-      <div class="right">
-        <button class="button is-primary" (click)="modifyModalAssociation(association.id)">Modifier</button>
-        <button class="button is-danger" (click)="deleteModalAssociation(association.id)">Supprimer</button>
-      </div>
-    </div>
-  </ng-container>
+<stud-asso-table
+  [tableConfiguration]="tableConfiguration"
+  [data]="associationList"
+  (actionEvent)="handleTableEvent($event)"
+>
 </stud-asso-table>
