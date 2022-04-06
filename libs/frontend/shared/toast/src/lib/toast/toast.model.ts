@@ -8,5 +8,5 @@ export enum ToastType {
 export interface ToastData {
   type: ToastType;
   title: string;
-  subTitle: string;
+  subTitle?: string;
 }

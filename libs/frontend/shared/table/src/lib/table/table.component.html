@@ -1,4 +1,9 @@
 <div class="table">
-  <stud-asso-table-header [headerList]="headerList"></stud-asso-table-header>
-  <ng-content></ng-content>
+  <stud-asso-table-header [tableConfiguration]="tableConfiguration"></stud-asso-table-header>
+  <stud-asso-table-item
+    *ngFor="let item of data"
+    [tableConfiguration]="tableConfiguration"
+    [data]="item"
+    (actionEvent)="sendActionEvent($event)"
+  ></stud-asso-table-item>
 </div>

@@ -1,5 +1,15 @@
 import { Injectable, ViewContainerRef } from '@angular/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { BaseModalComponent } from './base-modal/base-modal.component';
+import { FormModalComponent } from './form-modal/form-modal.component';
+
+export interface ModalFormData {
+  title: string;
+  fields: FormlyFieldConfig[];
+  submit?: (model: any) => void;
+  cancel?: () => void;
+  onLoad?: () => void;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +25,11 @@ export class ModalService {
     const componentRef = this.rootViewContainer?.createComponent(componentClass);
     componentRef?.instance.setComponentRef(componentRef);
     componentRef?.instance.setData(data);
+    return componentRef;
+  }
+
+  createForm(data: ModalFormData) {
+    const componentRef = this.createModal(FormModalComponent, data);
     return componentRef;
   }
 }

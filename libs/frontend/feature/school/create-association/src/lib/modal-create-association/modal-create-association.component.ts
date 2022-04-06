@@ -10,7 +10,7 @@ import { ModalCreateAssociationFormly } from './modal-create-association.formly'
 })
 export class ModalCreateAssociationComponent extends BaseModalComponent {
   form = new FormGroup({});
-  @UseStorageUnoptimized('form:createAssociation') model = {};
+  @UseStorageUnoptimized('form:test') model = {};
   fields = ModalCreateAssociationFormly.getForm();
 
   constructor() {
