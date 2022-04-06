@@ -9,6 +9,7 @@ import { UsersModule } from '../users/users.module';
 import { AssociationsModule } from '../associations/associations.module';
 import { RolesModule } from '../roles/roles.module';
 import { AuthenticationModule } from '../authentication/authentication.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -17,6 +18,9 @@ import { AuthenticationModule } from '../authentication/authentication.module';
     }),
     AssociationsModule,
     AuthenticationModule,
+    ConfigModule.forRoot({
+      ignoreEnvFile: true,
+    }),
     RolesModule,
     UsersModule,
   ],
