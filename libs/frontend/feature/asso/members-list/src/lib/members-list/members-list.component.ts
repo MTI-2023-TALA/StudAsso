@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
+import { addMemberFormly } from './members-list.formly';
 
 enum Action {
   EDIT = 1,
@@ -38,5 +39,13 @@ export class MembersListComponent {
 
   handleError() {
     return () => this.toast.addAlert({ title: 'Erreur lors de la récupération des membres', type: ToastType.Error });
+  }
+
+  createModalMember() {
+    this.modal.createForm({
+      title: 'Ajouter un membre',
+      fields: addMemberFormly,
+      //submit: this.createAssociation(),
+    });
   }
 }
