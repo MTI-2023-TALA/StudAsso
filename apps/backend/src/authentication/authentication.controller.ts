@@ -1,6 +1,7 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 import { GoogleGuard } from './google.guard';
+import { JwtGuard } from './jwt.guard';
 
 @Controller('authentication')
 export class AuthenticationController {
@@ -8,13 +9,13 @@ export class AuthenticationController {
 
   @Get()
   @UseGuards(GoogleGuard)
-  async googleAuth(@Req() req) {
+  async signInWithGoogle(@Req() req) {
     // guard will redirect to /redirect
   }
 
-  @Get('redirect')
   @UseGuards(GoogleGuard)
-  googleAuthRedirect(@Req() req) {
-    return this.authenticationService.googleLogin(req);
+  @Get('redirect')
+  async signInWithGoogleRedirect(@Req() req) {
+    return this.authenticationService.signInWithGoogle(req.user);
   }
 }

@@ -19,7 +19,7 @@ import { ConfigModule } from '@nestjs/config';
     AssociationsModule,
     AuthenticationModule,
     ConfigModule.forRoot({
-      ignoreEnvFile: true,
+      isGlobal: true,
     }),
     RolesModule,
     UsersModule,

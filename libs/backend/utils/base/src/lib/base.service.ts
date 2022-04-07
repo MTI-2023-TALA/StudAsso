@@ -5,11 +5,8 @@ import { Base } from './entities/base.entity';
 import { IBaseService } from './ibase.service';
 
 @Injectable()
-export abstract class BaseService<
-  Entity extends Base,
-  CreateDto extends CreateBaseDto,
-  UpdateDto extends UpdateBaseDto
-> implements IBaseService<Entity, CreateBaseDto, UpdateBaseDto>
+export abstract class BaseService<Entity extends Base, CreateDto extends CreateBaseDto, UpdateDto extends UpdateBaseDto>
+  implements IBaseService<Entity, CreateBaseDto, UpdateBaseDto>
 {
   constructor(private readonly baseRepository: Repository<Entity>) {}
 
@@ -26,10 +23,7 @@ export abstract class BaseService<
     return await this.baseRepository.findOne(id);
   }
 
-  public async update(
-    id: number,
-    updateBaseDto: UpdateDto
-  ): Promise<UpdateResult> {
+  public async update(id: number, updateBaseDto: UpdateDto): Promise<UpdateResult> {
     return await this.baseRepository.update(id, updateBaseDto as any);
   }
 
