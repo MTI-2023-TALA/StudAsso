@@ -1,15 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthenticationService {
-  signInWithGoogle(req) {
-    if (!req.user) {
-      return 'No user from google';
-    }
+  constructor(private readonly jwtService: JwtService) {}
 
+  signInWithGoogle(user: any) {
+    const payload = { username: user.username, sub: user.userId };
     return {
-      message: 'User information from google',
-      user: req.user,
+      access_token: this.jwtService.sign(payload),
     };
   }
 }
