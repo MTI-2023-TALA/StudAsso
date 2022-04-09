@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
-interface radioOption {
+interface RadioOption {
   label: string;
   value: string;
 }
@@ -11,7 +11,7 @@ interface radioOption {
   templateUrl: './formly-radio.component.html',
 })
 export class FormlyRadioComponent extends FieldType<FieldTypeConfig> implements OnInit {
-  public radioOptions: radioOption[];
+  public radioOptions: RadioOption[];
 
   constructor() {
     super();
@@ -19,6 +19,6 @@ export class FormlyRadioComponent extends FieldType<FieldTypeConfig> implements 
   }
 
   ngOnInit(): void {
-    this.radioOptions = this.to.options as radioOption[];
+    this.radioOptions = this.to.options as RadioOption[];
   }
 }

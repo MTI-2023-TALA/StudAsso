@@ -12,19 +12,19 @@ export abstract class BaseService<Entity extends Base, CreateDto extends CreateB
 
   public async create(createBaseDto: CreateDto): Promise<any> {
     // TODO: Change type once we can upgrade @nestjs/typeorm
-    return await this.baseRepository.save(createBaseDto as any);
+    return this.baseRepository.save(createBaseDto as any);
   }
 
   public async findAll(): Promise<Entity[]> {
-    return await this.baseRepository.find();
+    return this.baseRepository.find();
   }
 
   public async findOne(id: number): Promise<Entity> {
-    return await this.baseRepository.findOne(id);
+    return this.baseRepository.findOne(id);
   }
 
   public async update(id: number, updateBaseDto: UpdateDto): Promise<UpdateResult> {
-    return await this.baseRepository.update(id, updateBaseDto as any);
+    return this.baseRepository.update(id, updateBaseDto as any);
   }
 
   public async remove(id: number): Promise<UpdateResult> {

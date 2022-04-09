@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
-interface selectOption {
+interface SelectOption {
   label: string;
   value: string;
 }
@@ -11,7 +11,7 @@ interface selectOption {
   templateUrl: './formly-input-list.component.html',
 })
 export class FormlyInputListComponent extends FieldType<FieldTypeConfig> implements OnInit {
-  public selectOptions: selectOption[];
+  public selectOptions: SelectOption[];
 
   constructor() {
     super();
@@ -19,6 +19,6 @@ export class FormlyInputListComponent extends FieldType<FieldTypeConfig> impleme
   }
 
   ngOnInit(): void {
-    this.selectOptions = this.to.options as selectOption[];
+    this.selectOptions = this.to.options as SelectOption[];
   }
 }

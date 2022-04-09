@@ -22,7 +22,6 @@ export class LoginPageComponent implements OnInit {
     const success = this.authService.tryToSign();
     if (success) {
       this.router.navigateByUrl('/');
-      return;
     }
   }
 }

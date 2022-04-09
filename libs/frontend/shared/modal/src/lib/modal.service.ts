@@ -29,7 +29,6 @@ export class ModalService {
   }
 
   createForm(data: ModalFormData) {
-    const componentRef = this.createModal(FormModalComponent, data);
-    return componentRef;
+    return this.createModal(FormModalComponent, data);
   }
 }
