@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { ModalCreateAssociationComponent } from '@stud-asso/frontend-feature-school-create-association';
-import { TableConfiguration, TableHeaderItem } from '@stud-asso/frontend-shared-table';
+import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService } from '../toast.service';
 import { ToastType } from '../toast/toast.model';
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
@@ -45,7 +45,6 @@ export class ToastExempleComponent implements OnInit {
       this.associationList = res as any;
       console.log(this.associationList);
     });
-    return;
   }
 
   addAlert(toastType: string) {
@@ -54,7 +53,6 @@ export class ToastExempleComponent implements OnInit {
       subTitle: 'Other',
       type: toastType as ToastType,
     });
-    return;
   }
 
   createModal() {
@@ -78,6 +76,5 @@ export class ToastExempleComponent implements OnInit {
         });
       },
     });
-    return;
   }
 }

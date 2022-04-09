@@ -11,22 +11,18 @@ export class ApiService {
   }
 
   public get<TypeResult>(url: string): Observable<TypeResult> {
-    const result = this.http.get<TypeResult>(`/api/${url}`);
-    return result;
+    return this.http.get<TypeResult>(`/api/${url}`);
   }
 
   public post<TypePayload, TypeResult>(url: string, payload: TypePayload): Observable<TypeResult> {
-    const result = this.http.post<TypeResult>(`/api/${url}`, payload);
-    return result;
+    return this.http.post<TypeResult>(`/api/${url}`, payload);
   }
 
   public patch<TypePayload, TypeResult>(url: string, payload: TypePayload): Observable<TypeResult> {
-    const result = this.http.patch<TypeResult>(`/api/${url}`, payload);
-    return result;
+    return this.http.patch<TypeResult>(`/api/${url}`, payload);
   }
 
   public delete<TypeResult>(url: string) {
-    const result = this.http.delete<TypeResult>(`/api/${url}`);
-    return result;
+    return this.http.delete<TypeResult>(`/api/${url}`);
   }
 }

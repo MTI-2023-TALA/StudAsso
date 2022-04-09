@@ -11,9 +11,9 @@ export class IsSignGuard implements CanActivate {
 
   canActivate(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    route: ActivatedRouteSnapshot,
+    _route: ActivatedRouteSnapshot,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    state: RouterStateSnapshot
+    _state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     // TODO: If false redirect to /login]
     const isSign = this.authService.isSign();

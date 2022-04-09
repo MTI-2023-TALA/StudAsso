@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner, Table, TableUnique } from 'typeorm';
+import { MigrationInterface, QueryRunner, TableUnique } from 'typeorm';
 
 export class AssociationUniqueName1648565847283 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -12,9 +12,6 @@ export class AssociationUniqueName1648565847283 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropUniqueConstraint(
-      'associations',
-      'unique_association_name'
-    );
+    await queryRunner.dropUniqueConstraint('associations', 'unique_association_name');
   }
 }

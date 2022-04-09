@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
-import { Form } from '@stud-asso/frontend-shared-formly';
-import { FormModalComponent, ModalService } from '@stud-asso/frontend-shared-modal';
+import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 import { createAssociationFormly } from './association-page.formly';
@@ -48,8 +47,8 @@ export class AssociationPageComponent implements OnInit {
   }
 
   reloadData() {
-    this.api.findAll().subscribe((associations) => {
-      this.associationList = associations as any;
+    this.api.findAll().subscribe((associations: any) => {
+      this.associationList = associations;
     });
   }
 
@@ -99,7 +98,6 @@ export class AssociationPageComponent implements OnInit {
 
   deleteAssociation(id: number) {
     this.api.remove(id).subscribe({ complete: () => this.reloadData() });
-    return;
   }
 
   modifiAssociation(id: number) {

@@ -15,10 +15,9 @@ export class ModalCreateAssociationComponent extends BaseModalComponent {
 
   constructor() {
     super();
-    return;
   }
 
-  public onSubmit(model: any): void {
+  public onSubmit(_model: any): void {
     return;
   }
 }

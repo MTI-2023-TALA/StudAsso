@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AnyForUntypedForms } from '@angular/forms';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 interface FileItem {
