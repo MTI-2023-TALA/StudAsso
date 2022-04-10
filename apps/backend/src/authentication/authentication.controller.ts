@@ -18,4 +18,10 @@ export class AuthenticationController {
   async signInWithGoogleRedirect(@Req() req) {
     return this.authenticationService.signInWithGoogle(req.user);
   }
+
+  @Get('hello')
+  @UseGuards(JwtGuard)
+  async hello_world(@Req() req) {
+    return 'Hello world';
+  }
 }
