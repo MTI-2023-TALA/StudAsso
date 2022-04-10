@@ -5,12 +5,13 @@ import { getConnectionOptions } from 'typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { UsersModule } from '../users/users.module';
 import { AssociationsModule } from '../associations/associations.module';
+import { ConfigModule } from '@nestjs/config';
+import { EventsModule } from '../events/events.module';
+import { NewsFeedModule } from '../news-feed/news-feed.module';
 import { RolesModule } from '../roles/roles.module';
 import { StocksModule } from '../stocks/stocks.module';
-import { NewsFeedModule } from '../news-feed/news-feed.module';
-import { EventsModule } from '../events/events.module';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { EventsModule } from '../events/events.module';
       useFactory: async () => Object.assign(await getConnectionOptions(), { autoLoadEntities: true }),
     }),
     AssociationsModule,
+    ConfigModule.forRoot({ envFilePath: 'dev.env' }),
     EventsModule,
     NewsFeedModule,
     RolesModule,
