@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { AssociationsModule } from '../associations/associations.module';
+import { AuthorizationModule } from '../authorization/authorization.module';
 import { ConfigModule } from '@nestjs/config';
 import { EventsModule } from '../events/events.module';
 import { NewsFeedModule } from '../news-feed/news-feed.module';
@@ -19,6 +20,7 @@ import { UsersModule } from '../users/users.module';
       useFactory: async () => Object.assign(await getConnectionOptions(), { autoLoadEntities: true }),
     }),
     AssociationsModule,
+    AuthorizationModule,
     ConfigModule.forRoot({ envFilePath: 'dev.env' }),
     EventsModule,
     NewsFeedModule,

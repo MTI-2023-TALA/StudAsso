@@ -7,13 +7,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
 import { UpdateResult } from 'typeorm';
+import { AuthorizationGuard } from '../authorization/authorization.guard';
 import { UsersService } from './users.service';
 
 @Controller('users')
+@UseGuards(AuthorizationGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
