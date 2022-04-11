@@ -1,4 +1,4 @@
-export class StocksDto {
+export class StockDto {
   id: number;
   name: string;
   count: number;

@@ -1,6 +1,6 @@
 import { Base } from '@stud-asso/backend/utils/base';
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
-import { StocksDto } from '@stud-asso/shared/dtos';
+import { StockDto } from '@stud-asso/shared/dtos';
 
 @Entity('stocks')
 @Unique(['name', 'associationId'])
@@ -17,7 +17,7 @@ export class Stock extends Base {
   @Column({ type: 'int', name: 'association_id' })
   associationId: number;
 
-  constructor(dto?: StocksDto) {
+  constructor(dto?: StockDto) {
     super();
     if (dto) Object.assign(this, dto);
   }
