@@ -3,6 +3,7 @@ import { AssociationsMember } from '../../associations-members/entities/associat
 import { Base } from '@stud-asso/backend/utils/base';
 import { Role } from '../../roles/entities/role.entity';
 import { AssociationDto } from '@stud-asso/shared/dtos';
+import { Stock } from '../../stocks/entities/stock.entity';
 
 @Entity('associations')
 @Unique(['name'])
@@ -18,6 +19,9 @@ export class Association extends Base {
 
   @OneToMany(() => Role, (role) => role.id)
   roles: Role[];
+
+  @OneToMany(() => Stock, (stock) => stock.id)
+  stocks: Stock[];
 
   constructor(dto?: AssociationDto) {
     super();
