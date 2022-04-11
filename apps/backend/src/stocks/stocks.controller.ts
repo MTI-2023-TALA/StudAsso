@@ -1,34 +1,46 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
+import { CreateStockDto, StocksDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { UpdateResult } from 'typeorm';
 import { StocksService } from './stocks.service';
-import { CreateStockDto } from './dto/create-stock.dto';
-import { UpdateStockDto } from './dto/update-stock.dto';
 
 @Controller('stocks')
 export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 
   @Post()
-  create(@Body() createStockDto: CreateStockDto) {
+  create(@Body() createStockDto: CreateStockDto): Promise<StocksDto> {
     return this.stocksService.create(createStockDto);
   }
 
   @Get()
-  findAll() {
+  @UseInterceptors(ClassSerializerInterceptor)
+  findAll(): Promise<StocksDto[]> {
     return this.stocksService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @UseInterceptors(ClassSerializerInterceptor)
+  findOne(@Param('id') id: string): Promise<StocksDto> {
     return this.stocksService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto) {
+  update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto): Promise<UpdateResult> {
     return this.stocksService.update(+id, updateStockDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<UpdateResult> {
     return this.stocksService.remove(+id);
   }
 }
