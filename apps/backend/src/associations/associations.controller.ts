@@ -39,6 +39,12 @@ export class AssociationsController {
     return this.associationsService.findAll();
   }
 
+  @Get('get/:name')
+  @UseInterceptors(ClassSerializerInterceptor)
+  findAllByName(@Param('name') name: string): Promise<AssociationDto[]> {
+    return this.associationsService.findAllByName(name);
+  }
+
   @Get(':id')
   @UseInterceptors(ClassSerializerInterceptor)
   findOne(@Param('id') id: string): Promise<AssociationDto> {
