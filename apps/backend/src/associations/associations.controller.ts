@@ -11,12 +11,19 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AssociationsService } from './associations.service';
-import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import { AssociationDto, CreateAssociationDto, UpdateAssociationDto, UserDto } from '@stud-asso/shared/dtos';
 import { QueryFailedError, UpdateResult } from 'typeorm';
+import { AssociationsMembersService } from '../associations-members/associations-members.service';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/entities/user.entity';
 
 @Controller('associations')
 export class AssociationsController {
-  constructor(private readonly associationsService: AssociationsService) {}
+  constructor(
+    private readonly associationsService: AssociationsService,
+    private readonly associationsMemberService: AssociationsMembersService,
+    private readonly usersService: UsersService
+  ) {}
 
   @Post()
   public async create(@Body() createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
@@ -51,10 +58,12 @@ export class AssociationsController {
     return this.associationsService.findOne(+id);
   }
 
-  @Get('/users/:id')
+  @Get('/users/:assoId')
   @UseInterceptors(ClassSerializerInterceptor)
-  findUsersFromAsso(@Param('id') id: string) {
-    return this.associationsService;
+  async findUsersFromAsso(@Param('assoId') assoId: string): Promise<User[]> {
+    // TODO: verify if association exists
+    const associationMembers = await this.associationsMemberService.getUsersinAssociation(+assoId);
+    return this.usersService.getUsersFromAssociationsMembers(associationMembers);
   }
 
   @Patch(':id')

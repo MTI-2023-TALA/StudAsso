@@ -4,10 +4,20 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { BaseService } from '@stud-asso/backend/utils/base';
 import { CreateUserDto, UpdateUserDto } from '@stud-asso/shared/dtos';
+import { AssociationsMember } from '../associations-members/entities/associations-member.entity';
 
 @Injectable()
 export class UsersService extends BaseService<User, CreateUserDto, UpdateUserDto> {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
     super(userRepository);
+  }
+
+  async getUsersFromAssociationsMembers(assoMembers: AssociationsMember[]): Promise<User[]> {
+    const users = [];
+    for (const member of assoMembers) {
+      users.push(await this.userRepository.findOne(member.userId));
+    }
+
+    return users;
   }
 }

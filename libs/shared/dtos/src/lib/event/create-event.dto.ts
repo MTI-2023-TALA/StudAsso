@@ -1,7 +1,7 @@
 import { IsDateString, IsInt, IsNotEmpty, IsString } from 'class-validator';
 import { CreateBaseDto } from '../base/create-base.dto';
 
-export class CreateEventDto extends CreateBaseDto {
+export class CreateEventDto  {
   @IsNotEmpty()
   @IsString()
   name: string;

@@ -1,6 +1,8 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateAssociationsMemberDto } from './create-associations-member.dto';
+import { IsInt, IsOptional } from 'class-validator';
+import { UpdateBaseDto } from '../base/update-base.dto';
 
-export class UpdateAssociationsMemberDto extends PartialType(
-  CreateAssociationsMemberDto
-) {}
+export class UpdateAssociationsMemberDto extends UpdateBaseDto {
+  @IsOptional()
+  @IsInt()
+  roleId: number;
+}

@@ -8,10 +8,13 @@ import { Role } from '../roles/entities/role.entity';
 import { Stock } from '../stocks/entities/stock.entity';
 import { NewsFeed } from '../news-feed/entities/news-feed.entity';
 import { Event } from '../events/entities/event.entity';
+import { AssociationsMembersService } from '../associations-members/associations-members.service';
+import { UsersService } from '../users/users.service';
+import { User } from '../users/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Association, AssociationsMember, Role, Stock, NewsFeed, Event])],
+  imports: [TypeOrmModule.forFeature([Association, AssociationsMember, Role, Stock, NewsFeed, Event, User])],
   controllers: [AssociationsController],
-  providers: [AssociationsService],
+  providers: [AssociationsService, AssociationsMembersService, UsersService],
 })
 export class AssociationsModule {}

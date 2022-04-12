@@ -11,6 +11,7 @@ import { RolesModule } from '../roles/roles.module';
 import { StocksModule } from '../stocks/stocks.module';
 import { NewsFeedModule } from '../news-feed/news-feed.module';
 import { EventsModule } from '../events/events.module';
+import { AssociationsMembersModule } from '../associations-members/associations-members.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { EventsModule } from '../events/events.module';
       useFactory: async () => Object.assign(await getConnectionOptions(), { autoLoadEntities: true }),
     }),
     AssociationsModule,
+    AssociationsMembersModule,
     EventsModule,
     NewsFeedModule,
     RolesModule,
