@@ -1,26 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNewsFeedDto } from './dto/create-news-feed.dto';
-import { UpdateNewsFeedDto } from './dto/update-news-feed.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { BaseService } from '@stud-asso/backend/utils/base';
+import { CreateNewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
+import { Repository } from 'typeorm';
+import { NewsFeed } from './entities/news-feed.entity';
 
 @Injectable()
-export class NewsFeedService {
-  create(createNewsFeedDto: CreateNewsFeedDto) {
-    return 'This action adds a new newsFeed';
-  }
-
-  findAll() {
-    return `This action returns all newsFeed`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} newsFeed`;
-  }
-
-  update(id: number, updateNewsFeedDto: UpdateNewsFeedDto) {
-    return `This action updates a #${id} newsFeed`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} newsFeed`;
+export class NewsFeedService extends BaseService<NewsFeed, CreateNewsFeedDto, UpdateNewsFeedDto> {
+  constructor(@InjectRepository(NewsFeed) private readonly newsFeedRepository: Repository<NewsFeed>) {
+    super(newsFeedRepository);
   }
 }

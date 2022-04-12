@@ -1,34 +1,46 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
+import { CreateNewsFeedDto, NewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
+import { UpdateResult } from 'typeorm';
 import { NewsFeedService } from './news-feed.service';
-import { CreateNewsFeedDto } from './dto/create-news-feed.dto';
-import { UpdateNewsFeedDto } from './dto/update-news-feed.dto';
 
 @Controller('news-feed')
 export class NewsFeedController {
   constructor(private readonly newsFeedService: NewsFeedService) {}
 
   @Post()
-  create(@Body() createNewsFeedDto: CreateNewsFeedDto) {
+  create(@Body() createNewsFeedDto: CreateNewsFeedDto): Promise<NewsFeedDto> {
     return this.newsFeedService.create(createNewsFeedDto);
   }
 
   @Get()
-  findAll() {
+  @UseInterceptors(ClassSerializerInterceptor)
+  findAll(): Promise<NewsFeedDto[]> {
     return this.newsFeedService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  @UseInterceptors(ClassSerializerInterceptor)
+  findOne(@Param('id') id: string): Promise<NewsFeedDto> {
     return this.newsFeedService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNewsFeedDto: UpdateNewsFeedDto) {
+  update(@Param('id') id: string, @Body() updateNewsFeedDto: UpdateNewsFeedDto): Promise<UpdateResult> {
     return this.newsFeedService.update(+id, updateNewsFeedDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<UpdateResult> {
     return this.newsFeedService.remove(+id);
   }
 }

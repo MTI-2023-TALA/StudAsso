@@ -1,13 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
+import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
+import { NewsFeed } from './entities/news-feed.entity';
 import { NewsFeedService } from './news-feed.service';
 
 describe('NewsFeedService', () => {
   let service: NewsFeedService;
 
+  const mockRepo = {
+    // TODO set mock value
+    find: jest.fn().mockResolvedValue(42),
+  };
+
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [NewsFeedService],
-    }).compile();
+    const module: TestingModule = await CreateMockRepo(NewsFeedService, NewsFeed, mockRepo);
 
     service = module.get<NewsFeedService>(NewsFeedService);
   });
