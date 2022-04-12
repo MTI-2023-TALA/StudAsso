@@ -9,6 +9,7 @@ import { UsersModule } from '../users/users.module';
 import { AssociationsModule } from '../associations/associations.module';
 import { RolesModule } from '../roles/roles.module';
 import { StocksModule } from '../stocks/stocks.module';
+import { NewsFeedModule } from '../news-feed/news-feed.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { StocksModule } from '../stocks/stocks.module';
       useFactory: async () => Object.assign(await getConnectionOptions(), { autoLoadEntities: true }),
     }),
     AssociationsModule,
+    NewsFeedModule,
     RolesModule,
     StocksModule,
     UsersModule,
