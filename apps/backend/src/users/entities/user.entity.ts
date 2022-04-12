@@ -2,7 +2,6 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { AssociationsMember } from '../../associations-members/entities/associations-member.entity';
 import { Base } from '@stud-asso/backend/utils/base';
 import { UserDto } from '@stud-asso/shared/dtos';
-import { NewsFeed } from '../../news-feed/entities/news-feed.entity';
 
 @Entity('users')
 export class User extends Base {
