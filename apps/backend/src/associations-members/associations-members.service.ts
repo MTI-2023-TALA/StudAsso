@@ -62,4 +62,8 @@ export class AssociationsMembersService extends BaseService<
   public async getUsersinAssociation(associationId: number): Promise<AssociationsMember[]> {
     return this.associationsMemberRepository.find({ associationId: associationId });
   }
+
+  public async getAssociationsFromUser(userId: number): Promise<AssociationsMember[]> {
+    return this.associationsMemberRepository.find({ userId: userId });
+  }
 }
