@@ -1,4 +1,5 @@
-import { IsDate, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsDateString, IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { Timestamp } from 'typeorm';
 import { CreateBaseDto } from '../base/create-base.dto';
 
 export class CreateEventDto extends CreateBaseDto {
@@ -7,8 +8,8 @@ export class CreateEventDto extends CreateBaseDto {
   name: string;
 
   @IsNotEmpty()
-  @IsDate()
-  date: Date;
+  @IsDateString()
+  date: Timestamp;
 
   @IsNotEmpty()
   @IsString()

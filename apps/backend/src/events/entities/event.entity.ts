@@ -1,6 +1,6 @@
 import { Base } from '@stud-asso/backend/utils/base';
 import { EventDto } from '@stud-asso/shared/dtos';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from 'typeorm';
 
 @Entity('events')
 export class Event extends Base {
@@ -11,7 +11,7 @@ export class Event extends Base {
   name: string;
 
   @Column({ type: 'timestamp' })
-  date: Date;
+  date: Timestamp;
 
   @Column({ type: 'text' })
   content: string;
