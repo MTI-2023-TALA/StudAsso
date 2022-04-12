@@ -11,7 +11,7 @@ export class Event extends Base {
   name: string;
 
   @Column({ type: 'timestamp' })
-  date: Timestamp;
+  date: Date;
 
   @Column({ type: 'text' })
   content: string;

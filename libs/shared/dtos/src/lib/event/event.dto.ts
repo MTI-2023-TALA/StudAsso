@@ -1,9 +1,7 @@
-import { Timestamp } from 'typeorm';
-
 export class EventDto {
   id: number;
   name: string;
-  date: Timestamp;
+  date: Date;
   content: string;
   associationId: number;
 }

@@ -21,9 +21,6 @@ export class User extends Base {
   @OneToMany(() => AssociationsMember, (associationsMember) => associationsMember.associationId)
   associations: AssociationsMember[];
 
-  @OneToMany(() => NewsFeed, (news_feed) => news_feed.id)
-  news_feed: NewsFeed[];
-
   constructor(dto?: UserDto) {
     super();
     if (dto) Object.assign(this, dto);

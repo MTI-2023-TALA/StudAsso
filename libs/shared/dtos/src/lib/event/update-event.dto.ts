@@ -1,6 +1,6 @@
 import { IsDateString, IsOptional, IsString } from 'class-validator';
-import { Timestamp } from 'typeorm';
 import { UpdateBaseDto } from '../base/update-base.dto';
+
 export class UpdateEventDto extends UpdateBaseDto {
   @IsOptional()
   @IsString()
@@ -8,7 +8,7 @@ export class UpdateEventDto extends UpdateBaseDto {
 
   @IsOptional()
   @IsDateString()
-  date: Timestamp;
+  date: Date;
 
   @IsOptional()
   @IsString()

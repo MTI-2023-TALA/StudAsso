@@ -7,7 +7,7 @@ import { AssociationsMember } from '../associations-members/entities/association
 import { NewsFeed } from '../news-feed/entities/news-feed.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, AssociationsMember, NewsFeed])],
+  imports: [TypeOrmModule.forFeature([User, AssociationsMember])],
   controllers: [UsersController],
   providers: [UsersService],
 })
