@@ -12,5 +12,5 @@
       }
     }
   },
-  "tags": ["type:frontend-core"]
+  "tags": ["type:frontend", "type:frontend-core"]
 }

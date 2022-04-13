@@ -32,5 +32,5 @@
       }
     }
   },
-  "tags": ["type:frontend-feature"]
+  "tags": ["type:frontend", "type:frontend-feature"]
 }
