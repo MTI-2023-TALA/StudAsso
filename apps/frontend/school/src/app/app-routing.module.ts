@@ -5,11 +5,9 @@ import { AssociationPageComponent } from '@stud-asso/frontend/feature/school/ass
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NgModule } from '@angular/core';
-import { ToastExempleComponent } from '@stud-asso/frontend-shared-toast';
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
-  { title: 'Demo', icon: 'graph-down', url: '/stats' },
   { title: 'Associations', icon: 'person-lines-fill', url: '/associations' },
 ];
 
@@ -29,10 +27,6 @@ const routes: Routes = [
       {
         path: 'associations',
         component: AssociationPageComponent,
-      },
-      {
-        path: 'stats',
-        component: ToastExempleComponent,
       },
     ],
   },
