@@ -1,17 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
-  Delete,
-  UseInterceptors,
   ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseInterceptors,
 } from '@nestjs/common';
+
 import { CreateStockDto, StockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
-import { UpdateResult } from 'typeorm';
 import { StocksService } from './stocks.service';
+import { UpdateResult } from 'typeorm';
 
 @Controller('stocks')
 export class StocksController {

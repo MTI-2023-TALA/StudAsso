@@ -1,5 +1,6 @@
+import { MockFunctionMetadata, ModuleMocker } from 'jest-mock';
+
 import { Test } from '@nestjs/testing';
-import { ModuleMocker, MockFunctionMetadata } from 'jest-mock';
 
 interface IService {
   type: any;
@@ -15,9 +16,7 @@ export const CreateMockService = (controllers: any[], service: IService) =>
         return service.methods;
       }
       if (typeof token === 'function') {
-        const mockMetadata = moduleMocker.getMetadata(
-          token
-        ) as MockFunctionMetadata<any, any>;
+        const mockMetadata = moduleMocker.getMetadata(token) as MockFunctionMetadata<any, any>;
         const Mock = moduleMocker.generateFromMetadata(mockMetadata);
         return new Mock();
       }

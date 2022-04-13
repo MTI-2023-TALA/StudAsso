@@ -1,7 +1,8 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { BaseService } from '@stud-asso/backend/utils/base';
 import { CreateStockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+
+import { BaseService } from '@stud-asso/backend/utils/base';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Stock } from './entities/stock.entity';
 

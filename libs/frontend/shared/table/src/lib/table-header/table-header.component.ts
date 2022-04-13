@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { TableConfiguration } from '../table/table.model';
 
 @Component({

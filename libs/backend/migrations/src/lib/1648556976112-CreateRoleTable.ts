@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+
 import { dateDataColumnsWithId } from './base-migration/DefaultColumns';
 
 export class CreateRoleTable1648556976112 implements MigrationInterface {

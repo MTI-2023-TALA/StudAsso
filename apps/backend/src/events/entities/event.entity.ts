@@ -1,6 +1,7 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Base } from '@stud-asso/backend/utils/base';
 import { EventDto } from '@stud-asso/shared/dtos';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('events')
 export class Event extends Base {

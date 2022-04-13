@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
 import { CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+
 import { ApiGenericService } from './api-generic.service';
 import { ApiService } from './api.service';
+import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',

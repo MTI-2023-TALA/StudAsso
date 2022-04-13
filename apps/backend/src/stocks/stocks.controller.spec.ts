@@ -1,7 +1,7 @@
-import { TestingModule } from '@nestjs/testing';
+import { CreateMockService } from '@stud-asso/backend/utils/mock';
 import { StocksController } from './stocks.controller';
 import { StocksService } from './stocks.service';
-import { CreateMockService } from '@stud-asso/backend/utils/mock';
+import { TestingModule } from '@nestjs/testing';
 
 describe('StocksController', () => {
   let controller: StocksController;

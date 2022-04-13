@@ -1,7 +1,7 @@
-import { TestingModule } from '@nestjs/testing';
 import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
-import { EventsService } from './events.service';
 import { Event } from './entities/event.entity';
+import { EventsService } from './events.service';
+import { TestingModule } from '@nestjs/testing';
 
 describe('EventsService', () => {
   let service: EventsService;

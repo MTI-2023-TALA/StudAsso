@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
-import { Repository } from 'typeorm';
-import { BaseService } from '@stud-asso/backend/utils/base';
+
 import { Association } from './entities/association.entity';
+import { BaseService } from '@stud-asso/backend/utils/base';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AssociationsService extends BaseService<Association, CreateAssociationDto, UpdateAssociationDto> {

@@ -1,9 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+
 import { dateDataColumns } from './base-migration/DefaultColumns';
 
-export class CreateAssociationsMembersTable1647813744740
-  implements MigrationInterface
-{
+export class CreateAssociationsMembersTable1647813744740 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({

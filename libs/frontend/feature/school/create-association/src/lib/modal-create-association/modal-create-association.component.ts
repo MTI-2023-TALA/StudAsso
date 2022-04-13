@@ -1,8 +1,8 @@
+import { BaseModalComponent } from '@stud-asso/frontend-shared-modal';
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BaseModalComponent } from '@stud-asso/frontend-shared-modal';
-import { UseStorageUnoptimized } from '@stud-asso/frontend-core-storage';
 import { ModalCreateAssociationFormly } from './modal-create-association.formly';
+import { UseStorageUnoptimized } from '@stud-asso/frontend-core-storage';
 
 @Component({
   selector: 'stud-asso-modal-create-association',

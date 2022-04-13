@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
+
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
-import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 import { createAssociationFormly } from './association-page.formly';
 
 enum Action {

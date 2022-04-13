@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalService } from '@stud-asso/frontend-shared-modal';
+
+import { ApiAssociationService } from '@stud-asso/frontend-core-api';
 import { ModalCreateAssociationComponent } from '@stud-asso/frontend-feature-school-create-association';
+import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService } from '../toast.service';
 import { ToastType } from '../toast/toast.model';
-import { ApiAssociationService } from '@stud-asso/frontend-core-api';
 
 @Component({
   selector: 'stud-asso-toast-exemple',

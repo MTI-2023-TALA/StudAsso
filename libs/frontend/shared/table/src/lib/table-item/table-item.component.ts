@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+
 import { TableConfiguration } from '../table/table.model';
 
 @Component({

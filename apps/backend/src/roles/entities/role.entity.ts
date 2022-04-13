@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+
 import { Base } from '@stud-asso/backend/utils/base';
 import { RoleDto } from '@stud-asso/shared/dtos';
 

@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+
 import { dateDataColumnsWithId } from './base-migration/DefaultColumns';
 
 export class CreateUsersTable1647711248627 implements MigrationInterface {

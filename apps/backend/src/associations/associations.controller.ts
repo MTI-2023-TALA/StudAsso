@@ -1,3 +1,4 @@
+import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -10,9 +11,8 @@ import {
   UnprocessableEntityException,
   UseInterceptors,
 } from '@nestjs/common';
-import { AssociationsService } from './associations.service';
-import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 import { QueryFailedError, UpdateResult } from 'typeorm';
+import { AssociationsService } from './associations.service';
 
 @Controller('associations')
 export class AssociationsController {

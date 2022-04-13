@@ -1,18 +1,19 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  ClassSerializerInterceptor,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   UnprocessableEntityException,
   UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
-import { RolesService } from './roles.service';
 import { CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 import { QueryFailedError, UpdateResult } from 'typeorm';
+
+import { RolesService } from './roles.service';
 
 @Controller('roles')
 export class RolesController {

@@ -1,5 +1,5 @@
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Form } from '@stud-asso/frontend-shared-formly';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 export class ModalCreateAssociationFormly {
   public static getForm(): FormlyFieldConfig[] {

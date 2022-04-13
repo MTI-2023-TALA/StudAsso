@@ -9,6 +9,6 @@ export class AssociationsMember {
   userId: number;
 
   // TODO: Check in code to make sure ROLE belongs to given ASSOCIATION (same assoId in roles and here)
-  @Column({ type: 'int', name: 'role_id'})
+  @Column({ type: 'int', name: 'role_id' })
   roleId: number;
 }

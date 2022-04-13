@@ -1,5 +1,6 @@
-import { Base } from '@stud-asso/backend/utils/base';
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
+
+import { Base } from '@stud-asso/backend/utils/base';
 import { StockDto } from '@stud-asso/shared/dtos';
 
 @Entity('stocks')

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
+import { BaseModalComponent } from '../base-modal/base-modal.component';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { UseStorageUnoptimized } from '@stud-asso/frontend-core-storage';
-import { BaseModalComponent } from '../base-modal/base-modal.component';
 
 @Component({
   selector: 'stud-asso-form-modal',

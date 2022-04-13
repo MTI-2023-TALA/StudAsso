@@ -1,17 +1,18 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   ClassSerializerInterceptor,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
   UseInterceptors,
 } from '@nestjs/common';
+
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
-import { UpdateResult } from 'typeorm';
 import { EventsService } from './events.service';
+import { UpdateResult } from 'typeorm';
 
 @Controller('events')
 export class EventsController {
