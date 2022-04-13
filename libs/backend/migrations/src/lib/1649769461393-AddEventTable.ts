@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+
 import { dateDataColumnsWithId } from './base-migration/DefaultColumns';
 
 export class AddEventTable1649769461393 implements MigrationInterface {

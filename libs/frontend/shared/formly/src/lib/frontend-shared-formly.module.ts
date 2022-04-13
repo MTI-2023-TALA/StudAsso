@@ -1,17 +1,18 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormlyInputComponent } from './formly-input/formly-input.component';
-import { FormlyModule } from '@ngx-formly/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormlyFormFieldComponent } from './formly-form-field/formly-form-field.component';
+
+import { CommonModule } from '@angular/common';
 import { Form } from './formly-enum.model';
-import { FormlyTextareaComponent } from './formly-textarea/formly-textarea.component';
-import { FormlySelectComponent } from './formly-select/formly-select.component';
 import { FormlyCheckboxComponent } from './formly-checkbox/formly-checkbox.component';
-import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
-import { FormlyFileComponent } from './formly-file/formly-file.component';
-import { FormlyInputListComponent } from './formly-input-list/formly-input-list.component';
 import { FormlyDatepickerComponent } from './formly-datepicker/formly-datepicker.component';
+import { FormlyFileComponent } from './formly-file/formly-file.component';
+import { FormlyFormFieldComponent } from './formly-form-field/formly-form-field.component';
+import { FormlyInputComponent } from './formly-input/formly-input.component';
+import { FormlyInputListComponent } from './formly-input-list/formly-input-list.component';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
+import { FormlySelectComponent } from './formly-select/formly-select.component';
+import { FormlyTextareaComponent } from './formly-textarea/formly-textarea.component';
+import { NgModule } from '@angular/core';
 
 @NgModule({
   imports: [

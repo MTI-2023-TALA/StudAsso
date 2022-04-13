@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+
 import { dateDataColumnsWithId } from './base-migration/DefaultColumns';
 
 export class CreateNewsFeedTable1649748053175 implements MigrationInterface {

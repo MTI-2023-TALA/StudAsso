@@ -1,5 +1,5 @@
-import { TestingModule } from '@nestjs/testing';
 import { CreateMockService } from '@stud-asso/backend/utils/mock';
+import { TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 

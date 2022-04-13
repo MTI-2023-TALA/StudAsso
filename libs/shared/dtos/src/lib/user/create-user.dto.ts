@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+
 import { CreateBaseDto } from '../base/create-base.dto';
 
 export class CreateUserDto extends CreateBaseDto {

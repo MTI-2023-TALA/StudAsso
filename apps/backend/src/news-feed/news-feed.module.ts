@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
-import { NewsFeedService } from './news-feed.service';
-import { NewsFeedController } from './news-feed.controller';
 import { NewsFeed } from './entities/news-feed.entity';
+import { NewsFeedController } from './news-feed.controller';
+import { NewsFeedService } from './news-feed.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

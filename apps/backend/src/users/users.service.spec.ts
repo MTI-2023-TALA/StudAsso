@@ -1,5 +1,5 @@
-import { TestingModule } from '@nestjs/testing';
 import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
+import { TestingModule } from '@nestjs/testing';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 

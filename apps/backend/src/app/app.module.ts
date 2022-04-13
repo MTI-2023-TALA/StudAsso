@@ -1,16 +1,14 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { getConnectionOptions } from 'typeorm';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
-import { UsersModule } from '../users/users.module';
 import { AssociationsModule } from '../associations/associations.module';
+import { EventsModule } from '../events/events.module';
+import { Module } from '@nestjs/common';
+import { NewsFeedModule } from '../news-feed/news-feed.module';
 import { RolesModule } from '../roles/roles.module';
 import { StocksModule } from '../stocks/stocks.module';
-import { NewsFeedModule } from '../news-feed/news-feed.module';
-import { EventsModule } from '../events/events.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from '../users/users.module';
+import { getConnectionOptions } from 'typeorm';
 
 @Module({
   imports: [

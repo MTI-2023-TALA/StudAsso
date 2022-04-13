@@ -1,7 +1,7 @@
-import { TestingModule } from '@nestjs/testing';
 import { CreateMockService } from '@stud-asso/backend/utils/mock';
 import { NewsFeedController } from './news-feed.controller';
 import { NewsFeedService } from './news-feed.service';
+import { TestingModule } from '@nestjs/testing';
 
 describe('NewsFeedController', () => {
   let controller: NewsFeedController;

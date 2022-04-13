@@ -1,4 +1,5 @@
 import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator';
+
 import { CreateBaseDto } from '../base/create-base.dto';
 
 export class CreateStockDto extends CreateBaseDto {

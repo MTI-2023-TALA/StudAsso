@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { BaseService } from '@stud-asso/backend/utils/base';
 import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
-import { Repository } from 'typeorm';
+
+import { BaseService } from '@stud-asso/backend/utils/base';
 import { Event } from './entities/event.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EventsService extends BaseService<Event, CreateEventDto, UpdateEventDto> {

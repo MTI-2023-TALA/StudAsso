@@ -1,7 +1,7 @@
-import { TestingModule } from '@nestjs/testing';
-import { AssociationsService } from './associations.service';
 import { Association } from './entities/association.entity';
+import { AssociationsService } from './associations.service';
 import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
+import { TestingModule } from '@nestjs/testing';
 
 describe('AssociationsService', () => {
   let service: AssociationsService;

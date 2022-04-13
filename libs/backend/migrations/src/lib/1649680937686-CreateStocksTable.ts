@@ -1,4 +1,5 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+
 import { dateDataColumnsWithId } from './base-migration/DefaultColumns';
 
 export class CreateStocksTable1649680937686 implements MigrationInterface {

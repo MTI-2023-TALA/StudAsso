@@ -1,6 +1,7 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
 import { Base } from '@stud-asso/backend/utils/base';
 import { NewsFeedDto } from '@stud-asso/shared/dtos';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('news_feed')
 export class NewsFeed extends Base {

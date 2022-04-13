@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'stud-asso-formly-checkbox',

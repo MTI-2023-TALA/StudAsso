@@ -1,4 +1,5 @@
 import { IsDateString, IsOptional, IsString } from 'class-validator';
+
 import { UpdateBaseDto } from '../base/update-base.dto';
 
 export class UpdateEventDto extends UpdateBaseDto {

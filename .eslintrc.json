@@ -15,10 +15,31 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "type:frontend",
+                "notDependOnLibsWithTags": ["type:backend"]
+              },
+              {
+                "sourceTag": "type:backend",
+                "notDependOnLibsWithTags": ["type:frontend"]
+              },
+              {
+                "sourceTag": "type:frontend-core",
+                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:shared"]
+              },
+              {
+                "sourceTag": "type:frontend-feature",
+                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:frontend-shared"]
+              },
+              {
+                "sourceTag": "type:frontend-shared",
+                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:shared", "type:frontend-shared"]
               }
             ]
           }
-        ]
+        ],
+        "sort-imports": ["error"]
       }
     },
     {

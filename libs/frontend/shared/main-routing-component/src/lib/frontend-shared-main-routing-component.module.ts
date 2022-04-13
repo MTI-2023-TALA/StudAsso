@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainRoutingComponent } from './main-routing/main-routing.component';
-import { RouterModule } from '@angular/router';
+import { FrontendSharedModalModule } from '@stud-asso/frontend-shared-modal';
 import { FrontendSharedNavbarModule } from '@stud-asso/frontend-shared-navbar';
 import { FrontendSharedToastModule } from '@stud-asso/frontend-shared-toast';
-import { FrontendSharedModalModule } from '@stud-asso/frontend-shared-modal';
+import { MainRoutingComponent } from './main-routing/main-routing.component';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
