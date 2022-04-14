@@ -1,0 +1,19 @@
+# This is a basic workflow to help you get started with Actions
+
+name: pr-name-check
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  pr-name-check:
+    name: Pull Request title rules
+    runs-on: 'ubuntu-20.04'
+    steps:
+      - uses: deepakputhraya/action-pr-title@v1.0.2
+        with:
+          regex: \[([Ff]ront(end)?|[Bb]ack(end)?|[Ss](hared|ystem))\](\([a-zA-Z- ]+\)|[a-zA-Z- ]+:) [a-zA-Z0-9- ]+[a-zA-Z0-9]
