@@ -1,94 +1,75 @@
+# Stud Asso
 
+// TODO: Add Logo
 
-# StudAsso
+![Issue](https://img.shields.io/github/issues/MTI-2023-TALA/StudAsso)
+![Stars](https://img.shields.io/github/stars/MTI-2023-TALA/StudAsso)
+![Licenses](https://img.shields.io/github/license/MTI-2023-TALA/StudAsso)
 
-This project was generated using [Nx](https://nx.dev).
+Since the health crisis, the associative life has had difficulty in relaunching itself and the multiplicity of the communication platforms makes the whole chaotic.
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+The Stud'Asso project aims to relaunch and simplify communication between associations and students. But also to simplify the management processes of associations, from recruitment to the publication of events, all customizable by the user.
 
-🔎 **Smart, Fast and Extensible Build System**
+Moreover, the application will simplify the exchanges between the associations and the administration in order to allow the latter to obtain a simple vision of all the associations through statistics.
 
-## Adding capabilities to your workspace
+## Instalation Guide
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+Required software to run this application :
+  - Node
+  - Npm
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+You can find the exact Node version in `.nvmrc`
 
-Below are our core plugins:
+We recomand having Nx globaly installed :
+```bash
+npm install -g nx
+```
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+Install the dependency :
+```bash
+npm ci
+```
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+Running the project :
+```bash
+nx serve backend # Port: 3333
+nx serve frontend-school # Port: 4200
+nx serve frontend-association # Port: 4201
+nx serve frontend-student
+```
 
-## Generate an application
+### PostgreSQL instalation
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+We are using PostgreSQL to manage our data.
+We recomand using docker to install it.
+```
+docker-compose -f docker-compose.yml up -d database
+```
 
-> You can use any of the plugins above to generate applications as well.
+Running the migration
+```bash
+npm run migration:run
+```
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+### Install the precommit
 
-## Generate a library
+It should be automaticly installed when running
+```
+npm ci
+```
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+## Running the linter
 
-> You can also use any of the plugins above to generate libraries as well.
+You can run the linter using
 
-Libraries are shareable across libraries and applications. They can be imported from `@stud-asso/mylib`.
+```
+nx affected:lint
+```
 
-## Development server
+## Running test
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+You can run the test using
 
-## Code scaffolding
-
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `nx e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+```
+nx affected:test
+```
