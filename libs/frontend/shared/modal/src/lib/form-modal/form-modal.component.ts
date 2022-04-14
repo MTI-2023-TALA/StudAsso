@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { BaseModalComponent } from '../base-modal/base-modal.component';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { UseStorageUnoptimized } from '@stud-asso/frontend-core-storage';
 
 @Component({
   selector: 'stud-asso-form-modal',
@@ -12,7 +11,7 @@ import { UseStorageUnoptimized } from '@stud-asso/frontend-core-storage';
 export class FormModalComponent extends BaseModalComponent implements OnInit {
   title: string;
   form = new FormGroup({});
-  @UseStorageUnoptimized('form:createAssociation') model = {};
+  model = {};
   fields: FormlyFieldConfig[] = [];
 
   constructor() {
