@@ -11,5 +11,5 @@
       }
     }
   },
-  "tags": ["type:backend"]
+  "tags": ["type:backend", "type:backend-core"]
 }
