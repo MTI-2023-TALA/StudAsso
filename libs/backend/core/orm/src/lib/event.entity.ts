@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Base } from '@stud-asso/backend-core-base';
+import { Base } from './base.entity';
 
 @Entity('events')
 export class Event extends Base {

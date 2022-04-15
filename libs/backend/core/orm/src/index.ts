@@ -6,3 +6,4 @@ export * from './lib/news-feed.entity';
 export * from './lib/role.entity';
 export * from './lib/stock.entity';
 export * from './lib/user.entity';
+export * from './lib/base.entity';

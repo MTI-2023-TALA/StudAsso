@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { AssociationsMember } from './association-member.entity';
-import { Base } from '@stud-asso/backend-core-base';
+import { Base } from './base.entity';
 import { Event } from './event.entity';
 import { NewsFeed } from './news-feed.entity';
 import { Role } from './role.entity';

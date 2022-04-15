@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-import { Base } from '@stud-asso/backend-core-base';
+import { Base } from './base.entity';
 
 @Entity('roles')
 @Unique(['name', 'associationId'])

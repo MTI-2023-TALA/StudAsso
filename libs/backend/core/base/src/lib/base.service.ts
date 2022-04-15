@@ -1,6 +1,6 @@
 import { Repository, UpdateResult } from 'typeorm';
 
-import { Base } from './entities/base.entity';
+import { Base } from '@stud-asso/backend/core/orm';
 import { IBaseService } from './ibase.service';
 import { Injectable } from '@nestjs/common';
 
