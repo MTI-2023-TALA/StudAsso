@@ -1,5 +1,5 @@
 import { Association } from './association.entity';
-import { AssociationsMember } from './associations-member.entity';
+import { AssociationsMember } from './association-member.entity';
 import { Event } from './event.entity';
 import { Module } from '@nestjs/common';
 import { NewsFeed } from './news-feed.entity';
