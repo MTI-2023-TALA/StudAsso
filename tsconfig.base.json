@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "strictPropertyInitialization": false,
     "paths": {
-      "@stud-asso/backend/migrations": ["libs/backend/migrations/src/index.ts"],
+      "@stud-asso/backend-core-migrations": ["libs/backend/core/migrations/src/index.ts"],
+      "@stud-asso/backend/core/orm": ["libs/backend/core/orm/src/index.ts"],
       "@stud-asso/backend/utils/base": ["libs/backend/utils/base/src/index.ts"],
       "@stud-asso/backend/utils/mock": ["libs/backend/utils/mock/src/index.ts"],
       "@stud-asso/frontend-core-api": ["libs/frontend/core/api/src/index.ts"],

@@ -6,8 +6,8 @@ module.exports = {
   password: 'password',
   database: 'studasso',
   entities: [__dirname + './**/*.entity{.ts,.js}'],
-  migrations: ['libs/backend/migrations/src/lib/*.ts'],
+  migrations: ['libs/backend/core/migrations/src/lib/*.ts'],
   cli: {
-    migrationsDir: 'libs/backend/migrations/src/lib',
+    migrationsDir: 'libs/backend/core/migrations/src/lib',
   },
 };

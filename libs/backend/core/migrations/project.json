@@ -1,13 +1,13 @@
 {
-  "root": "libs/backend/migrations",
-  "sourceRoot": "libs/backend/migrations/src",
+  "root": "libs/backend/core/migrations",
+  "sourceRoot": "libs/backend/core/migrations/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/backend/migrations/**/*.ts"]
+        "lintFilePatterns": ["libs/backend/core/migrations/**/*.ts"]
       }
     }
   },

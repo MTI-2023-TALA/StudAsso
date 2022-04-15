@@ -2,7 +2,8 @@
   "version": 2,
   "projects": {
     "backend": "apps/backend",
-    "backend-migrations": "libs/backend/migrations",
+    "backend-core-migrations": "libs/backend/core/migrations",
+    "backend-core-orm": "libs/backend/core/orm",
     "backend-utils-base": "libs/backend/utils/base",
     "backend-utils-mock": "libs/backend/utils/mock",
     "frontend-association": "apps/frontend/association",

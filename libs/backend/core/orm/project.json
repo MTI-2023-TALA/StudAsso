@@ -1,0 +1,22 @@
+{
+  "root": "libs/backend/core/orm",
+  "sourceRoot": "libs/backend/core/orm/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/backend/core/orm/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/core/orm"],
+      "options": {
+        "jestConfig": "libs/backend/core/orm/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
