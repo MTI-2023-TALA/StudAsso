@@ -1,0 +1,22 @@
+{
+  "root": "libs/backend/feature/stock",
+  "sourceRoot": "libs/backend/feature/stock/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/backend/feature/stock/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/feature/stock"],
+      "options": {
+        "jestConfig": "libs/backend/feature/stock/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

@@ -8,4 +8,4 @@ import { NewsFeedService } from './news-feed.service';
   controllers: [NewsFeedController],
   providers: [NewsFeedService],
 })
-export class NewsFeedModule {}
+export class BackendFeatureNewsFeedModule {}

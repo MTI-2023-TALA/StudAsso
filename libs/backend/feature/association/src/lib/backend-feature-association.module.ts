@@ -8,4 +8,4 @@ import { Module } from '@nestjs/common';
   controllers: [AssociationsController],
   providers: [AssociationsService],
 })
-export class AssociationsModule {}
+export class BackendFeatureAssociationModule {}

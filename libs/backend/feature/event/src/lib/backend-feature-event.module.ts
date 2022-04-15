@@ -8,4 +8,4 @@ import { Module } from '@nestjs/common';
   controllers: [EventsController],
   providers: [EventsService],
 })
-export class EventsModule {}
+export class BackendFeatureEventModule {}

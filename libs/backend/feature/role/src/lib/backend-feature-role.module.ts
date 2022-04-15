@@ -8,4 +8,4 @@ import { RolesService } from './roles.service';
   controllers: [RolesController],
   providers: [RolesService],
 })
-export class RolesModule {}
+export class BackendFeatureRoleModule {}

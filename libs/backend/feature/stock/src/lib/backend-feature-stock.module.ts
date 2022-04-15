@@ -8,4 +8,4 @@ import { StocksService } from './stocks.service';
   controllers: [StocksController],
   providers: [StocksService],
 })
-export class StocksModule {}
+export class BackendFeatureStockModule {}
