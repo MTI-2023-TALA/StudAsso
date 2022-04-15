@@ -1,18 +1,6 @@
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UnprocessableEntityException,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
 import { CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 import { QueryFailedError, UpdateResult } from 'typeorm';
-
 import { RolesService } from './roles.service';
 
 @Controller('roles')
@@ -35,7 +23,6 @@ export class RolesController {
   }
 
   @Get()
-  @UseInterceptors(ClassSerializerInterceptor)
   findAll(): Promise<RoleDto[]> {
     return this.rolesService.findAll();
   }

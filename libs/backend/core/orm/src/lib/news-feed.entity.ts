@@ -1,7 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Base } from '@stud-asso/backend/utils/base';
-import { NewsFeedDto } from '@stud-asso/shared/dtos';
+import { Base } from '@stud-asso/backend-core-base';
 
 @Entity('news_feed')
 export class NewsFeed extends Base {
@@ -16,9 +15,4 @@ export class NewsFeed extends Base {
 
   @Column({ type: 'text' })
   content: string;
-
-  constructor(dto?: NewsFeedDto) {
-    super();
-    if (dto) Object.assign(this, dto);
-  }
 }

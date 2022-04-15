@@ -1,8 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
-import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsMember } from './association-member.entity';
-import { Base } from '@stud-asso/backend/utils/base';
+import { Base } from '@stud-asso/backend-core-base';
 import { Event } from './event.entity';
 import { NewsFeed } from './news-feed.entity';
 import { Role } from './role.entity';
@@ -31,9 +30,4 @@ export class Association extends Base {
 
   @OneToMany(() => Event, (event) => event.id)
   events: Event[];
-
-  constructor(dto?: AssociationDto) {
-    super();
-    if (dto) Object.assign(this, dto);
-  }
 }

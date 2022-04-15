@@ -1,6 +1,6 @@
 import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 
-import { BaseService } from '@stud-asso/backend/utils/base';
+import { BaseService } from '@stud-asso/backend-core-base';
 import { Event } from '@stud-asso/backend/core/orm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';

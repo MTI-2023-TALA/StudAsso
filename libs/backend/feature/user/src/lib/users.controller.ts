@@ -1,14 +1,4 @@
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
 import { UpdateResult } from 'typeorm';
 import { UsersService } from './users.service';
@@ -23,13 +13,11 @@ export class UsersController {
   }
 
   @Get()
-  @UseInterceptors(ClassSerializerInterceptor)
   findAll(): Promise<UserDto[]> {
     return this.usersService.findAll();
   }
 
   @Get(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
   findOne(@Param('id') id: string): Promise<UserDto> {
     return this.usersService.findOne(+id);
   }

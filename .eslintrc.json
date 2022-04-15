@@ -35,6 +35,18 @@
               {
                 "sourceTag": "type:frontend-shared",
                 "onlyDependOnLibsWithTags": ["type:frontend-core", "type:shared", "type:frontend-shared"]
+              },
+              {
+                "sourceTag": "type:backend-core",
+                "onlyDependOnLibsWithTags": ["type:backend-core"]
+              },
+              {
+                "sourceTag": "type:backend-feature",
+                "onlyDependOnLibsWithTags": ["type:backend-core", "type:backend-utils", "type:shared"]
+              },
+              {
+                "sourceTag": "type:backend-utils",
+                "onlyDependOnLibsWithTags": ["type:backend-utils", "type:backend-core"]
               }
             ]
           }

@@ -1,7 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-import { Base } from '@stud-asso/backend/utils/base';
-import { EventDto } from '@stud-asso/shared/dtos';
+import { Base } from '@stud-asso/backend-core-base';
 
 @Entity('events')
 export class Event extends Base {
@@ -19,9 +18,4 @@ export class Event extends Base {
 
   @Column({ type: 'int', name: 'association_id' })
   associationId: number;
-
-  constructor(dto?: EventDto) {
-    super();
-    if (dto) Object.assign(this, dto);
-  }
 }

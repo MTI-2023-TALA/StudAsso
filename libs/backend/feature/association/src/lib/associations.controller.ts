@@ -1,16 +1,5 @@
 import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UnprocessableEntityException,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
 import { QueryFailedError, UpdateResult } from 'typeorm';
 import { AssociationsService } from './associations.service';
 
@@ -34,13 +23,11 @@ export class AssociationsController {
   }
 
   @Get()
-  @UseInterceptors(ClassSerializerInterceptor)
   findAll(): Promise<AssociationDto[]> {
     return this.associationsService.findAll();
   }
 
   @Get(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
   findOne(@Param('id') id: string): Promise<AssociationDto> {
     return this.associationsService.findOne(+id);
   }

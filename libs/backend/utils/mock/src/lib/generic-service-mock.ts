@@ -1,4 +1,4 @@
-import { Base } from '@stud-asso/backend/utils/base';
+import { Base } from '@stud-asso/backend-core-base';
 import { Test } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 

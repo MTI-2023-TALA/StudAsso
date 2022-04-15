@@ -1,15 +1,4 @@
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseInterceptors,
-} from '@nestjs/common';
-
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { EventsService } from './events.service';
 import { UpdateResult } from 'typeorm';
@@ -24,13 +13,11 @@ export class EventsController {
   }
 
   @Get()
-  @UseInterceptors(ClassSerializerInterceptor)
   findAll(): Promise<EventDto[]> {
     return this.eventsService.findAll();
   }
 
   @Get(':id')
-  @UseInterceptors(ClassSerializerInterceptor)
   findOne(@Param('id') id: string): Promise<EventDto> {
     return this.eventsService.findOne(+id);
   }
