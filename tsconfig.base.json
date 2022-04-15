@@ -43,6 +43,7 @@
       ],
       "@stud-asso/frontend/shared/login-page": ["libs/frontend/shared/login-page/src/index.ts"],
       "@stud-asso/frontend/testing/common-mock": ["libs/frontend/testing/common-mock/src/index.ts"],
+      "@stud-asso/frontend/shared/tooltip": ["libs/frontend/shared/tooltip/src/index.ts"],
       "@stud-asso/shared/dtos": ["libs/shared/dtos/src/index.ts"]
     }
   },

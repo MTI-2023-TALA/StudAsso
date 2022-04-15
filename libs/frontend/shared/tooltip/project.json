@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/shared/tooltip",
+  "sourceRoot": "libs/frontend/shared/tooltip/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/shared/tooltip"],
+      "options": {
+        "jestConfig": "libs/frontend/shared/tooltip/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/frontend/shared/tooltip/src/**/*.ts", "libs/frontend/shared/tooltip/src/**/*.html"]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-shared"]
+}
