@@ -1,5 +1,5 @@
 import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
-import { Role } from './entities/role.entity';
+import { Role } from '@stud-asso/backend/core/orm';
 import { RolesService } from './roles.service';
 import { TestingModule } from '@nestjs/testing';
 

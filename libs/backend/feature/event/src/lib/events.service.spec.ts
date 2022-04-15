@@ -1,5 +1,5 @@
 import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
-import { Event } from './entities/event.entity';
+import { Event } from '@stud-asso/backend/core/orm';
 import { EventsService } from './events.service';
 import { TestingModule } from '@nestjs/testing';
 
