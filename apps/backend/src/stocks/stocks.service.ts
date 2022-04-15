@@ -4,7 +4,7 @@ import { BaseService } from '@stud-asso/backend/utils/base';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Stock } from './entities/stock.entity';
+import { Stock } from '@stud-asso/backend/core/orm';
 
 @Injectable()
 export class StocksService extends BaseService<Stock, CreateStockDto, UpdateStockDto> {

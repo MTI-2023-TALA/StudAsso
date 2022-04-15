@@ -4,7 +4,7 @@ import { BaseService } from '@stud-asso/backend/utils/base';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Role } from './entities/role.entity';
+import { Role } from '@stud-asso/backend/core/orm';
 
 @Injectable()
 export class RolesService extends BaseService<Role, CreateRoleDto, UpdateRoleDto> {

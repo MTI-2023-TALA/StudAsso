@@ -4,7 +4,7 @@ import { BaseService } from '@stud-asso/backend/utils/base';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { User } from './entities/user.entity';
+import { User } from '@stud-asso/backend/core/orm';
 
 @Injectable()
 export class UsersService extends BaseService<User, CreateUserDto, UpdateUserDto> {

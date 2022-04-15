@@ -1,12 +1,12 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { AssociationDto } from '@stud-asso/shared/dtos';
-import { AssociationsMember } from '../../associations-members/entities/associations-member.entity';
+import { AssociationsMember } from './associations-member.entity';
 import { Base } from '@stud-asso/backend/utils/base';
-import { Event } from '../../events/entities/event.entity';
-import { NewsFeed } from '../../news-feed/entities/news-feed.entity';
-import { Role } from '../../roles/entities/role.entity';
-import { Stock } from '../../stocks/entities/stock.entity';
+import { Event } from './event.entity';
+import { NewsFeed } from './news-feed.entity';
+import { Role } from './role.entity';
+import { Stock } from './stock.entity';
 
 @Entity('associations')
 @Unique(['name'])

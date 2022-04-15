@@ -3,7 +3,7 @@ import { CreateNewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
 import { BaseService } from '@stud-asso/backend/utils/base';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { NewsFeed } from './entities/news-feed.entity';
+import { NewsFeed } from '@stud-asso/backend/core/orm';
 import { Repository } from 'typeorm';
 
 @Injectable()

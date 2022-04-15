@@ -1,11 +1,10 @@
+import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
 import { Module } from '@nestjs/common';
-import { NewsFeed } from './entities/news-feed.entity';
 import { NewsFeedController } from './news-feed.controller';
 import { NewsFeedService } from './news-feed.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([NewsFeed])],
+  imports: [BackendCoreOrmModule],
   controllers: [NewsFeedController],
   providers: [NewsFeedService],
 })
