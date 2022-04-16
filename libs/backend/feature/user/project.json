@@ -1,0 +1,22 @@
+{
+  "root": "libs/backend/feature/user",
+  "sourceRoot": "libs/backend/feature/user/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/backend/feature/user/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/feature/user"],
+      "options": {
+        "jestConfig": "libs/backend/feature/user/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["type:backend", "type:backend-feature"]
+}

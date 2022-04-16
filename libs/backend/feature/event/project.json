@@ -1,0 +1,22 @@
+{
+  "root": "libs/backend/feature/event",
+  "sourceRoot": "libs/backend/feature/event/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/backend/feature/event/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/feature/event"],
+      "options": {
+        "jestConfig": "libs/backend/feature/event/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["type:backend", "type:backend-feature"]
+}

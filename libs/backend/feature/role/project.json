@@ -1,0 +1,22 @@
+{
+  "root": "libs/backend/feature/role",
+  "sourceRoot": "libs/backend/feature/role/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/backend/feature/role/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/feature/role"],
+      "options": {
+        "jestConfig": "libs/backend/feature/role/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": ["type:backend", "type:backend-feature"]
+}
