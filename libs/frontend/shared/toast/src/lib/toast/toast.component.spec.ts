@@ -60,11 +60,11 @@ describe('ToastComponent', () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  it('should have a class toast-error when creating a toast with ToastType.Error', () => {
-    expect(de.query(By.css('.toast-error'))).toBeTruthy();
-  });
-
   describe('Html elements', () => {
+    it('should have a class toast-error when creating a toast with ToastType.Error', () => {
+      expect(de.query(By.css('.toast-error'))).toBeTruthy();
+    });
+
     it('should have a class toast-success when creating a toast with ToastType.Success', () => {
       component.data.type = ToastType.Success;
       fixture.detectChanges();
