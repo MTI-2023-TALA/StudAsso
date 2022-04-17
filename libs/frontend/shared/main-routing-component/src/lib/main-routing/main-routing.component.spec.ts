@@ -1,35 +1,37 @@
-import { ActivatedRoute, Data } from '@angular/router';
-import { ModalDirective, ModalService } from '@stud-asso/frontend-shared-modal';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { ActivatedRoute } from '@angular/router';
+import { DebugElement } from '@angular/core';
 import { MainRoutingComponent } from './main-routing.component';
-import { Observable } from 'rxjs';
-import { ToastService } from '@stud-asso/frontend-shared-toast';
-import { ViewContainerRef } from '@angular/core';
-import { spyOn } from 'jest-mock';
+import { ModalDirective } from '@stud-asso/frontend-shared-modal';
+import { ToastDirective } from '@stud-asso/frontend-shared-toast';
+import { of } from 'rxjs';
 
 describe('MainRoutingComponent', () => {
-  let fixture: MainRoutingComponent;
-  let activatedRouteMock: ActivatedRoute;
-  let toastServiceMock: ToastService;
-  let modalServiceMock: ModalService;
+  let component: MainRoutingComponent;
+  let fixture: ComponentFixture<MainRoutingComponent>;
+  const route = { data: of({ title: 'MainRoutingComponent' }) } as any as ActivatedRoute;
 
   beforeEach(() => {
-    activatedRouteMock = new ActivatedRoute();
-    toastServiceMock = new ToastService();
-    modalServiceMock = new ModalService();
-    fixture = new MainRoutingComponent(activatedRouteMock, toastServiceMock, modalServiceMock);
+    TestBed.configureTestingModule({
+      declarations: [MainRoutingComponent, ModalDirective, ToastDirective],
+      providers: [{ provide: ActivatedRoute, useValue: route }],
+    }).compileComponents();
   });
 
-  describe('Setup component', () => {
-    it('Should compile', () => {
-      expect(fixture).toBeTruthy();
-    });
+  beforeEach(() => {
+    fixture = TestBed.createComponent(MainRoutingComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    it('Should setup the component when calling ngOnInit', () => {
-      activatedRouteMock.data = new Observable<Data>();
-      fixture.ngOnInit();
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
-      expect(fixture.modalDirective.viewContainerRef).toBeTruthy();
-    });
+  it('should have a title when calling ngOnInit', () => {
+    component.ngOnInit();
+
+    expect(component.title).toBe('MainRoutingComponent');
   });
 });
