@@ -2,15 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ComponentRef, DebugElement } from '@angular/core';
 
 import { By } from '@angular/platform-browser';
+import { ComponentRefMock } from '@stud-asso/frontend/testing/common-mock';
 import { ToastComponent } from './toast.component';
 import { ToastType } from './toast.model';
 import { spyOn } from 'jest-mock';
-
-class ComponentRefMock {
-  destroy() {
-    return;
-  }
-}
 
 describe('ToastComponent', () => {
   let component: ToastComponent;

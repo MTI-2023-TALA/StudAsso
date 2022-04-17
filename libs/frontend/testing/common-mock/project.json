@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/testing/common-mock",
+  "sourceRoot": "libs/frontend/testing/common-mock/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/testing/common-mock"],
+      "options": {
+        "jestConfig": "libs/frontend/testing/common-mock/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/testing/common-mock/src/**/*.ts",
+          "libs/frontend/testing/common-mock/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-testing"]
+}

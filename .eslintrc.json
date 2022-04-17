@@ -26,15 +26,15 @@
               },
               {
                 "sourceTag": "type:frontend-core",
-                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:shared"]
+                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:shared", "type:frontend-testing"]
               },
               {
                 "sourceTag": "type:frontend-feature",
-                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:frontend-shared"]
+                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:frontend-shared", "type:frontend-testing"]
               },
               {
                 "sourceTag": "type:frontend-shared",
-                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:shared", "type:frontend-shared"]
+                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:shared", "type:frontend-shared", "type:frontend-testing"]
               },
               {
                 "sourceTag": "type:backend-core",
