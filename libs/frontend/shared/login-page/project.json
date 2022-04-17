@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/shared/login-page",
+  "sourceRoot": "libs/frontend/shared/login-page/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/shared/login-page"],
+      "options": {
+        "jestConfig": "libs/frontend/shared/login-page/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/shared/login-page/src/**/*.ts",
+          "libs/frontend/shared/login-page/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

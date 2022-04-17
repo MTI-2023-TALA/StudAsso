@@ -41,6 +41,7 @@
       "@stud-asso/frontend/feature/school/association-page": [
         "libs/frontend/feature/school/association-page/src/index.ts"
       ],
+      "@stud-asso/frontend/shared/login-page": ["libs/frontend/shared/login-page/src/index.ts"],
       "@stud-asso/shared/dtos": ["libs/shared/dtos/src/index.ts"]
     }
   },
