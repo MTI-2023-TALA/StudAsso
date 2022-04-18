@@ -1,21 +1,9 @@
 <div *ngFor="let config of tableConfiguration.columns" class="flex-size-{{ config.size }}">
-  {{ data[config.dataProperty] }}
+  <!-- <p>{{ data[config.dataProperty] }}</p> -->
+  <stud-asso-table-data-view [columnConfiguration]="config" [data]="data"></stud-asso-table-data-view>
 </div>
-<div class="dropdown is-right" [class.is-active]="dropdownIsActive">
-  <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" (click)="toggleDropdown()">
-      <i class="bi bi-list"></i>
-    </button>
-  </div>
-  <div class="dropdown-menu" id="dropdown-menu" role="menu">
-    <div class="dropdown-content">
-      <div
-        *ngFor="let action of tableConfiguration.actions"
-        class="dropdown-item"
-        (click)="sendActionEvent(action.action, data[action.dataProperty])"
-      >
-        {{ action.label }}
-      </div>
-    </div>
-  </div>
-</div>
+<stud-asso-table-dropdown
+  [data]="data"
+  [tableConfiguration]="tableConfiguration"
+  (actionEvent)="sendActionEvent($event)"
+></stud-asso-table-dropdown>
