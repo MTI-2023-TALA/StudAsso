@@ -1,7 +1,10 @@
+import { TableTextComponent } from '../table-text/table-text.component';
+
 export interface ColumnTableConfiguration {
   title: string;
   size: number;
-  dataProperty: string;
+  dataProperty?: string;
+  dataViewComponent?: typeof TableTextComponent;
 }
 
 export interface ActionTableConfiguration {

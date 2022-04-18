@@ -1,0 +1,9 @@
+@import 'base/variables';
+
+.dropdown-item {
+  cursor: pointer;
+
+  &:hover {
+    background-color: $light-grey-400;
+  }
+}
