@@ -4,13 +4,12 @@
   display: flex;
   padding: 1rem;
   width: 100%;
-  background-color: $light-grey-200;
-  border-radius: 0.5rem;
   align-items: stretch;
+  border: 1px solid $light-grey-400;
 }
 
 .table-header-item {
-  color: $light-grey-900;
   font-family: $font-family-sans-serif;
+  font-weight: bold;
   padding: 0 1rem 0 0;
 }

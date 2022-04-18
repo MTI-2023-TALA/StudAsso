@@ -1,0 +1,25 @@
+.s-modal {
+  align-items: center;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  position: fixed;
+  z-index: 40;
+
+  &.is-active {
+    display: flex;
+  }
+}
+
+.s-modal-background {
+  background-color: rgb(10 10 10 / 86%);
+}
+
+.s-modal-card {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 40px);
+  overflow: hidden;
+  position: relative;
+}
