@@ -5,7 +5,7 @@
     <span *ngIf="shouldShowLargeNavbar">Stud'Asso</span>
   </h1>
 
-  <div class="center" studAssoTooltip="Test de tooltip">
+  <div class="center" [studAssoTooltip]="'Test'">
     <button class="button" (click)="toggleShowLargeNavbar()">
       <i *ngIf="shouldShowLargeNavbar" class="bi bi-arrow-left-square"></i>
       <i *ngIf="!shouldShowLargeNavbar" class="bi bi-arrow-right-square"></i>
