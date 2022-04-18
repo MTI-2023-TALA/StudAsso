@@ -1,6 +1,11 @@
+@import 'base/variables';
+
 :host {
-  padding: 1rem;
+  padding: 0.25rem 1rem;
   width: 100%;
   display: flex;
   align-items: stretch;
+  border-bottom: 1px solid $light-grey-400;
+  border-left: 1px solid $light-grey-400;
+  border-right: 1px solid $light-grey-400;
 }

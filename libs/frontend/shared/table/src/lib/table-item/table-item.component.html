@@ -1,4 +1,4 @@
-<div *ngFor="let config of tableConfiguration.columns" class="flex-size-{{ config.size }}">
+<div *ngFor="let config of tableConfiguration.columns" class="table-item flex-size-{{ config.size }}">
   <!-- <p>{{ data[config.dataProperty] }}</p> -->
   <stud-asso-table-data-view [columnConfiguration]="config" [data]="data"></stud-asso-table-data-view>
 </div>
