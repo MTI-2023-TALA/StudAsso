@@ -6,34 +6,34 @@
 ![Stars](https://img.shields.io/github/stars/MTI-2023-TALA/StudAsso)
 ![Licenses](https://img.shields.io/github/license/MTI-2023-TALA/StudAsso)
 
-Since the health crisis, the associative life has had difficulty in relaunching itself and the multiplicity of the communication platforms makes the whole chaotic.
+Since the health crisis, the associative life has difficulties relaunching itself and the multiplicity of communication platforms makes the whole chaotic.
 
 The Stud'Asso project aims to relaunch and simplify communication between associations and students. But also to simplify the management processes of associations, from recruitment to the publication of events, all customizable by the user.
 
-Moreover, the application will simplify the exchanges between the associations and the administration in order to allow the latter to obtain a simple vision of all the associations through statistics.
+Moreover, the application will simplify the exchanges between associations and school's administration in order to allow the latter to obtain a simple vision of all the associations through statistics.
 
-## Instalation Guide
+## Installation Guide
 
-Required software to run this application :
+Required softwares to run the application:
 
 - Node
 - Npm
 
 You can find the exact Node version in `.nvmrc`
 
-We recomand having Nx globaly installed :
+We recommend having Nx globaly installed:
 
 ```bash
 npm install -g nx
 ```
 
-Install the dependency :
+Install the dependencies:
 
 ```bash
 npm ci
 ```
 
-Running the project :
+Running the project:
 
 ```bash
 nx serve backend # Port: 3333
@@ -42,10 +42,10 @@ nx serve frontend-association # Port: 4201
 nx serve frontend-student
 ```
 
-### PostgreSQL instalation
+### PostgreSQL installation
 
 We are using PostgreSQL to manage our data.
-We recomand using docker to install it.
+We recommend using docker to install it.
 
 ```
 docker-compose -f docker-compose.yml up -d database
@@ -71,7 +71,7 @@ npm run migration:revert
 
 ### Install the precommit
 
-It should be automaticaly installed when running
+It should be automatically installed when running:
 
 ```
 npm ci
@@ -79,7 +79,7 @@ npm ci
 
 ## Running the linter
 
-You can run the linter using
+You can run the linter using:
 
 ```
 nx affected:lint
@@ -87,7 +87,7 @@ nx affected:lint
 
 ## Running test
 
-You can run the test using
+You can run the test using:
 
 ```
 nx affected:test
@@ -97,5 +97,6 @@ nx affected:test
 
 When creating a new ressource:
 
-- add dtos to shared/dtos/src/lib, and export them in shared/dtos/index.ts
-- 
+- add dtos to libs/shared/dtos/src/lib, and export them in libs/shared/dtos/src/index.ts
+- add entities to libs/backend/core/orm/src/lib and export them in libs/backend/core/orm/src/index.ts
+- add feature to libs/backend/feature/
