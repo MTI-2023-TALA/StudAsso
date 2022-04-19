@@ -15,22 +15,26 @@ Moreover, the application will simplify the exchanges between the associations a
 ## Instalation Guide
 
 Required software to run this application :
-  - Node
-  - Npm
+
+- Node
+- Npm
 
 You can find the exact Node version in `.nvmrc`
 
 We recomand having Nx globaly installed :
+
 ```bash
 npm install -g nx
 ```
 
 Install the dependency :
+
 ```bash
 npm ci
 ```
 
 Running the project :
+
 ```bash
 nx serve backend # Port: 3333
 nx serve frontend-school # Port: 4200
@@ -42,18 +46,33 @@ nx serve frontend-student
 
 We are using PostgreSQL to manage our data.
 We recomand using docker to install it.
+
 ```
 docker-compose -f docker-compose.yml up -d database
 ```
 
-Running the migration
+### Creating a migration
+
+```bash
+npm run migration:create -- -n migration_name
+```
+
+### Running migrations
+
 ```bash
 npm run migration:run
 ```
 
+### Revert migration
+
+```bash
+npm run migration:revert
+```
+
 ### Install the precommit
 
-It should be automaticly installed when running
+It should be automaticaly installed when running
+
 ```
 npm ci
 ```
@@ -73,3 +92,10 @@ You can run the test using
 ```
 nx affected:test
 ```
+
+## How to add a new feature in backend
+
+When creating a new ressource:
+
+- add dtos to shared/dtos/src/lib, and export them in shared/dtos/index.ts
+- 
