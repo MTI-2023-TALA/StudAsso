@@ -6,6 +6,7 @@ import { Directive, ElementRef, HostListener, Input, OnDestroy } from '@angular/
 export class TooltipDirective implements OnDestroy {
   @Input() studAssoTooltip = '';
   @Input() delay? = 190;
+  @Input() placement?: string;
 
   private popup: HTMLDivElement;
   private timer: NodeJS.Timeout;
@@ -18,13 +19,42 @@ export class TooltipDirective implements OnDestroy {
 
   @HostListener('mouseenter') onMouseEnter() {
     this.timer = setTimeout(() => {
-      const x = this.el.nativeElement.getBoundingClientRect().left + this.el.nativeElement.offsetWidth / 2; // Get the middle of the element
-      const y = this.el.nativeElement.getBoundingClientRect().top + this.el.nativeElement.offsetHeight + 6; // Get the bottom of the element, plus a little extra
+      let x = 0;
+      let y = 0;
+      switch (this.placement) {
+        case 'top': {
+          x = this.el.nativeElement.getBoundingClientRect().left + this.el.nativeElement.offsetWidth / 2;
+          y = this.el.nativeElement.getBoundingClientRect().top - this.el.nativeElement.offsetHeight + 6;
+          break;
+        }
+        case 'left': {
+          x = this.el.nativeElement.getBoundingClientRect().left - 6;
+          y = this.el.nativeElement.getBoundingClientRect().top + this.el.nativeElement.offsetHeight / 2;
+          break;
+        }
+        case 'right': {
+          x = this.el.nativeElement.getBoundingClientRect().left + this.el.nativeElement.offsetWidth + 6;
+          y = this.el.nativeElement.getBoundingClientRect().top + this.el.nativeElement.offsetHeight / 2;
+          break;
+        }
+        default: {
+          x = this.el.nativeElement.getBoundingClientRect().left + this.el.nativeElement.offsetWidth / 2;
+          y = this.el.nativeElement.getBoundingClientRect().top + this.el.nativeElement.offsetHeight + 6;
+        }
+      }
+
       this.createTooltipPopup(x, y);
     }, this.delay);
   }
 
   @HostListener('mouseleave') onMouseLeave() {
+    if (this.timer) clearTimeout(this.timer);
+    if (this.popup) {
+      this.popup.remove();
+    }
+  }
+
+  @HostListener('click') onClick() {
     if (this.timer) clearTimeout(this.timer);
     if (this.popup) {
       this.popup.remove();
@@ -39,5 +69,9 @@ export class TooltipDirective implements OnDestroy {
     popup.style.left = x.toString() + 'px';
     document.body.appendChild(popup);
     this.popup = popup;
+    if (this.placement == 'left' || this.placement == 'right') {
+      y -= popup.clientHeight / 2;
+      popup.style.top = y.toString() + 'px';
+    }
   }
 }
