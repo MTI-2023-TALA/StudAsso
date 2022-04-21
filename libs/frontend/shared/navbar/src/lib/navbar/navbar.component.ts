@@ -7,7 +7,6 @@ import { TooltipDirective } from '@stud-asso/frontend/shared/tooltip';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  viewProviders: [TooltipDirective],
 })
 export class NavbarComponent {
   @Input() title = '';

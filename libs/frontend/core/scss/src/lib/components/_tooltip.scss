@@ -3,16 +3,16 @@
   z-index: 100;
   position: fixed;
   padding: 6px 12px;
-  font-size: 0.66rem;
+  font-size: 0.75rem;
   font-weight: 600;
-  line-height: initial;
   color: white;
   width: auto;
+  max-width: 150px;
   background: #111111ee;
   box-sizing: border-box;
   opacity: 0;
   transform: translate(-50%, -30%);
-  animation: tooltip-slide 0.18s ease-out 0.5s;
+  animation: tooltip-slide 0.09s ease-out 0.5s;
   animation-fill-mode: forwards;
   pointer-events: none;
 }
