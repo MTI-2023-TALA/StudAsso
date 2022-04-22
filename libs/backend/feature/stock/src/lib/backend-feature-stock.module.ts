@@ -1,10 +1,10 @@
-import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
+import { BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
 import { Module } from '@nestjs/common';
 import { StocksController } from './stocks.controller';
 import { StocksService } from './stocks.service';
 
 @Module({
-  imports: [BackendCoreOrmModule],
+  imports: [BackendCoreRepositoryModule],
   controllers: [StocksController],
   providers: [StocksService],
 })

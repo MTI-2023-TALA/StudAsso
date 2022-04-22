@@ -1,22 +1,21 @@
-import { Repository, UpdateResult } from 'typeorm';
-
 import { Base } from '@stud-asso/backend/core/orm';
+import { BaseRepository } from '@stud-asso/backend/core/repository';
 import { IBaseService } from './ibase.service';
 import { Injectable } from '@nestjs/common';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export abstract class BaseService<Entity extends Base, CreateDto, UpdateDto>
   implements IBaseService<Entity, CreateDto, UpdateDto>
 {
-  constructor(private readonly baseRepository: Repository<Entity>) {}
+  constructor(private readonly baseRepository: BaseRepository<Entity, CreateDto, UpdateDto>) {}
 
   public async create(createBaseDto: CreateDto): Promise<any> {
-    // TODO: Change type once we can upgrade @nestjs/typeorm
-    return this.baseRepository.save(createBaseDto as any);
+    return this.baseRepository.create(createBaseDto as any);
   }
 
   public async findAll(): Promise<Entity[]> {
-    return this.baseRepository.find();
+    return this.baseRepository.findAll();
   }
 
   public async findOne(id: number): Promise<Entity> {
@@ -28,6 +27,6 @@ export abstract class BaseService<Entity extends Base, CreateDto, UpdateDto>
   }
 
   public async remove(id: number): Promise<UpdateResult> {
-    return this.baseRepository.softDelete(id);
+    return this.baseRepository.remove(id);
   }
 }

@@ -5,6 +5,7 @@
     "backend-core-base": "libs/backend/core/base",
     "backend-core-migrations": "libs/backend/core/migrations",
     "backend-core-orm": "libs/backend/core/orm",
+    "backend-core-repository": "libs/backend/core/repository",
     "backend-feature-association": "libs/backend/feature/association",
     "backend-feature-event": "libs/backend/feature/event",
     "backend-feature-news-feed": "libs/backend/feature/news-feed",

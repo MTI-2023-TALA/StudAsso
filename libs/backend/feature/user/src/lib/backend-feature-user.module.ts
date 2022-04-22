@@ -1,10 +1,10 @@
-import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
+import { BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
 import { Module } from '@nestjs/common';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 
 @Module({
-  imports: [BackendCoreOrmModule],
+  imports: [BackendCoreRepositoryModule],
   controllers: [UsersController],
   providers: [UsersService],
 })
