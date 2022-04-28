@@ -5,11 +5,7 @@
     <span *ngIf="shouldShowLargeNavbar">Stud'Asso</span>
   </h1>
 
-  <div
-    class="center"
-    [studAssoTooltip]="'Ceci est un tooltip mille fois trop long, personne ne devrait jamais faire ça'"
-    placement="bottom"
-  >
+  <div class="center" [studAssoTooltip]="'Ceci est un tooltip'" placement="top">
     <button class="button" (click)="toggleShowLargeNavbar()">
       <i *ngIf="shouldShowLargeNavbar" class="bi bi-arrow-left-square"></i>
       <i *ngIf="!shouldShowLargeNavbar" class="bi bi-arrow-right-square"></i>
