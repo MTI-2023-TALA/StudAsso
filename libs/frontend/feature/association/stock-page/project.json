@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/feature/association/stock-page",
+  "sourceRoot": "libs/frontend/feature/association/stock-page/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/feature/association/stock-page"],
+      "options": {
+        "jestConfig": "libs/frontend/feature/association/stock-page/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/feature/association/stock-page/src/**/*.ts",
+          "libs/frontend/feature/association/stock-page/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-feature"]
+}

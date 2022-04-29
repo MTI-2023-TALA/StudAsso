@@ -6,10 +6,12 @@ import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-co
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NgModule } from '@angular/core';
 import { RolePageComponent } from '@stud-asso/frontend/feature/association/role-page';
+import { StockPageComponent } from '@stud-asso/frontend/feature/association/stock-page';
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
   { title: 'Rôles', icon: 'person-plus', url: '/roles' },
+  { title: 'Stocks', icon: 'cart', url: '/stock' },
 ];
 
 const routes: Routes = [
@@ -28,6 +30,10 @@ const routes: Routes = [
       {
         path: 'roles',
         component: RolePageComponent,
+      },
+      {
+        path: 'stock',
+        component: StockPageComponent,
       },
     ],
   },
