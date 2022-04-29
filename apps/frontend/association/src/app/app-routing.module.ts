@@ -5,8 +5,12 @@ import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NgModule } from '@angular/core';
+import { RolePageComponent } from '@stud-asso/frontend/feature/association/role-page';
 
-const mainRouteConfig: NavbarItem[] = [{ title: 'Tableau de bord', icon: 'columns-gap', url: '/' }];
+const mainRouteConfig: NavbarItem[] = [
+  { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
+  { title: 'Rôles', icon: 'person-plus', url: '/roles' },
+];
 
 const routes: Routes = [
   {
@@ -20,6 +24,12 @@ const routes: Routes = [
     component: MainRoutingComponent,
     data: { title: 'Portail Association', navbarItems: mainRouteConfig },
     canActivate: [IsSignGuard],
+    children: [
+      {
+        path: 'roles',
+        component: RolePageComponent,
+      },
+    ],
   },
 ];
 
