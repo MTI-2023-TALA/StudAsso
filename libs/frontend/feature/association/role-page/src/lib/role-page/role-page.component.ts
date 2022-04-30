@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
+import { ApiRoleService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createRoleFormly } from './role-page.formly';
@@ -40,14 +41,16 @@ export class RolePageComponent implements OnInit {
 
   roleList: any[] = [];
 
-  constructor(private modal: ModalService, private toast: ToastService) {}
+  constructor(private api: ApiRoleService, private modal: ModalService, private toast: ToastService) {}
 
   ngOnInit() {
     this.reloadData();
   }
 
   reloadData() {
-    console.log('todo');
+    this.api.findAll().subscribe((roles: any) => {
+      this.roleList = roles;
+    });
   }
 
   handleError() {
@@ -69,7 +72,7 @@ export class RolePageComponent implements OnInit {
     this.modal.createForm({
       title: 'Créer un nouveau rôle',
       fields: createRoleFormly,
-      //submit: this.createRole(),
+      submit: this.createRole(),
     });
   }
 
@@ -77,19 +80,38 @@ export class RolePageComponent implements OnInit {
     this.modal.createForm({
       title: 'Modifier un rôle',
       fields: createRoleFormly,
-      //submit: this.modifyRole(id),
+      submit: this.modifyRole(id),
     });
   }
 
   createRole() {
-    console.log('Todo');
+    return (model: any) => {
+      const tmp = { associationId: 1 };
+      model = Object.assign(model, tmp);
+      console.log(model);
+      this.api.create(model).subscribe({
+        complete: () => {
+          this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });
+          this.reloadData();
+        },
+        error: this.handleError(),
+      });
+    };
   }
 
   deleteRole(id: number) {
-    console.log('Todo');
+    this.api.remove(id).subscribe({ complete: () => this.reloadData() });
   }
 
   modifyRole(id: number) {
-    console.log('Todo');
+    return (model: any) => {
+      this.api.update(id, model).subscribe({
+        complete: () => {
+          this.toast.addAlert({ title: `Nom du rôle modifié`, type: ToastType.Success });
+          this.reloadData();
+        },
+        error: this.handleError(),
+      });
+    };
   }
 }
