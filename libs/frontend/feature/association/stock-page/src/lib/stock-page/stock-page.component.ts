@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
+import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createStockFormly } from './stock-page.formly';
@@ -40,10 +41,10 @@ export class StockPageComponent implements OnInit {
 
   stockList: any[] = [];
 
-  constructor(private modal: ModalService, private toast: ToastService) {}
+  constructor(private api: ApiStockService, private modal: ModalService, private toast: ToastService) {}
 
   ngOnInit(): void {
-    console.log('Rajouter le reload data');
+    this.reloadData();
   }
 
   handleError() {
@@ -61,11 +62,17 @@ export class StockPageComponent implements OnInit {
     }
   }
 
+  reloadData() {
+    this.api.findAll().subscribe((stocks: any) => {
+      this.stockList = stocks;
+    });
+  }
+
   createModalStock() {
     this.modal.createForm({
       title: 'Créer un stock',
       fields: createStockFormly,
-      //submit: this.createStock(),
+      submit: this.createStock(),
     });
   }
 
@@ -73,19 +80,35 @@ export class StockPageComponent implements OnInit {
     this.modal.createForm({
       title: 'Modifier un stock',
       fields: createStockFormly,
-      //submit: this.modifyStock(id),
+      submit: this.modifyStock(id),
     });
   }
 
   createStock() {
-    console.log('Todo');
+    return (model: any) => {
+      this.api.create(model).subscribe({
+        complete: () => {
+          this.toast.addAlert({ title: 'Stock créé', type: ToastType.Success });
+          this.reloadData();
+        },
+        error: this.handleError(),
+      });
+    };
   }
 
   deleteStock(id: number) {
-    console.log('Todo');
+    this.api.remove(id).subscribe({ complete: () => this.reloadData() });
   }
 
   modifyStock(id: number) {
-    console.log('Todo');
+    return (model: any) => {
+      this.api.update(id, model).subscribe({
+        complete: () => {
+          this.toast.addAlert({ title: `Stock modifié`, type: ToastType.Success });
+          this.reloadData();
+        },
+        error: this.handleError(),
+      });
+    };
   }
 }
