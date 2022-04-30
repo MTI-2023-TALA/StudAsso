@@ -24,6 +24,11 @@ export class StockPageComponent implements OnInit {
         size: 2,
         dataProperty: 'name',
       },
+      {
+        title: 'Quantité',
+        size: 1,
+        dataProperty: 'count',
+      },
     ],
     actions: [
       {
@@ -54,7 +59,7 @@ export class StockPageComponent implements OnInit {
   handleTableEvent(event: { action: number; data: any }) {
     switch (event.action) {
       case Action.EDIT:
-        this.modifyStock(event.data);
+        this.modifyModalStock(event.data);
         break;
       case Action.DELETE:
         this.deleteStock(event.data);
@@ -86,6 +91,9 @@ export class StockPageComponent implements OnInit {
 
   createStock() {
     return (model: any) => {
+      const tmp = { associationId: 1 };
+      model = Object.assign(model, tmp);
+      model['count'] = Number(model['count']);
       this.api.create(model).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Stock créé', type: ToastType.Success });

@@ -32,19 +32,4 @@ export const createStockFormly: FormlyFieldConfig[] = [
       },
     },
   },
-  {
-    key: 'associationId',
-    type: Form.Input,
-    templateOptions: {
-      label: 'Id asso, temporaire',
-      placeholder: '0',
-      required: true,
-    },
-    validators: {
-      count: {
-        expression: (c: { value: string }) => /^\d{1,4}/.test(c.value),
-        message: () => `Veuillez entrez un chiffre positif`,
-      },
-    },
-  },
 ];
