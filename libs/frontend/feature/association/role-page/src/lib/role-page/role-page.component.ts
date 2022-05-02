@@ -86,9 +86,9 @@ export class RolePageComponent implements OnInit {
 
   createRole() {
     return (model: any) => {
+      //TODO: Change this with the help of auth
       const tmp = { associationId: 1 };
       model = Object.assign(model, tmp);
-      console.log(model);
       this.api.create(model).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });
@@ -100,7 +100,12 @@ export class RolePageComponent implements OnInit {
   }
 
   deleteRole(id: number) {
-    this.api.remove(id).subscribe({ complete: () => this.reloadData() });
+    this.api.remove(id).subscribe({
+      complete: () => {
+        this.toast.addAlert({ title: 'Rôle supprimé', type: ToastType.Success });
+        this.reloadData();
+      },
+    });
   }
 
   modifyRole(id: number) {
