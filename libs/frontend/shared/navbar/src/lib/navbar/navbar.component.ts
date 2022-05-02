@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-
 import { NavbarItem } from './navbar.model';
 
 @Component({
