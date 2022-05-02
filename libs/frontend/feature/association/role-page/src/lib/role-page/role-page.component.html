@@ -1,0 +1,8 @@
+<div class="top">
+  <div class="left title">Rôles</div>
+  <div class="right">
+    <button class="button" (click)="createModalRole()">Créer un nouveau rôle</button>
+  </div>
+</div>
+<stud-asso-table [tableConfiguration]="tableConfiguration" [data]="roleList" (actionEvent)="handleTableEvent($event)">
+</stud-asso-table>

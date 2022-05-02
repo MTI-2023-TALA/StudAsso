@@ -1,0 +1,26 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/feature/association/role-page",
+  "sourceRoot": "libs/frontend/feature/association/role-page/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/feature/association/role-page"],
+      "options": {
+        "jestConfig": "libs/frontend/feature/association/role-page/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/feature/association/role-page/src/**/*.ts",
+          "libs/frontend/feature/association/role-page/src/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-feature"]
+}
