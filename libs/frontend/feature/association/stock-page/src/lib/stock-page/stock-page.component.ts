@@ -91,6 +91,7 @@ export class StockPageComponent implements OnInit {
 
   createStock() {
     return (model: any) => {
+      //TODO: Fix this with auth
       const tmp = { associationId: 1 };
       model = Object.assign(model, tmp);
       model['count'] = Number(model['count']);
@@ -105,7 +106,12 @@ export class StockPageComponent implements OnInit {
   }
 
   deleteStock(id: number) {
-    this.api.remove(id).subscribe({ complete: () => this.reloadData() });
+    this.api.remove(id).subscribe({
+      complete: () => {
+        this.toast.addAlert({ title: 'Stock supprimé', type: ToastType.Success });
+        this.reloadData();
+      },
+    });
   }
 
   modifyStock(id: number) {
