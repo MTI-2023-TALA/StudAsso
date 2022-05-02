@@ -81,7 +81,7 @@ export class AssociationPageComponent implements OnInit {
     this.modal.createForm({
       title: 'Modifier une association',
       fields: createAssociationFormly,
-      submit: this.modifiAssociation(id),
+      submit: this.modifyAssociation(id),
     });
   }
 
@@ -89,7 +89,7 @@ export class AssociationPageComponent implements OnInit {
     return (model: any) => {
       this.api.create(model).subscribe({
         complete: () => {
-          this.toast.addAlert({ title: 'Association créer', type: ToastType.Success });
+          this.toast.addAlert({ title: 'Association créée', type: ToastType.Success });
           this.reloadData();
         },
         error: this.handleError(),
@@ -101,7 +101,7 @@ export class AssociationPageComponent implements OnInit {
     this.api.remove(id).subscribe({ complete: () => this.reloadData() });
   }
 
-  modifiAssociation(id: number) {
+  modifyAssociation(id: number) {
     return (model: any) => {
       this.api.update(id, model).subscribe({
         complete: () => {

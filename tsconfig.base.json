@@ -39,6 +39,9 @@
       "@stud-asso/frontend-shared-table": ["libs/frontend/shared/table/src/index.ts"],
       "@stud-asso/frontend-shared-toast": ["libs/frontend/shared/toast/src/index.ts"],
       "@stud-asso/frontend/feature/association/role-page": ["libs/frontend/feature/association/role-page/src/index.ts"],
+      "@stud-asso/frontend/feature/association/stock-page": [
+        "libs/frontend/feature/association/stock-page/src/index.ts"
+      ],
       "@stud-asso/frontend/feature/school/association-page": [
         "libs/frontend/feature/school/association-page/src/index.ts"
       ],
