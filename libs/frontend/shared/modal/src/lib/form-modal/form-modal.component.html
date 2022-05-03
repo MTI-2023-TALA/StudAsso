@@ -1,17 +1,17 @@
-<div class="modal is-active">
+<div class="sa-modal">
   <form [formGroup]="form" (ngSubmit)="onSubmit(model)">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
+    <div class="sa-modal-bg" (click)="closeModal()"></div>
+    <div class="sa-modal-card">
+      <div class="sa-modal-card-head">
         <p class="modal-card-title">{{ title }}</p>
-        <button class="delete" aria-label="close" (click)="closeModal()"></button>
-      </header>
-      <section class="modal-card-body">
+        <div class="close" (click)="closeModal()"><i class="bi bi-x"></i></div>
+      </div>
+      <section class="sa-modal-card-body">
         <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
       </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success">Créer</button>
+      <footer class="sa-modal-card-foot">
         <button class="button is-ghost" (click)="closeModal()">Annuler</button>
+        <button class="button is-success">Créer</button>
       </footer>
     </div>
   </form>

@@ -7,6 +7,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 @Component({
   selector: 'stud-asso-form-modal',
   templateUrl: './form-modal.component.html',
+  styleUrls: ['./form-modal.component.scss'],
 })
 export class FormModalComponent extends BaseModalComponent implements OnInit {
   title: string;
