@@ -3,3 +3,4 @@ export * from './lib/modal.directive';
 export * from './lib/modal.service';
 export * from './lib/base-modal/base-modal.component';
 export * from './lib/form-modal/form-modal.component';
+export * from './lib/confirm-modal/confirm-modal.component';

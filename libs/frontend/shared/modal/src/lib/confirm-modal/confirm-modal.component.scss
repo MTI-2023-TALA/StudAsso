@@ -1,0 +1,50 @@
+@import 'base/variables';
+
+.sa-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: fixed;
+  z-index: 40;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.sa-modal-bg {
+  background-color: rgb(10 10 10 / 86%);
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  position: absolute;
+}
+
+.sa-modal-content {
+  overflow: auto;
+  margin: 0 20px;
+  background-color: #ffffff;
+  position: relative;
+  min-width: 50%;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.sa-modal-message {
+  text-align: center;
+  padding-bottom: 4rem;
+  font-family: $font-family-sans-serif;
+  font-weight: 400;
+}
+
+.sa-modal-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.first {
+  margin-right: 1rem;
+}
