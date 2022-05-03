@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmModalComponent, ModalService } from '@stud-asso/frontend-shared-modal';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
-import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createAssociationFormly } from './association-page.formly';
 
@@ -111,5 +111,11 @@ export class AssociationPageComponent implements OnInit {
         error: this.handleError(),
       });
     };
+  }
+
+  createConfirmModal() {
+    this.modal.createModal(ConfirmModalComponent, {
+      message: "Etes vous sur de voulour supprimer l'association Drama ?",
+    });
   }
 }
