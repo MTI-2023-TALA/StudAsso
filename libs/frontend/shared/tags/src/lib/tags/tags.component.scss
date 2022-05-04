@@ -1,0 +1,39 @@
+@import 'base/variables';
+
+.tags {
+  display: inline-block;
+  padding: 0.25em 0.4em;
+  font-size: 75%;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 0.25rem;
+  background-color: $light-grey-100;
+  border: 1px solid $dark-grey-200;
+  color: $dark-grey-300;
+}
+
+.tags-error {
+  background-color: $error-100;
+  border: 1px solid $error-500;
+  color: $error-600;
+}
+
+.tags-warning {
+  background-color: $warning-100;
+  border: 1px solid $warning-500;
+  color: $warning-600;
+}
+
+.tags-success {
+  background-color: $success-100;
+  border: 1px solid $success-500;
+  color: $success-600;
+}
+
+.tags-information {
+  background-color: $information-100;
+  border: 1px solid $information-500;
+  color: $information-600;
+}

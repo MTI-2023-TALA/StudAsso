@@ -1,0 +1,9 @@
+<div
+  class="tags"
+  [class.tags-error]="type === TagsType.Error"
+  [class.tags-warning]="type === TagsType.Warning"
+  [class.tags-success]="type === TagsType.Success"
+  [class.tags-information]="type === TagsType.Information"
+>
+  {{ message }}
+</div>

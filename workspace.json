@@ -26,6 +26,7 @@
     "frontend-shared-modal": "libs/frontend/shared/modal",
     "frontend-shared-navbar": "libs/frontend/shared/navbar",
     "frontend-shared-table": "libs/frontend/shared/table",
+    "frontend-shared-tags": "libs/frontend/shared/tags",
     "frontend-shared-toast": "libs/frontend/shared/toast",
     "frontend-shared-tooltip": "libs/frontend/shared/tooltip",
     "frontend-student": "apps/frontend/student",
