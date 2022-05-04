@@ -10,7 +10,7 @@ import { TagsType } from './tags.model';
 export class TagsComponent {
   TagsType: typeof TagsType = TagsType;
   @Input()
-  type = 'default';
+  type: string = TagsType.Default;
   @Input()
   message = 'Ceci est un tag';
 }
