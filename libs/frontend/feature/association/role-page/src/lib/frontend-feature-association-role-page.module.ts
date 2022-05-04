@@ -1,7 +1,6 @@
-import { FrontendSharedTagsModule, TagsType } from '@stud-asso/frontend/shared/tags';
-
 import { CommonModule } from '@angular/common';
 import { FrontendSharedTableModule } from '@stud-asso/frontend-shared-table';
+import { FrontendSharedTagsModule } from '@stud-asso/frontend/shared/tags';
 import { NgModule } from '@angular/core';
 import { RolePageComponent } from './role-page/role-page.component';
 
