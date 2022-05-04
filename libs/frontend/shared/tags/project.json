@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/shared/tags",
+  "sourceRoot": "libs/frontend/shared/tags/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/shared/tags"],
+      "options": {
+        "jestConfig": "libs/frontend/shared/tags/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/frontend/shared/tags/src/**/*.ts", "libs/frontend/shared/tags/src/**/*.html"]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-shared"]
+}
