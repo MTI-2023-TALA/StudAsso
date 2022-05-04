@@ -35,7 +35,6 @@
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  width: 100%;
   border-bottom: 1px solid $light-grey-200;
 }
 
@@ -58,5 +57,5 @@
 
 form {
   margin: 0 20px;
-  width: 100%;
+  min-width: 70%;
 }
