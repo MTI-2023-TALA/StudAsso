@@ -1,6 +1,6 @@
 import { AssociationRepository } from './association.repository';
 import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
-import { EventRepository } from '..';
+import { EventRepository } from './event.repository';
 import { Module } from '@nestjs/common';
 import { NewsFeedRepository } from './news-feed.repository';
 import { RoleRepository } from './role.repository';
