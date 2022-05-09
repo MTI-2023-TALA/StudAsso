@@ -2,7 +2,6 @@
   "version": 2,
   "projects": {
     "backend": "apps/backend",
-    "backend-core-base": "libs/backend/core/base",
     "backend-core-migrations": "libs/backend/core/migrations",
     "backend-core-orm": "libs/backend/core/orm",
     "backend-core-repository": "libs/backend/core/repository",
