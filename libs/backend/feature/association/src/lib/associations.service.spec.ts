@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationRepository } from '@stud-asso/backend/core/repository';
 import { AssociationsService } from './associations.service';
+import { CreateAssociationDto } from '@stud-asso/shared/dtos';
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
@@ -13,7 +14,9 @@ describe('AssociationsService', () => {
         AssociationsService,
         {
           provide: AssociationRepository,
-          useValue: jest.fn(),
+          useValue: {
+            create: jest.fn(),
+          },
         },
       ],
     }).compile();
@@ -28,5 +31,17 @@ describe('AssociationsService', () => {
 
   it('associationRepository should be defined', () => {
     expect(associationsRepository).toBeDefined();
+  });
+
+  describe('createAssociation', () => {
+    it('should call associationRepository.create with correct params', async () => {
+      await service.create({
+        name: 'AssociationTest',
+      });
+      expect(associationsRepository.create).toHaveBeenCalledWith({
+        name: 'AssociationTest',
+      });
+      expect(associationsRepository.create);
+    });
   });
 });
