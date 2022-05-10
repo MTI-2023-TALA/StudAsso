@@ -9,3 +9,9 @@ export enum Form {
   InputList = 'list',
   Datepicker = 'datepicker',
 }
+
+export enum InputType {
+  Text = 'text',
+  Number = 'number',
+  Password = 'password',
+}
