@@ -54,6 +54,12 @@ ul {
   background: linear-gradient(135deg, #72edf2 0%, #5151e5 100%);
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  padding-left: 0.5rem;
+}
+
+.logo {
+  max-width: 1.5em;
+  max-height: 2em;
 }
 
 .router-link-active {

@@ -8,4 +8,5 @@ export enum Form {
   File = 'file',
   InputList = 'list',
   Datepicker = 'datepicker',
+  NumericInput = 'number',
 }

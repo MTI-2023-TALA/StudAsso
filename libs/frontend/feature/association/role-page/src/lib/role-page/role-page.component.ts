@@ -86,9 +86,6 @@ export class RolePageComponent implements OnInit {
 
   createRole() {
     return (model: any) => {
-      //TODO: Change this with the help of auth
-      const tmp = { associationId: 1 };
-      model = Object.assign(model, tmp);
       this.api.create(model).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });
