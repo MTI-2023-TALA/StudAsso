@@ -22,7 +22,7 @@ export abstract class BaseRepository<Entity extends Base, CreateEntity, UpdateEn
     return this.baseRepository.update(id, updateEntity as any);
   }
 
-  public async remove(id: number): Promise<UpdateResult> {
+  public async delete(id: number): Promise<UpdateResult> {
     return this.baseRepository.softDelete(id);
   }
 }

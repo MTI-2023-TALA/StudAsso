@@ -24,7 +24,7 @@ export class NewsFeedService {
     return this.newsFeedRepository.update(id, updateBaseDto as any);
   }
 
-  public async remove(id: number): Promise<UpdateResult> {
-    return this.newsFeedRepository.remove(id);
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.newsFeedRepository.delete(id);
   }
 }

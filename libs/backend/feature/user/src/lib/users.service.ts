@@ -24,7 +24,7 @@ export class UsersService {
     return this.userRepository.update(id, updateBaseDto as any);
   }
 
-  public async remove(id: number): Promise<UpdateResult> {
-    return this.userRepository.remove(id);
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.userRepository.delete(id);
   }
 }

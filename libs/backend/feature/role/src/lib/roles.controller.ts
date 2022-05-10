@@ -38,7 +38,7 @@ export class RolesController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<UpdateResult> {
-    return this.rolesService.remove(+id);
+  delete(@Param('id') id: string): Promise<UpdateResult> {
+    return this.rolesService.delete(+id);
   }
 }

@@ -24,7 +24,7 @@ export class StocksService {
     return this.stockRepository.update(id, updateBaseDto as any);
   }
 
-  public async remove(id: number): Promise<UpdateResult> {
-    return this.stockRepository.remove(id);
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.stockRepository.delete(id);
   }
 }

@@ -24,7 +24,7 @@ export class EventsService {
     return this.eventRepository.update(id, updateBaseDto as any);
   }
 
-  public async remove(id: number): Promise<UpdateResult> {
-    return this.eventRepository.remove(id);
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.eventRepository.delete(id);
   }
 }

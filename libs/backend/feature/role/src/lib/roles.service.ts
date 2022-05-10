@@ -24,7 +24,7 @@ export class RolesService {
     return this.roleRepository.update(id, updateBaseDto as any);
   }
 
-  public async remove(id: number): Promise<UpdateResult> {
-    return this.roleRepository.remove(id);
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.roleRepository.delete(id);
   }
 }

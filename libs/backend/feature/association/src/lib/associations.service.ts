@@ -24,7 +24,7 @@ export class AssociationsService {
     return this.associationRepository.update(id, updateBaseDto as any);
   }
 
-  public async remove(id: number): Promise<UpdateResult> {
-    return this.associationRepository.remove(id);
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.associationRepository.delete(id);
   }
 }

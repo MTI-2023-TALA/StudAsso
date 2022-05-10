@@ -28,7 +28,7 @@ export class NewsFeedController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<UpdateResult> {
-    return this.newsFeedService.remove(+id);
+  delete(@Param('id') id: string): Promise<UpdateResult> {
+    return this.newsFeedService.delete(+id);
   }
 }
