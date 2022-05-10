@@ -16,6 +16,7 @@
     "frontend-association-e2e": "apps/frontend/association-e2e",
     "frontend-core-api": "libs/frontend/core/api",
     "frontend-core-auth": "libs/frontend/core/auth",
+    "frontend-core-i18n": "libs/frontend/core/i18n",
     "frontend-core-storage": "libs/frontend/core/storage",
     "frontend-feature-association-stock-page": "libs/frontend/feature/association/stock-page",
     "frontend-school": "apps/frontend/school",
