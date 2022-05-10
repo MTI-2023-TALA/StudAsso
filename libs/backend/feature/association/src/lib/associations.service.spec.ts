@@ -1,6 +1,6 @@
-import { AssociationRepository, BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { AssociationRepository } from '@stud-asso/backend/core/repository';
 import { AssociationsService } from './associations.service';
 
 describe('AssociationsService', () => {
