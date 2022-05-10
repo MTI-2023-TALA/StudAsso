@@ -13,8 +13,9 @@ export const createRoleFormly: FormlyFieldConfig[] = [
   },
   {
     key: 'associationId',
-    type: Form.NumericInput,
+    type: Form.Input,
     templateOptions: {
+      type: 'number',
       label: "Id de l'association",
       required: true,
     },

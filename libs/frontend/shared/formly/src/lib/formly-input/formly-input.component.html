@@ -1,1 +1,17 @@
-<input class="input" type="text" [formControl]="formControl" [formlyAttributes]="field" [class.is-danger]="showError" />
+<input
+  *ngIf="type !== 'number'; else numberInput"
+  class="input"
+  [type]="type"
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [class.is-danger]="showError"
+/>
+<ng-template #numberInput>
+  <input
+    class="input"
+    type="number"
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    [class.is-danger]="showError"
+  />
+</ng-template>

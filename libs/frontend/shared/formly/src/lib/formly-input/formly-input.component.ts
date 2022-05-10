@@ -6,4 +6,8 @@ import { Component } from '@angular/core';
   selector: 'stud-asso-formly-input',
   templateUrl: './formly-input.component.html',
 })
-export class FormlyInputComponent extends FieldType<FieldTypeConfig> {}
+export class FormlyInputComponent extends FieldType<FieldTypeConfig> {
+  get type() {
+    return this.to.type || 'text';
+  }
+}

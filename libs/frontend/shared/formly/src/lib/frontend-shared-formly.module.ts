@@ -9,7 +9,6 @@ import { FormlyFormFieldComponent } from './formly-form-field/formly-form-field.
 import { FormlyInputComponent } from './formly-input/formly-input.component';
 import { FormlyInputListComponent } from './formly-input-list/formly-input-list.component';
 import { FormlyModule } from '@ngx-formly/core';
-import { FormlyNumericInputComponent } from './formly-numeric-input/formly-numeric-input.component';
 import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
 import { FormlySelectComponent } from './formly-select/formly-select.component';
 import { FormlyTextareaComponent } from './formly-textarea/formly-textarea.component';
@@ -28,7 +27,6 @@ import { NgModule } from '@angular/core';
           component: FormlyInputComponent,
           wrappers: [Form.Field],
         },
-        { name: Form.NumericInput, component: FormlyNumericInputComponent, wrappers: [Form.Field] },
         {
           name: Form.TextArea,
           component: FormlyTextareaComponent,
@@ -76,7 +74,6 @@ import { NgModule } from '@angular/core';
     FormlyFileComponent,
     FormlyInputListComponent,
     FormlyDatepickerComponent,
-    FormlyNumericInputComponent,
   ],
   exports: [FormlyModule, ReactiveFormsModule, FormsModule],
 })
