@@ -28,7 +28,7 @@ export class EventsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<UpdateResult> {
-    return this.eventsService.remove(+id);
+  delete(@Param('id') id: string): Promise<UpdateResult> {
+    return this.eventsService.delete(+id);
   }
 }

@@ -1,17 +1,21 @@
-import { CreateMockService } from '@stud-asso/backend/utils/mock';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { RolesController } from './roles.controller';
 import { RolesService } from './roles.service';
-import { TestingModule } from '@nestjs/testing';
 
 describe('RolesController', () => {
   let controller: RolesController;
 
   beforeEach(async () => {
-    const module: TestingModule = await CreateMockService([RolesController], {
-      type: RolesService,
-      // TODO: set mock value
-      methods: { findAll: jest.fn().mockResolvedValue([42]) },
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [RolesController],
+      providers: [
+        {
+          provide: RolesService,
+          useValue: jest.fn(),
+        },
+      ],
+    }).compile();
 
     controller = module.get<RolesController>(RolesController);
   });

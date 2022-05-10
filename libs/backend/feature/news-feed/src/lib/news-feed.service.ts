@@ -1,14 +1,30 @@
-import { CreateNewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
+import { CreateNewsFeedDto, NewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
 
-import { BaseService } from '@stud-asso/backend-core-base';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { NewsFeed } from '@stud-asso/backend/core/orm';
-import { Repository } from 'typeorm';
+import { NewsFeedRepository } from '@stud-asso/backend/core/repository';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
-export class NewsFeedService extends BaseService<NewsFeed, CreateNewsFeedDto, UpdateNewsFeedDto> {
-  constructor(@InjectRepository(NewsFeed) private readonly newsFeedRepository: Repository<NewsFeed>) {
-    super(newsFeedRepository);
+export class NewsFeedService {
+  constructor(private readonly newsFeedRepository: NewsFeedRepository) {}
+
+  public async create(createBaseDto: CreateNewsFeedDto): Promise<any> {
+    return this.newsFeedRepository.create(createBaseDto as any);
+  }
+
+  public async findAll(): Promise<NewsFeedDto[]> {
+    return this.newsFeedRepository.findAll();
+  }
+
+  public async findOne(id: number): Promise<NewsFeedDto> {
+    return this.newsFeedRepository.findOne(id);
+  }
+
+  public async update(id: number, updateBaseDto: UpdateNewsFeedDto): Promise<UpdateResult> {
+    return this.newsFeedRepository.update(id, updateBaseDto as any);
+  }
+
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.newsFeedRepository.delete(id);
   }
 }

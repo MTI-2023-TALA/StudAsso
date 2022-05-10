@@ -1,14 +1,30 @@
-import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
+import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 
-import { BaseService } from '@stud-asso/backend-core-base';
-import { Event } from '@stud-asso/backend/core/orm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { EventRepository } from '@stud-asso/backend/core/repository';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
-export class EventsService extends BaseService<Event, CreateEventDto, UpdateEventDto> {
-  constructor(@InjectRepository(Event) private readonly eventRepository: Repository<Event>) {
-    super(eventRepository);
+export class EventsService {
+  constructor(private readonly eventRepository: EventRepository) {}
+
+  public async create(createBaseDto: CreateEventDto): Promise<any> {
+    return this.eventRepository.create(createBaseDto as any);
+  }
+
+  public async findAll(): Promise<EventDto[]> {
+    return this.eventRepository.findAll();
+  }
+
+  public async findOne(id: number): Promise<EventDto> {
+    return this.eventRepository.findOne(id);
+  }
+
+  public async update(id: number, updateBaseDto: UpdateEventDto): Promise<UpdateResult> {
+    return this.eventRepository.update(id, updateBaseDto as any);
+  }
+
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.eventRepository.delete(id);
   }
 }

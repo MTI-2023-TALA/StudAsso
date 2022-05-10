@@ -38,7 +38,7 @@ export class AssociationsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<UpdateResult> {
-    return this.associationsService.remove(+id);
+  delete(@Param('id') id: string): Promise<UpdateResult> {
+    return this.associationsService.delete(+id);
   }
 }

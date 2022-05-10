@@ -1,10 +1,10 @@
-import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
+import { BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
 import { Module } from '@nestjs/common';
 import { NewsFeedController } from './news-feed.controller';
 import { NewsFeedService } from './news-feed.service';
 
 @Module({
-  imports: [BackendCoreOrmModule],
+  imports: [BackendCoreRepositoryModule],
   controllers: [NewsFeedController],
   providers: [NewsFeedService],
 })

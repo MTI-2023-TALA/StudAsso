@@ -1,17 +1,21 @@
-import { CreateMockService } from '@stud-asso/backend/utils/mock';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { NewsFeedController } from './news-feed.controller';
 import { NewsFeedService } from './news-feed.service';
-import { TestingModule } from '@nestjs/testing';
 
 describe('NewsFeedController', () => {
   let controller: NewsFeedController;
 
   beforeEach(async () => {
-    const module: TestingModule = await CreateMockService([NewsFeedController], {
-      type: NewsFeedService,
-      // TODO: set mock value
-      methods: { findAll: jest.fn().mockResolvedValue([42]) },
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [NewsFeedController],
+      providers: [
+        {
+          provide: NewsFeedService,
+          useValue: jest.fn(),
+        },
+      ],
+    }).compile();
 
     controller = module.get<NewsFeedController>(NewsFeedController);
   });

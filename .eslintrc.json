@@ -38,7 +38,7 @@
               },
               {
                 "sourceTag": "type:backend-core",
-                "onlyDependOnLibsWithTags": ["type:backend-core"]
+                "onlyDependOnLibsWithTags": ["type:backend-core", "type:shared"]
               },
               {
                 "sourceTag": "type:backend-feature",

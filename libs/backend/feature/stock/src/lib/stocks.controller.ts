@@ -28,7 +28,7 @@ export class StocksController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<UpdateResult> {
-    return this.stocksService.remove(+id);
+  delete(@Param('id') id: string): Promise<UpdateResult> {
+    return this.stocksService.delete(+id);
   }
 }

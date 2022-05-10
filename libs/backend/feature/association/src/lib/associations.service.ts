@@ -1,17 +1,30 @@
-import { CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 
-import { Association } from '@stud-asso/backend/core/orm';
-import { BaseService } from '@stud-asso/backend-core-base';
-import { InjectRepository } from '@nestjs/typeorm';
+import { AssociationRepository } from '@stud-asso/backend/core/repository';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { UpdateResult } from 'typeorm';
 
 @Injectable()
-export class AssociationsService extends BaseService<Association, CreateAssociationDto, UpdateAssociationDto> {
-  constructor(
-    @InjectRepository(Association)
-    private readonly associationRepository: Repository<Association>
-  ) {
-    super(associationRepository);
+export class AssociationsService {
+  constructor(private readonly associationRepository: AssociationRepository) {}
+
+  public async create(createAssociationDto: CreateAssociationDto): Promise<any> {
+    return this.associationRepository.create(createAssociationDto as any);
+  }
+
+  public async findAll(): Promise<AssociationDto[]> {
+    return this.associationRepository.findAll();
+  }
+
+  public async findOne(id: number): Promise<AssociationDto> {
+    return this.associationRepository.findOne(id);
+  }
+
+  public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<UpdateResult> {
+    return this.associationRepository.update(id, updateBaseDto as any);
+  }
+
+  public async delete(id: number): Promise<UpdateResult> {
+    return this.associationRepository.delete(id);
   }
 }
