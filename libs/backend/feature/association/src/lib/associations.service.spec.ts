@@ -1,23 +1,32 @@
-import { Association } from '@stud-asso/backend/core/orm';
+import { AssociationRepository, BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { AssociationsService } from './associations.service';
-import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
-import { TestingModule } from '@nestjs/testing';
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
-
-  const mockRepo = {
-    // TODO set mock value
-    findOne: jest.fn().mockResolvedValue(42),
-  };
+  let associationsRepository: AssociationRepository;
 
   beforeEach(async () => {
-    const moduleRef: TestingModule = await CreateMockRepo(AssociationsService, Association, mockRepo);
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        AssociationsService,
+        {
+          provide: AssociationRepository,
+          useValue: jest.fn(),
+        },
+      ],
+    }).compile();
 
-    service = moduleRef.get<AssociationsService>(AssociationsService);
+    service = module.get<AssociationsService>(AssociationsService);
+    associationsRepository = module.get<AssociationRepository>(AssociationRepository);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('associationRepository should be defined', () => {
+    expect(associationsRepository).toBeDefined();
   });
 });

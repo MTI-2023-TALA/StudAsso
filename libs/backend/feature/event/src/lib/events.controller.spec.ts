@@ -1,17 +1,21 @@
-import { CreateMockService } from '@stud-asso/backend/utils/mock';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { EventsController } from './events.controller';
 import { EventsService } from './events.service';
-import { TestingModule } from '@nestjs/testing';
 
 describe('EventsController', () => {
   let controller: EventsController;
 
   beforeEach(async () => {
-    const module: TestingModule = await CreateMockService([EventsController], {
-      type: EventsService,
-      // TODO: set mock value
-      methods: { findAll: jest.fn().mockResolvedValue([42]) },
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [EventsController],
+      providers: [
+        {
+          provide: EventsService,
+          useValue: jest.fn(),
+        },
+      ],
+    }).compile();
 
     controller = module.get<EventsController>(EventsController);
   });

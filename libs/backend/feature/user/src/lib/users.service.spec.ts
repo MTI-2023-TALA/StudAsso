@@ -1,23 +1,32 @@
-import { CreateMockRepo } from '@stud-asso/backend/utils/mock';
-import { TestingModule } from '@nestjs/testing';
-import { User } from '@stud-asso/backend/core/orm';
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { UserRepository } from '@stud-asso/backend/core/repository';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
   let service: UsersService;
-
-  const mockRepo = {
-    // TODO set mock value
-    find: jest.fn().mockResolvedValue(42),
-  };
+  let userRepository: UserRepository;
 
   beforeEach(async () => {
-    const moduleRef: TestingModule = await CreateMockRepo(UsersService, User, mockRepo);
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UsersService,
+        {
+          provide: UserRepository,
+          useValue: jest.fn(),
+        },
+      ],
+    }).compile();
 
-    service = moduleRef.get<UsersService>(UsersService);
+    service = module.get<UsersService>(UsersService);
+    userRepository = module.get<UserRepository>(UserRepository);
   });
 
-  it('should be defined', async () => {
+  it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  it('associationRepository should be defined', () => {
+    expect(userRepository).toBeDefined();
   });
 });

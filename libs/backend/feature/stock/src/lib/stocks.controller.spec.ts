@@ -1,17 +1,21 @@
-import { CreateMockService } from '@stud-asso/backend/utils/mock';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { StocksController } from './stocks.controller';
 import { StocksService } from './stocks.service';
-import { TestingModule } from '@nestjs/testing';
 
 describe('StocksController', () => {
   let controller: StocksController;
 
   beforeEach(async () => {
-    const module: TestingModule = await CreateMockService([StocksController], {
-      type: StocksService,
-      // TODO: set mock value
-      methods: { findAll: jest.fn().mockResolvedValue([42]) },
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [StocksController],
+      providers: [
+        {
+          provide: StocksService,
+          useValue: jest.fn(),
+        },
+      ],
+    }).compile();
 
     controller = module.get<StocksController>(StocksController);
   });

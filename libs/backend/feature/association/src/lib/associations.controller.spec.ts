@@ -1,22 +1,26 @@
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
-import { CreateMockService } from '@stud-asso/backend/utils/mock';
-import { TestingModule } from '@nestjs/testing';
 
 describe('AssociationsController', () => {
   let controller: AssociationsController;
 
   beforeEach(async () => {
-    const moduleRef: TestingModule = await CreateMockService([AssociationsController], {
-      type: AssociationsService,
-      // TODO: set mock value
-      methods: { findAll: jest.fn().mockResolvedValue([42]) },
-    });
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [AssociationsController],
+      providers: [
+        {
+          provide: AssociationsService,
+          useValue: jest.fn(),
+        },
+      ],
+    }).compile();
 
-    controller = moduleRef.get<AssociationsController>(AssociationsController);
+    controller = module.get<AssociationsController>(AssociationsController);
   });
 
-  it('should be defined', async () => {
+  it('should be defined', () => {
     expect(controller).toBeDefined();
   });
 });
