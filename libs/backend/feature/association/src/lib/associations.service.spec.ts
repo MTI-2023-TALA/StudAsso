@@ -5,7 +5,21 @@ import {
 } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { Association } from '@stud-asso/backend/core/orm';
+import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsService } from './associations.service';
+import { plainToClass } from 'class-transformer';
+
+const associations = [
+  plainToClass(Association, {
+    id: 1,
+    name: 'Association1',
+  }),
+  plainToClass(Association, {
+    id: 2,
+    name: 'Association2',
+  }),
+];
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
@@ -19,6 +33,7 @@ describe('AssociationsService', () => {
           provide: AssociationRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve({ id: 1, name: 'Association Test' })),
+            findAll: jest.fn(() => Promise.resolve(associations)),
           },
         },
         {
@@ -36,9 +51,11 @@ describe('AssociationsService', () => {
       ],
     }).compile();
 
-    service = module.get<AssociationsService>(AssociationsService);
-    associationsRepository = module.get<AssociationRepository>(AssociationRepository);
+    service = await module.get<AssociationsService>(AssociationsService);
+    associationsRepository = await module.get<AssociationRepository>(AssociationRepository);
   });
+
+  afterEach(() => jest.clearAllMocks());
 
   it('should be defined', () => {
     expect(service).toBeDefined();
@@ -61,4 +78,15 @@ describe('AssociationsService', () => {
       expect(associationsRepository.create);
     });
   });
+
+  describe('findAllAssociation', () =>
+    it('should call associationRepository.findAll', async () => {
+      const findAll = jest.spyOn(associationsRepository, 'findAll');
+
+      const associationsRetrieved = await service.findAll();
+      expect(associationsRetrieved).toEqual(associations);
+
+      expect(findAll).toHaveBeenCalledTimes(1);
+      expect(findAll).toHaveBeenCalledWith();
+    }));
 });
