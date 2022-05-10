@@ -26,7 +26,6 @@
       "@stud-asso/backend/feature/role": ["libs/backend/feature/role/src/index.ts"],
       "@stud-asso/backend/feature/stock": ["libs/backend/feature/stock/src/index.ts"],
       "@stud-asso/backend/feature/user": ["libs/backend/feature/user/src/index.ts"],
-      "@stud-asso/backend/utils/mock": ["libs/backend/utils/mock/src/index.ts"],
       "@stud-asso/frontend-core-api": ["libs/frontend/core/api/src/index.ts"],
       "@stud-asso/frontend-core-auth": ["libs/frontend/core/auth/src/index.ts"],
       "@stud-asso/frontend-core-storage": ["libs/frontend/core/storage/src/index.ts"],
