@@ -3,12 +3,12 @@ import {
   AssociationsMemberRepository,
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
+import { CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Association } from '@stud-asso/backend/core/orm';
 import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsService } from './associations.service';
-import { UpdateAssociationDto } from '@stud-asso/shared/dtos';
 import { UpdateResult } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 
@@ -40,7 +40,7 @@ describe('AssociationsService', () => {
         {
           provide: AssociationRepository,
           useValue: {
-            create: jest.fn(() => Promise.resolve({ id: 1, name: 'Association Test' })),
+            create: jest.fn(() => Promise.resolve(mockedAssociations[0])),
             findAll: jest.fn(() => Promise.resolve(mockedAssociations)),
             findOne: jest.fn((id) => Promise.resolve(mockedAssociations[0])),
             update: jest.fn((id, updateAssociationDto) => Promise.resolve(mockedUpdateResult)),
@@ -78,15 +78,14 @@ describe('AssociationsService', () => {
 
   describe('createAssociation', () => {
     it('should call associationRepository.create with correct params', async () => {
-      await service.create({
-        name: 'AssociationTest',
-        presidentId: 1,
-      });
-      expect(associationsRepository.create).toHaveBeenCalledWith({
-        name: 'AssociationTest',
-        presidentId: 1,
-      });
-      expect(associationsRepository.create);
+      const createAssociationDto = plainToClass(CreateAssociationDto, { name: 'Association1' });
+      const create = jest.spyOn(associationsRepository, 'create');
+
+      const createResultRetrieved = await service.create(createAssociationDto);
+      expect(createResultRetrieved).toEqual(mockedAssociations[0]);
+
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
     });
   });
 
