@@ -8,9 +8,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { Association } from '@stud-asso/backend/core/orm';
 import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsService } from './associations.service';
+import { UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import { UpdateResult } from 'typeorm';
 import { plainToClass } from 'class-transformer';
 
-const associations = [
+const mockedAssociations = [
   plainToClass(Association, {
     id: 1,
     name: 'Association1',
@@ -20,6 +22,10 @@ const associations = [
     name: 'Association2',
   }),
 ];
+const mockedUpdateResult = new UpdateResult();
+mockedUpdateResult.raw = [];
+mockedUpdateResult.generatedMaps = [];
+mockedUpdateResult.affected = 1;
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
@@ -33,8 +39,9 @@ describe('AssociationsService', () => {
           provide: AssociationRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve({ id: 1, name: 'Association Test' })),
-            findAll: jest.fn(() => Promise.resolve(associations)),
-            findOne: jest.fn((id) => Promise.resolve(associations[0])),
+            findAll: jest.fn(() => Promise.resolve(mockedAssociations)),
+            findOne: jest.fn((id) => Promise.resolve(mockedAssociations[0])),
+            update: jest.fn((id, updateAssociationDto) => Promise.resolve(mockedUpdateResult)),
           },
         },
         {
@@ -85,7 +92,7 @@ describe('AssociationsService', () => {
       const findAll = jest.spyOn(associationsRepository, 'findAll');
 
       const associationsRetrieved = await service.findAll();
-      expect(associationsRetrieved).toEqual(associations);
+      expect(associationsRetrieved).toEqual(mockedAssociations);
 
       expect(findAll).toHaveBeenCalledTimes(1);
       expect(findAll).toHaveBeenCalledWith();
@@ -96,9 +103,21 @@ describe('AssociationsService', () => {
       const findOne = jest.spyOn(associationsRepository, 'findOne');
 
       const associationRetrieved = await service.findOne(1);
-      expect(associationRetrieved).toEqual(associations[0]);
+      expect(associationRetrieved).toEqual(mockedAssociations[0]);
 
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(1);
+    }));
+
+  describe('updateAssociation', () =>
+    it('shoud call associationRepository.update', async () => {
+      const updateAssociationDto = plainToClass(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      const update = jest.spyOn(associationsRepository, 'update');
+
+      const updateResultRetrieved = await service.update(1, updateAssociationDto);
+      expect(updateResultRetrieved).toEqual(mockedUpdateResult);
+
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith(1, { name: 'Association1 Renamed' });
     }));
 });
