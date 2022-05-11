@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/frontend/core/i18n",
+  "sourceRoot": "libs/frontend/core/i18n/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/core/i18n"],
+      "options": {
+        "jestConfig": "libs/frontend/core/i18n/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/frontend/core/i18n/**/*.ts", "libs/frontend/core/i18n/**/*.html"]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-core"]
+}
