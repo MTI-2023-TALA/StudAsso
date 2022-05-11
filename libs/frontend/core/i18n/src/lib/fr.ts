@@ -1,3 +1,3 @@
 export const FR = {
-  test: 'test',
+  'test-found': 'This translation is used for test',
 };

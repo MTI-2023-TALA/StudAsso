@@ -1,6 +1,6 @@
 module.exports = {
-  displayName: 'frontend-core-i18n',
-  preset: '../../../../jest.preset.ts',
+  displayName: 'frontend-shared-navbar',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/frontend/core/i18n',
+  coverageDirectory: '../../../../coverage/libs/frontend/shared/navbar',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
