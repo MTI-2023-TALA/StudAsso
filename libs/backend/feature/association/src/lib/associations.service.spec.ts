@@ -22,10 +22,12 @@ const mockedAssociations = [
     name: 'Association2',
   }),
 ];
-const mockedUpdateResult = new UpdateResult();
-mockedUpdateResult.raw = [];
-mockedUpdateResult.generatedMaps = [];
-mockedUpdateResult.affected = 1;
+
+const mockedUpdateResult: UpdateResult = {
+  raw: [],
+  generatedMaps: [],
+  affected: 1,
+};
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
@@ -42,6 +44,7 @@ describe('AssociationsService', () => {
             findAll: jest.fn(() => Promise.resolve(mockedAssociations)),
             findOne: jest.fn((id) => Promise.resolve(mockedAssociations[0])),
             update: jest.fn((id, updateAssociationDto) => Promise.resolve(mockedUpdateResult)),
+            delete: jest.fn((id) => Promise.resolve(mockedUpdateResult)),
           },
         },
         {
@@ -120,4 +123,16 @@ describe('AssociationsService', () => {
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(1, { name: 'Association1 Renamed' });
     }));
+
+  describe('deleteAssociation', () => {
+    it('shoud call associationRepository.remove', async () => {
+      const deleteCall = jest.spyOn(associationsRepository, 'delete');
+
+      const deleteResultRetrieved = await service.delete(1);
+      expect(deleteResultRetrieved).toEqual(mockedUpdateResult);
+
+      expect(deleteCall).toHaveBeenCalledTimes(1);
+      expect(deleteCall).toHaveBeenCalledWith(1);
+    });
+  });
 });
