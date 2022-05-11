@@ -34,6 +34,7 @@ describe('AssociationsService', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve({ id: 1, name: 'Association Test' })),
             findAll: jest.fn(() => Promise.resolve(associations)),
+            findOne: jest.fn((id) => Promise.resolve(associations[0])),
           },
         },
         {
@@ -88,5 +89,16 @@ describe('AssociationsService', () => {
 
       expect(findAll).toHaveBeenCalledTimes(1);
       expect(findAll).toHaveBeenCalledWith();
+    }));
+
+  describe('findOneAssociation', () =>
+    it('should call associationRepository.findOne', async () => {
+      const findOne = jest.spyOn(associationsRepository, 'findOne');
+
+      const associationRetrieved = await service.findOne(1);
+      expect(associationRetrieved).toEqual(associations[0]);
+
+      expect(findOne).toHaveBeenCalledTimes(1);
+      expect(findOne).toHaveBeenCalledWith(1);
     }));
 });
