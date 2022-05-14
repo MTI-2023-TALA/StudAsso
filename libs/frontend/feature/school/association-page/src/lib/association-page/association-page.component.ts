@@ -6,6 +6,7 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { SelectOption } from 'libs/frontend/shared/formly/src/lib/formly-select/formly-select.component';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
+import { UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 import { createAssociationFormly } from './association-page.formly';
 
 enum Action {
@@ -60,10 +61,9 @@ export class AssociationPageComponent implements OnInit {
     this.apiAssociation.findAll().subscribe((associations: any) => {
       this.associationList = associations;
     });
-    this.usersList = this.apiUser.getEmailAndId().map((user) => ({
-      label: user.email,
-      value: user.id.toString(),
-    }));
+    this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
+      this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
+    });
   }
 
   handleError() {

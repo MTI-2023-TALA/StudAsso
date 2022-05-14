@@ -19,7 +19,7 @@ export class AssociationsService {
   public async create(createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
     // TODO: bug where presidentId is returned in Dto TO FIX
     const createdAsso = await this.associationRepository.create(createAssociationDto as any);
-    const { id } = await this.roleRepository.createRolePresident(createAssociationDto.presidentId);
+    const { id } = await this.roleRepository.createRolePresident(createdAsso.id);
     await this.associationsMemberRepository.linkUserToRole(createdAsso.id, createAssociationDto.presidentId, id);
     return createdAsso;
   }
