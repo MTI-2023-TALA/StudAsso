@@ -20,3 +20,24 @@ export const localLoginFormly: FormlyFieldConfig[] = [
     },
   },
 ];
+
+// TODO: Add firstName and lastName
+export const localSignUpFormly: FormlyFieldConfig[] = [
+  {
+    key: 'email',
+    type: Form.Input,
+    templateOptions: {
+      label: `Adresse mail`,
+      required: true,
+    },
+  },
+  {
+    key: 'password',
+    type: Form.Input,
+    templateOptions: {
+      label: `Mot de passe`,
+      required: true,
+      type: 'password',
+    },
+  },
+];

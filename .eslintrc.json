@@ -30,7 +30,7 @@
               },
               {
                 "sourceTag": "type:frontend-feature",
-                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:frontend-shared", "type:frontend-testing"]
+                "onlyDependOnLibsWithTags": ["type:frontend-core", "type:frontend-shared", "type:frontend-testing", "type:shared"]
               },
               {
                 "sourceTag": "type:frontend-shared",

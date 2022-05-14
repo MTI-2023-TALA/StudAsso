@@ -5,7 +5,7 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 import { createAssociationFormly, modifyAssociationFormly } from './association-page.formly';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { SelectOption } from 'libs/frontend/shared/formly/src/lib/formly-select/formly-select.component';
+import { SelectOption } from '@stud-asso/frontend-shared-formly';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 

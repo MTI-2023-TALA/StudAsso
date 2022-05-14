@@ -1,9 +1,9 @@
 import { ActivatedRoute, Data, Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective, ModalService } from '@stud-asso/frontend-shared-modal';
+import { localLoginFormly, localSignUpFormly } from './login-page.formly';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
-import { localLoginFormly } from './login-page.formly';
 
 @Component({
   selector: 'stud-asso-login-page',
@@ -47,6 +47,20 @@ export class LoginPageComponent implements OnInit {
   }
 
   public tryToSignIn() {
+    return (model: { email: string; password: string }) => {
+      return;
+    };
+  }
+
+  public onClickSingUpButton() {
+    this.modal.createForm({
+      title: 'Connexion',
+      fields: localSignUpFormly,
+      submit: this.tryToSignUp(),
+    });
+  }
+
+  public tryToSignUp() {
     return (model: { email: string; password: string }) => {
       return;
     };

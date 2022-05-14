@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
-interface SelectOption {
-  label: string;
-  value: string;
-}
+import { SelectOption } from '../select.type';
 
 @Component({
   selector: 'stud-asso-formly-input-list',

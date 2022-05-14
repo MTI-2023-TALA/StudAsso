@@ -1,5 +1,4 @@
-import { Form } from '@stud-asso/frontend-shared-formly';
-import { SelectOption } from 'libs/frontend/shared/formly/src/lib/formly-select/formly-select.component';
+import { Form, SelectOption } from '@stud-asso/frontend-shared-formly';
 
 export const createAssociationFormly = async (usersList: SelectOption[]) => {
   return [

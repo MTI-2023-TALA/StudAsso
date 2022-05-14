@@ -20,7 +20,12 @@
     "frontend-core-i18n": "libs/frontend/core/i18n",
     "frontend-core-storage": "libs/frontend/core/storage",
     "frontend-feature-association-stock-page": "libs/frontend/feature/association/stock-page",
+    "frontend-feature-association-role-page": "libs/frontend/feature/association/role-page",
+
+    "frontend-feature-school-association-page": "libs/frontend/feature/school/association-page",
+
     "frontend-school": "apps/frontend/school",
+    "frontend-school-e2e": "apps/frontend/school-e2e",
     "frontend-scss": "libs/frontend/core/scss",
     "frontend-shared-formly": "libs/frontend/shared/formly",
     "frontend-shared-login-page": "libs/frontend/shared/login-page",
