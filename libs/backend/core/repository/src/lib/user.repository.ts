@@ -23,4 +23,8 @@ export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUs
   public findOneByEmail(email: string): Promise<User> {
     return this.userRepository.findOne({ where: { email } });
   }
+
+  public async findAllIdAndEmail(): Promise<User[]> {
+    return this.userRepository.find({ select: ['id', 'email'] });
+  }
 }

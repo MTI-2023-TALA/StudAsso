@@ -3,3 +3,4 @@ export * from './lib/api.service';
 export * from './lib/api-association.service';
 export * from './lib/api-role.service';
 export * from './lib/api-stock.service';
+export * from './lib/api-user.service';

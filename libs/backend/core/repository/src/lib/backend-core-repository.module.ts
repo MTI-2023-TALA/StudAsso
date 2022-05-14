@@ -1,4 +1,5 @@
 import { AssociationRepository } from './association.repository';
+import { AssociationsMemberRepository } from './associations-member.repository';
 import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
 import { EventRepository } from './event.repository';
 import { Module } from '@nestjs/common';
@@ -12,6 +13,7 @@ import { UserRepository } from './user.repository';
   controllers: [],
   providers: [
     AssociationRepository,
+    AssociationsMemberRepository,
     EventRepository,
     NewsFeedRepository,
     RoleRepository,
@@ -20,6 +22,7 @@ import { UserRepository } from './user.repository';
   ],
   exports: [
     AssociationRepository,
+    AssociationsMemberRepository,
     EventRepository,
     NewsFeedRepository,
     RoleRepository,

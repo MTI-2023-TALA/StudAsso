@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
-interface SelectOption {
+export interface SelectOption {
   label: string;
   value: string;
 }

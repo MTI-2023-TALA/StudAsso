@@ -1,10 +1,13 @@
+import { ApiAssociationService, ApiUserService } from '@stud-asso/frontend-core-api';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmModalComponent, ModalService } from '@stud-asso/frontend-shared-modal';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
+import { createAssociationFormly, modifyAssociationFormly } from './association-page.formly';
 
-import { ApiAssociationService } from '@stud-asso/frontend-core-api';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { SelectOption } from 'libs/frontend/shared/formly/src/lib/formly-select/formly-select.component';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
-import { createAssociationFormly } from './association-page.formly';
+import { UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 enum Action {
   EDIT = 1,
@@ -41,15 +44,25 @@ export class AssociationPageComponent implements OnInit {
 
   associationList: any[] = [];
 
-  constructor(private api: ApiAssociationService, private modal: ModalService, private toast: ToastService) {}
+  usersList: SelectOption[] = [];
+
+  constructor(
+    private apiAssociation: ApiAssociationService,
+    private apiUser: ApiUserService,
+    private modal: ModalService,
+    private toast: ToastService
+  ) {}
 
   ngOnInit() {
     this.reloadData();
   }
 
   reloadData() {
-    this.api.findAll().subscribe((associations: any) => {
+    this.apiAssociation.findAll().subscribe((associations: any) => {
       this.associationList = associations;
+    });
+    this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
+      this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
     });
   }
 
@@ -69,25 +82,26 @@ export class AssociationPageComponent implements OnInit {
     }
   }
 
-  createModalAssociation() {
+  async createModalAssociation() {
     this.modal.createForm({
       title: 'Créer une association',
-      fields: createAssociationFormly,
+      fields: (await createAssociationFormly(this.usersList)) as FormlyFieldConfig[],
       submit: this.createAssociation(),
     });
   }
 
-  modifyModalAssociation(id: number) {
+  async modifyModalAssociation(id: number) {
     this.modal.createForm({
       title: 'Modifier une association',
-      fields: createAssociationFormly,
+      fields: modifyAssociationFormly,
       submit: this.modifyAssociation(id),
     });
   }
 
   createAssociation() {
     return (model: any) => {
-      this.api.create(model).subscribe({
+      const dto = { ...model, presidentId: +model.presidentId };
+      this.apiAssociation.create(dto).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Association créée', type: ToastType.Success });
           this.reloadData();
@@ -98,14 +112,14 @@ export class AssociationPageComponent implements OnInit {
   }
 
   deleteAssociation(id: number) {
-    this.api.remove(id).subscribe({ complete: () => this.reloadData() });
+    this.apiAssociation.remove(id).subscribe({ complete: () => this.reloadData() });
   }
 
   modifyAssociation(id: number) {
     return (model: any) => {
-      this.api.update(id, model).subscribe({
+      this.apiAssociation.update(id, model).subscribe({
         complete: () => {
-          this.toast.addAlert({ title: `Nom de l'association modifier`, type: ToastType.Success });
+          this.toast.addAlert({ title: `Nom de l'association modifiée`, type: ToastType.Success });
           this.reloadData();
         },
         error: this.handleError(),
