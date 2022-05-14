@@ -10,14 +10,14 @@ import { Association } from '@stud-asso/backend/core/orm';
 import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsService } from './associations.service';
 import { UpdateResult } from 'typeorm';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 const mockedAssociations = [
-  plainToClass(Association, {
+  plainToInstance(Association, {
     id: 1,
     name: 'Association1',
   }),
-  plainToClass(Association, {
+  plainToInstance(Association, {
     id: 2,
     name: 'Association2',
   }),
@@ -78,7 +78,7 @@ describe('AssociationsService', () => {
 
   describe('createAssociation', () => {
     it('should call associationRepository.create with correct params', async () => {
-      const createAssociationDto = plainToClass(CreateAssociationDto, { name: 'Association1' });
+      const createAssociationDto = plainToInstance(CreateAssociationDto, { name: 'Association1' });
       const create = jest.spyOn(associationsRepository, 'create');
 
       const createResultRetrieved = await service.create(createAssociationDto);
@@ -113,7 +113,7 @@ describe('AssociationsService', () => {
 
   describe('updateAssociation', () =>
     it('shoud call associationRepository.update', async () => {
-      const updateAssociationDto = plainToClass(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
       const update = jest.spyOn(associationsRepository, 'update');
 
       const updateResultRetrieved = await service.update(1, updateAssociationDto);
