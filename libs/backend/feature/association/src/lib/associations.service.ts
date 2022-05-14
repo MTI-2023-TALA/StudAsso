@@ -1,5 +1,9 @@
 import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
-import { AssociationRepository, RoleRepository } from '@stud-asso/backend/core/repository';
+import {
+  AssociationRepository,
+  AssociationsMemberRepository,
+  RoleRepository,
+} from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
@@ -8,14 +12,15 @@ import { UpdateResult } from 'typeorm';
 export class AssociationsService {
   constructor(
     private readonly associationRepository: AssociationRepository,
-    private readonly roleRepository: RoleRepository
+    private readonly roleRepository: RoleRepository,
+    private readonly associationsMemberRepository: AssociationsMemberRepository
   ) {}
 
   public async create(createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
     // TODO: bug where presidentId is returned in Dto TO FIX
     const createdAsso = await this.associationRepository.create(createAssociationDto as any);
     const { id } = await this.roleRepository.createRolePresident(createAssociationDto.presidentId);
-    await this.roleRepository.linkUserToRole(createdAsso.id, createAssociationDto.presidentId, id);
+    await this.associationsMemberRepository.linkUserToRole(createdAsso.id, createAssociationDto.presidentId, id);
     return createdAsso;
   }
 

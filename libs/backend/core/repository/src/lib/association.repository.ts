@@ -1,4 +1,4 @@
-import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import { CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 
 import { Association } from '@stud-asso/backend/core/orm';
 import { BaseRepository } from './base.repository';

@@ -12,7 +12,7 @@ export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUs
     super(userRepository);
   }
 
-  public async findAllIdsName(): Promise<User[]> {
+  public async findAllIdAndEmail(): Promise<User[]> {
     return this.userRepository.find({ select: ['id', 'email'] });
   }
 }

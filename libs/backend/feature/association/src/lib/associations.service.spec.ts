@@ -1,6 +1,10 @@
+import {
+  AssociationRepository,
+  AssociationsMemberRepository,
+  RoleRepository,
+} from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AssociationRepository } from '@stud-asso/backend/core/repository';
 import { AssociationsService } from './associations.service';
 
 describe('AssociationsService', () => {
@@ -14,7 +18,19 @@ describe('AssociationsService', () => {
         {
           provide: AssociationRepository,
           useValue: {
-            create: jest.fn(),
+            create: jest.fn(() => Promise.resolve({ id: 1, name: 'Association Test' })),
+          },
+        },
+        {
+          provide: RoleRepository,
+          useValue: {
+            createRolePresident: jest.fn(() => Promise.resolve({ id: 1, name: 'Président', associationId: 1 })),
+          },
+        },
+        {
+          provide: AssociationsMemberRepository,
+          useValue: {
+            linkUserToRole: jest.fn(() => Promise.resolve({ associationId: 1, userId: 1, roleId: 1 })),
           },
         },
       ],
@@ -36,9 +52,11 @@ describe('AssociationsService', () => {
     it('should call associationRepository.create with correct params', async () => {
       await service.create({
         name: 'AssociationTest',
+        presidentId: 1,
       });
       expect(associationsRepository.create).toHaveBeenCalledWith({
         name: 'AssociationTest',
+        presidentId: 1,
       });
       expect(associationsRepository.create);
     });
