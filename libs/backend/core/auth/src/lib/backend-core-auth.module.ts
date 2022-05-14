@@ -6,6 +6,6 @@ import { RtStrategy } from './strategies/rt.strategy';
 @Module({
   imports: [JwtModule.register({})],
   providers: [AtStrategy, RtStrategy],
-  exports: [AtStrategy, RtStrategy],
+  exports: [AtStrategy, RtStrategy, JwtModule.register({})],
 })
 export class BackendCoreAuthModule {}
