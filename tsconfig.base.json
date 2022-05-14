@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "strictPropertyInitialization": false,
     "paths": {
+      "@stud-asso/backend-core-auth": ["libs/backend/core/auth/src/index.ts"],
       "@stud-asso/backend-core-base": ["libs/backend/core/base/src/index.ts"],
       "@stud-asso/backend-core-migrations": ["libs/backend/core/migrations/src/index.ts"],
       "@stud-asso/backend/core/orm": ["libs/backend/core/orm/src/index.ts"],
