@@ -103,3 +103,7 @@ apps/mobile/student-e2e/artifacts
 
 .vscode/settings.json
 .vscode/launch.json
+
+## Other
+
+.env
