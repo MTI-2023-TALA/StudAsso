@@ -11,4 +11,8 @@ export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUs
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
     super(userRepository);
   }
+
+  public async findAllIdsName(): Promise<User[]> {
+    return this.userRepository.find({ select: ['id', 'email'] });
+  }
 }

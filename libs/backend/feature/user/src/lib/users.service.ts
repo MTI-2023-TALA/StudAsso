@@ -1,4 +1,4 @@
-import { CreateUserDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
+import { CreateUserDto, UpdateUserDto, UserDto, UserOnlyIdAndNameDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
@@ -10,6 +10,10 @@ export class UsersService {
 
   public async create(createBaseDto: CreateUserDto): Promise<any> {
     return this.userRepository.create(createBaseDto as any);
+  }
+
+  public async findAllIdsName(): Promise<UserOnlyIdAndNameDto[]> {
+    return this.userRepository.findAllIdsName();
   }
 
   public async findAll(): Promise<UserDto[]> {
