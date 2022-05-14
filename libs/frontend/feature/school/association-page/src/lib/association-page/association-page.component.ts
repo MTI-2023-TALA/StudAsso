@@ -2,12 +2,12 @@ import { ApiAssociationService, ApiUserService } from '@stud-asso/frontend-core-
 import { Component, OnInit } from '@angular/core';
 import { ConfirmModalComponent, ModalService } from '@stud-asso/frontend-shared-modal';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
+import { createAssociationFormly, modifyAssociationFormly } from './association-page.formly';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { SelectOption } from 'libs/frontend/shared/formly/src/lib/formly-select/formly-select.component';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { UserIdAndEmailDto } from '@stud-asso/shared/dtos';
-import { createAssociationFormly } from './association-page.formly';
 
 enum Action {
   EDIT = 1,
@@ -93,7 +93,7 @@ export class AssociationPageComponent implements OnInit {
   async modifyModalAssociation(id: number) {
     this.modal.createForm({
       title: 'Modifier une association',
-      fields: (await createAssociationFormly(this.usersList)) as FormlyFieldConfig[],
+      fields: modifyAssociationFormly,
       submit: this.modifyAssociation(id),
     });
   }
@@ -119,7 +119,7 @@ export class AssociationPageComponent implements OnInit {
     return (model: any) => {
       this.apiAssociation.update(id, model).subscribe({
         complete: () => {
-          this.toast.addAlert({ title: `Nom de l'association modifier`, type: ToastType.Success });
+          this.toast.addAlert({ title: `Nom de l'association modifiée`, type: ToastType.Success });
           this.reloadData();
         },
         error: this.handleError(),

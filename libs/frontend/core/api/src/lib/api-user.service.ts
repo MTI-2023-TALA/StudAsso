@@ -16,6 +16,6 @@ export class ApiUserService extends ApiGenericService<CreateUserDto, UpdateUserD
   }
 
   getIdAndEmail() {
-    return this.api.get<UserIdAndEmailDto[]>(`${this.url}` + '/idandemail');
+    return this.api.get<UserIdAndEmailDto[]>(`${this.url}/idandemail`);
   }
 }
