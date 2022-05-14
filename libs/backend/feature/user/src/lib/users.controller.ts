@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmail } from '@stud-asso/shared/dtos';
+import { CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 import { UpdateResult } from 'typeorm';
 import { UsersService } from './users.service';
 
@@ -13,7 +13,7 @@ export class UsersController {
   }
 
   @Get('IdAndEmail')
-  findAllIdAndEmail(): Promise<UserIdAndEmail[]> {
+  findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
     return this.usersService.findAllIdAndEmail();
   }
 
