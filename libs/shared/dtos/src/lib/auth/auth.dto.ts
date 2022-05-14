@@ -9,3 +9,8 @@ export class AuthDto {
   @IsString()
   password: string;
 }
+
+export type TokenDto = {
+  accessToken: string;
+  refreshToken: string;
+};

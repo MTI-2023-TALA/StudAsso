@@ -11,4 +11,16 @@ export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUs
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
     super(userRepository);
   }
+
+  public createUser(email: string, firstname: string, lastname: string, hash: string): Promise<any> {
+    return this.userRepository.save({ email, passwordHash: hash, firstname, lastname });
+  }
+
+  public updateRt(userId: number, rt: string): Promise<any> {
+    return this.userRepository.update(userId, { rtHash: rt });
+  }
+
+  public findOneByEmail(email: string): Promise<User> {
+    return this.userRepository.findOne({ email });
+  }
 }

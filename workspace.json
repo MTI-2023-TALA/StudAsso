@@ -7,6 +7,7 @@
     "backend-core-orm": "libs/backend/core/orm",
     "backend-core-repository": "libs/backend/core/repository",
     "backend-feature-association": "libs/backend/feature/association",
+    "backend-feature-auth": "libs/backend/feature/auth",
     "backend-feature-event": "libs/backend/feature/event",
     "backend-feature-news-feed": "libs/backend/feature/news-feed",
     "backend-feature-role": "libs/backend/feature/role",

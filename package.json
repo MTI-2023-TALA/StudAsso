@@ -76,6 +76,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^8.0.3",
     "@ngx-formly/core": "^5.12.1",
+    "argon2": "^0.28.5",
     "bootstrap-icons": "^1.8.1",
     "bulma": "^0.9.3",
     "class-transformer": "^0.5.1",

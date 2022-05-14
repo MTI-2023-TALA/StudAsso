@@ -22,6 +22,7 @@
       "@stud-asso/backend/core/orm": ["libs/backend/core/orm/src/index.ts"],
       "@stud-asso/backend/core/repository": ["libs/backend/core/repository/src/index.ts"],
       "@stud-asso/backend/feature/association": ["libs/backend/feature/association/src/index.ts"],
+      "@stud-asso/backend/feature/auth": ["libs/backend/feature/auth/src/index.ts"],
       "@stud-asso/backend/feature/event": ["libs/backend/feature/event/src/index.ts"],
       "@stud-asso/backend/feature/news-feed": ["libs/backend/feature/news-feed/src/index.ts"],
       "@stud-asso/backend/feature/role": ["libs/backend/feature/role/src/index.ts"],

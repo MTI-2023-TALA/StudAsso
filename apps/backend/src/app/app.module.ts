@@ -4,6 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BackendFeatureAssociationModule } from '@stud-asso/backend/feature/association';
+import { BackendFeatureAuthModule } from '@stud-asso/backend/feature/auth';
 import { BackendFeatureEventModule } from '@stud-asso/backend/feature/event';
 import { BackendFeatureNewsFeedModule } from '@stud-asso/backend/feature/news-feed';
 import { BackendFeatureRoleModule } from '@stud-asso/backend/feature/role';
@@ -21,6 +22,7 @@ import { getConnectionOptions } from 'typeorm';
       useFactory: async () => Object.assign(await getConnectionOptions(), { autoLoadEntities: true }),
     }),
     BackendCoreAuthModule,
+    BackendFeatureAuthModule,
     BackendFeatureAssociationModule,
     BackendFeatureEventModule,
     BackendFeatureNewsFeedModule,
