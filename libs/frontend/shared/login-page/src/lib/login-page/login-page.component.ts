@@ -36,7 +36,6 @@ export class LoginPageComponent implements OnInit {
       fields: localLoginFormly,
       submit: this.tryToSignIn(),
     });
-    return;
   }
 
   public tryToSignIn() {
