@@ -1,9 +1,9 @@
 import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { UseStorage, getData } from '@stud-asso/frontend-core-storage';
 
 import { ApiAuthService } from '@stud-asso/frontend-core-api';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { UseStorage } from '@stud-asso/frontend-core-storage';
 
 @Injectable({
   providedIn: 'root',
@@ -46,6 +46,6 @@ export class AuthService {
   }
 
   public isSign(): boolean {
-    return this.isConnected;
+    return this.isConnected && getData('jwt-token') !== null;
   }
 }
