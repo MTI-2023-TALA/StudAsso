@@ -48,4 +48,13 @@ export class AuthService {
   public isSign(): boolean {
     return this.isConnected && getData('jwt-token') !== null;
   }
+
+  public logout() {
+    console.log('Logout');
+    this.jwt = null;
+    this.refreshToken = null;
+    this.isConnected = false;
+    this.apiAuthService.logout().subscribe();
+    this.router.navigateByUrl('/');
+  }
 }

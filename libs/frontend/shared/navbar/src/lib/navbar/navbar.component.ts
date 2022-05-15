@@ -1,4 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { AuthService } from '@stud-asso/frontend-core-auth';
 import { NavbarItem } from './navbar.model';
 
 @Component({
@@ -14,8 +16,15 @@ export class NavbarComponent {
   @Input() shouldShowLargeNavbar = true;
   @Output() shouldShowLargeNavbarChange = new EventEmitter<boolean>();
 
+  constructor(private authService: AuthService) {}
+
   toggleShowLargeNavbar() {
     this.shouldShowLargeNavbar = !this.shouldShowLargeNavbar;
     this.shouldShowLargeNavbarChange.emit(this.shouldShowLargeNavbar);
+  }
+
+  logout() {
+    this.authService.logout();
+    return;
   }
 }
