@@ -1,6 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-import { AssociationsMember } from './association-member.entity';
+import { Association } from './association.entity';
 import { Base } from './base.entity';
 
 @Entity('users')
@@ -23,6 +23,11 @@ export class User extends Base {
   @Column({ type: 'varchar', name: 'rt_hash' })
   rtHash: string;
 
-  @OneToMany(() => AssociationsMember, (associationsMember) => associationsMember.associationId)
-  associations: AssociationsMember[];
+  @ManyToMany(() => Association, (association) => association.users)
+  @JoinTable({
+    name: 'associations_members',
+    joinColumn: { name: 'user_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'association_id', referencedColumnName: 'id' },
+  })
+  associations: Association[];
 }

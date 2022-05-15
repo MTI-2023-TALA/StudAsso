@@ -1,5 +1,7 @@
+import { AssoUserDto, CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+
+import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { UpdateResult } from 'typeorm';
 import { UsersService } from './users.service';
 
@@ -15,6 +17,12 @@ export class UsersController {
   @Get('IdAndEmail')
   findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
     return this.usersService.findAllIdAndEmail();
+  }
+
+  @Get('asso')
+  findAssoOfUser(@GetCurrentUserId() userId: number): Promise<AssoUserDto> {
+    console.log(userId);
+    return this.usersService.findAssoOfUser(userId);
   }
 
   @Get()
