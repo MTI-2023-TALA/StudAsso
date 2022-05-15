@@ -34,6 +34,6 @@ export class UsersService {
 
   public async findAssoOfUser(id: number) {
     const res = await this.userRepository.findAssoOfUser(id);
-    return { id: res.id, associationsId: res.associations.map((asso) => asso.id) };
+    return { id: res.id, associationsId: res.associations.map((asso) => ({ id: asso.id, name: asso.name })) };
   }
 }

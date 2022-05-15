@@ -7,5 +7,5 @@ export class AssoUserDto {
 
   @IsArray()
   @IsOptional()
-  associationsId: number[];
+  associationsId: Array<{ name: string; id: number }>;
 }
