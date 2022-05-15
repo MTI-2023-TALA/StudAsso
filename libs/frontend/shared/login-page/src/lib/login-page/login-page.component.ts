@@ -30,13 +30,6 @@ export class LoginPageComponent implements OnInit {
     this.modal.setRootViewContainerRef(this.modalDirective.viewContainerRef);
   }
 
-  public onClickSignInButton() {
-    const success = this.authService.tryToSign();
-    if (success) {
-      this.router.navigateByUrl('/');
-    }
-  }
-
   public onClickOpenSignInButton() {
     this.modal.createForm({
       title: 'Connexion',
@@ -48,7 +41,7 @@ export class LoginPageComponent implements OnInit {
 
   public tryToSignIn() {
     return (model: { email: string; password: string }) => {
-      return;
+      this.authService.tryToSign(model.email, model.password);
     };
   }
 
@@ -62,7 +55,8 @@ export class LoginPageComponent implements OnInit {
 
   public tryToSignUp() {
     return (model: { email: string; password: string }) => {
-      return;
+      console.log('Hello !');
+      return this.authService.tryToSignUp(model.email, model.password);
     };
   }
 }

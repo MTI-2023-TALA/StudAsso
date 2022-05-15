@@ -1,5 +1,6 @@
+import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
+
 import { ApiService } from './api.service';
-import { AuthDto } from '@stud-asso/shared/dtos';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -13,11 +14,11 @@ export class ApiAuthService {
   }
 
   public signupLocal(payload: AuthDto) {
-    return this.apiService.post(`${this.url}/local/signup`, payload);
+    return this.apiService.post<AuthDto, TokenDto>(`${this.url}/local/signup`, payload);
   }
 
   public signinLocal(payload: AuthDto) {
-    return this.apiService.post(`${this.url}/local/signin`, payload);
+    return this.apiService.post<AuthDto, TokenDto>(`${this.url}/local/signin`, payload);
   }
 
   public logout() {
