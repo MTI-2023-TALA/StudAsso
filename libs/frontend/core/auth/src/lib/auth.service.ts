@@ -50,7 +50,6 @@ export class AuthService {
   }
 
   public logout() {
-    console.log('Logout');
     this.jwt = null;
     this.refreshToken = null;
     this.isConnected = false;

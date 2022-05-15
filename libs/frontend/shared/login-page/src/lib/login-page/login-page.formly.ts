@@ -1,4 +1,5 @@
-import { Form } from '@stud-asso/frontend-shared-formly';
+import { Form, InputType } from '@stud-asso/frontend-shared-formly';
+
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
 export const localLoginFormly: FormlyFieldConfig[] = [
@@ -16,7 +17,7 @@ export const localLoginFormly: FormlyFieldConfig[] = [
     templateOptions: {
       label: `Mot de passe`,
       required: true,
-      type: 'password',
+      type: InputType.Password,
     },
   },
 ];
@@ -37,7 +38,7 @@ export const localSignUpFormly: FormlyFieldConfig[] = [
     templateOptions: {
       label: `Mot de passe`,
       required: true,
-      type: 'password',
+      type: InputType.Password,
     },
   },
 ];

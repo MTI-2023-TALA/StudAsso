@@ -1,11 +1,15 @@
+import { AuthService } from '@stud-asso/frontend-core-auth';
 import { NavbarComponent } from './navbar.component';
 import { spyOn } from 'jest-mock';
+
+class MockAuthService {}
 
 describe('NavbarComponent', () => {
   let fixture: NavbarComponent;
 
   beforeEach(() => {
-    fixture = new NavbarComponent();
+    const mockAuthService = new MockAuthService() as AuthService;
+    fixture = new NavbarComponent(mockAuthService);
   });
 
   describe('Setup component', () => {
