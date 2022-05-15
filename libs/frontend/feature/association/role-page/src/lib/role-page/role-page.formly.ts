@@ -1,5 +1,4 @@
-import { Form, InputType } from '@stud-asso/frontend-shared-formly';
-
+import { Form } from '@stud-asso/frontend-shared-formly';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
 export const createRoleFormly: FormlyFieldConfig[] = [
