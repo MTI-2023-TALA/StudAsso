@@ -31,4 +31,9 @@ export class UsersService {
   public async delete(id: number): Promise<UpdateResult> {
     return this.userRepository.delete(id);
   }
+
+  public async findAssoOfUser(id: number) {
+    const res = await this.userRepository.findAssoOfUser(id);
+    return { id: res.id, associationsId: res.associations.map((asso) => asso.id) };
+  }
 }

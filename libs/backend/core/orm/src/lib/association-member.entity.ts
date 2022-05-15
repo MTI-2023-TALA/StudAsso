@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
+import { Association } from './association.entity';
 import { Base } from './base.entity';
 
 @Entity('associations_members')
