@@ -30,6 +30,8 @@ ul {
   overflow-y: auto;
   height: 100vh;
   background-color: $light-grey-100;
+  display: flex;
+  flex-direction: column;
 
   // Handle navbar without title
   &:not(.show-large-navbar) {
@@ -76,4 +78,9 @@ ul {
 
 .button {
   border: none;
+}
+
+.logout {
+  display: flex;
+  justify-content: center;
 }

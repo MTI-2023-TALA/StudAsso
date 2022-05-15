@@ -10,7 +10,14 @@ export class ApiService {
     return;
   }
 
-  public get<TypeResult>(url: string): Observable<TypeResult> {
+  private getHeader() {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${localStorage.getItem('jwt-token')}`);
+    return headers;
+  }
+
+  public get<TypeResult>(url: string) {
     return this.http.get<TypeResult>(`/api/${url}`);
   }
 

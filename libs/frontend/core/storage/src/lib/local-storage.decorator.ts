@@ -1,4 +1,4 @@
-import { getData, setData } from './local-storage.private.helper';
+import { getData, setData } from './local-storage.helper';
 
 export function UseStorage(storageKey: string) {
   return function (target: any, key: string | symbol) {

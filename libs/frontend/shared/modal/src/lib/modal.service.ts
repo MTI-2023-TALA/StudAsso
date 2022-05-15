@@ -23,6 +23,9 @@ export class ModalService {
   }
 
   createModal(componentClass: typeof BaseModalComponent, data: any = {}) {
+    if (!this.rootViewContainer) {
+      throw new Error('Root view container not set');
+    }
     const componentRef = this.rootViewContainer?.createComponent(componentClass);
     componentRef?.instance.setComponentRef(componentRef);
     componentRef?.instance.setData(data);

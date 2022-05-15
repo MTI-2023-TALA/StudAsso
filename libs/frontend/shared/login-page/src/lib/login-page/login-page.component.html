@@ -1,37 +1,46 @@
 <h1 class="title">Stud'Asso | {{ title }}</h1>
-<button class="button is-link" (click)="onClickSignInButton()">
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <g filter="url(#filter0_d_11_508)">
-      <path
-        d="M21.53 4.306V19.669C21.53 20.207 21.3727 20.6847 21.058 21.102C20.7433 21.52 20.3257 21.8033 19.805 21.952L12.917 23.926C12.8263 23.9507 12.7297 23.969 12.627 23.981C12.523 23.9937 12.4253 24 12.334 24C12.07 24 11.83 23.965 11.614 23.895C11.4 23.8243 11.1813 23.727 10.958 23.603L6.453 21.059C6.28767 20.9677 6.15734 20.8457 6.062 20.693C5.96667 20.5397 5.919 20.368 5.919 20.178C5.919 19.8887 6.02034 19.6427 6.223 19.44C6.42567 19.2367 6.672 19.135 6.962 19.135H12.793V4.964L8.413 6.527C8.05767 6.65167 7.77234 6.871 7.557 7.185C7.34234 7.49967 7.235 7.843 7.235 8.215V16.293C7.235 16.6237 7.15233 16.9277 6.987 17.205C6.82033 17.4823 6.59267 17.6993 6.304 17.856L4.232 18.986C4.04133 19.0847 3.851 19.134 3.661 19.134C3.32967 19.134 3.04833 19.0183 2.817 18.787C2.585 18.5557 2.469 18.2743 2.469 17.943V6.563C2.469 6.14967 2.579 5.753 2.799 5.373C3.01767 4.99233 3.309 4.69867 3.673 4.492L11.07 0.285C11.2353 0.194333 11.4133 0.124333 11.604 0.075C11.794 0.025 11.984 0 12.174 0C12.3147 0 12.4413 0.0103333 12.554 0.031C12.6647 0.0516667 12.786 0.0826667 12.918 0.124L19.806 2.023C20.062 2.09633 20.2953 2.206 20.506 2.352C20.7173 2.49667 20.8997 2.67 21.053 2.872C21.2063 3.07533 21.324 3.29867 21.406 3.542C21.4893 3.78667 21.531 4.04133 21.531 4.306H21.53ZM19.942 19.669V4.306C19.942 4.124 19.8887 3.96467 19.782 3.828C19.6733 3.692 19.5323 3.59867 19.359 3.548L15.971 2.618C15.7063 2.544 15.4417 2.46733 15.177 2.388C14.9123 2.31 14.6477 2.238 14.383 2.172V21.852L19.359 20.425C19.5323 20.3757 19.673 20.2823 19.781 20.145C19.8883 20.009 19.942 19.85 19.942 19.668V19.669Z"
-        fill="currentColor"
-      />
-    </g>
-    <defs>
-      <filter
-        id="filter0_d_11_508"
-        x="-1.531"
-        y="0"
-        width="27.062"
-        height="32"
-        filterUnits="userSpaceOnUse"
-        color-interpolation-filters="sRGB"
-      >
-        <feFlood flood-opacity="0" result="BackgroundImageFix" />
-        <feColorMatrix
-          in="SourceAlpha"
-          type="matrix"
-          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
-          result="hardAlpha"
+<div class="connection-option">
+  <button class="button is-link u-m-2">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g filter="url(#filter0_d_11_508)">
+        <path
+          d="M21.53 4.306V19.669C21.53 20.207 21.3727 20.6847 21.058 21.102C20.7433 21.52 20.3257 21.8033 19.805 21.952L12.917 23.926C12.8263 23.9507 12.7297 23.969 12.627 23.981C12.523 23.9937 12.4253 24 12.334 24C12.07 24 11.83 23.965 11.614 23.895C11.4 23.8243 11.1813 23.727 10.958 23.603L6.453 21.059C6.28767 20.9677 6.15734 20.8457 6.062 20.693C5.96667 20.5397 5.919 20.368 5.919 20.178C5.919 19.8887 6.02034 19.6427 6.223 19.44C6.42567 19.2367 6.672 19.135 6.962 19.135H12.793V4.964L8.413 6.527C8.05767 6.65167 7.77234 6.871 7.557 7.185C7.34234 7.49967 7.235 7.843 7.235 8.215V16.293C7.235 16.6237 7.15233 16.9277 6.987 17.205C6.82033 17.4823 6.59267 17.6993 6.304 17.856L4.232 18.986C4.04133 19.0847 3.851 19.134 3.661 19.134C3.32967 19.134 3.04833 19.0183 2.817 18.787C2.585 18.5557 2.469 18.2743 2.469 17.943V6.563C2.469 6.14967 2.579 5.753 2.799 5.373C3.01767 4.99233 3.309 4.69867 3.673 4.492L11.07 0.285C11.2353 0.194333 11.4133 0.124333 11.604 0.075C11.794 0.025 11.984 0 12.174 0C12.3147 0 12.4413 0.0103333 12.554 0.031C12.6647 0.0516667 12.786 0.0826667 12.918 0.124L19.806 2.023C20.062 2.09633 20.2953 2.206 20.506 2.352C20.7173 2.49667 20.8997 2.67 21.053 2.872C21.2063 3.07533 21.324 3.29867 21.406 3.542C21.4893 3.78667 21.531 4.04133 21.531 4.306H21.53ZM19.942 19.669V4.306C19.942 4.124 19.8887 3.96467 19.782 3.828C19.6733 3.692 19.5323 3.59867 19.359 3.548L15.971 2.618C15.7063 2.544 15.4417 2.46733 15.177 2.388C14.9123 2.31 14.6477 2.238 14.383 2.172V21.852L19.359 20.425C19.5323 20.3757 19.673 20.2823 19.781 20.145C19.8883 20.009 19.942 19.85 19.942 19.668V19.669Z"
+          fill="currentColor"
         />
-        <feOffset dy="4" />
-        <feGaussianBlur stdDeviation="2" />
-        <feComposite in2="hardAlpha" operator="out" />
-        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
-        <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_11_508" />
-        <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_11_508" result="shape" />
-      </filter>
-    </defs>
-  </svg>
-  Se connecter avec Office
-</button>
+      </g>
+      <defs>
+        <filter
+          id="filter0_d_11_508"
+          x="-1.531"
+          y="0"
+          width="27.062"
+          height="32"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feColorMatrix
+            in="SourceAlpha"
+            type="matrix"
+            values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+            result="hardAlpha"
+          />
+          <feOffset dy="4" />
+          <feGaussianBlur stdDeviation="2" />
+          <feComposite in2="hardAlpha" operator="out" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
+          <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_11_508" />
+          <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_11_508" result="shape" />
+        </filter>
+      </defs>
+    </svg>
+    Se connecter avec Office
+  </button>
+  <div>
+    <button class="button is-ghost" (click)="onClickOpenSignInButton()">Se connecter</button>
+    <button class="button is-ghost" (click)="onClickSingUpButton()">Créer un compte</button>
+  </div>
+</div>
+<div class="modal-placement">
+  <ng-container studAssoModalContainer></ng-container>
+</div>

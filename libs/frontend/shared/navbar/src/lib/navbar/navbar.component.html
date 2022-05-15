@@ -58,4 +58,11 @@
       </a>
     </ul>
   </nav>
+
+  <div class="logout">
+    <button class="button is-danger" (click)="logout()">
+      <i class="bi bi-power p-2"></i>
+      <span *ngIf="shouldShowLargeNavbar">Déconnexion</span>
+    </button>
+  </div>
 </div>
