@@ -25,23 +25,25 @@ export class AuthService {
     }
   }
 
-  public tryToSignUp(email: string, password: string) {
+  public tryToSignUp(email: string, password: string, association: boolean = false) {
     const payload: AuthDto = { email, password };
     this.apiAuthService.signupLocal(payload).subscribe((res: TokenDto) => {
       this.jwt = res.accessToken;
       this.refreshToken = res.refreshToken;
       this.isConnected = true;
-      this.router.navigateByUrl('/');
+      if (association) this.router.navigateByUrl('/select-asso');
+      else this.router.navigateByUrl('/');
     });
   }
 
-  public tryToSign(email: string, password: string) {
+  public tryToSign(email: string, password: string, association: boolean = false) {
     const payload: AuthDto = { email, password };
     this.apiAuthService.signinLocal(payload).subscribe((res: TokenDto) => {
       this.jwt = res.accessToken;
       this.refreshToken = res.refreshToken;
       this.isConnected = true;
-      this.router.navigateByUrl('/');
+      if (association) this.router.navigateByUrl('/select-asso');
+      else this.router.navigateByUrl('/');
     });
   }
 

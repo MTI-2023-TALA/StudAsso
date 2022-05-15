@@ -1,0 +1,25 @@
+@import 'base/variables';
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
+  flex-direction: column;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+
+  .item {
+    padding: 1rem 4rem;
+    font-size: 1.5rem;
+    background-color: $light-grey-200;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $light-grey-300;
+    }
+  }
+}

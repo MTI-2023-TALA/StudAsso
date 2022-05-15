@@ -1,0 +1,6 @@
+<div class="center">
+  <h1 class="title">Merci de sélectionner une association :</h1>
+  <div class="list">
+    <div *ngFor="let asso of assoList?.associationsId" class="item" (click)="onClickAsso(asso.id)">{{ asso.name }}</div>
+  </div>
+</div>

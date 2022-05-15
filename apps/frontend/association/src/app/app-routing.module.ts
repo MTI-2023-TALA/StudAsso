@@ -6,6 +6,7 @@ import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-co
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NgModule } from '@angular/core';
 import { RolePageComponent } from '@stud-asso/frontend/feature/association/role-page';
+import { SelectionAssoPageComponent } from '@stud-asso/frontend/feature/association/select-association-page';
 import { StockPageComponent } from '@stud-asso/frontend/feature/association/stock-page';
 
 const mainRouteConfig: NavbarItem[] = [
@@ -20,6 +21,11 @@ const routes: Routes = [
     component: LoginPageComponent,
     data: { title: 'Portail Association' },
     canActivate: [IsNotSignGuard],
+  },
+  {
+    path: 'select-asso',
+    component: SelectionAssoPageComponent,
+    canActivate: [IsSignGuard],
   },
   {
     path: '',

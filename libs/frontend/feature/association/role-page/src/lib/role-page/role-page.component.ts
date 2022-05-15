@@ -5,6 +5,7 @@ import { ApiRoleService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createRoleFormly } from './role-page.formly';
+import { getData } from '@stud-asso/frontend-core-storage';
 
 enum Action {
   EDIT = 1,
@@ -86,7 +87,15 @@ export class RolePageComponent implements OnInit {
 
   createRole() {
     return (model: any) => {
-      this.api.create(model).subscribe({
+      const assoIdData = getData('asso-id');
+      if (!assoIdData) {
+        this.toast.addAlert({ title: 'Association non trouvé', type: ToastType.Error });
+        return;
+      }
+      const associationId = JSON.parse(assoIdData);
+
+      const payload = { ...model, associationId };
+      this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });
           this.reloadData();

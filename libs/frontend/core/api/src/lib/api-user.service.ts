@@ -1,4 +1,4 @@
-import { CreateUserDto, UpdateUserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import { AssoUserDto, CreateUserDto, UpdateUserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 import { ApiGenericService } from './api-generic.service';
 import { ApiService } from './api.service';
@@ -17,5 +17,9 @@ export class ApiUserService extends ApiGenericService<CreateUserDto, UpdateUserD
 
   getIdAndEmail() {
     return this.api.get<UserIdAndEmailDto[]>(`${this.url}/idandemail`);
+  }
+
+  getUserAsso() {
+    return this.api.get<AssoUserDto>(`${this.url}/asso`);
   }
 }
