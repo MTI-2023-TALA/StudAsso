@@ -13,6 +13,7 @@ import { AuthService } from '@stud-asso/frontend-core-auth';
 export class LoginPageComponent implements OnInit {
   @ViewChild(ModalDirective, { static: true }) modalDirective!: ModalDirective;
 
+  isAsso = false;
   title = '';
 
   constructor(
@@ -25,6 +26,7 @@ export class LoginPageComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data) => {
       this.title = data['title'];
+      this.isAsso = this.title === 'Portail Association';
     });
 
     this.modal.setRootViewContainerRef(this.modalDirective.viewContainerRef);
@@ -40,7 +42,7 @@ export class LoginPageComponent implements OnInit {
 
   public tryToSignIn() {
     return (model: { email: string; password: string }) => {
-      this.authService.tryToSign(model.email, model.password);
+      this.authService.tryToSign(model.email, model.password, this.isAsso);
     };
   }
 
@@ -55,7 +57,7 @@ export class LoginPageComponent implements OnInit {
   public tryToSignUp() {
     return (model: { email: string; password: string }) => {
       console.log('Hello !');
-      return this.authService.tryToSignUp(model.email, model.password);
+      return this.authService.tryToSignUp(model.email, model.password, this.isAsso);
     };
   }
 }

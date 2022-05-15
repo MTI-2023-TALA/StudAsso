@@ -5,6 +5,7 @@ import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createStockFormly } from './stock-page.formly';
+import { getData } from '@stud-asso/frontend-core-storage';
 
 enum Action {
   EDIT = 1,
@@ -91,8 +92,13 @@ export class StockPageComponent implements OnInit {
 
   createStock() {
     return (model: any) => {
-      //TODO: Fix this with auth
-      const tmp = { associationId: 1 };
+      const assoIdData = getData('asso-id');
+      if (!assoIdData) {
+        this.toast.addAlert({ title: 'Association non trouvé', type: ToastType.Error });
+        return;
+      }
+      const assoId = JSON.parse(assoIdData);
+      const tmp = { associationId: assoId };
       model = Object.assign(model, tmp);
       model['count'] = Number(model['count']);
       this.api.create(model).subscribe({

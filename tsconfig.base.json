@@ -42,6 +42,9 @@
       "@stud-asso/frontend-shared-toast": ["libs/frontend/shared/toast/src/index.ts"],
       "@stud-asso/frontend/core/i18n": ["libs/frontend/core/i18n/src/index.ts"],
       "@stud-asso/frontend/feature/association/role-page": ["libs/frontend/feature/association/role-page/src/index.ts"],
+      "@stud-asso/frontend/feature/association/select-association-page": [
+        "libs/frontend/feature/association/select-association-page/src/index.ts"
+      ],
       "@stud-asso/frontend/feature/association/stock-page": [
         "libs/frontend/feature/association/stock-page/src/index.ts"
       ],

@@ -12,14 +12,4 @@ export const createRoleFormly: FormlyFieldConfig[] = [
       required: true,
     },
   },
-  //TODO: Use auth to get the id of the association of the user connected
-  {
-    key: 'associationId',
-    type: Form.Input,
-    templateOptions: {
-      type: InputType.Number,
-      label: "Id de l'association",
-      required: true,
-    },
-  },
 ];
