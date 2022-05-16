@@ -43,9 +43,9 @@ describe('AssociationsService', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedAssociations[0])),
             findAll: jest.fn(() => Promise.resolve(mockedAssociations)),
-            findOne: jest.fn((id) => Promise.resolve(mockedAssociations[0])),
-            update: jest.fn((id, updateAssociationDto) => Promise.resolve(mockedUpdateResult)),
-            delete: jest.fn((id) => Promise.resolve(mockedUpdateResult)),
+            findOne: jest.fn(() => Promise.resolve(mockedAssociations[0])),
+            update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
+            delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
           },
         },
         {
