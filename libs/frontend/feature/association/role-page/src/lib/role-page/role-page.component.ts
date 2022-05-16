@@ -51,7 +51,7 @@ export class RolePageComponent implements OnInit {
   reloadData() {
     const assoIdData = getData('asso-id');
     if (!assoIdData) {
-      this.toast.addAlert({ title: 'Association non trouvé', type: ToastType.Error });
+      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
     }
     const associationId = JSON.parse(assoIdData);
@@ -95,7 +95,7 @@ export class RolePageComponent implements OnInit {
     return (model: any) => {
       const assoIdData = getData('asso-id');
       if (!assoIdData) {
-        this.toast.addAlert({ title: 'Association non trouvé', type: ToastType.Error });
+        this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
       }
       const associationId = JSON.parse(assoIdData);
