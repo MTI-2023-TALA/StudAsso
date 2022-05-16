@@ -90,7 +90,7 @@ describe('AssociationsService', () => {
     });
   });
 
-  describe('findAllAssociation', () =>
+  describe('findAllAssociation', () => {
     it('should call associationRepository.findAll', async () => {
       const findAll = jest.spyOn(associationsRepository, 'findAll');
 
@@ -99,9 +99,10 @@ describe('AssociationsService', () => {
 
       expect(findAll).toHaveBeenCalledTimes(1);
       expect(findAll).toHaveBeenCalledWith();
-    }));
+    });
+  });
 
-  describe('findOneAssociation', () =>
+  describe('findOneAssociation', () => {
     it('should call associationRepository.findOne', async () => {
       const findOne = jest.spyOn(associationsRepository, 'findOne');
 
@@ -110,9 +111,10 @@ describe('AssociationsService', () => {
 
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(1);
-    }));
+    });
+  });
 
-  describe('updateAssociation', () =>
+  describe('updateAssociation', () => {
     it('shoud call associationRepository.update', async () => {
       const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
       const update = jest.spyOn(associationsRepository, 'update');
@@ -122,7 +124,8 @@ describe('AssociationsService', () => {
 
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(1, { name: 'Association1 Renamed' });
-    }));
+    });
+  });
 
   describe('deleteAssociation', () => {
     it('shoud call associationRepository.remove', async () => {
