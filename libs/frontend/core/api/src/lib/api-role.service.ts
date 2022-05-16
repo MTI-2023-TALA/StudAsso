@@ -12,4 +12,8 @@ export class ApiRoleService extends ApiGenericService<CreateRoleDto, UpdateRoleD
     super(apiService);
     this.url = 'roles';
   }
+
+  public findAllAsso(id: number) {
+    return this.apiService.get(`${this.url}/asso/${id}`);
+  }
 }
