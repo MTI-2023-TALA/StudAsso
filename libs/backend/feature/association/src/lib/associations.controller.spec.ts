@@ -1,9 +1,10 @@
+import { QueryFailedError, UpdateResult } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
-import { UpdateResult } from 'typeorm';
+import { UnprocessableEntityException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 
 const mockCreateAssociationDto = plainToInstance(AssociationDto, { id: 1, name: 'Association1' });
@@ -19,6 +20,7 @@ const mockedUpdateResult: UpdateResult = {
 
 describe('AssociationsController', () => {
   let controller: AssociationsController;
+  let service: AssociationsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -37,7 +39,8 @@ describe('AssociationsController', () => {
       ],
     }).compile();
 
-    controller = module.get<AssociationsController>(AssociationsController);
+    controller = await module.get<AssociationsController>(AssociationsController);
+    service = await module.get<AssociationsService>(AssociationsService);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -49,6 +52,22 @@ describe('AssociationsController', () => {
   describe('createAssociation', () => {
     it('should call associationService.create', async () => {
       await controller.create({ name: 'Association1', presidentId: 1 });
+    });
+
+    it('shoud call associationService.create and return unprocessableEntity exception', async () => {
+      const create = jest.spyOn(service, 'create').mockRejectedValue(new QueryFailedError('null', [], 'null'));
+
+      try {
+        await controller.create({ name: 'Association1', presidentId: 1 });
+      } catch (error) {
+        expect(create).toHaveBeenCalledTimes(1);
+        expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
+        expect(error).toBeInstanceOf(UnprocessableEntityException);
+        return;
+      }
+
+      // Should have entered try catch
+      expect(false).toBe(true);
     });
   });
 
