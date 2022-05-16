@@ -11,4 +11,8 @@ export class StockRepository extends BaseRepository<Stock, CreateStockDto, Updat
   constructor(@InjectRepository(Stock) private readonly stockRepository: Repository<Stock>) {
     super(stockRepository);
   }
+
+  public findAllAsso(id: number): Promise<Stock[]> {
+    return this.stockRepository.find({ associationId: id });
+  }
 }

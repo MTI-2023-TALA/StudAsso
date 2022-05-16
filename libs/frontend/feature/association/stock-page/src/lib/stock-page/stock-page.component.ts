@@ -3,6 +3,7 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { StockDto } from '@stud-asso/shared/dtos';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createStockFormly } from './stock-page.formly';
 import { getData } from '@stud-asso/frontend-core-storage';
@@ -69,7 +70,13 @@ export class StockPageComponent implements OnInit {
   }
 
   reloadData() {
-    this.api.findAll().subscribe((stocks: any) => {
+    const assoIdData = getData('asso-id');
+    if (!assoIdData) {
+      this.toast.addAlert({ title: 'Association non trouvé', type: ToastType.Error });
+      return;
+    }
+    const assoId = JSON.parse(assoIdData);
+    this.api.findAllAsso(assoId).subscribe((stocks: StockDto[]) => {
       this.stockList = stocks;
     });
   }

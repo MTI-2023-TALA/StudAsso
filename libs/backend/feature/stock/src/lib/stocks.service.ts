@@ -16,6 +16,10 @@ export class StocksService {
     return this.stockRepository.findAll();
   }
 
+  public async findAllAsso(id: number): Promise<StockDto[]> {
+    return this.stockRepository.findAllAsso(id);
+  }
+
   public async findOne(id: number): Promise<StockDto> {
     return this.stockRepository.findOne(id);
   }
