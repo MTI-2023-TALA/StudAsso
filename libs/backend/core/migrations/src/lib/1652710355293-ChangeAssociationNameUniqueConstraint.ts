@@ -1,4 +1,4 @@
-import { MigrationInterface, QueryRunner } from 'typeorm';
+import { MigrationInterface, QueryRunner, TableUnique } from 'typeorm';
 
 export class ChangeAssociationNameUniqueConstraint1652710355293 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -10,5 +10,9 @@ export class ChangeAssociationNameUniqueConstraint1652710355293 implements Migra
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropIndex('associations', 'unique_association_name');
+    await queryRunner.createUniqueConstraint(
+      'associations',
+      new TableUnique({ name: 'unique_association_name', columnNames: ['name'] })
+    );
   }
 }
