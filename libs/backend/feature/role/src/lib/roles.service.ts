@@ -12,8 +12,8 @@ export class RolesService {
     return this.roleRepository.create(createBaseDto as any);
   }
 
-  public async findAll(): Promise<RoleDto[]> {
-    return this.roleRepository.findAll();
+  public async findAll(id: number): Promise<RoleDto[]> {
+    return this.roleRepository.findAllAsso(id);
   }
 
   public async findOne(id: number): Promise<RoleDto> {

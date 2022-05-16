@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 export class ApiGenericService<CreatePayloadDto, UpdatePayloadDto> {
   protected url: string;
 
-  constructor(private apiService: ApiService) {}
+  constructor(protected apiService: ApiService) {}
 
   public create(payload: CreatePayloadDto) {
     return this.apiService.post(`${this.url}`, payload);

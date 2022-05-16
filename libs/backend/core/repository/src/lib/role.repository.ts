@@ -14,4 +14,8 @@ export class RoleRepository extends BaseRepository<Role, CreateRoleDto, UpdateRo
   public async createRolePresident(associationId: number): Promise<Role> {
     return this.roleRepository.save({ name: 'Président', associationId });
   }
+
+  public async findAllAsso(id: number): Promise<Role[]> {
+    return this.roleRepository.find({ associationId: id });
+  }
 }

@@ -49,7 +49,13 @@ export class RolePageComponent implements OnInit {
   }
 
   reloadData() {
-    this.api.findAll().subscribe((roles: any) => {
+    const assoIdData = getData('asso-id');
+    if (!assoIdData) {
+      this.toast.addAlert({ title: 'Association non trouvé', type: ToastType.Error });
+      return;
+    }
+    const associationId = JSON.parse(assoIdData);
+    this.api.findAllAsso(associationId).subscribe((roles: any) => {
       this.roleList = roles;
     });
   }

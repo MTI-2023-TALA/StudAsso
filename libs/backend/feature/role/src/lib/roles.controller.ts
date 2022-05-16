@@ -22,9 +22,9 @@ export class RolesController {
     }
   }
 
-  @Get()
-  findAll(): Promise<RoleDto[]> {
-    return this.rolesService.findAll();
+  @Get('/asso/:id')
+  findAll(@Param('id') id: string): Promise<RoleDto[]> {
+    return this.rolesService.findAll(+id);
   }
 
   @Get(':id')
