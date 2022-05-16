@@ -7,7 +7,6 @@ import { CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dt
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Association } from '@stud-asso/backend/core/orm';
-import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsService } from './associations.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
