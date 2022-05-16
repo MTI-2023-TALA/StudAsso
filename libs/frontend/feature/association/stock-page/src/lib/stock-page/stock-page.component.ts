@@ -72,7 +72,7 @@ export class StockPageComponent implements OnInit {
   reloadData() {
     const assoIdData = getData('asso-id');
     if (!assoIdData) {
-      this.toast.addAlert({ title: 'Association non trouvé', type: ToastType.Error });
+      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
     }
     const assoId = JSON.parse(assoIdData);
@@ -101,7 +101,7 @@ export class StockPageComponent implements OnInit {
     return (model: any) => {
       const assoIdData = getData('asso-id');
       if (!assoIdData) {
-        this.toast.addAlert({ title: 'Association non trouvé', type: ToastType.Error });
+        this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
       }
       const assoId = JSON.parse(assoIdData);
