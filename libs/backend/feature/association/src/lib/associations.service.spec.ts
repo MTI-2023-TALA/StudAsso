@@ -15,12 +15,10 @@ const mockedAssociations = [
   plainToInstance(Association, {
     id: 1,
     name: 'Association1',
-    presidentId: 1,
   }),
   plainToInstance(Association, {
     id: 2,
     name: 'Association2',
-    presidentId: 2,
   }),
 ];
 
@@ -68,14 +66,6 @@ describe('AssociationsService', () => {
   });
 
   afterEach(() => jest.clearAllMocks());
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
-  it('associationRepository should be defined', () => {
-    expect(associationsRepository).toBeDefined();
-  });
 
   describe('createAssociation', () => {
     it('should call associationRepository.create with correct params', async () => {

@@ -5,12 +5,11 @@ import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
 import { UnprocessableEntityException } from '@nestjs/common';
-import { plainToInstance } from 'class-transformer';
 
-const mockCreateAssociationDto = plainToInstance(AssociationDto, { id: 1, name: 'Association1' });
-const mockfindAllAssociation = [
-  plainToInstance(AssociationDto, { id: 1, name: 'Association1' }),
-  plainToInstance(AssociationDto, { id: 2, name: 'Association2' }),
+const mockCreateAssociationDto: AssociationDto = { id: 1, name: 'Association1' };
+const mockfindAllAssociation: AssociationDto[] = [
+  { id: 1, name: 'Association1' },
+  { id: 2, name: 'Association2' },
 ];
 const mockedUpdateResult: UpdateResult = {
   raw: [],
@@ -45,10 +44,6 @@ describe('AssociationsController', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-
   describe('createAssociation', () => {
     it('should call associationService.create', async () => {
       await controller.create({ name: 'Association1', presidentId: 1 });
@@ -56,18 +51,11 @@ describe('AssociationsController', () => {
 
     it('shoud call associationService.create and return unprocessableEntity exception', async () => {
       const create = jest.spyOn(service, 'create').mockRejectedValue(new QueryFailedError('null', [], 'null'));
-
-      try {
-        await controller.create({ name: 'Association1', presidentId: 1 });
-      } catch (error) {
-        expect(create).toHaveBeenCalledTimes(1);
-        expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
-        expect(error).toBeInstanceOf(UnprocessableEntityException);
-        return;
-      }
-
-      // Should have entered try catch
-      expect(false).toBe(true);
+      expect(async () => await controller.create({ name: 'Association1', presidentId: 1 })).rejects.toThrow(
+        UnprocessableEntityException
+      );
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
     });
   });
 
