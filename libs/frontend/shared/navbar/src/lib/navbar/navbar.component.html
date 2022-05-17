@@ -36,7 +36,10 @@
         </g>
       </g>
     </svg>
-    <span *ngIf="shouldShowLargeNavbar" class="title">Stud'Asso</span>
+    <span *ngIf="shouldShowLargeNavbar" class="title">
+      <span *ngIf="assoName">{{ assoName }}</span>
+      <span *ngIf="!assoName">Stud'Asso</span>
+    </span>
   </h1>
 
   <div class="center" [studAssoTooltip]="'Ceci est un tooltip'" placement="top">

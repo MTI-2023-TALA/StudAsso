@@ -1,7 +1,7 @@
 <div class="center">
   <h1 class="title">Vos associations :</h1>
   <div class="list">
-    <div *ngFor="let asso of assoList?.associationsId" class="item" (click)="onClickAsso(asso.id)">
+    <div *ngFor="let asso of assoList?.associationsId" class="item" (click)="onClickAsso(asso.id, asso.name)">
       <div class="left">
         {{ asso.name }}
       </div>

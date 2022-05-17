@@ -22,8 +22,9 @@ export class SelectionAssoPageComponent implements OnInit {
     });
   }
 
-  onClickAsso(id: number) {
+  onClickAsso(id: number, name: string) {
     setData('asso-id', id);
+    setData('asso-name', name);
     this.router.navigate(['/']);
   }
 
