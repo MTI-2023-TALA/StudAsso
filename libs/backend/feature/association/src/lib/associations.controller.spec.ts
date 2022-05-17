@@ -46,12 +46,18 @@ describe('AssociationsController', () => {
 
   describe('createAssociation', () => {
     it('should call associationService.create', async () => {
-      await controller.create({ name: 'Association1', presidentId: 1 });
+      const create = jest.spyOn(service, 'create');
+
+      const createdAsso = await controller.create({ name: 'Association1', presidentId: 1 });
+      expect(createdAsso).toEqual(mockCreateAssociationDto);
+
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
     });
 
     it('shoud call associationService.create and return unprocessableEntity exception', async () => {
       const create = jest.spyOn(service, 'create').mockRejectedValue(new QueryFailedError('null', [], 'null'));
-      expect(async () => await controller.create({ name: 'Association1', presidentId: 1 })).rejects.toThrow(
+      expect(async () => controller.create({ name: 'Association1', presidentId: 1 })).rejects.toThrow(
         UnprocessableEntityException
       );
       expect(create).toHaveBeenCalledTimes(1);
@@ -73,13 +79,13 @@ describe('AssociationsController', () => {
 
   describe('updateAssociation', () => {
     it('should call associationService.update', async () => {
-      expect(await controller.update('1', { name: 'Association 1 Renamed' }));
+      expect(await controller.update('1', { name: 'Association 1 Renamed' })).toEqual(mockedUpdateResult);
     });
   });
 
   describe('deleteAssociation', () => {
     it('should call associationService.delete', async () => {
-      expect(await controller.delete('1'));
+      expect(await controller.delete('1')).toEqual(mockedUpdateResult);
     });
   });
 });
