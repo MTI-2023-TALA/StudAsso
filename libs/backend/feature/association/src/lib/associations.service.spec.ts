@@ -3,9 +3,30 @@ import {
   AssociationsMemberRepository,
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
+import { CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { Association } from '@stud-asso/backend/core/orm';
 import { AssociationsService } from './associations.service';
+import { UpdateResult } from 'typeorm';
+import { plainToInstance } from 'class-transformer';
+
+const mockedAssociations = [
+  plainToInstance(Association, {
+    id: 1,
+    name: 'Association1',
+  }),
+  plainToInstance(Association, {
+    id: 2,
+    name: 'Association2',
+  }),
+];
+
+const mockedUpdateResult: UpdateResult = {
+  raw: [],
+  generatedMaps: [],
+  affected: 1,
+};
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
@@ -18,7 +39,11 @@ describe('AssociationsService', () => {
         {
           provide: AssociationRepository,
           useValue: {
-            create: jest.fn(() => Promise.resolve({ id: 1, name: 'Association Test' })),
+            create: jest.fn(() => Promise.resolve(mockedAssociations[0])),
+            findAll: jest.fn(() => Promise.resolve(mockedAssociations)),
+            findOne: jest.fn(() => Promise.resolve(mockedAssociations[0])),
+            update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
+            delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
           },
         },
         {
@@ -36,29 +61,71 @@ describe('AssociationsService', () => {
       ],
     }).compile();
 
-    service = module.get<AssociationsService>(AssociationsService);
-    associationsRepository = module.get<AssociationRepository>(AssociationRepository);
+    service = await module.get<AssociationsService>(AssociationsService);
+    associationsRepository = await module.get<AssociationRepository>(AssociationRepository);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
-  it('associationRepository should be defined', () => {
-    expect(associationsRepository).toBeDefined();
-  });
+  afterEach(() => jest.clearAllMocks());
 
   describe('createAssociation', () => {
     it('should call associationRepository.create with correct params', async () => {
-      await service.create({
-        name: 'AssociationTest',
-        presidentId: 1,
-      });
-      expect(associationsRepository.create).toHaveBeenCalledWith({
-        name: 'AssociationTest',
-        presidentId: 1,
-      });
-      expect(associationsRepository.create);
+      const createAssociationDto = plainToInstance(CreateAssociationDto, { name: 'Association1', presidentId: 1 });
+      const create = jest.spyOn(associationsRepository, 'create');
+
+      const createResultRetrieved = await service.create(createAssociationDto);
+      expect(createResultRetrieved).toEqual(mockedAssociations[0]);
+
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
+    });
+  });
+
+  describe('findAllAssociation', () => {
+    it('should call associationRepository.findAll', async () => {
+      const findAll = jest.spyOn(associationsRepository, 'findAll');
+
+      const associationsRetrieved = await service.findAll();
+      expect(associationsRetrieved).toEqual(mockedAssociations);
+
+      expect(findAll).toHaveBeenCalledTimes(1);
+      expect(findAll).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('findOneAssociation', () => {
+    it('should call associationRepository.findOne', async () => {
+      const findOne = jest.spyOn(associationsRepository, 'findOne');
+
+      const associationRetrieved = await service.findOne(1);
+      expect(associationRetrieved).toEqual(mockedAssociations[0]);
+
+      expect(findOne).toHaveBeenCalledTimes(1);
+      expect(findOne).toHaveBeenCalledWith(1);
+    });
+  });
+
+  describe('updateAssociation', () => {
+    it('shoud call associationRepository.update', async () => {
+      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      const update = jest.spyOn(associationsRepository, 'update');
+
+      const updateResultRetrieved = await service.update(1, updateAssociationDto);
+      expect(updateResultRetrieved).toEqual(mockedUpdateResult);
+
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith(1, { name: 'Association1 Renamed' });
+    });
+  });
+
+  describe('deleteAssociation', () => {
+    it('shoud call associationRepository.remove', async () => {
+      const deleteCall = jest.spyOn(associationsRepository, 'delete');
+
+      const deleteResultRetrieved = await service.delete(1);
+      expect(deleteResultRetrieved).toEqual(mockedUpdateResult);
+
+      expect(deleteCall).toHaveBeenCalledTimes(1);
+      expect(deleteCall).toHaveBeenCalledWith(1);
     });
   });
 });
