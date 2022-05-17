@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { UseStorage, getData } from '@stud-asso/frontend-core-storage';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { NavbarItem } from './navbar.model';
+import { getData } from '@stud-asso/frontend-core-storage';
 
 @Component({
   selector: 'stud-asso-navbar',
