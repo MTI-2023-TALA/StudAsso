@@ -13,13 +13,26 @@
   flex-direction: column;
 
   .item {
-    padding: 1rem 4rem;
+    margin-bottom: 1rem;
+    padding: 1rem 2rem;
     font-size: 1.5rem;
     background-color: $light-grey-200;
     cursor: pointer;
+    display: flex;
+    justify-content: space-between;
 
     &:hover {
       background-color: $light-grey-300;
     }
+
+    .right {
+      margin-left: 4rem;
+    }
   }
+}
+
+.logout {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
 }
