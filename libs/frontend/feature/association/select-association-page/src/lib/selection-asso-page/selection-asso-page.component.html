@@ -1,6 +1,20 @@
 <div class="center">
-  <h1 class="title">Merci de sélectionner une association :</h1>
+  <h1 class="title">Vos associations :</h1>
   <div class="list">
-    <div *ngFor="let asso of assoList?.associationsId" class="item" (click)="onClickAsso(asso.id)">{{ asso.name }}</div>
+    <div *ngFor="let asso of assoList?.associationsId" class="item" (click)="onClickAsso(asso.id, asso.name)">
+      <div class="left">
+        {{ asso.name }}
+      </div>
+      <div class="right">
+        <i class="bi bi-box-arrow-up-right"></i>
+      </div>
+    </div>
+    <div *ngIf="assoList?.associationsId?.length === 0">Vous n'avez pas encore d'associations.</div>
+    <div class="logout">
+      <button class="button is-danger" (click)="logout()">
+        <i class="bi bi-power p-2"></i>
+        <span>Déconnexion</span>
+      </button>
+    </div>
   </div>
 </div>
