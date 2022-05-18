@@ -2,6 +2,7 @@ import { AssoUserDto, CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto }
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
+import { PostgresError } from 'pg-error-enum';
 import { UpdateResult } from 'typeorm';
 import { UsersService } from './users.service';
 
@@ -11,7 +12,17 @@ export class UsersController {
 
   @Post()
   public async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
-    return this.usersService.create(createUserDto);
+    let createdUser;
+
+    try {
+      createdUser = this.usersService.create(createUserDto);
+    } catch (error) {
+      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
+        throw new Error('Email already used');
+      }
+    }
+
+    return createdUser;
   }
 
   @Get('IdAndEmail')
