@@ -2,6 +2,7 @@ import { AssoUserDto, CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto }
 import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
+import { PostgresError } from 'pg-error-enum';
 import { UpdateResult } from 'typeorm';
 import { UsersService } from './users.service';
 
