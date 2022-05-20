@@ -69,14 +69,15 @@ describe('AssociationsService', () => {
 
   describe('createAssociation', () => {
     it('should call associationRepository.create with correct params', async () => {
-      const createAssociationDto = plainToInstance(CreateAssociationDto, { name: 'Association1', presidentId: 1 });
+      const createAssoParams = { name: 'Association1', presidentId: 1 };
+      const createAssociationDto = plainToInstance(CreateAssociationDto, createAssoParams);
       const create = jest.spyOn(associationsRepository, 'create');
 
       const createResultRetrieved = await service.create(createAssociationDto);
       expect(createResultRetrieved).toEqual(mockedAssociations[0]);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
+      expect(create).toHaveBeenCalledWith(createAssoParams);
     });
   });
 

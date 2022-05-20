@@ -48,11 +48,12 @@ describe('AssociationsController', () => {
     it('should call associationService.create', async () => {
       const create = jest.spyOn(service, 'create');
 
-      const createdAsso = await controller.create({ name: 'Association1', presidentId: 1 });
+      const createAssoParams = { name: 'Association1', presidentId: 1 };
+      const createdAsso = await controller.create(createAssoParams);
       expect(createdAsso).toEqual(mockCreateAssociationDto);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
+      expect(create).toHaveBeenCalledWith(createAssoParams);
     });
 
     it('shoud call associationService.create and return unprocessableEntity exception', async () => {
