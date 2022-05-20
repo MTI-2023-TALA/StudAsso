@@ -86,7 +86,7 @@ describe('EventsController', () => {
 
   describe('updateEvent', () => {
     it('should call eventsService.update', async () => {
-      const updateEventDto = plainToInstance(UpdateEventDto, { content: 'Association 1 Renamed' });
+      const updateEventDto = plainToInstance(UpdateEventDto, { content: 'Event1 Renamed' });
       expect(await controller.update('1', updateEventDto)).toEqual(mockedUpdateResult);
     });
   });
