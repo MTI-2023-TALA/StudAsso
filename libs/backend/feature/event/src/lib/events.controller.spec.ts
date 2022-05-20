@@ -53,22 +53,18 @@ describe('EventsController', () => {
   describe('createEvent', () => {
     it('should call eventsService.create', async () => {
       const create = jest.spyOn(service, 'create');
-
-      const createdEvent = await controller.create({
+      const eventParams = {
         name: 'Event1',
         date: new Date('2022-01-15'),
         content: 'An amazing description',
         associationId: 1,
-      });
+      };
+
+      const createdEvent = await controller.create(eventParams);
       expect(createdEvent).toEqual(mockCreateEventDto);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith({
-        name: 'Event1',
-        date: new Date('2022-01-15'),
-        content: 'An amazing description',
-        associationId: 1,
-      });
+      expect(create).toHaveBeenCalledWith(eventParams);
     });
   });
 

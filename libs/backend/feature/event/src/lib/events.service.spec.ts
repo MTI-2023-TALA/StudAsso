@@ -59,24 +59,20 @@ describe('EventsService', () => {
 
   describe('createEvent', () => {
     it('should call eventRepository.create with correct params', async () => {
-      const createEventDto = plainToInstance(CreateEventDto, {
+      const createEventParams = {
         name: 'Event1',
         date: new Date('2022-01-15'),
         content: 'An amazing description',
         associationId: 1,
-      });
+      };
+      const createEventDto = plainToInstance(CreateEventDto, createEventParams);
       const create = jest.spyOn(eventsRepository, 'create');
 
       const createResultRetrieved = await service.create(createEventDto);
       expect(createResultRetrieved).toEqual(mockedEvents[0]);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith({
-        name: 'Event1',
-        date: new Date('2022-01-15'),
-        content: 'An amazing description',
-        associationId: 1,
-      });
+      expect(create).toHaveBeenCalledWith(createEventParams);
     });
   });
 
