@@ -1,12 +1,8 @@
-<div class="top">
-  <div class="left title">Associations</div>
-  <div class="right">
-    <button class="button" (click)="createModalAssociation()">Créer une association</button>
-  </div>
-</div>
-<stud-asso-table
+<stud-asso-generic-page
+  [title]="'Associations'"
+  [buttonText]="'Créer une association'"
+  (buttonFunction)="createModalAssociation()"
   [tableConfiguration]="tableConfiguration"
   [data]="associationList"
   (actionEvent)="handleTableEvent($event)"
->
-</stud-asso-table>
+></stud-asso-generic-page>
