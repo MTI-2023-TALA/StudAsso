@@ -3,6 +3,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FrontendCoreApiModule } from '@stud-asso/frontend-core-api';
 import { FrontendSharedFormlyModule } from '@stud-asso/frontend-shared-formly';
+import { FrontendSharedGenericPageModule } from '@stud-asso/frontend/shared/generic-page';
 import { FrontendSharedTableModule } from '@stud-asso/frontend-shared-table';
 import { FrontendSharedTagsModule } from '@stud-asso/frontend/shared/tags';
 import { FrontendSharedTooltipModule } from '@stud-asso/frontend/shared/tooltip';
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
     RouterModule,
     FrontendSharedTableModule,
     FrontendSharedTagsModule,
+    FrontendSharedGenericPageModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

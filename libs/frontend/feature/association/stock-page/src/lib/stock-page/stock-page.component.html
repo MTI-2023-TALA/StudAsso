@@ -1,8 +1,9 @@
-<div class="top">
-  <div class="left title">Stocks</div>
-  <div class="right">
-    <button class="button" (click)="createModalStock()">Créer un nouveau stock</button>
-  </div>
-</div>
-<stud-asso-table [tableConfiguration]="tableConfiguration" [data]="stockList" (actionEvent)="handleTableEvent($event)">
-</stud-asso-table>
+<stud-asso-generic-page
+  [title]="'Stocks'"
+  [buttonText]="'Créer un nouveau stock'"
+  [tableConfiguration]="tableConfiguration"
+  (buttonFunction)="createModalStock()"
+  [data]="stockList"
+  (actionEvent)="handleTableEvent($event)"
+>
+</stud-asso-generic-page>
