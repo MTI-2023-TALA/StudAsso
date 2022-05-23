@@ -1,8 +1,8 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Base } from './base.entity';
 
-@Entity('stocks_log')
+@Entity('stocks_logs')
 export class StockLogs extends Base {
   @PrimaryGeneratedColumn('increment')
   id: number;
@@ -20,5 +20,10 @@ export class StockLogs extends Base {
   newCount: number;
 
   @Column({ type: 'date' })
+  @CreateDateColumn({
+    type: 'timestamp',
+    name: 'date',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
   date: Date;
 }

@@ -5,7 +5,7 @@ import { Module } from '@nestjs/common';
 import { NewsFeed } from './news-feed.entity';
 import { Role } from './role.entity';
 import { Stock } from './stock.entity';
-import { StockLogs } from '..';
+import { StockLogs } from './stock-logs.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 

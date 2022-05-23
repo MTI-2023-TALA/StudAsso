@@ -2,7 +2,6 @@ import { CreateStockDto, CreateStockLogsDto, StockDto, UpdateStockDto } from '@s
 import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
-import { Stock } from '@stud-asso/backend/core/orm';
 import { UpdateResult } from 'typeorm';
 
 @Injectable()
@@ -14,13 +13,14 @@ export class StocksService {
 
   public async create(userId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
     const createdStock: StockDto = await this.stockRepository.create(createBaseDto as any);
-    // await this.stockLogsRepository.create({
-    //   createdStock.id,
-    //   userId,
-    //   createdStock.count,
-    //   createdStock.count,
-    //   Date.now(),
-    // });
+    const createStockLogsDto: CreateStockLogsDto = {
+      stockId: createdStock.id,
+      userId,
+      oldCount: createdStock.count,
+      newCount: createdStock.count,
+    };
+
+    await this.stockLogsRepository.create(createStockLogsDto);
     return createdStock;
   }
 

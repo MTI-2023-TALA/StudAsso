@@ -1,4 +1,4 @@
-import { IsDate, IsInt, IsNotEmpty, Min } from 'class-validator';
+import { IsInt, IsNotEmpty, Min } from 'class-validator';
 
 import { CreateBaseDto } from '../base/create-base.dto';
 
@@ -20,8 +20,4 @@ export class CreateStockLogsDto extends CreateBaseDto {
   @IsInt()
   @Min(0)
   newCount: number;
-
-  @IsNotEmpty()
-  @IsDate()
-  date: Date;
 }
