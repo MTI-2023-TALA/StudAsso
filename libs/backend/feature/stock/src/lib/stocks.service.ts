@@ -1,15 +1,27 @@
-import { CreateStockDto, StockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockDto, CreateStockLogsDto, StockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
-import { StockRepository } from '@stud-asso/backend/core/repository';
+import { Stock } from '@stud-asso/backend/core/orm';
 import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class StocksService {
-  constructor(private readonly stockRepository: StockRepository) {}
+  constructor(
+    private readonly stockRepository: StockRepository,
+    private readonly stockLogsRepository: StockLogsRepository
+  ) {}
 
-  public async create(createBaseDto: CreateStockDto): Promise<any> {
-    return this.stockRepository.create(createBaseDto as any);
+  public async create(userId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
+    const createdStock: StockDto = await this.stockRepository.create(createBaseDto as any);
+    // await this.stockLogsRepository.create({
+    //   createdStock.id,
+    //   userId,
+    //   createdStock.count,
+    //   createdStock.count,
+    //   Date.now(),
+    // });
+    return createdStock;
   }
 
   public async findAll(): Promise<StockDto[]> {
@@ -24,11 +36,11 @@ export class StocksService {
     return this.stockRepository.findOne(id);
   }
 
-  public async update(id: number, updateBaseDto: UpdateStockDto): Promise<UpdateResult> {
+  public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<UpdateResult> {
     return this.stockRepository.update(id, updateBaseDto as any);
   }
 
-  public async delete(id: number): Promise<UpdateResult> {
+  public async delete(id: number, userId: number): Promise<UpdateResult> {
     return this.stockRepository.delete(id);
   }
 }

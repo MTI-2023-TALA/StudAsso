@@ -5,6 +5,7 @@ import { EventRepository } from './event.repository';
 import { Module } from '@nestjs/common';
 import { NewsFeedRepository } from './news-feed.repository';
 import { RoleRepository } from './role.repository';
+import { StockLogsRepository } from './stock-logs.repository';
 import { StockRepository } from './stock.repository';
 import { UserRepository } from './user.repository';
 
@@ -18,6 +19,7 @@ import { UserRepository } from './user.repository';
     NewsFeedRepository,
     RoleRepository,
     StockRepository,
+    StockLogsRepository,
     UserRepository,
   ],
   exports: [
@@ -27,6 +29,7 @@ import { UserRepository } from './user.repository';
     NewsFeedRepository,
     RoleRepository,
     StockRepository,
+    StockLogsRepository,
     UserRepository,
   ],
 })
