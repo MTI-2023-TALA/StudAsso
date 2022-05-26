@@ -28,6 +28,11 @@ export class StocksController {
     return this.stocksService.findAllAssoLogs(+assoId);
   }
 
+  @Get('logs/:id')
+  findOneStockLogs(@Param('id') stockId: string): Promise<StockLogsDto[]> {
+    return this.stocksService.findOneStockLogs(+stockId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string): Promise<StockDto> {
     return this.stocksService.findOne(+id);
