@@ -1,6 +1,6 @@
+import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { StockRepository } from '@stud-asso/backend/core/repository';
 import { StocksService } from './stocks.service';
 
 describe('StocksService', () => {
@@ -13,6 +13,10 @@ describe('StocksService', () => {
         StocksService,
         {
           provide: StockRepository,
+          useValue: jest.fn(),
+        },
+        {
+          provide: StockLogsRepository,
           useValue: jest.fn(),
         },
       ],
