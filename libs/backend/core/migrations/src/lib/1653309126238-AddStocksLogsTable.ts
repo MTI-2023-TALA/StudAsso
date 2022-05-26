@@ -25,11 +25,6 @@ export class AddStocksLogsTable1653309126238 implements MigrationInterface {
             name: 'new_count',
             type: 'int',
           },
-          {
-            name: 'date',
-            type: 'timestamp',
-            default: 'CURRENT_TIMESTAMP',
-          },
         ],
         foreignKeys: [
           {

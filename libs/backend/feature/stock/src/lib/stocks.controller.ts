@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateStockDto, StockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockDto, StockDto, StockLogsDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { StocksService } from './stocks.service';
 import { UpdateResult } from 'typeorm';
@@ -21,6 +21,11 @@ export class StocksController {
   @Get('asso/:id')
   findAllAsso(@Param('id') id: string): Promise<StockDto[]> {
     return this.stocksService.findAllAsso(+id);
+  }
+
+  @Get('assologs/:id')
+  findAllAssoLogs(@Param('id') assoId: string): Promise<StockLogsDto[]> {
+    return this.stocksService.findAllAssoLogs(+assoId);
   }
 
   @Get(':id')

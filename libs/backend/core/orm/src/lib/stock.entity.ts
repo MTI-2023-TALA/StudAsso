@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { Base } from './base.entity';
 import { StockLogs } from './stock-logs.entity';
@@ -18,6 +18,7 @@ export class Stock extends Base {
   @Column({ type: 'int', name: 'association_id' })
   associationId: number;
 
-  @OneToMany(() => StockLogs, (stocks_log) => stocks_log.id)
-  stocks_log: StockLogs[];
+  @OneToMany(() => StockLogs, (stocks_logs) => stocks_logs.stock)
+  @JoinColumn({ name: 'id' })
+  stocksLogs: StockLogs[];
 }

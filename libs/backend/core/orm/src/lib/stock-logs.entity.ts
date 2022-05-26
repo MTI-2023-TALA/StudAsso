@@ -1,6 +1,7 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 import { Base } from './base.entity';
+import { Stock } from './stock.entity';
 
 @Entity('stocks_logs')
 export class StockLogs extends Base {
@@ -19,11 +20,7 @@ export class StockLogs extends Base {
   @Column({ type: 'int', name: 'new_count' })
   newCount: number;
 
-  @Column({ type: 'date' })
-  @CreateDateColumn({
-    type: 'timestamp',
-    name: 'date',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  date: Date;
+  @ManyToOne(() => Stock, (stocks) => stocks.stocksLogs)
+  @JoinColumn({ name: 'stock_id' })
+  stock: Stock;
 }

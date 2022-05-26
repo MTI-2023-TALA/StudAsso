@@ -4,5 +4,5 @@ export class StockLogsDto {
   userId: number;
   oldCount: number;
   newCount: number;
-  date: Date;
+  createdAt: Date;
 }
