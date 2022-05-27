@@ -119,7 +119,7 @@ describe('AssociationsService', () => {
   });
 
   describe('deleteAssociation', () => {
-    it('shoud call associationRepository.remove', async () => {
+    it('should call associationRepository.delete', async () => {
       const deleteCall = jest.spyOn(associationsRepository, 'delete');
 
       const deleteResultRetrieved = await service.delete(1);

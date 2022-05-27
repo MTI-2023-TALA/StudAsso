@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateStockDto, StockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockDto, StockDto, StockLogsDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { StocksService } from './stocks.service';
 import { UpdateResult } from 'typeorm';
 
@@ -8,8 +9,8 @@ export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 
   @Post()
-  create(@Body() createStockDto: CreateStockDto): Promise<StockDto> {
-    return this.stocksService.create(createStockDto);
+  create(@GetCurrentUserId() userId: number, @Body() createStockDto: CreateStockDto): Promise<StockDto> {
+    return this.stocksService.create(userId, createStockDto);
   }
 
   @Get()
@@ -22,18 +23,32 @@ export class StocksController {
     return this.stocksService.findAllAsso(+id);
   }
 
+  @Get('assologs/:id')
+  findAllAssoStockLogs(@Param('id') assoId: string): Promise<StockLogsDto[]> {
+    return this.stocksService.findAllAssoStockLogs(+assoId);
+  }
+
+  @Get('logs/:id')
+  findSpecificStockLogs(@Param('id') stockId: string): Promise<StockLogsDto[]> {
+    return this.stocksService.findSpecificStockLogs(+stockId);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string): Promise<StockDto> {
     return this.stocksService.findOne(+id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStockDto: UpdateStockDto): Promise<UpdateResult> {
-    return this.stocksService.update(+id, updateStockDto);
+  update(
+    @Param('id') id: string,
+    @GetCurrentUserId() userId: number,
+    @Body() updateStockDto: UpdateStockDto
+  ): Promise<UpdateResult> {
+    return this.stocksService.update(+id, userId, updateStockDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<UpdateResult> {
-    return this.stocksService.delete(+id);
+  delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<UpdateResult> {
+    return this.stocksService.delete(+id, userId);
   }
 }

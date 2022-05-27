@@ -1,7 +1,7 @@
+import { AssociationDto, CreateAssociationDto } from '@stud-asso/shared/dtos';
 import { QueryFailedError, UpdateResult } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AssociationDto } from '@stud-asso/shared/dtos';
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
 import { UnprocessableEntityException } from '@nestjs/common';
@@ -48,7 +48,7 @@ describe('AssociationsController', () => {
     it('should call associationService.create', async () => {
       const create = jest.spyOn(service, 'create');
 
-      const createAssoParams = { name: 'Association1', presidentId: 1 };
+      const createAssoParams: CreateAssociationDto = { name: 'Association1', presidentId: 1 };
       const createdAsso = await controller.create(createAssoParams);
       expect(createdAsso).toEqual(mockCreateAssociationDto);
 
