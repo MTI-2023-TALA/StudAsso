@@ -10,9 +10,10 @@ import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 export class GenericPageComponent {
   @Input() title: string;
   @Input() buttonText: string;
-  @Output() buttonFunction = new EventEmitter<void>();
   @Input() tableConfiguration: TableConfiguration;
   @Input() data: any[];
+
+  @Output() buttonFunction = new EventEmitter<void>();
   @Output() actionEvent = new EventEmitter<{ action: number; data: any }>();
 
   sendActionEvent($event: { action: number; data: any }) {
