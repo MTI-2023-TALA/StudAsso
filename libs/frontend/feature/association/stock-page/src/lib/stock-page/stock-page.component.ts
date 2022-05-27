@@ -16,7 +16,6 @@ enum Action {
 @Component({
   selector: 'stud-asso-stock-page',
   templateUrl: './stock-page.component.html',
-  styleUrls: ['./stock-page.component.scss'],
 })
 export class StockPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {

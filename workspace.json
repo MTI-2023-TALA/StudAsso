@@ -27,6 +27,7 @@
     "frontend-school-e2e": "apps/frontend/school-e2e",
     "frontend-scss": "libs/frontend/core/scss",
     "frontend-shared-formly": "libs/frontend/shared/formly",
+    "frontend-shared-generic-page": "libs/frontend/shared/generic-page",
     "frontend-shared-login-page": "libs/frontend/shared/login-page",
     "frontend-shared-main-routing-component": "libs/frontend/shared/main-routing-component",
     "frontend-shared-modal": "libs/frontend/shared/modal",
