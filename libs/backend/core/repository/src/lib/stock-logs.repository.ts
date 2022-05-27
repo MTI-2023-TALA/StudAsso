@@ -28,7 +28,7 @@ export class StockLogsRepository {
       .getMany();
   }
 
-  public async findOneStockLogs(stockId: number): Promise<StockLogsDto[]> {
+  public async findSpecificStockLogs(stockId: number): Promise<StockLogsDto[]> {
     return this.stockLogsRepository.find({
       select: ['createdAt', 'id', 'stockId', 'userId', 'oldCount', 'newCount'],
       where: { stockId },

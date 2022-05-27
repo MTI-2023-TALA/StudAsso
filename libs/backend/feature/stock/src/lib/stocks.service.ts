@@ -30,8 +30,8 @@ export class StocksService {
     return this.stockLogsRepository.findAllAssoStockLogs(associationId);
   }
 
-  public async findOneStockLogs(stockId: number): Promise<StockLogsDto[]> {
-    return this.stockLogsRepository.findOneStockLogs(stockId);
+  public async findSpecificStockLogs(stockId: number): Promise<StockLogsDto[]> {
+    return this.stockLogsRepository.findSpecificStockLogs(stockId);
   }
 
   public async findOne(id: number): Promise<StockDto> {

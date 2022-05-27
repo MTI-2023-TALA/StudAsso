@@ -65,7 +65,7 @@ describe('StocksController', () => {
             findAll: jest.fn(() => Promise.resolve(mockFindAllStocks)),
             findAllAsso: jest.fn(() => Promise.resolve(mockFindAllStocks)),
             findAllAssoStockLogs: jest.fn(() => Promise.resolve(mockFindAllAssoLogs)),
-            findOneStockLogs: jest.fn(() => Promise.resolve([mockFindAllAssoLogs[0]])),
+            findSpecificStockLogs: jest.fn(() => Promise.resolve([mockFindAllAssoLogs[0]])),
             findOne: jest.fn(() => Promise.resolve(mockFindAllStocks[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -111,9 +111,9 @@ describe('StocksController', () => {
     });
   });
 
-  describe('findOneStockLogs', () => {
-    it('shoud call stockService.findOneStockLogs', async () => {
-      expect(await controller.findOneStockLogs('1')).toEqual([mockFindAllAssoLogs[0]]);
+  describe('findSpecificStockLogs', () => {
+    it('shoud call stockService.findSpecificStockLogs', async () => {
+      expect(await controller.findSpecificStockLogs('1')).toEqual([mockFindAllAssoLogs[0]]);
     });
   });
 

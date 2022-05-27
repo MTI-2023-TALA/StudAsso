@@ -71,7 +71,7 @@ describe('StocksService', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedStocksLogs[0])),
             findAllAssoStockLogs: jest.fn(() => Promise.resolve([mockedStocksLogs[0]])),
-            findOneStockLogs: jest.fn(() => Promise.resolve([mockedStocksLogs[0]])),
+            findSpecificStockLogs: jest.fn(() => Promise.resolve([mockedStocksLogs[0]])),
           },
         },
       ],
@@ -138,11 +138,11 @@ describe('StocksService', () => {
     });
   });
 
-  describe('findOneStockLogs', () => {
-    it('should call stockRepository.findOneStockLogs', async () => {
-      const findOneStockLogs = jest.spyOn(stockLogsRepository, 'findOneStockLogs');
+  describe('findSpecificStockLogs', () => {
+    it('should call stockRepository.findSpecificStockLogs', async () => {
+      const findOneStockLogs = jest.spyOn(stockLogsRepository, 'findSpecificStockLogs');
 
-      const stockLogsRetrieved = await service.findOneStockLogs(1);
+      const stockLogsRetrieved = await service.findSpecificStockLogs(1);
       expect(stockLogsRetrieved).toEqual([mockedStocksLogs[0]]);
 
       expect(findOneStockLogs).toHaveBeenCalledTimes(1);

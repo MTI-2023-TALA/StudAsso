@@ -29,8 +29,8 @@ export class StocksController {
   }
 
   @Get('logs/:id')
-  findOneStockLogs(@Param('id') stockId: string): Promise<StockLogsDto[]> {
-    return this.stocksService.findOneStockLogs(+stockId);
+  findSpecificStockLogs(@Param('id') stockId: string): Promise<StockLogsDto[]> {
+    return this.stocksService.findSpecificStockLogs(+stockId);
   }
 
   @Get(':id')
