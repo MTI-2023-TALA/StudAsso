@@ -20,6 +20,16 @@
           "libs/frontend/feature/association/role-page/src/**/*.html"
         ]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/feature/association/role-page/**/*.css",
+          "libs/frontend/feature/association/role-page/**/*.scss"
+        ]
+      }
     }
   },
   "tags": ["type:frontend", "type:frontend-feature"]

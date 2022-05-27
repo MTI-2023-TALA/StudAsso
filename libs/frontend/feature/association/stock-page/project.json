@@ -20,6 +20,16 @@
           "libs/frontend/feature/association/stock-page/src/**/*.html"
         ]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/feature/association/stock-page/**/*.css",
+          "libs/frontend/feature/association/stock-page/**/*.scss"
+        ]
+      }
     }
   },
   "tags": ["type:frontend", "type:frontend-feature"]

@@ -17,6 +17,16 @@
       "options": {
         "lintFilePatterns": ["libs/frontend/shared/generic-page/**/*.ts", "libs/frontend/shared/generic-page/**/*.html"]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/shared/generic-page/**/*.css",
+          "libs/frontend/shared/generic-page/**/*.scss"
+        ]
+      }
     }
   },
   "tags": ["type:frontend", "type:frontend-shared"]
