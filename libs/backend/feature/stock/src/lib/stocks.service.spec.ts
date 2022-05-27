@@ -18,7 +18,7 @@ const mockedStocks: Stock[] = [
     id: 2,
     name: 'Tea',
     count: 42,
-    associationId: 1,
+    associationId: 2,
   }),
 ];
 const mockedStocksLogs: StockLogs[] = [
@@ -60,6 +60,7 @@ describe('StocksService', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedStocks[0])),
             findAll: jest.fn(() => Promise.resolve(mockedStocks)),
+            findAllAsso: jest.fn(() => Promise.resolve([mockedStocks[0]])),
             findOne: jest.fn(() => Promise.resolve(mockedStocks[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -69,7 +70,7 @@ describe('StocksService', () => {
           provide: StockLogsRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedStocksLogs[0])),
-            findAllAssoStockLogs: jest.fn(() => Promise.resolve(mockedStocksLogs)),
+            findAllAssoStockLogs: jest.fn(() => Promise.resolve([mockedStocksLogs[0]])),
             findOneStockLogs: jest.fn(() => Promise.resolve([mockedStocksLogs[0]])),
           },
         },
@@ -113,11 +114,41 @@ describe('StocksService', () => {
     });
   });
 
-  // TODO: findAllAsso
+  describe('findAllAsso', () => {
+    it('should call stockRepository.findAllAsso', async () => {
+      const findAllAsso = jest.spyOn(stockRepository, 'findAllAsso');
 
-  // TODO: findAllAssoLogs
+      const stocksOfAssoRetrieved = await service.findAllAsso(1);
+      expect(stocksOfAssoRetrieved).toEqual([mockedStocks[0]]);
 
-  // TODO: findOneStockLogs
+      expect(findAllAsso).toHaveBeenCalledTimes(1);
+      expect(findAllAsso).toHaveBeenCalledWith(1);
+    });
+  });
+
+  describe('findAllAssoLogs', () => {
+    it('should call stockRepository.findAllAssoLogs', async () => {
+      const findAllAssoStockLogs = jest.spyOn(stockLogsRepository, 'findAllAssoStockLogs');
+
+      const assoStocksLogsRetrieved = await service.findAllAssoStockLogs(1);
+      expect(assoStocksLogsRetrieved).toEqual([mockedStocksLogs[0]]);
+
+      expect(findAllAssoStockLogs).toHaveBeenCalledTimes(1);
+      expect(findAllAssoStockLogs).toHaveBeenCalledWith(1);
+    });
+  });
+
+  describe('findOneStockLogs', () => {
+    it('should call stockRepository.findOneStockLogs', async () => {
+      const findOneStockLogs = jest.spyOn(stockLogsRepository, 'findOneStockLogs');
+
+      const stockLogsRetrieved = await service.findOneStockLogs(1);
+      expect(stockLogsRetrieved).toEqual([mockedStocksLogs[0]]);
+
+      expect(findOneStockLogs).toHaveBeenCalledTimes(1);
+      expect(findOneStockLogs).toHaveBeenCalledWith(1);
+    });
+  });
 
   describe('findOneStock', () => {
     it('should call stockRepository.findOne', async () => {

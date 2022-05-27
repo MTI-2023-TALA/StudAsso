@@ -26,7 +26,7 @@ export class StocksService {
     return this.stockRepository.findAllAsso(id);
   }
 
-  public async findAllAssoLogs(associationId: number): Promise<StockLogsDto[]> {
+  public async findAllAssoStockLogs(associationId: number): Promise<StockLogsDto[]> {
     return this.stockLogsRepository.findAllAssoStockLogs(associationId);
   }
 

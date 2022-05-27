@@ -24,8 +24,8 @@ export class StocksController {
   }
 
   @Get('assologs/:id')
-  findAllAssoLogs(@Param('id') assoId: string): Promise<StockLogsDto[]> {
-    return this.stocksService.findAllAssoLogs(+assoId);
+  findAllAssoStockLogs(@Param('id') assoId: string): Promise<StockLogsDto[]> {
+    return this.stocksService.findAllAssoStockLogs(+assoId);
   }
 
   @Get('logs/:id')
