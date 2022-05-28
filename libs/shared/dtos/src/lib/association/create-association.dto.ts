@@ -10,4 +10,8 @@ export class CreateAssociationDto extends CreateBaseDto {
   @IsNotEmpty()
   @IsInt()
   presidentId: number;
+
+  @IsNotEmpty()
+  @IsString()
+  description: string;
 }

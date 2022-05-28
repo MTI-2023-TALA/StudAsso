@@ -16,6 +16,9 @@ export class Association extends Base {
   @Column({ type: 'varchar' })
   name: string;
 
+  @Column({ type: 'varchar' })
+  description: string;
+
   @OneToMany(() => AssociationsMember, (associationsMember) => associationsMember.userId)
   users: AssociationsMember[];
 

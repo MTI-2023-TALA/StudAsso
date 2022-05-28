@@ -6,4 +6,8 @@ export class UpdateAssociationDto extends UpdateBaseDto {
   @IsOptional()
   @IsString()
   name: string;
+
+  @IsOptional()
+  @IsString()
+  description: string;
 }
