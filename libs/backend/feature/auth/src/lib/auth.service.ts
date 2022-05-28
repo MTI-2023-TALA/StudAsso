@@ -21,7 +21,7 @@ export class AuthService {
   async signupLocal(dto: AuthDto): Promise<TokenDto> {
     const hash = await argon.hash(dto.password);
 
-    const user = await this.userRepository.createUser(dto.email, dto.email, dto.email, hash);
+    const user = await this.userRepository.createUser(dto.email, dto.email, dto.email, false, hash);
 
     const tokens = await this._getTokens(user.id, dto.email);
     this._updateRtToken(user.id, tokens.refreshToken);

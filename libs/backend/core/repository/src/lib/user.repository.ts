@@ -12,8 +12,14 @@ export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUs
     super(userRepository);
   }
 
-  public createUser(email: string, firstname: string, lastname: string, hash: string): Promise<User> {
-    return this.userRepository.save({ email, passwordHash: hash, firstname, lastname });
+  public createUser(
+    email: string,
+    firstname: string,
+    lastname: string,
+    isSchoolEmployee: boolean,
+    hash: string
+  ): Promise<User> {
+    return this.userRepository.save({ email, passwordHash: hash, firstname, lastname, isSchoolEmployee });
   }
 
   public updateRt(userId: number, rt: string): Promise<UpdateResult> {
