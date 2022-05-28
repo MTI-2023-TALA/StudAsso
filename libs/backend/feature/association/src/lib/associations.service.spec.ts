@@ -15,10 +15,12 @@ const mockedAssociations = [
   plainToInstance(Association, {
     id: 1,
     name: 'Association1',
+    description: 'description',
   }),
   plainToInstance(Association, {
     id: 2,
     name: 'Association2',
+    description: 'description',
   }),
 ];
 
@@ -69,7 +71,7 @@ describe('AssociationsService', () => {
 
   describe('createAssociation', () => {
     it('should call associationRepository.create with correct params', async () => {
-      const createAssoParams = { name: 'Association1', presidentId: 1 };
+      const createAssoParams = { name: 'Association1', presidentId: 1, description: 'description' };
       const createAssociationDto = plainToInstance(CreateAssociationDto, createAssoParams);
       const create = jest.spyOn(associationsRepository, 'create');
 

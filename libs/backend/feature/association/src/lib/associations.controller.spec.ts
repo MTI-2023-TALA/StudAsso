@@ -1,15 +1,16 @@
-import { AssociationDto, CreateAssociationDto } from '@stud-asso/shared/dtos';
+import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 import { QueryFailedError, UpdateResult } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
 import { UnprocessableEntityException } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 
-const mockCreateAssociationDto: AssociationDto = { id: 1, name: 'Association1' };
+const mockCreateAssociationDto: AssociationDto = { id: 1, name: 'Association1', description: 'description' };
 const mockfindAllAssociation: AssociationDto[] = [
-  { id: 1, name: 'Association1' },
-  { id: 2, name: 'Association2' },
+  { id: 1, name: 'Association1', description: 'description' },
+  { id: 2, name: 'Association2', description: 'description' },
 ];
 const mockedUpdateResult: UpdateResult = {
   raw: [],
@@ -48,7 +49,11 @@ describe('AssociationsController', () => {
     it('should call associationService.create', async () => {
       const create = jest.spyOn(service, 'create');
 
-      const createAssoParams: CreateAssociationDto = { name: 'Association1', presidentId: 1 };
+      const createAssoParams: CreateAssociationDto = {
+        name: 'Association1',
+        presidentId: 1,
+        description: 'description',
+      };
       const createdAsso = await controller.create(createAssoParams);
       expect(createdAsso).toEqual(mockCreateAssociationDto);
 
@@ -58,11 +63,11 @@ describe('AssociationsController', () => {
 
     it('shoud call associationService.create and return unprocessableEntity exception', async () => {
       const create = jest.spyOn(service, 'create').mockRejectedValue(new QueryFailedError('null', [], 'null'));
-      expect(async () => controller.create({ name: 'Association1', presidentId: 1 })).rejects.toThrow(
-        UnprocessableEntityException
-      );
+      expect(async () =>
+        controller.create({ name: 'Association1', presidentId: 1, description: 'description' })
+      ).rejects.toThrow(UnprocessableEntityException);
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1 });
+      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1, description: 'description' });
     });
   });
 
@@ -80,7 +85,10 @@ describe('AssociationsController', () => {
 
   describe('updateAssociation', () => {
     it('should call associationService.update', async () => {
-      expect(await controller.update('1', { name: 'Association 1 Renamed' })).toEqual(mockedUpdateResult);
+      const updateAssoDtoParams = plainToInstance(UpdateAssociationDto, {
+        name: 'Association 1 Renamed',
+      });
+      expect(await controller.update('1', updateAssoDtoParams)).toEqual(mockedUpdateResult);
     });
   });
 
