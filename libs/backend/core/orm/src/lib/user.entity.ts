@@ -23,6 +23,12 @@ export class User extends Base {
   @Column({ type: 'varchar', name: 'rt_hash' })
   rtHash: string;
 
+  @Column({ type: 'varchar', name: 'google_id' })
+  googleId: string;
+
+  @Column({ type: 'boolean', name: 'is_school_employee' })
+  isSchoolEmployee: boolean;
+
   @ManyToMany(() => Association, (association) => association.users)
   @JoinTable({
     name: 'associations_members',

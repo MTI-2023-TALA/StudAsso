@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 import { CreateBaseDto } from '../base/create-base.dto';
 
@@ -14,4 +14,8 @@ export class CreateUserDto extends CreateBaseDto {
   @IsNotEmpty()
   @IsEmail()
   email: string;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  isSchoolEmployee: boolean;
 }
