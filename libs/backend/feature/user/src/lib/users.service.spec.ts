@@ -106,6 +106,7 @@ describe('UsersService', () => {
       firstname: 'Anakin',
       lastname: 'Skywalker',
       email: 'anakin.skywalker@test.test',
+      isSchoolEmployee: false,
     };
 
     expect(async () => await service.create(createUserPayload)).rejects.toThrow('Email already used');
@@ -120,6 +121,7 @@ describe('UsersService', () => {
       firstname: 'Obi-Wan',
       lastname: 'Kenobi',
       email: 'obi-wan.kenobi@test.test',
+      isSchoolEmployee: false,
     };
 
     const createdResult = { id: 3, ...createUserPayload };
