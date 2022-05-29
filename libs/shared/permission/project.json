@@ -1,0 +1,23 @@
+{
+  "projectType": "library",
+  "root": "libs/shared/permission",
+  "sourceRoot": "libs/shared/permission/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/permission"],
+      "options": {
+        "jestConfig": "libs/shared/permission/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/permission/**/*.ts", "libs/shared/permission/**/*.html"]
+      }
+    }
+  },
+  "tags": ["type:shared"]
+}

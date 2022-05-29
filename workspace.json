@@ -39,6 +39,7 @@
     "frontend-student": "apps/frontend/student",
     "frontend-student-e2e": "apps/frontend/student-e2e",
     "frontend-testing-common-mock": "libs/frontend/testing/common-mock",
-    "shared-dtos": "libs/shared/dtos"
+    "shared-dtos": "libs/shared/dtos",
+    "shared-permission": "libs/shared/permission"
   }
 }
