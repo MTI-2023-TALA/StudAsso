@@ -16,11 +16,13 @@ const mockedAssociations = [
     id: 1,
     name: 'Association1',
     description: 'description',
+    presidentId: '1',
   }),
   plainToInstance(Association, {
     id: 2,
     name: 'Association2',
     description: 'description',
+    presidentId: '1',
   }),
 ];
 
@@ -42,8 +44,8 @@ describe('AssociationsService', () => {
           provide: AssociationRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedAssociations[0])),
-            findAll: jest.fn(() => Promise.resolve(mockedAssociations)),
-            findOne: jest.fn(() => Promise.resolve(mockedAssociations[0])),
+            findAllWithPresident: jest.fn(() => Promise.resolve(mockedAssociations)),
+            findOneWithPresident: jest.fn(() => Promise.resolve(mockedAssociations[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
           },
@@ -85,9 +87,9 @@ describe('AssociationsService', () => {
 
   describe('findAllAssociation', () => {
     it('should call associationRepository.findAll', async () => {
-      const findAll = jest.spyOn(associationsRepository, 'findAll');
+      const findAll = jest.spyOn(associationsRepository, 'findAllWithPresident');
 
-      const associationsRetrieved = await service.findAll();
+      const associationsRetrieved = await service.findAllWithPresident();
       expect(associationsRetrieved).toEqual(mockedAssociations);
 
       expect(findAll).toHaveBeenCalledTimes(1);
@@ -96,10 +98,10 @@ describe('AssociationsService', () => {
   });
 
   describe('findOneAssociation', () => {
-    it('should call associationRepository.findOne', async () => {
-      const findOne = jest.spyOn(associationsRepository, 'findOne');
+    it('should call associationRepository.findOneWithPresident', async () => {
+      const findOne = jest.spyOn(associationsRepository, 'findOneWithPresident');
 
-      const associationRetrieved = await service.findOne(1);
+      const associationRetrieved = await service.findOneWithPresident(1);
       expect(associationRetrieved).toEqual(mockedAssociations[0]);
 
       expect(findOne).toHaveBeenCalledTimes(1);

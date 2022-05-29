@@ -43,7 +43,7 @@ export class AssociationsService {
     const association = await this.associationRepository.findOneWithPresident(id);
     return await plainToInstance(AssociationWithPresidentDto, {
       ...association,
-    })[0]; // TODO: renvoie president_id et pas presidentId
+    }); // TODO: renvoie president_id et pas presidentId
   }
 
   public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<UpdateResult> {
