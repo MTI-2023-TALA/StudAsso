@@ -1,4 +1,9 @@
-import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationDto,
+  AssociationWithPresidentDto,
+  CreateAssociationDto,
+  UpdateAssociationDto,
+} from '@stud-asso/shared/dtos';
 import { QueryFailedError, UpdateResult } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -8,9 +13,9 @@ import { UnprocessableEntityException } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 
 const mockCreateAssociationDto: AssociationDto = { id: 1, name: 'Association1', description: 'description' };
-const mockfindAllAssociation: AssociationDto[] = [
-  { id: 1, name: 'Association1', description: 'description' },
-  { id: 2, name: 'Association2', description: 'description' },
+const mockfindAllAssociation: AssociationWithPresidentDto[] = [
+  { id: 1, name: 'Association1', description: 'description', presidentId: 1 },
+  { id: 2, name: 'Association2', description: 'description', presidentId: 1 },
 ];
 const mockedUpdateResult: UpdateResult = {
   raw: [],
@@ -30,7 +35,7 @@ describe('AssociationsController', () => {
           provide: AssociationsService,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockCreateAssociationDto)),
-            findAll: jest.fn(() => Promise.resolve(mockfindAllAssociation)),
+            findAllWithPresident: jest.fn(() => Promise.resolve(mockfindAllAssociation)),
             findOne: jest.fn(() => Promise.resolve(mockfindAllAssociation[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -73,7 +78,7 @@ describe('AssociationsController', () => {
 
   describe('findAllAssociations', () => {
     it('should call associationService.findAll', async () => {
-      expect(await controller.findAll()).toEqual(mockfindAllAssociation);
+      expect(await controller.findAllWithPresident()).toEqual(mockfindAllAssociation);
     });
   });
 

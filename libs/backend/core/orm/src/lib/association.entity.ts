@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { AssociationsMember } from './association-member.entity';
 import { Base } from './base.entity';
@@ -22,7 +22,8 @@ export class Association extends Base {
   @OneToMany(() => AssociationsMember, (associationsMember) => associationsMember.userId)
   users: AssociationsMember[];
 
-  @OneToMany(() => Role, (role) => role.id)
+  @OneToMany(() => Role, (role) => role.association)
+  @JoinColumn({ name: 'id' })
   roles: Role[];
 
   @OneToMany(() => Stock, (stock) => stock.id)
