@@ -1,5 +1,5 @@
 import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
 import { AuthService } from './auth.service';
@@ -11,7 +11,11 @@ export class AuthController {
   @Public()
   @Post('local/signup')
   async signupLocal(@Body() dto: AuthDto): Promise<TokenDto> {
-    return this.authService.signupLocal(dto);
+    try {
+      return await this.authService.signupLocal(dto);
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @Public()
