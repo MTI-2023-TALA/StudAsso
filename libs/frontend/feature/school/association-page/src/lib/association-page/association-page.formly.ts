@@ -12,6 +12,15 @@ export const createAssociationFormly = async (usersList: SelectOption[]) => {
       },
     },
     {
+      key: 'description',
+      type: Form.TextArea,
+      templateOptions: {
+        label: `Description de l'association`,
+        placeholder: `Ceci est une description obligatoire.`,
+        required: true,
+      },
+    },
+    {
       key: 'presidentId',
       type: Form.Select,
       templateOptions: {
