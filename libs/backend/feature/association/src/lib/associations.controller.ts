@@ -34,8 +34,7 @@ export class AssociationsController {
 
   @Get(':id')
   findOneWithPresident(@Param('id') id: string): Promise<AssociationWithPresidentDto> {
-    const toto = this.associationsService.findOneWithPresident(+id);
-    return toto;
+    return this.associationsService.findOneWithPresident(+id);
   }
 
   @Patch(':id')
