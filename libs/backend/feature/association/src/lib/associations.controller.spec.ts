@@ -36,7 +36,7 @@ describe('AssociationsController', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockCreateAssociationDto)),
             findAllWithPresident: jest.fn(() => Promise.resolve(mockfindAllAssociation)),
-            findOne: jest.fn(() => Promise.resolve(mockfindAllAssociation[0])),
+            findOneWithPresident: jest.fn(() => Promise.resolve(mockfindAllAssociation[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
           },
@@ -83,8 +83,8 @@ describe('AssociationsController', () => {
   });
 
   describe('findOneAssociation', () => {
-    it('shoud call associationService.findOne', async () => {
-      expect(await controller.findOne('1')).toEqual(mockfindAllAssociation[0]);
+    it('shoud call associationService.findOneWithPresident', async () => {
+      expect(await controller.findOneWithPresident('1')).toEqual(mockfindAllAssociation[0]);
     });
   });
 

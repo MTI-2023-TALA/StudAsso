@@ -12,7 +12,6 @@ import {
 
 import { Injectable } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class AssociationsService {

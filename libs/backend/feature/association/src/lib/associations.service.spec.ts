@@ -3,7 +3,7 @@ import {
   AssociationsMemberRepository,
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
-import { CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import { AssociationWithPresidentDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Association } from '@stud-asso/backend/core/orm';
@@ -16,13 +16,13 @@ const mockedAssociations = [
     id: 1,
     name: 'Association1',
     description: 'description',
-    presidentId: '1',
+    president_id: 1,
   }),
   plainToInstance(Association, {
     id: 2,
     name: 'Association2',
     description: 'description',
-    presidentId: '1',
+    president_id: 1,
   }),
 ];
 
@@ -87,10 +87,14 @@ describe('AssociationsService', () => {
 
   describe('findAllAssociation', () => {
     it('should call associationRepository.findAll', async () => {
+      const expectedResult = [
+        new AssociationWithPresidentDto(1, 'Association1', 'description', 1),
+        new AssociationWithPresidentDto(2, 'Association2', 'description', 1),
+      ];
       const findAll = jest.spyOn(associationsRepository, 'findAllWithPresident');
 
       const associationsRetrieved = await service.findAllWithPresident();
-      expect(associationsRetrieved).toEqual(mockedAssociations);
+      expect(associationsRetrieved).toEqual(expectedResult);
 
       expect(findAll).toHaveBeenCalledTimes(1);
       expect(findAll).toHaveBeenCalledWith();
@@ -99,10 +103,11 @@ describe('AssociationsService', () => {
 
   describe('findOneAssociation', () => {
     it('should call associationRepository.findOneWithPresident', async () => {
+      const expectedResult = new AssociationWithPresidentDto(1, 'Association1', 'description', 1);
       const findOne = jest.spyOn(associationsRepository, 'findOneWithPresident');
 
       const associationRetrieved = await service.findOneWithPresident(1);
-      expect(associationRetrieved).toEqual(mockedAssociations[0]);
+      expect(associationRetrieved).toEqual(expectedResult);
 
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(1);
