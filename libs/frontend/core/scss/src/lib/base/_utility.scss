@@ -1,7 +1,51 @@
 $numbers-flex-grow: 0, 1, 2, 3, 4, 5;
 
-@each $number in $numbers-flex-grow {
-  .flex-size-#{$number} {
-    flex: $number;
+@each $n in $numbers-flex-grow {
+  .flex-size-#{$n} {
+    flex: $n;
+  }
+}
+
+$numbers: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+
+@each $n in $numbers {
+  .u-m-#{$n} {
+    margin: #{$n}rem;
+  }
+
+  .u-m-r-#{$n} {
+    margin-right: #{$n}rem;
+  }
+
+  .u-m-l-#{$n} {
+    margin-left: #{$n}rem;
+  }
+
+  .u-m-t-#{$n} {
+    margin-top: #{$n}rem;
+  }
+
+  .u-m-b-#{$n} {
+    margin-bottom: #{$n}rem;
+  }
+
+  .u-p-#{$n} {
+    padding: #{$n}rem;
+  }
+
+  .u-p-r-#{$n} {
+    padding-right: #{$n}rem;
+  }
+
+  .u-p-l-#{$n} {
+    padding-left: #{$n}rem;
+  }
+
+  .u-p-t-#{$n} {
+    padding-top: #{$n}rem;
+  }
+
+  .u-p-b-#{$n} {
+    padding-bottom: #{$n}rem;
   }
 }
