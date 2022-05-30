@@ -9,7 +9,7 @@ export interface ColumnTableConfiguration {
 
 export interface ActionTableConfiguration {
   label: string;
-  action: number;
+  action: (data: any) => void;
   dataProperty: string;
 }
 

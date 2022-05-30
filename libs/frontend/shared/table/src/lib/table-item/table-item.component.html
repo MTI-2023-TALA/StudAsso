@@ -2,8 +2,4 @@
   <!-- <p>{{ data[config.dataProperty] }}</p> -->
   <stud-asso-table-data-view [columnConfiguration]="config" [data]="data"></stud-asso-table-data-view>
 </div>
-<stud-asso-table-dropdown
-  [data]="data"
-  [tableConfiguration]="tableConfiguration"
-  (actionEvent)="sendActionEvent($event)"
-></stud-asso-table-dropdown>
+<stud-asso-table-dropdown [data]="data" [tableConfiguration]="tableConfiguration"></stud-asso-table-dropdown>

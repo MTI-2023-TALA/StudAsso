@@ -56,7 +56,6 @@ export class LoginPageComponent implements OnInit {
 
   public tryToSignUp() {
     return (model: { email: string; password: string }) => {
-      console.log('Hello !');
       return this.authService.tryToSignUp(model.email, model.password, this.isAsso);
     };
   }
