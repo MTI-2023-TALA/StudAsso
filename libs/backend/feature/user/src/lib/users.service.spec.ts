@@ -1,6 +1,6 @@
-import { CreateUserDto, UpdateUserDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { CreateUserDto } from '@stud-asso/shared/dtos';
 import { PostgresError } from 'pg-error-enum';
 import { UpdateResult } from 'typeorm';
 import { User } from '@stud-asso/backend/core/orm';
@@ -22,6 +22,30 @@ const mockedUpdateResult: UpdateResult = {
   generatedMaps: [],
   affected: 1,
 };
+
+const mockedAssoOfUser = [
+  {
+    id: 1,
+    associations: [
+      {
+        id: 1,
+        name: 'Padawan',
+      },
+      {
+        id: 2,
+        name: 'Jedi',
+      },
+      {
+        id: 3,
+        name: 'Sith',
+      },
+    ],
+  },
+  {
+    id: 2,
+    associations: [],
+  },
+];
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -89,6 +113,9 @@ describe('UsersService', () => {
               mockedUsers = mockedUsers.filter((user) => user.id !== id);
               return Promise.resolve(mockedUpdateResult);
             }),
+            findAssoOfUser: jest.fn((id: number) => {
+              return Promise.resolve(mockedAssoOfUser.find((user) => user.id === id));
+            }),
           },
         },
       ],
@@ -100,112 +127,145 @@ describe('UsersService', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  it('should try to create a new user and fail unique email validation', async () => {
-    const create = jest.spyOn(userRepository, 'create');
-    const createUserPayload = {
-      firstname: 'Anakin',
-      lastname: 'Skywalker',
-      email: 'anakin.skywalker@test.test',
-      isSchoolEmployee: false,
-    };
+  describe('Create User', () => {
+    it('should try to create a new user and fail unique email validation', async () => {
+      const create = jest.spyOn(userRepository, 'create');
+      const createUserPayload = {
+        firstname: 'Anakin',
+        lastname: 'Skywalker',
+        email: 'anakin.skywalker@test.test',
+        isSchoolEmployee: false,
+      };
 
-    expect(async () => await service.create(createUserPayload)).rejects.toThrow('Email already used');
-    expect(create).toBeCalledTimes(1);
-    expect(create).toBeCalledWith(createUserPayload);
+      expect(async () => await service.create(createUserPayload)).rejects.toThrow('Email already used');
+      expect(create).toBeCalledTimes(1);
+      expect(create).toBeCalledWith(createUserPayload);
+    });
+
+    it('should create a new user', async () => {
+      const create = jest.spyOn(userRepository, 'create');
+
+      const createUserPayload = {
+        firstname: 'Obi-Wan',
+        lastname: 'Kenobi',
+        email: 'obi-wan.kenobi@test.test',
+        isSchoolEmployee: false,
+      };
+
+      const createdResult = { id: mockedUsers.length + 1, ...createUserPayload };
+
+      expect(await service.create(createUserPayload)).toEqual(createdResult);
+      expect(mockedUsers).toContainEqual(createdResult);
+      expect(create).toBeCalledTimes(1);
+      expect(create).toBeCalledWith(createUserPayload);
+    });
   });
 
-  it('should create a new user', async () => {
-    const create = jest.spyOn(userRepository, 'create');
+  describe('Find All Users', () => {
+    it('should find all users with id and email', async () => {
+      const findAllIdAndEmail = jest.spyOn(userRepository, 'findAllIdAndEmail');
 
-    const createUserPayload = {
-      firstname: 'Obi-Wan',
-      lastname: 'Kenobi',
-      email: 'obi-wan.kenobi@test.test',
-      isSchoolEmployee: false,
-    };
+      expect(await service.findAllIdAndEmail()).toEqual(
+        mockedUsers.map((user) => ({ id: user.id, email: user.email }))
+      );
+      expect(findAllIdAndEmail).toBeCalledTimes(1);
+    });
 
-    const createdResult = { id: 3, ...createUserPayload };
+    it('should find all users', async () => {
+      const findAll = jest.spyOn(userRepository, 'findAll');
 
-    expect(await service.create(createUserPayload)).toEqual(createdResult);
-    expect(mockedUsers).toContainEqual(createdResult);
-    expect(create).toBeCalledTimes(1);
-    expect(create).toBeCalledWith(createUserPayload);
+      expect(await service.findAll()).toEqual(mockedUsers);
+      expect(findAll).toBeCalledTimes(1);
+    });
   });
 
-  it('should find all users with id and email', async () => {
-    const findAllIdAndEmail = jest.spyOn(userRepository, 'findAllIdAndEmail');
+  describe('Find One User', () => {
+    it('should try to find an user by id and fail', async () => {
+      const findOne = jest.spyOn(userRepository, 'findOne');
 
-    expect(await service.findAllIdAndEmail()).toEqual(mockedUsers.map((user) => ({ id: user.id, email: user.email })));
-    expect(findAllIdAndEmail).toBeCalledTimes(1);
+      expect(async () => await service.findOne(-1)).rejects.toThrow('User not found');
+      expect(findOne).toBeCalledTimes(1);
+      expect(findOne).toBeCalledWith(-1);
+    });
+
+    it('should find a user by id', async () => {
+      const findOne = jest.spyOn(userRepository, 'findOne');
+
+      expect(await service.findOne(1)).toEqual(mockedUsers[0]);
+      expect(findOne).toBeCalledTimes(1);
+      expect(findOne).toBeCalledWith(1);
+    });
   });
 
-  it('should find all users', async () => {
-    const findAll = jest.spyOn(userRepository, 'findAll');
+  describe('Update User', () => {
+    it('should try to update a non-existing user and do nothing', async () => {
+      const update = jest.spyOn(userRepository, 'update');
+      const updateUserPayload = {
+        firstname: 'Qui-Gon',
+        lastname: 'Jinn',
+        email: 'qui-gon.jinn@test.test',
+      };
 
-    expect(await service.findAll()).toEqual(mockedUsers);
-    expect(findAll).toBeCalledTimes(1);
+      expect(await service.update(3, updateUserPayload)).toEqual({ affected: 0, ...mockedUpdateResult });
+      expect(update).toBeCalledTimes(1);
+      expect(update).toBeCalledWith(3, updateUserPayload);
+    });
+
+    it('should try to update a user with an existing email and fail unique email validation', async () => {
+      const update = jest.spyOn(userRepository, 'update');
+      const updateUserPayload = {
+        email: 'anakin.skywalker@test.test',
+      };
+
+      expect(async () => await service.update(2, updateUserPayload)).rejects.toThrow('Email already used');
+      expect(update).toBeCalledTimes(1);
+      expect(update).toBeCalledWith(2, updateUserPayload);
+    });
+
+    it('should update an user', async () => {
+      const update = jest.spyOn(userRepository, 'update');
+      const updateUserPayload = {
+        firstname: 'Darth',
+        lastname: 'Vader',
+        email: 'darth.vader@test.test',
+      };
+
+      expect(await service.update(1, updateUserPayload)).toEqual(mockedUpdateResult);
+      expect(mockedUsers[0]).toEqual({ id: 1, ...updateUserPayload });
+      expect(update).toBeCalledTimes(1);
+      expect(update).toBeCalledWith(1, updateUserPayload);
+    });
   });
 
-  it('should try to find an user by id and fail', async () => {
-    const findOne = jest.spyOn(userRepository, 'findOne');
+  describe('Delete User', () => {
+    it('should delete a user', async () => {
+      const deleteCall = jest.spyOn(userRepository, 'delete');
 
-    expect(async () => await service.findOne(-1)).rejects.toThrow('User not found');
-    expect(findOne).toBeCalledTimes(1);
-    expect(findOne).toBeCalledWith(-1);
+      expect(await service.delete(1)).toEqual(mockedUpdateResult);
+      expect(mockedUsers).toEqual(mockedUsers.filter((user) => user.id !== 1));
+      expect(deleteCall).toBeCalledTimes(1);
+      expect(deleteCall).toBeCalledWith(1);
+    });
   });
 
-  it('should find a user by id', async () => {
-    const findOne = jest.spyOn(userRepository, 'findOne');
+  describe('Find Asso of User', () => {
+    it('should no asso of user', async () => {
+      const findAssoOfUser = jest.spyOn(userRepository, 'findAssoOfUser');
 
-    expect(await service.findOne(1)).toEqual(mockedUsers[0]);
-    expect(findOne).toBeCalledTimes(1);
-    expect(findOne).toBeCalledWith(1);
-  });
+      expect(await service.findAssoOfUser(2)).toEqual({ id: 2, associationsId: [] });
+      expect(findAssoOfUser).toBeCalledTimes(1);
+      expect(findAssoOfUser).toBeCalledWith(2);
+    });
 
-  it('should try to update a non-existing user and do nothing', async () => {
-    const update = jest.spyOn(userRepository, 'update');
-    const updateUserPayload = {
-      firstname: 'Qui-Gon',
-      lastname: 'Jinn',
-      email: 'qui-gon.jinn@test.test',
-    };
+    it('should find asso of user', async () => {
+      const findAssoOfUser = jest.spyOn(userRepository, 'findAssoOfUser');
 
-    expect(await service.update(3, updateUserPayload)).toEqual({ affected: 0, ...mockedUpdateResult });
-    expect(update).toBeCalledTimes(1);
-    expect(update).toBeCalledWith(3, updateUserPayload);
-  });
-
-  it('should try to update a user with an existing email and fail unique email validation', async () => {
-    const update = jest.spyOn(userRepository, 'update');
-    const updateUserPayload = {
-      email: 'anakin.skywalker@test.test',
-    };
-
-    expect(async () => await service.update(2, updateUserPayload)).rejects.toThrow('Email already used');
-    expect(update).toBeCalledTimes(1);
-    expect(update).toBeCalledWith(2, updateUserPayload);
-  });
-
-  it('should update an user', async () => {
-    const update = jest.spyOn(userRepository, 'update');
-    const updateUserPayload = {
-      firstname: 'Darth',
-      lastname: 'Vader',
-      email: 'darth.vader@test.test',
-    };
-
-    expect(await service.update(1, updateUserPayload)).toEqual(mockedUpdateResult);
-    expect(mockedUsers[0]).toEqual({ id: 1, ...updateUserPayload });
-    expect(update).toBeCalledTimes(1);
-    expect(update).toBeCalledWith(1, updateUserPayload);
-  });
-
-  it('should delete a user', async () => {
-    const deleteCall = jest.spyOn(userRepository, 'delete');
-
-    expect(await service.delete(1)).toEqual(mockedUpdateResult);
-    expect(mockedUsers).toEqual(mockedUsers.filter((user) => user.id !== 1));
-    expect(deleteCall).toBeCalledTimes(1);
-    expect(deleteCall).toBeCalledWith(1);
+      expect(await service.findAssoOfUser(1)).toEqual({
+        id: mockedAssoOfUser[0].id,
+        associationsId: mockedAssoOfUser[0].associations,
+      });
+      expect(findAssoOfUser).toBeCalledTimes(1);
+      expect(findAssoOfUser).toBeCalledWith(1);
+    });
   });
 });
