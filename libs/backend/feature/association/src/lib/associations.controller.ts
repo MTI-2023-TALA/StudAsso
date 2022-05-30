@@ -1,4 +1,9 @@
-import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationDto,
+  AssociationWithPresidentDto,
+  CreateAssociationDto,
+  UpdateAssociationDto,
+} from '@stud-asso/shared/dtos';
 import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
 import { QueryFailedError, UpdateResult } from 'typeorm';
 import { AssociationsService } from './associations.service';
@@ -23,13 +28,13 @@ export class AssociationsController {
   }
 
   @Get()
-  findAll(): Promise<AssociationDto[]> {
-    return this.associationsService.findAll();
+  findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
+    return this.associationsService.findAllWithPresident();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<AssociationDto> {
-    return this.associationsService.findOne(+id);
+  findOneWithPresident(@Param('id') id: string): Promise<AssociationWithPresidentDto> {
+    return this.associationsService.findOneWithPresident(+id);
   }
 
   @Patch(':id')
