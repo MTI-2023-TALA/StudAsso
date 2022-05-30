@@ -9,11 +9,6 @@ import { SelectOption } from '@stud-asso/frontend-shared-formly';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
-enum Action {
-  EDIT = 1,
-  DELETE = 2,
-}
-
 @Component({
   selector: 'stud-asso-association-page',
   templateUrl: './association-page.component.html',
@@ -31,12 +26,16 @@ export class AssociationPageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
-        action: Action.EDIT,
+        action: (data: number) => {
+          this.modifyModalAssociation(data);
+        },
         dataProperty: 'id',
       },
       {
         label: 'Supprimer',
-        action: Action.DELETE,
+        action: (data: number) => {
+          this.deleteAssociation(data);
+        },
         dataProperty: 'id',
       },
     ],
@@ -69,17 +68,6 @@ export class AssociationPageComponent implements OnInit {
   handleError() {
     return () =>
       this.toast.addAlert({ title: 'Erreur lors de la récupération des associations', type: ToastType.Error });
-  }
-
-  handleTableEvent(event: { action: number; data: any }) {
-    switch (event.action) {
-      case Action.EDIT:
-        this.modifyModalAssociation(event.data);
-        break;
-      case Action.DELETE:
-        this.deleteAssociation(event.data);
-        break;
-    }
   }
 
   async createModalAssociation() {

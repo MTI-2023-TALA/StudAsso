@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { Component, ElementRef, HostListener, Input } from '@angular/core';
 
 import { TableConfiguration } from '../table/table.model';
 
@@ -10,7 +10,6 @@ import { TableConfiguration } from '../table/table.model';
 export class TableItemComponent {
   @Input() tableConfiguration: TableConfiguration;
   @Input() data: any;
-  @Output() actionEvent = new EventEmitter<{ action: number; data: any }>();
 
   dropdownIsActive = false;
 
@@ -18,10 +17,6 @@ export class TableItemComponent {
 
   toggleDropdown() {
     this.dropdownIsActive = !this.dropdownIsActive;
-  }
-
-  sendActionEvent(event: { action: number; data: any }) {
-    this.actionEvent.emit(event);
   }
 
   @HostListener('document:click', ['$event'])

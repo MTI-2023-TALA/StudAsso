@@ -8,11 +8,6 @@ import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createRoleFormly } from './role-page.formly';
 import { getData } from '@stud-asso/frontend-core-storage';
 
-enum Action {
-  EDIT = 1,
-  DELETE = 2,
-}
-
 @Component({
   selector: 'stud-asso-role-page',
   templateUrl: './role-page.component.html',
@@ -29,12 +24,16 @@ export class RolePageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
-        action: Action.EDIT,
+        action: (data: number) => {
+          this.modifyModalRole(data);
+        },
         dataProperty: 'id',
       },
       {
         label: 'Supprimer',
-        action: Action.DELETE,
+        action: (data: number) => {
+          this.deleteRole(data);
+        },
         dataProperty: 'id',
       },
     ],
@@ -62,17 +61,6 @@ export class RolePageComponent implements OnInit {
 
   handleError() {
     return () => this.toast.addAlert({ title: 'Erreur lors de la récupération des rôles', type: ToastType.Error });
-  }
-
-  handleTableEvent(event: { action: number; data: any }) {
-    switch (event.action) {
-      case Action.EDIT:
-        this.modifyModalRole(event.data);
-        break;
-      case Action.DELETE:
-        this.deleteRole(event.data);
-        break;
-    }
   }
 
   createModalRole() {

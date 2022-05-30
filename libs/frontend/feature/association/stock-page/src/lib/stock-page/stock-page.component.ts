@@ -8,11 +8,6 @@ import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createStockFormly } from './stock-page.formly';
 import { getData } from '@stud-asso/frontend-core-storage';
 
-enum Action {
-  EDIT = 1,
-  DELETE = 2,
-}
-
 @Component({
   selector: 'stud-asso-stock-page',
   templateUrl: './stock-page.component.html',
@@ -34,12 +29,16 @@ export class StockPageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
-        action: Action.EDIT,
+        action: (data: number) => {
+          this.modifyModalStock(data);
+        },
         dataProperty: 'id',
       },
       {
         label: 'Supprimer',
-        action: Action.DELETE,
+        action: (data: number) => {
+          this.deleteStock(data);
+        },
         dataProperty: 'id',
       },
     ],
@@ -55,17 +54,6 @@ export class StockPageComponent implements OnInit {
 
   handleError() {
     return () => this.toast.addAlert({ title: 'Erreur lors de la récupération des stocks', type: ToastType.Error });
-  }
-
-  handleTableEvent(event: { action: number; data: any }) {
-    switch (event.action) {
-      case Action.EDIT:
-        this.modifyModalStock(event.data);
-        break;
-      case Action.DELETE:
-        this.deleteStock(event.data);
-        break;
-    }
   }
 
   reloadData() {

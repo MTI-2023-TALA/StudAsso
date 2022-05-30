@@ -14,11 +14,6 @@ export class GenericPageComponent {
   @Input() data: any[];
 
   @Output() buttonFunction = new EventEmitter<void>();
-  @Output() actionEvent = new EventEmitter<{ action: number; data: any }>();
-
-  sendActionEvent($event: { action: number; data: any }) {
-    this.actionEvent.emit({ action: $event.action, data: $event.data });
-  }
 
   onButtonClick() {
     this.buttonFunction.emit();
