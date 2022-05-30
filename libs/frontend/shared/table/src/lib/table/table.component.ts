@@ -5,7 +5,6 @@ import { TableConfiguration } from './table.model';
 @Component({
   selector: 'stud-asso-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
   @Input() tableConfiguration: TableConfiguration;

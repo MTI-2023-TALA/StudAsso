@@ -49,3 +49,25 @@ $numbers: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
     padding-bottom: #{$n}rem;
   }
 }
+
+// Flex utility
+
+.u-f {
+  display: flex;
+}
+
+.u-f-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.u-f-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.u-f-space-evenly {
+  display: flex;
+  justify-content: space-evenly;
+}

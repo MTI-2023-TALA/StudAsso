@@ -1,5 +1,5 @@
 <div class="host" [class.show-large-navbar]="shouldShowLargeNavbar">
-  <h1 class="title t-center p-4">
+  <h1 class="title u-f-center u-f-space-evenly p-4">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -42,7 +42,7 @@
     </span>
   </h1>
 
-  <div class="center" [studAssoTooltip]="'Ceci est un tooltip'" placement="top">
+  <div class="u-f-center" [studAssoTooltip]="'Ceci est un tooltip'" placement="top">
     <button class="button" (click)="toggleShowLargeNavbar()">
       <i *ngIf="shouldShowLargeNavbar" class="bi bi-arrow-left-square"></i>
       <i *ngIf="!shouldShowLargeNavbar" class="bi bi-arrow-right-square"></i>
@@ -62,7 +62,7 @@
     </ul>
   </nav>
 
-  <div class="logout">
+  <div class="u-f-center">
     <button class="button is-danger" (click)="logout()">
       <i class="bi bi-power p-2"></i>
       <span *ngIf="shouldShowLargeNavbar">Déconnexion</span>

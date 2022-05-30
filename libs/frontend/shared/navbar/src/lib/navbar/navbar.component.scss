@@ -46,12 +46,6 @@ ul {
   }
 }
 
-.t-center {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
 .title {
   background: linear-gradient(135deg, #72edf2 0%, #5151e5 100%);
   background-clip: text;
@@ -68,19 +62,4 @@ ul {
   background-color: $light-grey-200;
   color: $primary-600;
   border-right: 2px solid $primary-600;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.button {
-  border: none;
-}
-
-.logout {
-  display: flex;
-  justify-content: center;
 }
