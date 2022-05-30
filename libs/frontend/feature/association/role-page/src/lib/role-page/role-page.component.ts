@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
+import { AssociationDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createRoleFormly } from './role-page.formly';
@@ -39,7 +40,7 @@ export class RolePageComponent implements OnInit {
     ],
   };
 
-  roleList: any[] = [];
+  roleList: AssociationDto[] = [];
 
   constructor(private api: ApiRoleService, private modal: ModalService, private toast: ToastService) {}
 
@@ -54,7 +55,7 @@ export class RolePageComponent implements OnInit {
       return;
     }
     const associationId = JSON.parse(assoIdData);
-    this.api.findAllAsso(associationId).subscribe((roles: any) => {
+    this.api.findAllRoleWithAsso(associationId).subscribe((roles: AssociationDto[]) => {
       this.roleList = roles;
     });
   }

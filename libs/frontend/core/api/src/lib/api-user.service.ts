@@ -3,6 +3,7 @@ import { AssoUserDto, CreateUserDto, UpdateUserDto, UserIdAndEmailDto } from '@s
 import { ApiGenericService } from './api-generic.service';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,11 @@ export class ApiUserService extends ApiGenericService<CreateUserDto, UpdateUserD
     this.url = 'users';
   }
 
-  getIdAndEmail() {
+  getIdAndEmail(): Observable<UserIdAndEmailDto[]> {
     return this.api.get<UserIdAndEmailDto[]>(`${this.url}/idandemail`);
   }
 
-  getUserAsso() {
+  getUserAsso(): Observable<AssoUserDto> {
     return this.api.get<AssoUserDto>(`${this.url}/asso`);
   }
 }

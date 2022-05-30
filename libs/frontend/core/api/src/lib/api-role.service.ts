@@ -1,8 +1,9 @@
-import { CreateRoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import { AssociationDto, CreateRoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 
 import { ApiGenericService } from './api-generic.service';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class ApiRoleService extends ApiGenericService<CreateRoleDto, UpdateRoleD
     this.url = 'roles';
   }
 
-  public findAllAsso(id: number) {
-    return this.apiService.get(`${this.url}/asso/${id}`);
+  public findAllRoleWithAsso(id: number): Observable<AssociationDto[]> {
+    return this.apiService.get<AssociationDto[]>(`${this.url}/asso/${id}`);
   }
 }

@@ -14,7 +14,7 @@ export class ApiStockService extends ApiGenericService<CreateStockDto, UpdateSto
     this.url = 'stocks';
   }
 
-  public findAllAsso(id: number): Observable<StockDto[]> {
-    return this.apiService.get(`${this.url}/asso/${id}`);
+  public findAllStockWithAssoId(id: number): Observable<StockDto[]> {
+    return this.apiService.get<StockDto[]>(`${this.url}/asso/${id}`);
   }
 }
