@@ -1,11 +1,12 @@
 import * as argon from 'argon2';
 
-import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { AuthDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from '@stud-asso/backend-core-auth';
 import { JwtService } from '@nestjs/jwt';
+import { PostgresError } from 'pg-error-enum';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 
 @Injectable()
@@ -21,7 +22,15 @@ export class AuthService {
   async signupLocal(dto: AuthDto): Promise<TokenDto> {
     const hash = await argon.hash(dto.password);
 
-    const user = await this.userRepository.createUser(dto.email, dto.email, dto.email, false, hash);
+    let user: UserDto;
+
+    try {
+      user = await this.userRepository.createUser(dto.email, dto.email, dto.email, false, hash);
+    } catch (error) {
+      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
+        throw new Error('Email already used');
+      }
+    }
 
     const tokens = await this._getTokens(user.id, dto.email);
     this._updateRtToken(user.id, tokens.refreshToken);

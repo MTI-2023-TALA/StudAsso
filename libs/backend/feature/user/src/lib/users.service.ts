@@ -1,6 +1,7 @@
 import { CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
+import { PostgresError } from 'pg-error-enum';
 import { UpdateResult } from 'typeorm';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 
@@ -8,8 +9,14 @@ import { UserRepository } from '@stud-asso/backend/core/repository';
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  public async create(createBaseDto: CreateUserDto): Promise<UserDto> {
-    return this.userRepository.create(createBaseDto);
+  public async create(createUserDto: CreateUserDto): Promise<UserDto> {
+    try {
+      return await this.userRepository.create(createUserDto);
+    } catch (error) {
+      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
+        throw new Error('Email already used');
+      }
+    }
   }
 
   public async findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {

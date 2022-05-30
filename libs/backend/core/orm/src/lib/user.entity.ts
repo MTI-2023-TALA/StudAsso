@@ -1,9 +1,10 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { Association } from './association.entity';
 import { Base } from './base.entity';
 
 @Entity('users')
+@Unique(['email'])
 export class User extends Base {
   @PrimaryGeneratedColumn('increment')
   id: number;
