@@ -96,18 +96,18 @@ describe('UsersService', () => {
               if (updateUserPayload.email && mockedUsers.find((user) => user.email === updateUserPayload.email)) {
                 throw new PostgresErrorMock(PostgresError.UNIQUE_VIOLATION, 'Email already used');
               }
-              const user = mockedUsers.find((user) => user.id === id);
-              if (!user) {
+              const updateUser = mockedUsers.find((user) => user.id === id);
+              if (!updateUser) {
                 return Promise.resolve({ affected: 0, ...mockedUpdateResult });
               }
-              user.firstname = updateUserPayload.firstname;
-              user.lastname = updateUserPayload.lastname;
-              user.email = updateUserPayload.email;
+              updateUser.firstname = updateUserPayload.firstname;
+              updateUser.lastname = updateUserPayload.lastname;
+              updateUser.email = updateUserPayload.email;
               return Promise.resolve(mockedUpdateResult);
             }),
             delete: jest.fn((id: number) => {
-              const user = mockedUsers.find((user) => user.id === id);
-              if (!user) {
+              const deleteUser = mockedUsers.find((user) => user.id === id);
+              if (!deleteUser) {
                 return Promise.resolve({ affected: 0, ...mockedUpdateResult });
               }
               mockedUsers = mockedUsers.filter((user) => user.id !== id);
@@ -137,7 +137,7 @@ describe('UsersService', () => {
         isSchoolEmployee: false,
       };
 
-      expect(async () => await service.create(createUserPayload)).rejects.toThrow('Email already used');
+      expect(() => service.create(createUserPayload)).rejects.toThrow('Email already used');
       expect(create).toBeCalledTimes(1);
       expect(create).toBeCalledWith(createUserPayload);
     });
@@ -183,7 +183,7 @@ describe('UsersService', () => {
     it('should try to find an user by id and fail', async () => {
       const findOne = jest.spyOn(userRepository, 'findOne');
 
-      expect(async () => await service.findOne(-1)).rejects.toThrow('User not found');
+      expect(() => service.findOne(-1)).rejects.toThrow('User not found');
       expect(findOne).toBeCalledTimes(1);
       expect(findOne).toBeCalledWith(-1);
     });
@@ -217,7 +217,7 @@ describe('UsersService', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(async () => await service.update(2, updateUserPayload)).rejects.toThrow('Email already used');
+      expect(() => service.update(2, updateUserPayload)).rejects.toThrow('Email already used');
       expect(update).toBeCalledTimes(1);
       expect(update).toBeCalledWith(2, updateUserPayload);
     });
