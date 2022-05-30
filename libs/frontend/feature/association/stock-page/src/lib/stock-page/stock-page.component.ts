@@ -45,7 +45,7 @@ export class StockPageComponent implements OnInit {
     ],
   };
 
-  stockList: any[] = [];
+  stockList: StockDto[] = [];
 
   constructor(private api: ApiStockService, private modal: ModalService, private toast: ToastService) {}
 
@@ -75,7 +75,7 @@ export class StockPageComponent implements OnInit {
       return;
     }
     const assoId = JSON.parse(assoIdData);
-    this.api.findAllAsso(assoId).subscribe((stocks: StockDto[]) => {
+    this.api.findAllStockWithAssoId(assoId).subscribe((stocks: StockDto[]) => {
       this.stockList = stocks;
     });
   }

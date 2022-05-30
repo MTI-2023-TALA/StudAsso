@@ -21,7 +21,6 @@ export class UsersController {
 
   @Get('asso')
   findAssoOfUser(@GetCurrentUserId() userId: number): Promise<AssoUserDto> {
-    console.log(userId);
     return this.usersService.findAssoOfUser(userId);
   }
 
