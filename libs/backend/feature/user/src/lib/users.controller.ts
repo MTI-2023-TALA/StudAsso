@@ -14,7 +14,7 @@ export class UsersController {
     try {
       return await this.usersService.create(createUserDto);
     } catch (error) {
-      throw new BadRequestException('Email already used');
+      throw new BadRequestException('Email Already Used');
     }
   }
 
@@ -34,13 +34,21 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<UserDto> {
-    return this.usersService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<UserDto> {
+    try {
+      return await this.usersService.findOne(+id);
+    } catch (error) {
+      throw new BadRequestException('User Not Found');
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
-    return this.usersService.update(+id, updateUserDto);
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
+    try {
+      return await this.usersService.update(+id, updateUserDto);
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @Delete(':id')

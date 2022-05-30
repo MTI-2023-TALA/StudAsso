@@ -28,14 +28,33 @@ export class UsersService {
   }
 
   public async findOne(id: number): Promise<UserDto> {
-    return this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
   }
 
   public async update(id: number, updateBaseDto: UpdateUserDto): Promise<UpdateResult> {
-    return this.userRepository.update(id, updateBaseDto);
+    const user = this.userRepository.findOne(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    try {
+      return await this.userRepository.update(id, updateBaseDto);
+    } catch (error) {
+      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
+        throw new Error('Email already used');
+      }
+    }
   }
 
   public async delete(id: number): Promise<UpdateResult> {
+    const user = this.userRepository.findOne(id);
+    if (!user) {
+      throw new Error('User not found');
+    }
     return this.userRepository.delete(id);
   }
 

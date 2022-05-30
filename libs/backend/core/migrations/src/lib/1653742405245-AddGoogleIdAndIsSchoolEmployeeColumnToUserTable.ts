@@ -16,6 +16,7 @@ export class AddGoogleIdAndIsSchoolEmployeeColumnToUserTable1653742405245 implem
       new TableColumn({
         name: 'is_school_employee',
         type: 'boolean',
+        default: false,
         isNullable: false,
       })
     );

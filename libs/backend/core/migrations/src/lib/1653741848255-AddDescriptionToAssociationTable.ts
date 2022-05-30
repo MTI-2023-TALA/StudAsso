@@ -7,7 +7,7 @@ export class AddDescriptionToAssociationTable1653741848255 implements MigrationI
       new TableColumn({
         name: 'description',
         type: 'varchar',
-        isNullable: false,
+        isNullable: true,
       })
     );
   }
