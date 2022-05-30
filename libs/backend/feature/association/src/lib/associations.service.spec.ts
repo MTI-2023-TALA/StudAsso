@@ -11,7 +11,7 @@ import { AssociationsService } from './associations.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
-const mockedAssociations = [
+const mockedAssociations: Association[] = [
   plainToInstance(Association, {
     id: 1,
     name: 'Association1',
