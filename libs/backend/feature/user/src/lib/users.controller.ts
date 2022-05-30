@@ -14,7 +14,7 @@ export class UsersController {
     try {
       return await this.usersService.create(createUserDto);
     } catch (error) {
-      throw new BadRequestException();
+      throw new BadRequestException('Email already used');
     }
   }
 
