@@ -27,14 +27,16 @@ export class AssociationRepository extends BaseRepository<Association, CreateAss
   }
 
   public async findOneWithPresident(associationId: number): Promise<Association> {
-    return this.entityManager.query(
+    const result = await this.entityManager.query(
       `
       SELECT associations.id, associations.name, associations.description, associations_members.user_id AS president_id
       FROM associations
       LEFT JOIN roles ON roles.association_id = associations.id
       LEFT JOIN associations_members on roles.id = associations_members.role_id
-      WHERE roles.name = 'Président' AND associations.id = ${associationId};
+      WHERE roles.name = 'Président' AND associations.id = ${associationId}
+      LIMIT 1;
       `
     );
+    return result[0];
   }
 }

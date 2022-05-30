@@ -32,18 +32,14 @@ export class AssociationsService {
 
   public async findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
     const associationsWithPresident = await this.associationRepository.findAllWithPresident();
-    return associationsWithPresident.map((asso) =>
-      plainToInstance(AssociationWithPresidentDto, {
-        ...asso, // TODO: renvoie president_id et pas presidentId
-      })
+    return associationsWithPresident.map(
+      (asso) => new AssociationWithPresidentDto(asso['id'], asso['name'], asso['description'], asso['president_id'])
     );
   }
 
   public async findOneWithPresident(id: number): Promise<AssociationWithPresidentDto> {
-    const association = await this.associationRepository.findOneWithPresident(id);
-    return await plainToInstance(AssociationWithPresidentDto, {
-      ...association,
-    }); // TODO: renvoie president_id et pas presidentId
+    const asso = await this.associationRepository.findOneWithPresident(id);
+    return new AssociationWithPresidentDto(asso['id'], asso['name'], asso['description'], asso['president_id']);
   }
 
   public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<UpdateResult> {
