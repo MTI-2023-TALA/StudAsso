@@ -1,7 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { Association } from './association.entity';
-import { AssociationsMember } from './association-member.entity';
 import { Base } from './base.entity';
 
 @Entity('roles')

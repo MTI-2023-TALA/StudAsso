@@ -1,7 +1,6 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 import { Base } from './base.entity';
-import { Role } from './role.entity';
 
 @Entity('associations_members')
 export class AssociationsMember extends Base {
