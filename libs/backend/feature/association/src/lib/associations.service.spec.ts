@@ -8,8 +8,20 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Association } from '@stud-asso/backend/core/orm';
 import { AssociationsService } from './associations.service';
+import { PostgresError } from 'pg-error-enum';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
+
+class PostgresErrorMock extends Error {
+  code: PostgresError;
+  constraint: string;
+
+  constructor(code: PostgresError, constraint: string, message: string) {
+    super(message);
+    this.code = code;
+    this.constraint = constraint;
+  }
+}
 
 const mockedAssociations: Association[] = [
   plainToInstance(Association, {
@@ -82,6 +94,38 @@ describe('AssociationsService', () => {
 
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createAssoParams);
+    });
+
+    it('should call associationService.create and fail unique_association_name constraint', async () => {
+      const create = jest
+        .spyOn(associationsRepository, 'create')
+        .mockRejectedValue(
+          new PostgresErrorMock(
+            PostgresError.UNIQUE_VIOLATION,
+            'unique_association_name',
+            'Association Name Already Exists'
+          )
+        );
+      expect(async () =>
+        service.create({ name: 'Association1', presidentId: 1, description: 'description' })
+      ).rejects.toThrow(new Error('Association Name Already Exists'));
+      expect(create).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call associationService.create and fail unique_role_name_per_association constraint', async () => {
+      const create = jest
+        .spyOn(associationsRepository, 'create')
+        .mockRejectedValue(
+          new PostgresErrorMock(
+            PostgresError.UNIQUE_VIOLATION,
+            'unique_role_name_per_association',
+            'Role Name Already Exists In This Association'
+          )
+        );
+      expect(async () =>
+        service.create({ name: 'Association1', presidentId: 1, description: 'description' })
+      ).rejects.toThrow(new Error('Role Name Already Exists In This Association'));
+      expect(create).toHaveBeenCalledTimes(1);
     });
   });
 
