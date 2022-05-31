@@ -4,7 +4,17 @@ import {
   CreateAssociationDto,
   UpdateAssociationDto,
 } from '@stud-asso/shared/dtos';
-import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { AssociationsService } from './associations.service';
 import { UpdateResult } from 'typeorm';
 
@@ -27,8 +37,12 @@ export class AssociationsController {
   }
 
   @Get(':id')
-  findOneWithPresident(@Param('id') id: string): Promise<AssociationWithPresidentDto> {
-    return this.associationsService.findOneWithPresident(+id);
+  public async findOneWithPresident(@Param('id') id: string): Promise<AssociationWithPresidentDto> {
+    try {
+      return await this.associationsService.findOneWithPresident(+id);
+    } catch (error) {
+      throw new BadRequestException('Association Not Found');
+    }
   }
 
   @Patch(':id')

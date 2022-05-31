@@ -4,11 +4,11 @@ import {
   CreateAssociationDto,
   UpdateAssociationDto,
 } from '@stud-asso/shared/dtos';
+import { BadRequestException, UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
-import { UnprocessableEntityException } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
@@ -94,8 +94,15 @@ describe('AssociationsController', () => {
   });
 
   describe('findOneAssociation', () => {
-    it('shouLd call associationService.findOneWithPresident', async () => {
+    it('should call associationService.findOneWithPresident', async () => {
       expect(await controller.findOneWithPresident('1')).toEqual(mockfindAllAssociation[0]);
+    });
+
+    it('should call associationService.findOneWithPresident and fail', async () => {
+      jest.spyOn(service, 'findOneWithPresident').mockRejectedValue(new Error('Association Not Found'));
+      expect(async () => await controller.findOneWithPresident('42')).rejects.toThrow(
+        new BadRequestException('Association Not Found')
+      );
     });
   });
 

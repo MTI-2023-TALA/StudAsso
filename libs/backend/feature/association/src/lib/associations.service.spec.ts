@@ -156,6 +156,12 @@ describe('AssociationsService', () => {
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(1);
     });
+
+    it('should call associationRepository.findOneWithPresident and fail', async () => {
+      const findOne = jest.spyOn(associationsRepository, 'findOneWithPresident').mockResolvedValue(undefined);
+      expect(async () => await service.findOneWithPresident(42)).rejects.toThrow(new Error('Association Not Found'));
+      expect(findOne).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('updateAssociation', () => {

@@ -51,6 +51,9 @@ export class AssociationsService {
 
   public async findOneWithPresident(id: number): Promise<AssociationWithPresidentDto> {
     const asso = await this.associationRepository.findOneWithPresident(id);
+    if (!asso) {
+      throw new Error('Association Not Found');
+    }
     return new AssociationWithPresidentDto(asso['id'], asso['name'], asso['description'], asso['president_id']);
   }
 
