@@ -113,6 +113,26 @@ describe('AssociationsController', () => {
       });
       expect(await controller.update('1', updateAssoDtoParams)).toEqual(mockedUpdateResult);
     });
+
+    it('should call associationService.update and fail because association does not exist', async () => {
+      jest.spyOn(service, 'update').mockRejectedValue(new Error('Association Not Found'));
+      const updateAssoDtoParams = plainToInstance(UpdateAssociationDto, {
+        name: 'Association 1 Renamed',
+      });
+      expect(async () => await controller.update('42', updateAssoDtoParams)).rejects.toThrow(
+        new BadRequestException('Association Not Found')
+      );
+    });
+
+    it('should call associationService.update and fail because association name already exists', async () => {
+      jest.spyOn(service, 'update').mockRejectedValue(new Error('Association Name Already Exists'));
+      const updateAssoDtoParams = plainToInstance(UpdateAssociationDto, {
+        name: 'Association 1 Renamed',
+      });
+      expect(async () => await controller.update('42', updateAssoDtoParams)).rejects.toThrow(
+        new BadRequestException('Association Name Already Exists')
+      );
+    });
   });
 
   describe('deleteAssociation', () => {

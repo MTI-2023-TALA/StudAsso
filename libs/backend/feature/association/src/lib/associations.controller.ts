@@ -41,13 +41,20 @@ export class AssociationsController {
     try {
       return await this.associationsService.findOneWithPresident(+id);
     } catch (error) {
-      throw new BadRequestException('Association Not Found');
+      throw new BadRequestException(error?.message);
     }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAssociationDto: UpdateAssociationDto): Promise<UpdateResult> {
-    return this.associationsService.update(+id, updateAssociationDto);
+  public async update(
+    @Param('id') id: string,
+    @Body() updateAssociationDto: UpdateAssociationDto
+  ): Promise<UpdateResult> {
+    try {
+      return await this.associationsService.update(+id, updateAssociationDto);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
   }
 
   @Delete(':id')

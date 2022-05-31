@@ -58,7 +58,18 @@ export class AssociationsService {
   }
 
   public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<UpdateResult> {
-    return this.associationRepository.update(id, updateBaseDto);
+    const asso = await this.associationRepository.findOne(id);
+    if (!asso) {
+      throw new Error('Association Not Found');
+    }
+
+    try {
+      return await this.associationRepository.update(id, updateBaseDto);
+    } catch (error) {
+      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
+        throw new Error('Association Name Already Exists');
+      }
+    }
   }
 
   public async delete(id: number): Promise<UpdateResult> {

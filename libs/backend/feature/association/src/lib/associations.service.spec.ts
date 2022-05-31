@@ -58,6 +58,15 @@ describe('AssociationsService', () => {
             create: jest.fn(() => Promise.resolve(mockedAssociations[0])),
             findAllWithPresident: jest.fn(() => Promise.resolve(mockedAssociations)),
             findOneWithPresident: jest.fn(() => Promise.resolve(mockedAssociations[0])),
+            findOne: jest.fn(() =>
+              Promise.resolve(
+                plainToInstance(Association, {
+                  id: 1,
+                  name: 'Association1',
+                  description: 'description',
+                })
+              )
+            ),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
           },
@@ -174,6 +183,31 @@ describe('AssociationsService', () => {
 
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(1, { name: 'Association1 Renamed' });
+    });
+
+    it('should call associationRepository.update and fail because association does not exist', async () => {
+      const findOne = jest.spyOn(associationsRepository, 'findOne').mockResolvedValue(undefined);
+      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      expect(async () => await service.update(42, updateAssociationDto)).rejects.toThrow(
+        new Error('Association Not Found')
+      );
+      expect(findOne).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call associationRepository.update and fail because association name already exists', async () => {
+      jest
+        .spyOn(associationsRepository, 'update')
+        .mockRejectedValue(
+          new PostgresErrorMock(
+            PostgresError.UNIQUE_VIOLATION,
+            'unique_association_name',
+            'Association Name Already Exists'
+          )
+        );
+      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      expect(async () => await service.update(42, updateAssociationDto)).rejects.toThrow(
+        new Error('Association Name Already Exists')
+      );
     });
   });
 
