@@ -128,7 +128,7 @@ describe('UsersController', () => {
         isSchoolEmployee: false,
       };
 
-      expect(() => controller.create(createUserPayload)).rejects.toThrow('Email Already Used');
+      expect(() => controller.create(createUserPayload)).rejects.toThrow(new Error('Email Already Used'));
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createUserPayload);
     });
@@ -174,7 +174,7 @@ describe('UsersController', () => {
       const findOne = jest.spyOn(service, 'findOne');
       const id = '3';
 
-      expect(() => controller.findOne(id)).rejects.toThrow('User Not Found');
+      expect(() => controller.findOne(id)).rejects.toThrow(new Error('User Not Found'));
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(+id);
     });
@@ -199,7 +199,7 @@ describe('UsersController', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow('Bad Request');
+      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('Bad Request'));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
@@ -211,7 +211,7 @@ describe('UsersController', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow('Bad Request');
+      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('Bad Request'));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
