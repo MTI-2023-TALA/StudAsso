@@ -5,8 +5,8 @@ import {
   UpdateAssociationDto,
 } from '@stud-asso/shared/dtos';
 import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
-import { QueryFailedError, UpdateResult } from 'typeorm';
 import { AssociationsService } from './associations.service';
+import { UpdateResult } from 'typeorm';
 
 @Controller('associations')
 export class AssociationsController {
@@ -14,16 +14,10 @@ export class AssociationsController {
 
   @Post()
   public async create(@Body() createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
-    // TODO: add decorator to manage exceptions and return correct codes
     try {
       return await this.associationsService.create(createAssociationDto);
-    } catch (e) {
-      if (e instanceof QueryFailedError) {
-        throw new UnprocessableEntityException();
-      }
-
-      // TODO: waiting for decorator -> in case of crash to handle
-      throw e;
+    } catch (error) {
+      throw new UnprocessableEntityException(error?.message);
     }
   }
 
