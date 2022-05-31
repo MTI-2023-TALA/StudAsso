@@ -62,7 +62,11 @@ export class UsersController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<UpdateResult> {
-    return this.usersService.delete(+id);
+  async delete(@Param('id') id: string): Promise<UpdateResult> {
+    try {
+      return await this.usersService.delete(+id);
+    } catch (error) {
+      throw new NotFoundException('User Not Found');
+    }
   }
 }
