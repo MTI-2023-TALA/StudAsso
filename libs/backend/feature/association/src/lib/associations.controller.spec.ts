@@ -101,7 +101,7 @@ describe('AssociationsController', () => {
     it('should call associationService.findOneWithPresident and fail', async () => {
       jest.spyOn(service, 'findOneWithPresident').mockRejectedValue(new Error('Association Not Found'));
       expect(async () => await controller.findOneWithPresident('42')).rejects.toThrow(
-        new BadRequestException('Association Not Found')
+        new Error('Association Not Found')
       );
     });
   });

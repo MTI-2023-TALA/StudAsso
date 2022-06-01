@@ -10,6 +10,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -41,7 +42,7 @@ export class AssociationsController {
     try {
       return await this.associationsService.findOneWithPresident(+id);
     } catch (error) {
-      throw new BadRequestException(error?.message);
+      throw new NotFoundException(error?.message);
     }
   }
 
