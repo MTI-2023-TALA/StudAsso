@@ -1,7 +1,18 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
-import { QueryFailedError, UpdateResult } from 'typeorm';
 import { RolesService } from './roles.service';
+import { UpdateResult } from 'typeorm';
 
 @Controller('roles')
 export class RolesController {
@@ -9,16 +20,10 @@ export class RolesController {
 
   @Post()
   public async create(@Body() createRoleDto: CreateRoleDto): Promise<RoleDto> {
-    // TODO: add decorator to manage exceptions and return correct codes
     try {
       return await this.rolesService.create(createRoleDto);
-    } catch (e) {
-      if (e instanceof QueryFailedError) {
-        throw new UnprocessableEntityException();
-      }
-
-      // TODO: waiting for decorator -> in case of crash to handle
-      throw e;
+    } catch (error) {
+      throw new UnprocessableEntityException('Name Already Exists');
     }
   }
 
@@ -28,17 +33,29 @@ export class RolesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<RoleDto> {
-    return this.rolesService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<RoleDto> {
+    try {
+      return await this.rolesService.findOne(+id);
+    } catch (error) {
+      throw new NotFoundException('Role Not Found');
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<UpdateResult> {
-    return this.rolesService.update(+id, updateRoleDto);
+  async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<UpdateResult> {
+    try {
+      return await this.rolesService.update(+id, updateRoleDto);
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<UpdateResult> {
-    return this.rolesService.delete(+id);
+  async delete(@Param('id') id: string): Promise<UpdateResult> {
+    try {
+      return await this.rolesService.delete(+id);
+    } catch (error) {
+      throw new BadRequestException();
+    }
   }
 }
