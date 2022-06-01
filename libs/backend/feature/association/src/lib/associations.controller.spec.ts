@@ -4,12 +4,12 @@ import {
   CreateAssociationDto,
   UpdateAssociationDto,
 } from '@stud-asso/shared/dtos';
-import { QueryFailedError, UpdateResult } from 'typeorm';
+import { BadRequestException, UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
-import { UnprocessableEntityException } from '@nestjs/common';
+import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
 const mockCreateAssociationDto: AssociationDto = { id: 1, name: 'Association1', description: 'description' };
@@ -66,11 +66,22 @@ describe('AssociationsController', () => {
       expect(create).toHaveBeenCalledWith(createAssoParams);
     });
 
-    it('shoud call associationService.create and return unprocessableEntity exception', async () => {
-      const create = jest.spyOn(service, 'create').mockRejectedValue(new QueryFailedError('null', [], 'null'));
+    it('should call associationService.create trying to create a duplicate association and return unprocessableEntity exception', async () => {
+      const create = jest.spyOn(service, 'create').mockRejectedValue(new Error('Association Name Already Exists'));
       expect(async () =>
         controller.create({ name: 'Association1', presidentId: 1, description: 'description' })
-      ).rejects.toThrow(UnprocessableEntityException);
+      ).rejects.toThrow(new UnprocessableEntityException('Association Name Already Exists'));
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1, description: 'description' });
+    });
+
+    it('should call associationService.create trying to create a duplicate role and return unprocessableEntity exception', async () => {
+      const create = jest
+        .spyOn(service, 'create')
+        .mockRejectedValue(new Error('Role Name Already Exists In This Association'));
+      expect(async () =>
+        controller.create({ name: 'Association1', presidentId: 1, description: 'description' })
+      ).rejects.toThrow(new UnprocessableEntityException('Role Name Already Exists In This Association'));
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1, description: 'description' });
     });
@@ -83,8 +94,15 @@ describe('AssociationsController', () => {
   });
 
   describe('findOneAssociation', () => {
-    it('shoud call associationService.findOneWithPresident', async () => {
+    it('should call associationService.findOneWithPresident', async () => {
       expect(await controller.findOneWithPresident('1')).toEqual(mockfindAllAssociation[0]);
+    });
+
+    it('should call associationService.findOneWithPresident and fail', async () => {
+      jest.spyOn(service, 'findOneWithPresident').mockRejectedValue(new Error('Association Not Found'));
+      expect(async () => await controller.findOneWithPresident('42')).rejects.toThrow(
+        new Error('Association Not Found')
+      );
     });
   });
 
@@ -94,6 +112,26 @@ describe('AssociationsController', () => {
         name: 'Association 1 Renamed',
       });
       expect(await controller.update('1', updateAssoDtoParams)).toEqual(mockedUpdateResult);
+    });
+
+    it('should call associationService.update and fail because association does not exist', async () => {
+      jest.spyOn(service, 'update').mockRejectedValue(new Error('Association Not Found'));
+      const updateAssoDtoParams = plainToInstance(UpdateAssociationDto, {
+        name: 'Association 1 Renamed',
+      });
+      expect(async () => await controller.update('42', updateAssoDtoParams)).rejects.toThrow(
+        new BadRequestException('Association Not Found')
+      );
+    });
+
+    it('should call associationService.update and fail because association name already exists', async () => {
+      jest.spyOn(service, 'update').mockRejectedValue(new Error('Association Name Already Exists'));
+      const updateAssoDtoParams = plainToInstance(UpdateAssociationDto, {
+        name: 'Association 1 Renamed',
+      });
+      expect(async () => await controller.update('42', updateAssoDtoParams)).rejects.toThrow(
+        new BadRequestException('Association Name Already Exists')
+      );
     });
   });
 

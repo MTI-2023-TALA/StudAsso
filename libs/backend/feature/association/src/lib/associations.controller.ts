@@ -4,9 +4,20 @@ import {
   CreateAssociationDto,
   UpdateAssociationDto,
 } from '@stud-asso/shared/dtos';
-import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
-import { QueryFailedError, UpdateResult } from 'typeorm';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { AssociationsService } from './associations.service';
+import { UpdateResult } from 'typeorm';
 
 @Controller('associations')
 export class AssociationsController {
@@ -14,16 +25,10 @@ export class AssociationsController {
 
   @Post()
   public async create(@Body() createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
-    // TODO: add decorator to manage exceptions and return correct codes
     try {
       return await this.associationsService.create(createAssociationDto);
-    } catch (e) {
-      if (e instanceof QueryFailedError) {
-        throw new UnprocessableEntityException();
-      }
-
-      // TODO: waiting for decorator -> in case of crash to handle
-      throw e;
+    } catch (error) {
+      throw new UnprocessableEntityException(error?.message);
     }
   }
 
@@ -33,13 +38,24 @@ export class AssociationsController {
   }
 
   @Get(':id')
-  findOneWithPresident(@Param('id') id: string): Promise<AssociationWithPresidentDto> {
-    return this.associationsService.findOneWithPresident(+id);
+  public async findOneWithPresident(@Param('id') id: string): Promise<AssociationWithPresidentDto> {
+    try {
+      return await this.associationsService.findOneWithPresident(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAssociationDto: UpdateAssociationDto): Promise<UpdateResult> {
-    return this.associationsService.update(+id, updateAssociationDto);
+  public async update(
+    @Param('id') id: string,
+    @Body() updateAssociationDto: UpdateAssociationDto
+  ): Promise<UpdateResult> {
+    try {
+      return await this.associationsService.update(+id, updateAssociationDto);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
   }
 
   @Delete(':id')

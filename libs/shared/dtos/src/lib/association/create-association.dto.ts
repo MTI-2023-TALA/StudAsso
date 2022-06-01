@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 import { CreateBaseDto } from '../base/create-base.dto';
 
@@ -11,7 +11,7 @@ export class CreateAssociationDto extends CreateBaseDto {
   @IsInt()
   presidentId: number;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   description: string;
 }

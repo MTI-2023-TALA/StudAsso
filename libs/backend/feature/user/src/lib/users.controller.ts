@@ -1,5 +1,15 @@
 import { AssoUserDto, CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
-import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { UpdateResult } from 'typeorm';
@@ -38,7 +48,7 @@ export class UsersController {
     try {
       return await this.usersService.findOne(+id);
     } catch (error) {
-      throw new BadRequestException('User Not Found');
+      throw new NotFoundException('User Not Found');
     }
   }
 

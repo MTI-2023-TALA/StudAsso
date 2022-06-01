@@ -8,8 +8,20 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { Association } from '@stud-asso/backend/core/orm';
 import { AssociationsService } from './associations.service';
+import { PostgresError } from 'pg-error-enum';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
+
+class PostgresErrorMock extends Error {
+  code: PostgresError;
+  constraint: string;
+
+  constructor(code: PostgresError, constraint: string, message: string) {
+    super(message);
+    this.code = code;
+    this.constraint = constraint;
+  }
+}
 
 const mockedAssociations: Association[] = [
   plainToInstance(Association, {
@@ -46,6 +58,15 @@ describe('AssociationsService', () => {
             create: jest.fn(() => Promise.resolve(mockedAssociations[0])),
             findAllWithPresident: jest.fn(() => Promise.resolve(mockedAssociations)),
             findOneWithPresident: jest.fn(() => Promise.resolve(mockedAssociations[0])),
+            findOne: jest.fn(() =>
+              Promise.resolve(
+                plainToInstance(Association, {
+                  id: 1,
+                  name: 'Association1',
+                  description: 'description',
+                })
+              )
+            ),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
           },
@@ -83,6 +104,38 @@ describe('AssociationsService', () => {
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createAssoParams);
     });
+
+    it('should call associationService.create and fail unique_association_name constraint', async () => {
+      const create = jest
+        .spyOn(associationsRepository, 'create')
+        .mockRejectedValue(
+          new PostgresErrorMock(
+            PostgresError.UNIQUE_VIOLATION,
+            'unique_association_name',
+            'Association Name Already Exists'
+          )
+        );
+      expect(async () =>
+        service.create({ name: 'Association1', presidentId: 1, description: 'description' })
+      ).rejects.toThrow(new Error('Association Name Already Exists'));
+      expect(create).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call associationService.create and fail unique_role_name_per_association constraint', async () => {
+      const create = jest
+        .spyOn(associationsRepository, 'create')
+        .mockRejectedValue(
+          new PostgresErrorMock(
+            PostgresError.UNIQUE_VIOLATION,
+            'unique_role_name_per_association',
+            'Role Name Already Exists In This Association'
+          )
+        );
+      expect(async () =>
+        service.create({ name: 'Association1', presidentId: 1, description: 'description' })
+      ).rejects.toThrow(new Error('Role Name Already Exists In This Association'));
+      expect(create).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('findAllAssociation', () => {
@@ -112,6 +165,12 @@ describe('AssociationsService', () => {
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(1);
     });
+
+    it('should call associationRepository.findOneWithPresident and fail', async () => {
+      const findOne = jest.spyOn(associationsRepository, 'findOneWithPresident').mockResolvedValue(undefined);
+      expect(async () => await service.findOneWithPresident(42)).rejects.toThrow(new Error('Association Not Found'));
+      expect(findOne).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('updateAssociation', () => {
@@ -124,6 +183,31 @@ describe('AssociationsService', () => {
 
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(1, { name: 'Association1 Renamed' });
+    });
+
+    it('should call associationRepository.update and fail because association does not exist', async () => {
+      const findOne = jest.spyOn(associationsRepository, 'findOne').mockResolvedValue(undefined);
+      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      expect(async () => await service.update(42, updateAssociationDto)).rejects.toThrow(
+        new Error('Association Not Found')
+      );
+      expect(findOne).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call associationRepository.update and fail because association name already exists', async () => {
+      jest
+        .spyOn(associationsRepository, 'update')
+        .mockRejectedValue(
+          new PostgresErrorMock(
+            PostgresError.UNIQUE_VIOLATION,
+            'unique_association_name',
+            'Association Name Already Exists'
+          )
+        );
+      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      expect(async () => await service.update(42, updateAssociationDto)).rejects.toThrow(
+        new Error('Association Name Already Exists')
+      );
     });
   });
 
