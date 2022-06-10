@@ -34,6 +34,7 @@ const mockFindAllAssoLogs: StockLogsDto[] = [
     oldCount: 10,
     newCount: 10,
     createdAt: new Date('2022-05-26'),
+    action: 'create',
   },
   {
     id: 2,
@@ -42,6 +43,7 @@ const mockFindAllAssoLogs: StockLogsDto[] = [
     oldCount: 42,
     newCount: 42,
     createdAt: new Date('2022-05-26'),
+    action: 'create',
   },
 ];
 const mockedUpdateResult: UpdateResult = {

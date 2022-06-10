@@ -29,6 +29,7 @@ const mockedStocksLogs: StockLogs[] = [
     oldCount: 10,
     newCount: 10,
     createdAt: new Date('2022-05-27'),
+    action: 'create',
   }),
   plainToInstance(StockLogs, {
     id: 2,
@@ -37,6 +38,7 @@ const mockedStocksLogs: StockLogs[] = [
     oldCount: 42,
     newCount: 42,
     createdAt: new Date('2022-05-27'),
+    action: 'create',
   }),
 ];
 
@@ -98,7 +100,7 @@ describe('StocksService', () => {
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createStockParams);
       expect(createLogs).toHaveBeenCalledTimes(1);
-      expect(createLogs).toHaveBeenCalledWith({ stockId: 1, userId: 1, oldCount: 10, newCount: 10 });
+      expect(createLogs).toHaveBeenCalledWith({ stockId: 1, userId: 1, oldCount: 10, newCount: 10, action: 'create' });
     });
   });
 
@@ -177,7 +179,7 @@ describe('StocksService', () => {
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(1, { name: 'Coca Zero', count: 666 });
       expect(createLogs).toHaveBeenCalledTimes(1);
-      expect(createLogs).toHaveBeenCalledWith({ stockId: 1, userId: 1, oldCount: 10, newCount: 666 });
+      expect(createLogs).toHaveBeenCalledWith({ stockId: 1, userId: 1, oldCount: 10, newCount: 666, action: 'update' });
     });
   });
 
@@ -195,7 +197,7 @@ describe('StocksService', () => {
       expect(deleteCall).toHaveBeenCalledTimes(1);
       expect(deleteCall).toHaveBeenCalledWith(1);
       expect(createLogs).toHaveBeenCalledTimes(1);
-      expect(createLogs).toHaveBeenCalledWith({ stockId: 1, userId: 1, oldCount: 10, newCount: 0 });
+      expect(createLogs).toHaveBeenCalledWith({ stockId: 1, userId: 1, oldCount: 10, newCount: 0, action: 'delete' });
     });
   });
 });
