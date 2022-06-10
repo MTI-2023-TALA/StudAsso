@@ -20,6 +20,13 @@
           "libs/frontend/feature/association/select-association-page/**/*.html"
         ]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/feature/association/select-association-page/**/*.css"]
+      }
     }
   },
   "tags": ["type:frontend", "type:frontend-feature"]
