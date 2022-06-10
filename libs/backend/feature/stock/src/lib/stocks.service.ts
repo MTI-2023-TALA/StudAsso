@@ -14,7 +14,7 @@ export class StocksService {
 
   public async create(userId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
     const createdStock: StockDto = await this.stockRepository.create(createBaseDto);
-    await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count);
+    await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count, 'create');
     return createdStock;
   }
 
@@ -41,14 +41,14 @@ export class StocksService {
   public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<UpdateResult> {
     const stockBeforeUpdate = await this.stockRepository.findOne(id);
     const updatedStock = await this.stockRepository.update(id, updateBaseDto);
-    await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateBaseDto.count);
+    await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateBaseDto.count, 'update');
     return updatedStock;
   }
 
   public async delete(id: number, userId: number): Promise<UpdateResult> {
     const stockBeforeDelete = await this.stockRepository.findOne(id);
     const deletedStock = await this.stockRepository.delete(id);
-    await this.createStocksLogs(id, userId, stockBeforeDelete.count, 0);
+    await this.createStocksLogs(id, userId, stockBeforeDelete.count, 0, 'delete');
     return deletedStock;
   }
 
@@ -56,14 +56,19 @@ export class StocksService {
     stockId: number,
     userId: number,
     oldCount: number,
-    newCount: number
+    newCount: number,
+    action: string
   ): Promise<StockLogs> {
-    const createStockLogsDto: CreateStockLogsDto = {
-      stockId,
-      userId,
-      oldCount,
-      newCount,
-    };
-    return this.stockLogsRepository.create(createStockLogsDto);
+    if (action === 'create' || action === 'update' || action === 'delete') {
+      const createStockLogsDto: CreateStockLogsDto = {
+        stockId,
+        userId,
+        oldCount,
+        newCount,
+        action,
+      };
+      return this.stockLogsRepository.create(createStockLogsDto);
+    }
+    throw new Error('Provided action has to be either: create, update or delete when creating a stock logs');
   }
 }

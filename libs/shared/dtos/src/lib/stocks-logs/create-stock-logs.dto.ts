@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, Min } from 'class-validator';
+import { IsIn, IsInt, IsNotEmpty, IsString, Min } from 'class-validator';
 
 import { CreateBaseDto } from '../base/create-base.dto';
 
@@ -20,4 +20,9 @@ export class CreateStockLogsDto extends CreateBaseDto {
   @IsInt()
   @Min(0)
   newCount: number;
+
+  @IsNotEmpty()
+  @IsString()
+  @IsIn(['create', 'update', 'delete'])
+  action: string;
 }

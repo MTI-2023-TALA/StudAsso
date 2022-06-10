@@ -20,6 +20,9 @@ export class StockLogs extends Base {
   @Column({ type: 'int', name: 'new_count' })
   newCount: number;
 
+  @Column({ type: 'varchar' })
+  action: string;
+
   @ManyToOne(() => Stock, (stocks) => stocks.stocksLogs)
   @JoinColumn({ name: 'stock_id' })
   stock: Stock;
