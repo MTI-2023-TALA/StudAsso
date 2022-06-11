@@ -43,6 +43,6 @@ export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUs
   }
 
   public async findAllByName(name: string): Promise<User[]> {
-    return this.userRepository.find({ lastname: Like(`%${name}%`) });
+    return this.userRepository.find({ where: [{ lastname: Like(`%${name}%`) }, { firstname: Like(`%${name}%`) }] });
   }
 }
