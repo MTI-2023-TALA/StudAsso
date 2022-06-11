@@ -108,7 +108,9 @@ describe('UsersController', () => {
               return Promise.resolve(mockedUpdateResult);
             }),
             findAllByName: jest.fn((name: string) => {
-              return Promise.resolve(mockedUsers.filter((user) => user.lastname.includes(name)));
+              return Promise.resolve(
+                mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
+              );
             }),
           },
         },

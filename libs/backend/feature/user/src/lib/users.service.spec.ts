@@ -117,7 +117,9 @@ describe('UsersService', () => {
               return Promise.resolve(mockedAssoOfUser.find((user) => user.id === id));
             }),
             findAllByName: jest.fn((name: string) => {
-              return Promise.resolve(mockedUsers.filter((user) => user.lastname.includes(name)));
+              return Promise.resolve(
+                mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
+              );
             }),
           },
         },
