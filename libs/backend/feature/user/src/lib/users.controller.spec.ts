@@ -1,7 +1,7 @@
+import { Like, UpdateResult } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { CreateUserDto } from '@stud-asso/shared/dtos';
-import { UpdateResult } from 'typeorm';
 import { User } from '@stud-asso/backend/core/orm';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
@@ -106,6 +106,9 @@ describe('UsersController', () => {
               if (!findUser) throw new Error('User not found');
               mockedUsers = mockedUsers.filter((user) => user.id !== id);
               return Promise.resolve(mockedUpdateResult);
+            }),
+            findAllByName: jest.fn((name: string) => {
+              return Promise.resolve(mockedUsers.filter((user) => user.lastname.includes(name)));
             }),
           },
         },
@@ -233,7 +236,7 @@ describe('UsersController', () => {
   });
 
   describe('Find Asso Of User', () => {
-    it('shoudl find no asso of user', async () => {
+    it('should find no asso of user', async () => {
       const findAssoOfUser = jest.spyOn(service, 'findAssoOfUser');
 
       expect(await controller.findAssoOfUser(2)).toEqual(mockedAssoOfUser[1]);
@@ -269,6 +272,24 @@ describe('UsersController', () => {
       expect(mockedUsers).toEqual(filteredMockedUsers);
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
+    });
+  });
+
+  describe('Find Users By Name', () => {
+    it('should find no users by name', async () => {
+      const findUsersByName = jest.spyOn(service, 'findAllByName');
+
+      expect(await controller.findAllByName('Toto')).toEqual([]);
+      expect(findUsersByName).toHaveBeenCalledTimes(1);
+      expect(findUsersByName).toHaveBeenCalledWith('Toto');
+    });
+
+    it('should find 1 user by name', async () => {
+      const findUsersByName = jest.spyOn(service, 'findAllByName');
+
+      expect(await controller.findAllByName('Sky')).toEqual([mockedUsers[0]]);
+      expect(findUsersByName).toHaveBeenCalledTimes(1);
+      expect(findUsersByName).toHaveBeenCalledWith('Sky');
     });
   });
 });
