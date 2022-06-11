@@ -1,7 +1,7 @@
-import { Like, UpdateResult } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { CreateUserDto } from '@stud-asso/shared/dtos';
+import { UpdateResult } from 'typeorm';
 import { User } from '@stud-asso/backend/core/orm';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
