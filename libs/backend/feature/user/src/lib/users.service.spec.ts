@@ -137,7 +137,7 @@ describe('UsersService', () => {
         isSchoolEmployee: false,
       };
 
-      expect(() => service.create(createUserPayload)).rejects.toThrow('Email already used');
+      expect(() => service.create(createUserPayload)).rejects.toThrow(new Error('Email already used'));
       expect(create).toBeCalledTimes(1);
       expect(create).toBeCalledWith(createUserPayload);
     });
@@ -183,7 +183,7 @@ describe('UsersService', () => {
     it('should try to find an user by id and fail', async () => {
       const findOne = jest.spyOn(userRepository, 'findOne');
 
-      expect(() => service.findOne(-1)).rejects.toThrow('User not found');
+      expect(() => service.findOne(-1)).rejects.toThrow(new Error('User not found'));
       expect(findOne).toBeCalledTimes(1);
       expect(findOne).toBeCalledWith(-1);
     });
@@ -198,7 +198,7 @@ describe('UsersService', () => {
   });
 
   describe('Update User', () => {
-    it('should try to update a non-existing user and do nothing', async () => {
+    it('should fail to update a non-existing user', async () => {
       const update = jest.spyOn(userRepository, 'update');
       const updateUserPayload = {
         firstname: 'Qui-Gon',
@@ -206,9 +206,8 @@ describe('UsersService', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(await service.update(3, updateUserPayload)).toEqual({ affected: 0, ...mockedUpdateResult });
-      expect(update).toBeCalledTimes(1);
-      expect(update).toBeCalledWith(3, updateUserPayload);
+      expect(() => service.update(3, updateUserPayload)).rejects.toThrow(new Error('User not found'));
+      expect(update).toBeCalledTimes(0);
     });
 
     it('should try to update a user with an existing email and fail unique email validation', async () => {
@@ -217,9 +216,8 @@ describe('UsersService', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => service.update(2, updateUserPayload)).rejects.toThrow('Email already used');
-      expect(update).toBeCalledTimes(1);
-      expect(update).toBeCalledWith(2, updateUserPayload);
+      expect(() => service.update(2, updateUserPayload)).rejects.toThrow(new Error('Email already used'));
+      expect(update).toBeCalledTimes(0);
     });
 
     it('should update an user', async () => {
@@ -238,18 +236,28 @@ describe('UsersService', () => {
   });
 
   describe('Delete User', () => {
+    it('should fail to delete a non-existing user', async () => {
+      const deleteUser = jest.spyOn(userRepository, 'delete');
+
+      expect(() => service.delete(-1)).rejects.toThrow(new Error('User not found'));
+      expect(deleteUser).toBeCalledTimes(0);
+    });
+
     it('should delete a user', async () => {
       const deleteCall = jest.spyOn(userRepository, 'delete');
+      const id = 1;
 
-      expect(await service.delete(1)).toEqual(mockedUpdateResult);
-      expect(mockedUsers).toEqual(mockedUsers.filter((user) => user.id !== 1));
+      const filteredMockedUsers = mockedUsers.filter((user) => user.id !== id);
+
+      expect(await service.delete(id)).toEqual(mockedUpdateResult);
+      expect(mockedUsers).toEqual(filteredMockedUsers);
       expect(deleteCall).toBeCalledTimes(1);
-      expect(deleteCall).toBeCalledWith(1);
+      expect(deleteCall).toBeCalledWith(id);
     });
   });
 
   describe('Find Asso of User', () => {
-    it('should no asso of user', async () => {
+    it('should not find any asso of user', async () => {
       const findAssoOfUser = jest.spyOn(userRepository, 'findAssoOfUser');
 
       expect(await service.findAssoOfUser(2)).toEqual({ id: 2, associationsId: [] });

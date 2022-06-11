@@ -101,6 +101,12 @@ describe('UsersController', () => {
             findAssoOfUser: jest.fn((id: number) => {
               return Promise.resolve(mockedAssoOfUser.find((user) => user.id === id));
             }),
+            delete: jest.fn((id: number) => {
+              const findUser = mockedUsers.find((user) => user.id === id);
+              if (!findUser) throw new Error('User not found');
+              mockedUsers = mockedUsers.filter((user) => user.id !== id);
+              return Promise.resolve(mockedUpdateResult);
+            }),
           },
         },
       ],
@@ -109,6 +115,8 @@ describe('UsersController', () => {
     controller = module.get<UsersController>(UsersController);
     service = module.get<UsersService>(UsersService);
   });
+
+  afterEach(() => jest.clearAllMocks());
 
   describe('Create User', () => {
     it('should try to create a new user and fail', async () => {
@@ -120,7 +128,7 @@ describe('UsersController', () => {
         isSchoolEmployee: false,
       };
 
-      expect(() => controller.create(createUserPayload)).rejects.toThrow('Email Already Used');
+      expect(() => controller.create(createUserPayload)).rejects.toThrow(new Error('Email Already Used'));
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createUserPayload);
     });
@@ -166,7 +174,7 @@ describe('UsersController', () => {
       const findOne = jest.spyOn(service, 'findOne');
       const id = '3';
 
-      expect(() => controller.findOne(id)).rejects.toThrow('User Not Found');
+      expect(() => controller.findOne(id)).rejects.toThrow(new Error('User Not Found'));
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(+id);
     });
@@ -191,7 +199,7 @@ describe('UsersController', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow('Bad Request');
+      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('Bad Request'));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
@@ -203,7 +211,7 @@ describe('UsersController', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow('Bad Request');
+      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('Bad Request'));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
@@ -238,6 +246,29 @@ describe('UsersController', () => {
       expect(await controller.findAssoOfUser(1)).toEqual(mockedAssoOfUser[0]);
       expect(findAssoOfUser).toHaveBeenCalledTimes(1);
       expect(findAssoOfUser).toHaveBeenCalledWith(1);
+    });
+  });
+
+  describe('Delete User', () => {
+    it('should fail to delete a non-existing user', async () => {
+      const deleteOne = jest.spyOn(service, 'delete');
+      const id = '-1';
+
+      expect(() => controller.delete(id)).rejects.toThrow(new Error('User Not Found'));
+      expect(deleteOne).toHaveBeenCalledTimes(1);
+      expect(deleteOne).toHaveBeenCalledWith(+id);
+    });
+
+    it('should delete an user', async () => {
+      const deleteOne = jest.spyOn(service, 'delete');
+      const id = '1';
+
+      const filteredMockedUsers = mockedUsers.filter((user) => user.id !== +id);
+
+      expect(await controller.delete(id)).toEqual(mockedUpdateResult);
+      expect(mockedUsers).toEqual(filteredMockedUsers);
+      expect(deleteOne).toHaveBeenCalledTimes(1);
+      expect(deleteOne).toHaveBeenCalledWith(+id);
     });
   });
 });

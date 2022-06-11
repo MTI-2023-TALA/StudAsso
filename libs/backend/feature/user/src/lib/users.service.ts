@@ -36,7 +36,7 @@ export class UsersService {
   }
 
   public async update(id: number, updateBaseDto: UpdateUserDto): Promise<UpdateResult> {
-    const user = this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new Error('User not found');
     }
@@ -51,7 +51,7 @@ export class UsersService {
   }
 
   public async delete(id: number): Promise<UpdateResult> {
-    const user = this.userRepository.findOne(id);
+    const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new Error('User not found');
     }
