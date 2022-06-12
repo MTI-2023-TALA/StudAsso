@@ -3,6 +3,7 @@ import {
   AssociationWithPresidentDto,
   CreateAssociationDto,
   UpdateAssociationDto,
+  UserDto,
 } from '@stud-asso/shared/dtos';
 import {
   BadRequestException,
@@ -33,7 +34,7 @@ export class AssociationsController {
   }
 
   @Get()
-  findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
+  public async findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
     return this.associationsService.findAllWithPresident();
   }
 
@@ -41,6 +42,15 @@ export class AssociationsController {
   public async findOneWithPresident(@Param('id') id: string): Promise<AssociationWithPresidentDto> {
     try {
       return await this.associationsService.findOneWithPresident(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
+  @Get('president/:id')
+  public async findAssociationPresident(@Param('id') id: string): Promise<UserDto> {
+    try {
+      return await this.associationsService.findAssociationPresident(+id);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
@@ -59,7 +69,7 @@ export class AssociationsController {
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<UpdateResult> {
+  public async delete(@Param('id') id: string): Promise<UpdateResult> {
     return this.associationsService.delete(+id);
   }
 }

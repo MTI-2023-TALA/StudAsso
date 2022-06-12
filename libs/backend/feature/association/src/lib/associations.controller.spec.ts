@@ -3,6 +3,7 @@ import {
   AssociationWithPresidentDto,
   CreateAssociationDto,
   UpdateAssociationDto,
+  UserDto,
 } from '@stud-asso/shared/dtos';
 import { BadRequestException, UnprocessableEntityException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -14,14 +15,48 @@ import { plainToInstance } from 'class-transformer';
 
 const mockCreateAssociationDto: AssociationDto = { id: 1, name: 'Association1', description: 'description' };
 const mockfindAllAssociation: AssociationWithPresidentDto[] = [
-  { id: 1, name: 'Association1', description: 'description', presidentId: 1 },
-  { id: 2, name: 'Association2', description: 'description', presidentId: 1 },
+  {
+    id: 1,
+    name: 'Association1',
+    description: 'description',
+    presidentId: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    isSchoolEmployee: false,
+  },
+  {
+    id: 2,
+    name: 'Association2',
+    description: 'description',
+    presidentId: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    isSchoolEmployee: false,
+  },
 ];
 const mockedUpdateResult: UpdateResult = {
   raw: [],
   generatedMaps: [],
   affected: 1,
 };
+const mockUsersDto: UserDto[] = [
+  {
+    id: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    isSchoolEmployee: false,
+  },
+  {
+    id: 2,
+    firstname: 'Michael',
+    lastname: 'Jackson',
+    email: 'michaeljackson@gmail.com',
+    isSchoolEmployee: false,
+  },
+];
 
 describe('AssociationsController', () => {
   let controller: AssociationsController;
@@ -37,6 +72,13 @@ describe('AssociationsController', () => {
             create: jest.fn(() => Promise.resolve(mockCreateAssociationDto)),
             findAllWithPresident: jest.fn(() => Promise.resolve(mockfindAllAssociation)),
             findOneWithPresident: jest.fn(() => Promise.resolve(mockfindAllAssociation[0])),
+            findAssociationPresident: jest.fn((associationId: number) => {
+              if ([1, 2].includes(associationId)) {
+                return Promise.resolve(mockUsersDto[associationId - 1]);
+              } else {
+                throw new Error('Association Not Found');
+              }
+            }),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
           },
@@ -101,6 +143,18 @@ describe('AssociationsController', () => {
     it('should call associationService.findOneWithPresident and fail', async () => {
       jest.spyOn(service, 'findOneWithPresident').mockRejectedValue(new Error('Association Not Found'));
       expect(async () => await controller.findOneWithPresident('42')).rejects.toThrow(
+        new Error('Association Not Found')
+      );
+    });
+  });
+
+  describe('findAssociationPresident', () => {
+    it('should call associationService.findAssociationPresident', async () => {
+      expect(await controller.findAssociationPresident('1')).toEqual(mockUsersDto[0]);
+    });
+
+    it('should call associationService.findAssociationPresident and fail', async () => {
+      expect(async () => await controller.findAssociationPresident('3')).rejects.toThrow(
         new Error('Association Not Found')
       );
     });

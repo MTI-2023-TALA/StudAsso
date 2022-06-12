@@ -3,7 +3,12 @@ import {
   AssociationsMemberRepository,
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
-import { AssociationWithPresidentDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationWithPresidentDto,
+  CreateAssociationDto,
+  UpdateAssociationDto,
+  UserDto,
+} from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { Association } from '@stud-asso/backend/core/orm';
@@ -29,13 +34,38 @@ const mockedAssociations: Association[] = [
     name: 'Association1',
     description: 'description',
     president_id: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    is_school_employee: false,
   }),
   plainToInstance(Association, {
     id: 2,
     name: 'Association2',
     description: 'description',
     president_id: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    is_school_employee: false,
   }),
+];
+
+const mockUsersDto: UserDto[] = [
+  {
+    id: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    isSchoolEmployee: false,
+  },
+  {
+    id: 2,
+    firstname: 'Michael',
+    lastname: 'Jackson',
+    email: 'michaeljackson@gmail.com',
+    isSchoolEmployee: false,
+  },
 ];
 
 const mockedUpdateResult: UpdateResult = {
@@ -58,6 +88,19 @@ describe('AssociationsService', () => {
             create: jest.fn(() => Promise.resolve(mockedAssociations[0])),
             findAllWithPresident: jest.fn(() => Promise.resolve(mockedAssociations)),
             findOneWithPresident: jest.fn(() => Promise.resolve(mockedAssociations[0])),
+            findAssociationPresident: jest.fn((associationId: number) => {
+              if (associationId === 1) {
+                return Promise.resolve({
+                  id: 1,
+                  firstname: 'John',
+                  lastname: 'Cena',
+                  email: 'johncena@gmail.com',
+                  is_school_employee: false,
+                });
+              } else {
+                return Promise.resolve(undefined);
+              }
+            }),
             findOne: jest.fn(() =>
               Promise.resolve(
                 plainToInstance(Association, {
@@ -141,8 +184,26 @@ describe('AssociationsService', () => {
   describe('findAllAssociation', () => {
     it('should call associationRepository.findAll', async () => {
       const expectedResult = [
-        new AssociationWithPresidentDto(1, 'Association1', 'description', 1),
-        new AssociationWithPresidentDto(2, 'Association2', 'description', 1),
+        new AssociationWithPresidentDto(
+          1,
+          'Association1',
+          'description',
+          1,
+          'John',
+          'Cena',
+          'johncena@gmail.com',
+          false
+        ),
+        new AssociationWithPresidentDto(
+          2,
+          'Association2',
+          'description',
+          1,
+          'John',
+          'Cena',
+          'johncena@gmail.com',
+          false
+        ),
       ];
       const findAll = jest.spyOn(associationsRepository, 'findAllWithPresident');
 
@@ -156,7 +217,16 @@ describe('AssociationsService', () => {
 
   describe('findOneAssociation', () => {
     it('should call associationRepository.findOneWithPresident', async () => {
-      const expectedResult = new AssociationWithPresidentDto(1, 'Association1', 'description', 1);
+      const expectedResult = new AssociationWithPresidentDto(
+        1,
+        'Association1',
+        'description',
+        1,
+        'John',
+        'Cena',
+        'johncena@gmail.com',
+        false
+      );
       const findOne = jest.spyOn(associationsRepository, 'findOneWithPresident');
 
       const associationRetrieved = await service.findOneWithPresident(1);
@@ -170,6 +240,20 @@ describe('AssociationsService', () => {
       const findOne = jest.spyOn(associationsRepository, 'findOneWithPresident').mockResolvedValue(undefined);
       expect(async () => await service.findOneWithPresident(42)).rejects.toThrow(new Error('Association Not Found'));
       expect(findOne).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('findAssociationPresident', () => {
+    it('should call associationRepository.findAssociationPresident', async () => {
+      const findAssociationPresident = jest.spyOn(associationsRepository, 'findAssociationPresident');
+
+      expect(await service.findAssociationPresident(1)).toEqual(mockUsersDto[0]);
+      expect(findAssociationPresident).toHaveBeenCalledTimes(1);
+      expect(findAssociationPresident).toHaveBeenCalledWith(1);
+    });
+
+    it('should call associationRepository.findAssociationPresident and fail', async () => {
+      expect(async () => await service.findAssociationPresident(3)).rejects.toThrow(new Error('Association Not Found'));
     });
   });
 
