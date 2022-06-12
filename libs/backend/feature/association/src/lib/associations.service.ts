@@ -3,6 +3,7 @@ import {
   AssociationWithPresidentDto,
   CreateAssociationDto,
   UpdateAssociationDto,
+  UserDto,
 } from '@stud-asso/shared/dtos';
 import {
   AssociationRepository,
@@ -55,6 +56,20 @@ export class AssociationsService {
       throw new Error('Association Not Found');
     }
     return new AssociationWithPresidentDto(asso['id'], asso['name'], asso['description'], asso['president_id']);
+  }
+
+  public async findAssociationPresident(associationId: number): Promise<UserDto> {
+    const president = await this.associationRepository.findAssociationPresident(associationId);
+    if (!president) {
+      throw new Error('Association Not Found');
+    }
+    return {
+      id: president['id'],
+      firstname: president['firstname'],
+      lastname: president['lastname'],
+      email: president['email'],
+      isSchoolEmployee: president['is_school_employee'],
+    };
   }
 
   public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<UpdateResult> {
