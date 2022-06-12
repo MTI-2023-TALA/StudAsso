@@ -34,12 +34,20 @@ const mockedAssociations: Association[] = [
     name: 'Association1',
     description: 'description',
     president_id: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    is_school_employee: false,
   }),
   plainToInstance(Association, {
     id: 2,
     name: 'Association2',
     description: 'description',
     president_id: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    is_school_employee: false,
   }),
 ];
 
@@ -176,8 +184,26 @@ describe('AssociationsService', () => {
   describe('findAllAssociation', () => {
     it('should call associationRepository.findAll', async () => {
       const expectedResult = [
-        new AssociationWithPresidentDto(1, 'Association1', 'description', 1),
-        new AssociationWithPresidentDto(2, 'Association2', 'description', 1),
+        new AssociationWithPresidentDto(
+          1,
+          'Association1',
+          'description',
+          1,
+          'John',
+          'Cena',
+          'johncena@gmail.com',
+          false
+        ),
+        new AssociationWithPresidentDto(
+          2,
+          'Association2',
+          'description',
+          1,
+          'John',
+          'Cena',
+          'johncena@gmail.com',
+          false
+        ),
       ];
       const findAll = jest.spyOn(associationsRepository, 'findAllWithPresident');
 
@@ -191,7 +217,16 @@ describe('AssociationsService', () => {
 
   describe('findOneAssociation', () => {
     it('should call associationRepository.findOneWithPresident', async () => {
-      const expectedResult = new AssociationWithPresidentDto(1, 'Association1', 'description', 1);
+      const expectedResult = new AssociationWithPresidentDto(
+        1,
+        'Association1',
+        'description',
+        1,
+        'John',
+        'Cena',
+        'johncena@gmail.com',
+        false
+      );
       const findOne = jest.spyOn(associationsRepository, 'findOneWithPresident');
 
       const associationRetrieved = await service.findOneWithPresident(1);

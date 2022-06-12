@@ -15,8 +15,26 @@ import { plainToInstance } from 'class-transformer';
 
 const mockCreateAssociationDto: AssociationDto = { id: 1, name: 'Association1', description: 'description' };
 const mockfindAllAssociation: AssociationWithPresidentDto[] = [
-  { id: 1, name: 'Association1', description: 'description', presidentId: 1 },
-  { id: 2, name: 'Association2', description: 'description', presidentId: 1 },
+  {
+    id: 1,
+    name: 'Association1',
+    description: 'description',
+    presidentId: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    isSchoolEmployee: false,
+  },
+  {
+    id: 2,
+    name: 'Association2',
+    description: 'description',
+    presidentId: 1,
+    firstname: 'John',
+    lastname: 'Cena',
+    email: 'johncena@gmail.com',
+    isSchoolEmployee: false,
+  },
 ];
 const mockedUpdateResult: UpdateResult = {
   raw: [],
