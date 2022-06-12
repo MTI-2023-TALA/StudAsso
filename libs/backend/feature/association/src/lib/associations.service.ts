@@ -46,7 +46,17 @@ export class AssociationsService {
   public async findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
     const associationsWithPresident = await this.associationRepository.findAllWithPresident();
     return associationsWithPresident.map(
-      (asso) => new AssociationWithPresidentDto(asso['id'], asso['name'], asso['description'], asso['president_id'])
+      (asso) =>
+        new AssociationWithPresidentDto(
+          asso['id'],
+          asso['name'],
+          asso['description'],
+          asso['president_id'],
+          asso['firstname'],
+          asso['lastname'],
+          asso['email'],
+          asso['is_school_employee']
+        )
     );
   }
 
@@ -55,7 +65,16 @@ export class AssociationsService {
     if (!asso) {
       throw new Error('Association Not Found');
     }
-    return new AssociationWithPresidentDto(asso['id'], asso['name'], asso['description'], asso['president_id']);
+    return new AssociationWithPresidentDto(
+      asso['id'],
+      asso['name'],
+      asso['description'],
+      asso['president_id'],
+      asso['firstname'],
+      asso['lastname'],
+      asso['email'],
+      asso['is_school_employee']
+    );
   }
 
   public async findAssociationPresident(associationId: number): Promise<UserDto> {
