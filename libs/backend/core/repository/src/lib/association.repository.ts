@@ -5,7 +5,6 @@ import { Association } from '@stud-asso/backend/core/orm';
 import { BaseRepository } from './base.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
 
 @Injectable()
 export class AssociationRepository extends BaseRepository<Association, CreateAssociationDto, UpdateAssociationDto> {
