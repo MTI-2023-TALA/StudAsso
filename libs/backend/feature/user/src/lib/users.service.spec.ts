@@ -116,6 +116,11 @@ describe('UsersService', () => {
             findAssoOfUser: jest.fn((id: number) => {
               return Promise.resolve(mockedAssoOfUser.find((user) => user.id === id));
             }),
+            findAllByName: jest.fn((name: string) => {
+              return Promise.resolve(
+                mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
+              );
+            }),
           },
         },
       ],
@@ -274,6 +279,24 @@ describe('UsersService', () => {
       });
       expect(findAssoOfUser).toBeCalledTimes(1);
       expect(findAssoOfUser).toBeCalledWith(1);
+    });
+  });
+
+  describe('Find Users By Name', () => {
+    it('should find no users by name', async () => {
+      const findUsersByName = jest.spyOn(userRepository, 'findAllByName');
+
+      expect(await service.findAllByName('Toto')).toEqual([]);
+      expect(findUsersByName).toBeCalledTimes(1);
+      expect(findUsersByName).toBeCalledWith('Toto');
+    });
+
+    it('should find 1 user by name', async () => {
+      const findUsersByName = jest.spyOn(userRepository, 'findAllByName');
+
+      expect(await service.findAllByName('Sky')).toEqual([mockedUsers[0]]);
+      expect(findUsersByName).toBeCalledTimes(1);
+      expect(findUsersByName).toBeCalledWith('Sky');
     });
   });
 });

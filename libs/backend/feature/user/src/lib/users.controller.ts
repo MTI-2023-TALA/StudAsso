@@ -43,6 +43,11 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get('name/:name')
+  async findAllByName(@Param('name') name: string): Promise<UserDto[]> {
+    return this.usersService.findAllByName(name);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserDto> {
     try {

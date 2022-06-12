@@ -1,5 +1,5 @@
 import { CreateUserDto, UpdateUserDto } from '@stud-asso/shared/dtos';
-import { Repository, UpdateResult } from 'typeorm';
+import { Like, Repository, UpdateResult } from 'typeorm';
 
 import { BaseRepository } from './base.repository';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -40,5 +40,9 @@ export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUs
       where: { id },
       relations: ['associations'],
     });
+  }
+
+  public async findAllByName(name: string): Promise<User[]> {
+    return this.userRepository.find({ where: [{ lastname: Like(`%${name}%`) }, { firstname: Like(`%${name}%`) }] });
   }
 }
