@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedC
 
 import { Base } from './base.entity';
 import { Stock } from './stock.entity';
+import { User } from './user.entity';
 
 @Entity('stocks_logs')
 export class StockLogs extends Base {
@@ -26,4 +27,8 @@ export class StockLogs extends Base {
   @ManyToOne(() => Stock, (stocks) => stocks.stocksLogs)
   @JoinColumn({ name: 'stock_id' })
   stock: Stock;
+
+  @ManyToOne(() => User, (users) => users.stocksLogs)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }

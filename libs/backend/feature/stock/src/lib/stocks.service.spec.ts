@@ -1,4 +1,4 @@
-import { CreateStockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { Stock, StockLogs } from '@stud-asso/backend/core/orm';
 import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -21,6 +21,40 @@ const mockedStocks: Stock[] = [
     associationId: 2,
   }),
 ];
+
+const mockedStocksLogsWithUser: StockLogsWithUserDto[] = [
+  {
+    id: 1,
+    stockId: 1,
+    oldCount: 10,
+    newCount: 10,
+    createdAt: new Date('2022-05-26'),
+    action: 'create',
+    user: {
+      id: 1,
+      firstname: 'John',
+      lastname: 'Cena',
+      email: 'johncena@gmail.com',
+      isSchoolEmployee: false,
+    },
+  },
+  {
+    id: 2,
+    stockId: 2,
+    oldCount: 42,
+    newCount: 42,
+    createdAt: new Date('2022-05-27'),
+    action: 'create',
+    user: {
+      id: 1,
+      firstname: 'John',
+      lastname: 'Cena',
+      email: 'johncena@gmail.com',
+      isSchoolEmployee: false,
+    },
+  },
+];
+
 const mockedStocksLogs: StockLogs[] = [
   plainToInstance(StockLogs, {
     id: 1,
@@ -28,15 +62,6 @@ const mockedStocksLogs: StockLogs[] = [
     userId: 1,
     oldCount: 10,
     newCount: 10,
-    createdAt: new Date('2022-05-27'),
-    action: 'create',
-  }),
-  plainToInstance(StockLogs, {
-    id: 2,
-    stockId: 2,
-    userId: 1,
-    oldCount: 42,
-    newCount: 42,
     createdAt: new Date('2022-05-27'),
     action: 'create',
   }),
@@ -72,8 +97,8 @@ describe('StocksService', () => {
           provide: StockLogsRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedStocksLogs[0])),
-            findAllAssoStockLogs: jest.fn(() => Promise.resolve([mockedStocksLogs[0]])),
-            findSpecificStockLogs: jest.fn(() => Promise.resolve([mockedStocksLogs[0]])),
+            findAllAssoStockLogs: jest.fn(() => Promise.resolve(mockedStocksLogsWithUser)),
+            findSpecificStockLogs: jest.fn(() => Promise.resolve(mockedStocksLogs)),
           },
         },
       ],
@@ -133,7 +158,7 @@ describe('StocksService', () => {
       const findAllAssoStockLogs = jest.spyOn(stockLogsRepository, 'findAllAssoStockLogs');
 
       const assoStocksLogsRetrieved = await service.findAllAssoStockLogs(1);
-      expect(assoStocksLogsRetrieved).toEqual([mockedStocksLogs[0]]);
+      expect(assoStocksLogsRetrieved).toEqual(mockedStocksLogsWithUser);
 
       expect(findAllAssoStockLogs).toHaveBeenCalledTimes(1);
       expect(findAllAssoStockLogs).toHaveBeenCalledWith(1);
@@ -145,7 +170,7 @@ describe('StocksService', () => {
       const findOneStockLogs = jest.spyOn(stockLogsRepository, 'findSpecificStockLogs');
 
       const stockLogsRetrieved = await service.findSpecificStockLogs(1);
-      expect(stockLogsRetrieved).toEqual([mockedStocksLogs[0]]);
+      expect(stockLogsRetrieved).toEqual(mockedStocksLogs);
 
       expect(findOneStockLogs).toHaveBeenCalledTimes(1);
       expect(findOneStockLogs).toHaveBeenCalledWith(1);

@@ -1,4 +1,11 @@
-import { CreateStockDto, CreateStockLogsDto, StockDto, StockLogsDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import {
+  CreateStockDto,
+  CreateStockLogsDto,
+  StockDto,
+  StockLogsDto,
+  StockLogsWithUserDto,
+  UpdateStockDto,
+} from '@stud-asso/shared/dtos';
 import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
@@ -26,7 +33,7 @@ export class StocksService {
     return this.stockRepository.findAllAsso(id);
   }
 
-  public async findAllAssoStockLogs(associationId: number): Promise<StockLogsDto[]> {
+  public async findAllAssoStockLogs(associationId: number): Promise<StockLogsWithUserDto[]> {
     return this.stockLogsRepository.findAllAssoStockLogs(associationId);
   }
 
@@ -40,6 +47,9 @@ export class StocksService {
 
   public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<UpdateResult> {
     const stockBeforeUpdate = await this.stockRepository.findOne(id);
+    if (!stockBeforeUpdate) {
+      throw new Error('Stock Not Found');
+    }
     const updatedStock = await this.stockRepository.update(id, updateBaseDto);
     await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateBaseDto.count, 'update');
     return updatedStock;

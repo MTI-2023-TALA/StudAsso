@@ -1,7 +1,8 @@
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn, Unique } from 'typeorm';
 
 import { Association } from './association.entity';
 import { Base } from './base.entity';
+import { StockLogs } from './stock-logs.entity';
 
 @Entity('users')
 @Unique(['email'])
@@ -37,4 +38,8 @@ export class User extends Base {
     inverseJoinColumn: { name: 'association_id', referencedColumnName: 'id' },
   })
   associations: Association[];
+
+  @OneToMany(() => StockLogs, (stocks_logs) => stocks_logs.user)
+  @JoinColumn({ name: 'id' })
+  stocksLogs: StockLogs[];
 }
