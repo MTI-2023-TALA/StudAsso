@@ -59,11 +59,8 @@ export class RolePageComponent implements OnInit {
     }
 
     const associationId = JSON.parse(assoIdData);
-    Promise.all([
-      this.api.findAllRoleWithAsso(associationId).subscribe((roles: AssociationDto[]) => {
-        this.roleList = roles;
-      }),
-    ]).finally(() => {
+    this.api.findAllRoleWithAsso(associationId).subscribe((roles: AssociationDto[]) => {
+      this.roleList = roles;
       this.isLoading = false;
     });
   }

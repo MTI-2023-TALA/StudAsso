@@ -7,4 +7,4 @@ import { SpinnerComponent } from './spinner/spinner.component';
   declarations: [SpinnerComponent],
   exports: [SpinnerComponent],
 })
-export class FrontendSharedSpinnerModule {}
+export class FrontendSharedLoaderModule {}

@@ -35,6 +35,7 @@
         "libs/frontend/feature/school/create-association/src/index.ts"
       ],
       "@stud-asso/frontend-shared-formly": ["libs/frontend/shared/formly/src/index.ts"],
+      "@stud-asso/frontend-shared-loader": ["libs/frontend/shared/loader/src/index.ts"],
       "@stud-asso/frontend-shared-main-routing-component": ["libs/frontend/shared/main-routing-component/src/index.ts"],
       "@stud-asso/frontend-shared-modal": ["libs/frontend/shared/modal/src/index.ts"],
       "@stud-asso/frontend-shared-navbar": ["libs/frontend/shared/navbar/src/index.ts"],
@@ -53,7 +54,6 @@
       ],
       "@stud-asso/frontend/shared/generic-page": ["libs/frontend/shared/generic-page/src/index.ts"],
       "@stud-asso/frontend/shared/login-page": ["libs/frontend/shared/login-page/src/index.ts"],
-      "@stud-asso/frontend/shared/spinner": ["libs/frontend/shared/spinner/src/index.ts"],
       "@stud-asso/frontend/shared/tags": ["libs/frontend/shared/tags/src/index.ts"],
       "@stud-asso/frontend/shared/tooltip": ["libs/frontend/shared/tooltip/src/index.ts"],
       "@stud-asso/frontend/testing/common-mock": ["libs/frontend/testing/common-mock/src/index.ts"],

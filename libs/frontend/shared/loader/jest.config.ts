@@ -1,5 +1,5 @@
 module.exports = {
-  displayName: 'frontend-shared-spinner',
+  displayName: 'frontend-shared-loader',
   preset: '../../../../jest.preset.ts',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +8,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/frontend/shared/spinner',
+  coverageDirectory: '../../../../coverage/libs/frontend/shared/loader',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

@@ -66,11 +66,10 @@ export class StockPageComponent implements OnInit {
     }
     const assoId = JSON.parse(assoIdData);
     this.isLoading = true;
-    Promise.all([
-      this.api.findAllStockWithAssoId(assoId).subscribe((stocks: StockDto[]) => {
-        this.stockList = stocks;
-      }),
-    ]).finally(() => (this.isLoading = false));
+    this.api.findAllStockWithAssoId(assoId).subscribe((stocks: StockDto[]) => {
+      this.stockList = stocks;
+      this.isLoading = false;
+    });
   }
 
   createModalStock() {
