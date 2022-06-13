@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormlyInputComponent } from './formly-input.component';
 import { setUpOption } from '../test-helper';
 
-describe('FormlyInput', () => {
+describe('FormlyInputComponent', () => {
   let component: FormlyInputComponent;
   let fixture: ComponentFixture<FormlyInputComponent>;
 
