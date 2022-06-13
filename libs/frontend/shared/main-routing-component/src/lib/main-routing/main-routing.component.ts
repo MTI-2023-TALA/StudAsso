@@ -2,7 +2,6 @@ import { ActivatedRoute, Data } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastDirective, ToastService } from '@stud-asso/frontend-shared-toast';
 
-import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { UseStorage } from '@stud-asso/frontend-core-storage';
 
