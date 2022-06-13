@@ -1,9 +1,9 @@
-import { ActivatedRoute, Data, Router } from '@angular/router';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalDirective, ModalService } from '@stud-asso/frontend-shared-modal';
+import { ActivatedRoute, Data } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { localLoginFormly, localSignUpFormly } from './login-page.formly';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
+import { ModalService } from '@stud-asso/frontend-shared-modal';
 
 @Component({
   selector: 'stud-asso-login-page',
@@ -11,25 +11,16 @@ import { AuthService } from '@stud-asso/frontend-core-auth';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent implements OnInit {
-  @ViewChild(ModalDirective, { static: true }) modalDirective!: ModalDirective;
-
   isAsso = false;
   title = '';
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private authService: AuthService,
-    private router: Router,
-    private modal: ModalService
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute, private authService: AuthService, private modal: ModalService) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data) => {
       this.title = data['title'];
       this.isAsso = this.title === 'Portail Association';
     });
-
-    this.modal.setRootViewContainerRef(this.modalDirective.viewContainerRef);
   }
 
   public onClickOpenSignInButton() {

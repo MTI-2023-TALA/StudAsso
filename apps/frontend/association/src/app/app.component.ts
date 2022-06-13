@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewContainerRef } from '@angular/core';
 
 @Component({
   selector: 'stud-asso-root',
@@ -6,4 +6,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'frontend-association';
+  constructor(public viewContainerRef: ViewContainerRef) {}
 }
