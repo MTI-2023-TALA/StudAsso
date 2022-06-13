@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateStockDto, StockDto, StockLogsDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { CreateStockDto, StockDto, StockLogsDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { StocksService } from './stocks.service';
 import { UpdateResult } from 'typeorm';
@@ -9,46 +9,50 @@ export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 
   @Post()
-  create(@GetCurrentUserId() userId: number, @Body() createStockDto: CreateStockDto): Promise<StockDto> {
+  public async create(@GetCurrentUserId() userId: number, @Body() createStockDto: CreateStockDto): Promise<StockDto> {
     return this.stocksService.create(userId, createStockDto);
   }
 
   @Get()
-  findAll(): Promise<StockDto[]> {
+  public async findAll(): Promise<StockDto[]> {
     return this.stocksService.findAll();
   }
 
   @Get('asso/:id')
-  findAllAsso(@Param('id') id: string): Promise<StockDto[]> {
+  public async findAllAsso(@Param('id') id: string): Promise<StockDto[]> {
     return this.stocksService.findAllAsso(+id);
   }
 
   @Get('assologs/:id')
-  findAllAssoStockLogs(@Param('id') assoId: string): Promise<StockLogsDto[]> {
+  public async findAllAssoStockLogs(@Param('id') assoId: string): Promise<StockLogsWithUserDto[]> {
     return this.stocksService.findAllAssoStockLogs(+assoId);
   }
 
   @Get('logs/:id')
-  findSpecificStockLogs(@Param('id') stockId: string): Promise<StockLogsDto[]> {
+  public async findSpecificStockLogs(@Param('id') stockId: string): Promise<StockLogsDto[]> {
     return this.stocksService.findSpecificStockLogs(+stockId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<StockDto> {
+  public async findOne(@Param('id') id: string): Promise<StockDto> {
     return this.stocksService.findOne(+id);
   }
 
   @Patch(':id')
-  update(
+  public async update(
     @Param('id') id: string,
     @GetCurrentUserId() userId: number,
     @Body() updateStockDto: UpdateStockDto
   ): Promise<UpdateResult> {
-    return this.stocksService.update(+id, userId, updateStockDto);
+    try {
+      return await this.stocksService.update(+id, userId, updateStockDto);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<UpdateResult> {
+  public async delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<UpdateResult> {
     return this.stocksService.delete(+id, userId);
   }
 }
