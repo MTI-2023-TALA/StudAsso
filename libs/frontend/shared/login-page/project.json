@@ -20,6 +20,13 @@
           "libs/frontend/shared/login-page/src/**/*.html"
         ]
       }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/frontend/shared/login-page/**/*.css"]
+      }
     }
   },
   "tags": ["type:frontend", "type:frontend-shared"]
