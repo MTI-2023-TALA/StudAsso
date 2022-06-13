@@ -41,6 +41,8 @@ export class RolePageComponent implements OnInit {
 
   roleList: AssociationDto[] = [];
 
+  isLoading = true;
+
   constructor(private api: ApiRoleService, private modal: ModalService, private toast: ToastService) {}
 
   ngOnInit() {
@@ -48,14 +50,21 @@ export class RolePageComponent implements OnInit {
   }
 
   reloadData() {
+    this.isLoading = true;
+
     const assoIdData = getData('asso-id');
     if (!assoIdData) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
     }
+
     const associationId = JSON.parse(assoIdData);
-    this.api.findAllRoleWithAsso(associationId).subscribe((roles: AssociationDto[]) => {
-      this.roleList = roles;
+    Promise.all([
+      this.api.findAllRoleWithAsso(associationId).subscribe((roles: AssociationDto[]) => {
+        this.roleList = roles;
+      }),
+    ]).finally(() => {
+      this.isLoading = false;
     });
   }
 
