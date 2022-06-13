@@ -1,4 +1,4 @@
-import { CreateStockDto, StockDto, StockLogsDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockDto, StockDto, StockLogsDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { StocksController } from './stocks.controller';
@@ -26,26 +26,42 @@ const mockFindAllStocks: StockDto[] = [
     associationId: 1,
   },
 ];
-const mockFindAllAssoLogs: StockLogsDto[] = [
+const mockFindAllAssoLogs: StockLogsWithUserDto[] = [
   {
     id: 1,
     stockId: 1,
-    userId: 1,
     oldCount: 10,
     newCount: 10,
     createdAt: new Date('2022-05-26'),
     action: 'create',
+    user: {
+      id: 1,
+      firstname: 'John',
+      lastname: 'Cena',
+      email: 'johncena@gmail.com',
+      isSchoolEmployee: false,
+    },
   },
   {
     id: 2,
     stockId: 2,
-    userId: 1,
     oldCount: 42,
     newCount: 42,
     createdAt: new Date('2022-05-26'),
     action: 'create',
+    user: {
+      id: 1,
+      firstname: 'John',
+      lastname: 'Cena',
+      email: 'johncena@gmail.com',
+      isSchoolEmployee: false,
+    },
   },
 ];
+const mockFindSpecificStockLogs: StockLogsDto[] = [
+  { id: 1, stockId: 1, userId: 1, oldCount: 10, newCount: 10, createdAt: new Date('2022-05-26'), action: 'create' },
+];
+
 const mockedUpdateResult: UpdateResult = {
   raw: [],
   generatedMaps: [],
@@ -67,7 +83,7 @@ describe('StocksController', () => {
             findAll: jest.fn(() => Promise.resolve(mockFindAllStocks)),
             findAllAsso: jest.fn(() => Promise.resolve(mockFindAllStocks)),
             findAllAssoStockLogs: jest.fn(() => Promise.resolve(mockFindAllAssoLogs)),
-            findSpecificStockLogs: jest.fn(() => Promise.resolve([mockFindAllAssoLogs[0]])),
+            findSpecificStockLogs: jest.fn(() => Promise.resolve(mockFindSpecificStockLogs)),
             findOne: jest.fn(() => Promise.resolve(mockFindAllStocks[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -115,7 +131,7 @@ describe('StocksController', () => {
 
   describe('findSpecificStockLogs', () => {
     it('shoud call stockService.findSpecificStockLogs', async () => {
-      expect(await controller.findSpecificStockLogs('1')).toEqual([mockFindAllAssoLogs[0]]);
+      expect(await controller.findSpecificStockLogs('1')).toEqual(mockFindSpecificStockLogs);
     });
   });
 
