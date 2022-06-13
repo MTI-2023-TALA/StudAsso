@@ -1,4 +1,4 @@
-import { Injectable, ViewContainerRef } from '@angular/core';
+import { ApplicationRef, Injectable, ViewContainerRef } from '@angular/core';
 
 import { BaseModalComponent } from './base-modal/base-modal.component';
 import { FormModalComponent } from './form-modal/form-modal.component';
@@ -18,8 +18,17 @@ export interface ModalFormData {
 export class ModalService {
   rootViewContainer: ViewContainerRef;
 
-  setRootViewContainerRef(viewContainerRef: ViewContainerRef) {
-    this.rootViewContainer = viewContainerRef;
+  constructor(private applicationRef: ApplicationRef) {
+    this.rootViewContainer = this._getRootViewContainerRef();
+  }
+
+  private _getRootViewContainerRef() {
+    const appInstance = this.applicationRef.components[0].instance;
+    if (!appInstance.viewContainerRef) {
+      const appName = appInstance.title;
+      throw new Error(`Missing 'viewContainerRef' declaration in ${appName} constructor, please add it.`);
+    }
+    return appInstance.viewContainerRef;
   }
 
   createModal(componentClass: typeof BaseModalComponent, data: any = {}) {

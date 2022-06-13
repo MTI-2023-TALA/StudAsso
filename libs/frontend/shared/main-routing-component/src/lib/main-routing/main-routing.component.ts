@@ -1,8 +1,8 @@
 import { ActivatedRoute, Data } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ModalDirective, ModalService } from '@stud-asso/frontend-shared-modal';
 import { ToastDirective, ToastService } from '@stud-asso/frontend-shared-toast';
 
+import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { UseStorage } from '@stud-asso/frontend-core-storage';
 
@@ -13,18 +13,13 @@ import { UseStorage } from '@stud-asso/frontend-core-storage';
 })
 export class MainRoutingComponent implements OnInit {
   @ViewChild(ToastDirective, { static: true }) toastDirective!: ToastDirective;
-  @ViewChild(ModalDirective, { static: true }) modalDirective!: ModalDirective;
 
   title = '';
   navbarItems: NavbarItem[] = [];
 
   @UseStorage('config:largeNavbar') shouldShowLargeNavbar = true;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private toastService: ToastService,
-    private modalService: ModalService
-  ) {}
+  constructor(private activatedRoute: ActivatedRoute, private toastService: ToastService) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data) => {
@@ -33,7 +28,5 @@ export class MainRoutingComponent implements OnInit {
     });
 
     this.toastService.setRootViewContainerRef(this.toastDirective.viewContainerRef);
-
-    this.modalService.setRootViewContainerRef(this.modalDirective.viewContainerRef);
   }
 }
