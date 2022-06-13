@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FormlyInputComponent } from './formly-input.component';
-import { setUpOption } from './../test-helper';
+import { setUpOption } from '../test-helper';
 
 describe('FormlyInput', () => {
   let component: FormlyInputComponent;
