@@ -29,4 +29,16 @@ describe('FormlyInput', () => {
     const input = fixture.nativeElement.querySelector('input');
     expect(input).toBeTruthy();
   });
+
+  it('should be input "input" when to.type is set to "input"', () => {
+    const input = fixture.nativeElement.querySelector('input');
+    expect(input.getAttribute('type')).toBe('input');
+  });
+
+  it('should be "password" when to.type is set to "password"', () => {
+    component.to.type = 'password';
+    fixture.detectChanges();
+    const input = fixture.nativeElement.querySelector('input');
+    expect(input.getAttribute('type')).toBe('password');
+  });
 });
