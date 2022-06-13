@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormlyFormFieldComponent } from './formly-form-field.component';
 import { setUpOption } from '../test-helper';
 
-describe('FormlyCheckboxComponent', () => {
+describe('FormlyFormFieldComponent', () => {
   let component: FormlyFormFieldComponent;
   let fixture: ComponentFixture<FormlyFormFieldComponent>;
 

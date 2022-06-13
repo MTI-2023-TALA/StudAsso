@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormlyFileComponent } from './formly-file.component';
+import { FormlyInputListComponent } from './formly-input-list.component';
 import { setUpOption } from '../test-helper';
 
-describe('FormlyFileComponent', () => {
-  let component: FormlyFileComponent;
-  let fixture: ComponentFixture<FormlyFileComponent>;
+describe('FormlyInputListComponent', () => {
+  let component: FormlyInputListComponent;
+  let fixture: ComponentFixture<FormlyInputListComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [FormlyFileComponent],
+      declarations: [FormlyInputListComponent],
     });
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormlyFileComponent);
+    fixture = TestBed.createComponent(FormlyInputListComponent);
     component = fixture.componentInstance;
     Object.defineProperty(component, 'to', { value: {} });
     setUpOption(component);
