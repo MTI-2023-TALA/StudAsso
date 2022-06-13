@@ -1,6 +1,6 @@
-import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { FieldType, FieldTypeConfig, FieldWrapper } from '@ngx-formly/core';
 
-export function setUpOption(component: FieldType<FieldTypeConfig>) {
+export function setUpOption(component: FieldType<FieldTypeConfig> | FieldWrapper) {
   Object.defineProperty(component, 'options', {
     value: {
       showError: () => {
