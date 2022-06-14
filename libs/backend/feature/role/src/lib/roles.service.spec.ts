@@ -283,12 +283,16 @@ describe('RolesService', () => {
 
   describe('addRoleToUser', () => {
     it('should add role to user', async () => {
+      const addRoleTouser = jest.spyOn(associationsMemberRepository, 'linkUserToRole');
+
       const addRoleToUserParams = {
         userId: 1,
         associationId: 1,
         roleId: 1,
       };
       expect(await service.addRoleToUser(addRoleToUserParams)).toEqual(addRoleToUserParams);
+      expect(addRoleTouser).toHaveBeenCalledTimes(1);
+      expect(addRoleTouser).toHaveBeenCalledWith(1, 1, 1);
     });
 
     it('should add role to user and fail because user does not exist', async () => {
