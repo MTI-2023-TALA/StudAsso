@@ -1,22 +1,46 @@
-import { CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import { AssociationsMemberRepository, RoleRepository } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
 import { PostgresError } from 'pg-error-enum';
-import { RoleRepository } from '@stud-asso/backend/core/repository';
 import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class RolesService {
-  constructor(private readonly roleRepository: RoleRepository) {}
+  constructor(
+    private readonly roleRepository: RoleRepository,
+    private readonly associationsMemberRepository: AssociationsMemberRepository
+  ) {}
 
   public async create(createBaseDto: CreateRoleDto): Promise<RoleDto> {
     try {
-      return await this.roleRepository.create(createBaseDto as any);
+      return await this.roleRepository.create(createBaseDto);
     } catch (error) {
       if (error?.code === PostgresError.UNIQUE_VIOLATION) {
         throw new Error('Name already exists');
       }
     }
+  }
+
+  public async addRoleToUser(addRoleToUserDto: AddRoleToUserDto): Promise<AssociationsMemberDto> {
+    // try {
+    //   return await this.associationsMemberRepository.linkUserToRole(
+    //     addRoleToUserDto.associationId,
+    //     addRoleToUserDto.userId,
+    //     addRoleToUserDto.roleId
+    //   );
+    // } catch (error) {
+    //   if (error?.code === PostgresError.UNIQUE_VIOLATION) {
+    //     if (error?.constraint === '') {
+    //       throw new Error('Association Name Already Exists');
+    //     }
+    //   }
+    // }
+    return await this.associationsMemberRepository.linkUserToRole(
+      addRoleToUserDto.associationId,
+      addRoleToUserDto.userId,
+      addRoleToUserDto.roleId
+    );
   }
 
   public async findAll(id: number): Promise<RoleDto[]> {
@@ -35,7 +59,7 @@ export class RolesService {
     if (role.name === 'Président') throw new Error('Cannot update role');
 
     try {
-      return await this.roleRepository.update(id, updateBaseDto as any);
+      return await this.roleRepository.update(id, updateBaseDto);
     } catch (error) {
       if (error?.code === PostgresError.UNIQUE_VIOLATION) {
         throw new Error('Name already exists');

@@ -1,3 +1,4 @@
+import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 import {
   BadRequestException,
   Body,
@@ -10,7 +11,6 @@ import {
   Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 import { RolesService } from './roles.service';
 import { UpdateResult } from 'typeorm';
 
@@ -25,6 +25,16 @@ export class RolesController {
     } catch (error) {
       throw new UnprocessableEntityException('Name Already Exists');
     }
+  }
+
+  @Post('/user')
+  public async addRoleToUser(@Body() addRoleToUser: AddRoleToUserDto): Promise<AssociationsMemberDto> {
+    // try {
+    //   return await this.rolesService.addRoleToUser(addRoleToUser);
+    // } catch (error) {
+    //   throw new BadRequestException();
+    // }
+    return await this.rolesService.addRoleToUser(addRoleToUser);
   }
 
   @Get('/asso/:id')
