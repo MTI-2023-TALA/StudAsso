@@ -29,12 +29,11 @@ export class RolesController {
 
   @Post('/user')
   public async addRoleToUser(@Body() addRoleToUser: AddRoleToUserDto): Promise<AssociationsMemberDto> {
-    // try {
-    //   return await this.rolesService.addRoleToUser(addRoleToUser);
-    // } catch (error) {
-    //   throw new BadRequestException();
-    // }
-    return await this.rolesService.addRoleToUser(addRoleToUser);
+    try {
+      return await this.rolesService.addRoleToUser(addRoleToUser);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
   }
 
   @Get('/asso/:id')

@@ -1,5 +1,10 @@
 import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
-import { AssociationsMemberRepository, RoleRepository } from '@stud-asso/backend/core/repository';
+import {
+  AssociationRepository,
+  AssociationsMemberRepository,
+  RoleRepository,
+  UserRepository,
+} from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
 import { PostgresError } from 'pg-error-enum';
@@ -8,8 +13,10 @@ import { UpdateResult } from 'typeorm';
 @Injectable()
 export class RolesService {
   constructor(
+    private readonly associationsMemberRepository: AssociationsMemberRepository,
+    private readonly associationRepository: AssociationRepository,
     private readonly roleRepository: RoleRepository,
-    private readonly associationsMemberRepository: AssociationsMemberRepository
+    private readonly userRepository: UserRepository
   ) {}
 
   public async create(createBaseDto: CreateRoleDto): Promise<RoleDto> {
@@ -23,19 +30,21 @@ export class RolesService {
   }
 
   public async addRoleToUser(addRoleToUserDto: AddRoleToUserDto): Promise<AssociationsMemberDto> {
-    // try {
-    //   return await this.associationsMemberRepository.linkUserToRole(
-    //     addRoleToUserDto.associationId,
-    //     addRoleToUserDto.userId,
-    //     addRoleToUserDto.roleId
-    //   );
-    // } catch (error) {
-    //   if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-    //     if (error?.constraint === '') {
-    //       throw new Error('Association Name Already Exists');
-    //     }
-    //   }
-    // }
+    const user = await this.userRepository.findOne(addRoleToUserDto.userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const asso = await this.associationRepository.findOne(addRoleToUserDto.associationId);
+    if (!asso) {
+      throw new Error('Association Not Found');
+    }
+
+    const role = await this.roleRepository.findOne(addRoleToUserDto.roleId);
+    if (!role) {
+      throw new Error('Role Not Found');
+    }
+
     return await this.associationsMemberRepository.linkUserToRole(
       addRoleToUserDto.associationId,
       addRoleToUserDto.userId,
