@@ -1,9 +1,14 @@
+import {
+  AssociationRepository,
+  AssociationsMemberRepository,
+  RoleRepository,
+  UserRepository,
+} from '@stud-asso/backend/core/repository';
 import { CreateRoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { PostgresError } from 'pg-error-enum';
 import { Role } from '@stud-asso/backend/core/orm';
-import { RoleRepository } from '@stud-asso/backend/core/repository';
 import { RolesService } from './roles.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
@@ -26,6 +31,9 @@ const mockedUpdateResult: UpdateResult = {
 describe('RolesService', () => {
   let service: RolesService;
   let roleRepository: RoleRepository;
+  let userRepository: UserRepository;
+  let associationRepository: AssociationRepository;
+  let associationsMemberRepository: AssociationsMemberRepository;
   let mockedRoles;
 
   beforeEach(async () => {
@@ -82,11 +90,52 @@ describe('RolesService', () => {
             }),
           },
         },
+        {
+          provide: UserRepository,
+          useValue: {
+            findOne: jest.fn(() =>
+              Promise.resolve({
+                id: 1,
+                firstname: 'john',
+                lastname: 'cena',
+                email: 'johncena@gmail.com',
+                isSchoolEmployee: false,
+              })
+            ),
+          },
+        },
+        {
+          provide: AssociationRepository,
+          useValue: {
+            findOne: jest.fn(() =>
+              Promise.resolve({
+                id: 1,
+                name: 'association name',
+                description: 'description',
+              })
+            ),
+          },
+        },
+        {
+          provide: AssociationsMemberRepository,
+          useValue: {
+            linkUserToRole: jest.fn(() =>
+              Promise.resolve({
+                userId: 1,
+                associationId: 1,
+                roleId: 1,
+              })
+            ),
+          },
+        },
       ],
     }).compile();
 
     service = module.get<RolesService>(RolesService);
     roleRepository = module.get<RoleRepository>(RoleRepository);
+    associationRepository = module.get<AssociationRepository>(AssociationRepository);
+    userRepository = module.get<UserRepository>(UserRepository);
+    associationsMemberRepository = module.get<AssociationsMemberRepository>(AssociationsMemberRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -229,6 +278,49 @@ describe('RolesService', () => {
       expect(mockedRoles).toEqual(filteredMockedRoles);
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(id);
+    });
+  });
+
+  describe('addRoleToUser', () => {
+    it('should add role to user', async () => {
+      const addRoleToUserParams = {
+        userId: 1,
+        associationId: 1,
+        roleId: 1,
+      };
+      expect(await service.addRoleToUser(addRoleToUserParams)).toEqual(addRoleToUserParams);
+    });
+
+    it('should add role to user and fail because user does not exist', async () => {
+      const addRoleToUserParams = {
+        userId: 666,
+        associationId: 1,
+        roleId: 1,
+      };
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+      expect(async () => service.addRoleToUser(addRoleToUserParams)).rejects.toThrow(new Error('User Not Found'));
+    });
+
+    it('should add role to user and fail because association does not exist', async () => {
+      const addRoleToUserParams = {
+        userId: 1,
+        associationId: 666,
+        roleId: 1,
+      };
+      jest.spyOn(associationRepository, 'findOne').mockResolvedValue(undefined);
+      expect(async () => service.addRoleToUser(addRoleToUserParams)).rejects.toThrow(
+        new Error('Association Not Found')
+      );
+    });
+
+    it('should add role to user and fail because role does not exist', async () => {
+      const addRoleToUserParams = {
+        userId: 1,
+        associationId: 666,
+        roleId: 1,
+      };
+      jest.spyOn(roleRepository, 'findOne').mockResolvedValue(undefined);
+      expect(async () => service.addRoleToUser(addRoleToUserParams)).rejects.toThrow(new Error('Role Not Found'));
     });
   });
 });

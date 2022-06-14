@@ -32,7 +32,7 @@ export class RolesService {
   public async addRoleToUser(addRoleToUserDto: AddRoleToUserDto): Promise<AssociationsMemberDto> {
     const user = await this.userRepository.findOne(addRoleToUserDto.userId);
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('User Not Found');
     }
 
     const asso = await this.associationRepository.findOne(addRoleToUserDto.associationId);
