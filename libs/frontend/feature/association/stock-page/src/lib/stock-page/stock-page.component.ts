@@ -46,6 +46,8 @@ export class StockPageComponent implements OnInit {
 
   stockList: StockDto[] = [];
 
+  isLoading = false;
+
   constructor(private api: ApiStockService, private modal: ModalService, private toast: ToastService) {}
 
   ngOnInit(): void {
@@ -63,8 +65,10 @@ export class StockPageComponent implements OnInit {
       return;
     }
     const assoId = JSON.parse(assoIdData);
+    this.isLoading = true;
     this.api.findAllStockWithAssoId(assoId).subscribe((stocks: StockDto[]) => {
       this.stockList = stocks;
+      this.isLoading = false;
     });
   }
 

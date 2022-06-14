@@ -1,0 +1,19 @@
+@import 'base/variables';
+@import 'base/utility';
+
+.spinner {
+  width: 150px;
+  height: 150px;
+  vertical-align: middle;
+  margin: 12rem auto;
+  border: 7px solid $white;
+  border-radius: 50%;
+  border-top-color: $primary-600;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

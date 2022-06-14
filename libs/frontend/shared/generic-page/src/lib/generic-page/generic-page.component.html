@@ -1,9 +1,14 @@
 <div class="host">
-  <div class="top">
-    <div class="left title">{{ title }}</div>
-    <div class="right">
-      <button class="button" (click)="onButtonClick()">{{ buttonText }}</button>
+  <div *ngIf="!isLoading">
+    <div class="top">
+      <div class="left title">{{ title }}</div>
+      <div class="right">
+        <button class="button" (click)="onButtonClick()">{{ buttonText }}</button>
+      </div>
     </div>
+    <stud-asso-table [tableConfiguration]="tableConfiguration" [data]="data"> </stud-asso-table>
   </div>
-  <stud-asso-table [tableConfiguration]="tableConfiguration" [data]="data"> </stud-asso-table>
+  <div *ngIf="isLoading">
+    <stud-asso-spinner></stud-asso-spinner>
+  </div>
 </div>

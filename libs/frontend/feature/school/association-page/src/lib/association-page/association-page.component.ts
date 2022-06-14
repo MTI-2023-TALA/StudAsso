@@ -45,6 +45,8 @@ export class AssociationPageComponent implements OnInit {
 
   usersList: SelectOption[] = [];
 
+  isLoading = true;
+
   constructor(
     private apiAssociation: ApiAssociationService,
     private apiUser: ApiUserService,
@@ -57,12 +59,15 @@ export class AssociationPageComponent implements OnInit {
   }
 
   reloadData() {
-    this.apiAssociation.findAll().subscribe((associations: any) => {
-      this.associationList = associations;
-    });
-    this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
-      this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
-    });
+    this.isLoading = true;
+    Promise.all([
+      this.apiAssociation.findAll().subscribe((associations: any) => {
+        this.associationList = associations;
+      }),
+      this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
+        this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
+      }),
+    ]).finally(() => (this.isLoading = false));
   }
 
   handleError() {

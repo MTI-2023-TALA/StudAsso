@@ -35,6 +35,7 @@
         "libs/frontend/feature/school/create-association/src/index.ts"
       ],
       "@stud-asso/frontend-shared-formly": ["libs/frontend/shared/formly/src/index.ts"],
+      "@stud-asso/frontend-shared-loader": ["libs/frontend/shared/loader/src/index.ts"],
       "@stud-asso/frontend-shared-main-routing-component": ["libs/frontend/shared/main-routing-component/src/index.ts"],
       "@stud-asso/frontend-shared-modal": ["libs/frontend/shared/modal/src/index.ts"],
       "@stud-asso/frontend-shared-navbar": ["libs/frontend/shared/navbar/src/index.ts"],

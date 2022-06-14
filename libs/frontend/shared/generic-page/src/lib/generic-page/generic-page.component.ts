@@ -15,6 +15,7 @@ export class GenericPageComponent {
 
   @Output() buttonFunction = new EventEmitter<void>();
 
+  @Input() isLoading: boolean;
   onButtonClick() {
     this.buttonFunction.emit();
   }
