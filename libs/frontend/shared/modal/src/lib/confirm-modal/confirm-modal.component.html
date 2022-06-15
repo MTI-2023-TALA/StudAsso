@@ -1,12 +1,9 @@
-<div class="sa-modal">
-  <div class="sa-modal-bg" (click)="closeModal()"></div>
-  <div class="sa-modal-content">
-    <div class="sa-modal-message">
-      {{ message }}
-    </div>
-    <div class="sa-modal-action">
-      <button class="button is-ghost" (click)="closeModal()">Annuler</button>
-      <button class="button is-danger" (click)="onAccept()">Confirmer</button>
-    </div>
+<stud-asso-base-modal [componentRef]="componentRef">
+  <div class="sa-modal-message">
+    {{ message }}
   </div>
-</div>
+  <div class="sa-modal-action">
+    <button class="button is-ghost" (click)="closeModal()">Annuler</button>
+    <button class="button is-danger" (click)="onAccept()">Confirmer</button>
+  </div>
+</stud-asso-base-modal>
