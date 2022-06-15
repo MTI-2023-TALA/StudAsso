@@ -92,7 +92,6 @@ export class AuthService {
       .refreshToken()
       .pipe(
         catchError((err) => {
-          console.log('Test');
           this.logout();
           return throwError(err);
         })
