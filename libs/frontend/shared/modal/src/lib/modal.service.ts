@@ -8,7 +8,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 export interface ModalFormData {
   title: string;
   fields: FormlyFieldConfig[];
-  mainButtonText: string;
+  submitBtnText: string;
   submit?: (model: any) => void;
   cancel?: () => void;
   onLoad?: () => void;

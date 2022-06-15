@@ -77,7 +77,7 @@ export class AssociationPageComponent implements OnInit {
   async createModalAssociation() {
     this.modal.createForm({
       title: 'Créer une association',
-      mainButtonText: 'Créer',
+      submitBtnText: 'Créer',
       fields: (await createAssociationFormly(this.usersList)) as FormlyFieldConfig[],
       submit: this.createAssociation(),
     });
@@ -87,7 +87,7 @@ export class AssociationPageComponent implements OnInit {
     this.modal.createForm({
       title: 'Modifier une association',
       fields: modifyAssociationFormly,
-      mainButtonText: 'Modifier',
+      submitBtnText: 'Modifier',
       submit: this.modifyAssociation(id),
     });
   }

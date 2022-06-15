@@ -26,7 +26,7 @@ export class LoginPageComponent implements OnInit {
   public onClickOpenSignInButton() {
     this.modal.createForm({
       title: 'Connexion',
-      mainButtonText: 'Se connecter',
+      submitBtnText: 'Se connecter',
       fields: localLoginFormly,
       submit: this.tryToSignIn(),
     });
@@ -42,7 +42,7 @@ export class LoginPageComponent implements OnInit {
     this.modal.createForm({
       title: 'Inscription',
       fields: localSignUpFormly,
-      mainButtonText: 'Créer le compte',
+      submitBtnText: 'Créer le compte',
       submit: this.tryToSignUp(),
     });
   }
