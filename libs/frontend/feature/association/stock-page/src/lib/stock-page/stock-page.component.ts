@@ -75,6 +75,7 @@ export class StockPageComponent implements OnInit {
     this.modal.createForm({
       title: 'Créer un stock',
       fields: createStockFormly,
+      mainButtonText: 'Créer',
       submit: this.createStock(),
     });
   }
@@ -83,6 +84,7 @@ export class StockPageComponent implements OnInit {
     this.modal.createForm({
       title: 'Modifier un stock',
       fields: createStockFormly,
+      mainButtonText: 'Modifier',
       submit: this.modifyStock(id),
     });
   }
