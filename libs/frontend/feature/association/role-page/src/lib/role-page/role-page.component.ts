@@ -31,10 +31,9 @@ export class RolePageComponent implements OnInit {
       },
       {
         label: 'Supprimer',
-        action: (data: number) => {
-          this.deleteRole(data);
+        action: (data: { id: number; name: string }) => {
+          this.deleteModalRole(data.id, data.name);
         },
-        dataProperty: 'id',
       },
     ],
   };
@@ -103,6 +102,15 @@ export class RolePageComponent implements OnInit {
         error: this.handleError(),
       });
     };
+  }
+
+  deleteModalRole(id: number, name: string) {
+    this.modal.createConfirmModal({
+      message: `Voulez-vous vraiment supprimer le rôle ${name} ?`,
+      submit: () => {
+        this.deleteRole(id);
+      },
+    });
   }
 
   deleteRole(id: number) {

@@ -19,6 +19,7 @@ export class ConfirmModalComponent extends BaseModalComponent implements OnInit 
   }
 
   public onAccept(): void {
+    this.data.submit();
     this.closeModal();
   }
 }

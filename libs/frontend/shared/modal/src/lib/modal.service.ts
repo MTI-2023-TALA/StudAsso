@@ -1,6 +1,7 @@
 import { ApplicationRef, Injectable, ViewContainerRef } from '@angular/core';
 
 import { BaseModalComponent } from './base-modal/base-modal.component';
+import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { FormModalComponent } from './form-modal/form-modal.component';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
@@ -10,6 +11,11 @@ export interface ModalFormData {
   submit?: (model: any) => void;
   cancel?: () => void;
   onLoad?: () => void;
+}
+
+export interface ModalConfirmData {
+  submit?: () => void;
+  message: string;
 }
 
 @Injectable({
@@ -39,6 +45,10 @@ export class ModalService {
     componentRef?.instance.setComponentRef(componentRef);
     componentRef?.instance.setData(data);
     return componentRef;
+  }
+
+  createConfirmModal(data: ModalConfirmData) {
+    return this.createModal(ConfirmModalComponent, data);
   }
 
   createForm(data: ModalFormData) {
