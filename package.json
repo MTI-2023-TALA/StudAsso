@@ -81,6 +81,7 @@
     "bulma": "^0.9.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "jwt-decode": "^3.1.2",
     "passport-jwt": "^4.0.0",
     "pg": "^8.7.3",
     "pg-error-enum": "^0.5.0",
