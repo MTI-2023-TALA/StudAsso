@@ -14,6 +14,7 @@ export class FormModalComponent extends BaseModalComponent implements OnInit {
   form = new FormGroup({});
   model = {};
   fields: FormlyFieldConfig[] = [];
+  submitBtnText: string;
 
   constructor() {
     super();
@@ -22,6 +23,7 @@ export class FormModalComponent extends BaseModalComponent implements OnInit {
   ngOnInit() {
     this.fields = this.data.fields;
     this.title = this.data.title;
+    this.submitBtnText = this.data.submitBtnText;
   }
 
   public onSubmit(model: any): void {

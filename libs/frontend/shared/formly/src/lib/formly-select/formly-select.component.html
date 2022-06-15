@@ -1,5 +1,5 @@
 <div class="select" [class.is-danger]="showError">
-  <select [formControl]="formControl" [formlyAttributes]="field">
+  <select [formControl]="formControl" [formlyAttributes]="field" autocomplete="on">
     <ng-container *ngIf="to.options">
       <ng-container *ngFor="let opt of selectOptions">
         <option value="{{ opt.value }}">{{ opt.label }}</option>

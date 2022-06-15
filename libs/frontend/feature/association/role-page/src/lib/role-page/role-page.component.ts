@@ -71,6 +71,7 @@ export class RolePageComponent implements OnInit {
   createModalRole() {
     this.modal.createForm({
       title: 'Créer un nouveau rôle',
+      submitBtnText: 'Créer',
       fields: createRoleFormly,
       submit: this.createRole(),
     });
@@ -80,6 +81,7 @@ export class RolePageComponent implements OnInit {
     this.modal.createForm({
       title: 'Modifier un rôle',
       fields: createRoleFormly,
+      submitBtnText: 'Modifier',
       submit: this.modifyRole(id),
     });
   }
