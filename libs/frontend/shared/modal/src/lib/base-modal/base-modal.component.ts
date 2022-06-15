@@ -1,10 +1,12 @@
-import { Component, ComponentRef } from '@angular/core';
+import { Component, ComponentRef, Input } from '@angular/core';
 
 @Component({
-  template: '',
+  selector: 'stud-asso-base-modal',
+  templateUrl: './base-modal.component.html',
+  styleUrls: ['./base-modal.component.scss'],
 })
 export class BaseModalComponent {
-  protected componentRef: ComponentRef<BaseModalComponent>;
+  @Input() public componentRef: ComponentRef<BaseModalComponent>;
   public data: any = {};
 
   constructor() {
