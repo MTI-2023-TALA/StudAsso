@@ -26,9 +26,8 @@ export class AuthService {
 
   public refreshTokenPeriodically() {
     this.refreshId = setInterval(() => {
-      console.log('Hello !');
       this.refresh();
-    }, 1000 * 60 * 14);
+    }, this._minToMs(14));
   }
 
   public isSignIn(): boolean {
@@ -102,5 +101,9 @@ export class AuthService {
         this.jwt = res.accessToken;
         this.refreshToken = res.refreshToken;
       });
+  }
+
+  private _minToMs(min: number): number {
+    return min * 60 * 1000;
   }
 }
