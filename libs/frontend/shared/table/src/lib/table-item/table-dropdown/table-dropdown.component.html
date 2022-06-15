@@ -9,7 +9,7 @@
       <div
         *ngFor="let action of tableConfiguration.actions"
         class="dropdown-item"
-        (click)="sendActionEvent(action.action, data[action.dataProperty])"
+        (click)="sendActionEvent(action.action, action.dataProperty ? data[action.dataProperty] : data)"
       >
         {{ action.label }}
       </div>

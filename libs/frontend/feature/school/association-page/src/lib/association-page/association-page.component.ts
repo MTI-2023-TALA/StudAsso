@@ -33,10 +33,9 @@ export class AssociationPageComponent implements OnInit {
       },
       {
         label: 'Supprimer',
-        action: (data: number) => {
-          this.deleteAssociation(data);
+        action: (data: { id: number; name: string }) => {
+          this.deleteModalAssociation(data.id, data.name);
         },
-        dataProperty: 'id',
       },
     ],
   };
@@ -102,6 +101,15 @@ export class AssociationPageComponent implements OnInit {
         error: this.handleError(),
       });
     };
+  }
+
+  async deleteModalAssociation(id: number, name: string) {
+    this.modal.createModal(ConfirmModalComponent, {
+      message: `Etes vous sur de voulour supprimer l'association ${name} ?`,
+      submit: () => {
+        this.deleteAssociation(id);
+      },
+    });
   }
 
   deleteAssociation(id: number) {

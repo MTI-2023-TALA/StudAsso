@@ -36,10 +36,9 @@ export class StockPageComponent implements OnInit {
       },
       {
         label: 'Supprimer',
-        action: (data: number) => {
-          this.deleteStock(data);
+        action: (data: { id: number; name: string }) => {
+          this.deleteModalStock(data.id, data.name);
         },
-        dataProperty: 'id',
       },
     ],
   };
@@ -107,6 +106,15 @@ export class StockPageComponent implements OnInit {
         error: this.handleError(),
       });
     };
+  }
+
+  deleteModalStock(id: number, name: string) {
+    this.modal.createConfirmModal({
+      message: `Voulez-vous vraiment supprimer le stock ${name} ?`,
+      submit: () => {
+        this.deleteStock(id);
+      },
+    });
   }
 
   deleteStock(id: number) {
