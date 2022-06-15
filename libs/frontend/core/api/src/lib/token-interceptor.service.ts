@@ -14,7 +14,12 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = getData('jwt-token');
+    let token = getData('jwt-token');
+
+    if (req.url.includes('/api/auth/refresh')) {
+      token = getData('refresh-token');
+    }
+
     if (token) {
       req = req.clone({
         setHeaders: {
