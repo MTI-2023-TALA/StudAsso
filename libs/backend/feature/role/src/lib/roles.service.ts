@@ -1,22 +1,55 @@
-import { CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationRepository,
+  AssociationsMemberRepository,
+  RoleRepository,
+  UserRepository,
+} from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
 import { PostgresError } from 'pg-error-enum';
-import { RoleRepository } from '@stud-asso/backend/core/repository';
 import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class RolesService {
-  constructor(private readonly roleRepository: RoleRepository) {}
+  constructor(
+    private readonly associationsMemberRepository: AssociationsMemberRepository,
+    private readonly associationRepository: AssociationRepository,
+    private readonly roleRepository: RoleRepository,
+    private readonly userRepository: UserRepository
+  ) {}
 
   public async create(createBaseDto: CreateRoleDto): Promise<RoleDto> {
     try {
-      return await this.roleRepository.create(createBaseDto as any);
+      return await this.roleRepository.create(createBaseDto);
     } catch (error) {
       if (error?.code === PostgresError.UNIQUE_VIOLATION) {
         throw new Error('Name already exists');
       }
     }
+  }
+
+  public async addRoleToUser(addRoleToUserDto: AddRoleToUserDto): Promise<AssociationsMemberDto> {
+    const user = await this.userRepository.findOne(addRoleToUserDto.userId);
+    if (!user) {
+      throw new Error('User Not Found');
+    }
+
+    const asso = await this.associationRepository.findOne(addRoleToUserDto.associationId);
+    if (!asso) {
+      throw new Error('Association Not Found');
+    }
+
+    const role = await this.roleRepository.findOne(addRoleToUserDto.roleId);
+    if (!role) {
+      throw new Error('Role Not Found');
+    }
+
+    return await this.associationsMemberRepository.linkUserToRole(
+      addRoleToUserDto.associationId,
+      addRoleToUserDto.userId,
+      addRoleToUserDto.roleId
+    );
   }
 
   public async findAll(id: number): Promise<RoleDto[]> {
@@ -35,7 +68,7 @@ export class RolesService {
     if (role.name === 'Président') throw new Error('Cannot update role');
 
     try {
-      return await this.roleRepository.update(id, updateBaseDto as any);
+      return await this.roleRepository.update(id, updateBaseDto);
     } catch (error) {
       if (error?.code === PostgresError.UNIQUE_VIOLATION) {
         throw new Error('Name already exists');

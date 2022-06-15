@@ -76,6 +76,13 @@ describe('RolesController', () => {
               mockedRoles = mockedRoles.filter((role) => role.id !== id);
               return Promise.resolve(mockedUpdateResult);
             }),
+            addRoleToUser: jest.fn(() =>
+              Promise.resolve({
+                userId: 1,
+                associationId: 1,
+                roleId: 1,
+              })
+            ),
           },
         },
       ],
@@ -216,6 +223,50 @@ describe('RolesController', () => {
       expect(mockedRoles).toEqual(filteredMockedRoles);
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
+    });
+  });
+
+  describe('addRoleToUser', () => {
+    it('should add role to User', async () => {
+      const addRoleTouser = jest.spyOn(service, 'addRoleToUser');
+      const addRoleToUserParams = {
+        userId: 1,
+        associationId: 1,
+        roleId: 1,
+      };
+      expect(await controller.addRoleToUser(addRoleToUserParams)).toEqual(addRoleToUserParams);
+      expect(addRoleTouser).toHaveBeenCalledTimes(1);
+      expect(addRoleTouser).toHaveBeenCalledWith(addRoleToUserParams);
+    });
+
+    it('should fail to add role to user because user does not exist', async () => {
+      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error('User Not Found'));
+      const addRoleToUserParams = {
+        userId: 666,
+        associationId: 1,
+        roleId: 1,
+      };
+      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow('User Not Found');
+    });
+
+    it('should fail to add role to user because association does not exist', async () => {
+      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error('Association Not Found'));
+      const addRoleToUserParams = {
+        userId: 1,
+        associationId: 666,
+        roleId: 1,
+      };
+      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow('Association Not Found');
+    });
+
+    it('should fail to add role to user because role does not exist', async () => {
+      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error('Role Not Found'));
+      const addRoleToUserParams = {
+        userId: 1,
+        associationId: 1,
+        roleId: 666,
+      };
+      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow('Role Not Found');
     });
   });
 });

@@ -10,6 +10,8 @@ export class AssociationsMemberRepository {
   ) {}
 
   public async linkUserToRole(associationId: number, userId: number, roleId: number): Promise<AssociationsMember> {
+    // if primary key associationId and userId doesn't exist -> associates a new role
+    // if primary key exists -> updates the role
     return this.associationsMemberRepository.save({ associationId, userId, roleId });
   }
 }
