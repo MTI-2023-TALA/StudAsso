@@ -16,7 +16,7 @@ interface rtJwt {
 })
 export class AuthService {
   public isConnected = false;
-  public refreshId: NodeJS.Timer;
+  private refreshId: NodeJS.Timer;
   @UseStorage('jwt-token') private jwt: string | null;
   @UseStorage('refresh-token') private refreshToken: string | null;
 
@@ -79,14 +79,14 @@ export class AuthService {
     this.router.navigateByUrl('/');
   }
 
-  public reset() {
+  private reset() {
     removeData('jwt-token');
     removeData('refresh-token');
     window.clearInterval(this.refreshId);
     this.isConnected = false;
   }
 
-  public refresh() {
+  private refresh() {
     this.apiAuthService
       .refreshToken()
       .pipe(
