@@ -1,13 +1,7 @@
 {
-  "appName": "Stud'Asso",
+  "deconnect": "Déconnexion",
   "asso": {
     "found": "Vos associations :",
     "none": "Vous n'avez pas encore d'associations."
-  },
-  "cancel": "Annuler",
-  "confirm": "Confirmer",
-  "connect": "Se connecter",
-  "createAccount": "Créer un compte",
-  "deconnect": "Déconnexion",
-  "googleConnect": "Se connecter avec Google"
+  }
 }
