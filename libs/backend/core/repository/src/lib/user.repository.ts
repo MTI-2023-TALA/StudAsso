@@ -1,15 +1,24 @@
-import { CreateUserDto, UpdateUserDto } from '@stud-asso/shared/dtos';
-import { Like, Repository, UpdateResult } from 'typeorm';
-
-import { BaseRepository } from './base.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { User } from '@stud-asso/backend/core/orm';
-
+import { PrismaService } from '@stud-asso/backend/core/orm';
+import { User } from '@prisma/client';
 @Injectable()
-export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUserDto> {
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
-    super(userRepository);
+export class UserRepository {
+  constructor(private prisma: PrismaService) {}
+
+  public async findAll(): Promise<User[]> {
+    return this.prisma.user.findMany();
+  }
+
+  public async findOne(id: number): Promise<User> {
+    return this.prisma.user.findUnique({ where: { id } });
+  }
+
+  public async update(id: number, updateUser: User): Promise<User> {
+    return this.prisma.user.update({ where: { id }, data: updateUser });
+  }
+
+  public async delete(id: number): Promise<User> {
+    return this.prisma.user.delete({ where: { id } });
   }
 
   public createUser(
@@ -17,32 +26,45 @@ export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUs
     firstname: string,
     lastname: string,
     isSchoolEmployee: boolean,
-    hash: string
+    passwordHash: string
   ): Promise<User> {
-    return this.userRepository.save({ email, passwordHash: hash, firstname, lastname, isSchoolEmployee });
+    return this.prisma.user.create({ data: { email, firstname, lastname, isSchoolEmployee, passwordHash } });
   }
 
-  public updateRt(userId: number, rt: string): Promise<UpdateResult> {
-    return this.userRepository.update(userId, { rtHash: rt });
+  public updateRt(userId: number, rtHash: string): Promise<User> {
+    return this.prisma.user.update({ where: { id: userId }, data: { rtHash } });
   }
 
   public findOneByEmail(email: string): Promise<User> {
-    return this.userRepository.findOne({ where: { email } });
+    return this.prisma.user.findUnique({ where: { email } });
   }
 
-  public async findAllIdAndEmail(): Promise<User[]> {
-    return this.userRepository.find({ select: ['id', 'email'] });
+  public async findAllIdAndEmail(): Promise<any> {
+    //TODO: create interface
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+      },
+    });
   }
 
-  public async findAssoOfUser(id: number): Promise<User> {
-    return this.userRepository.findOne({
-      select: ['id'],
+  public async findAssoOfUser(id: number): Promise<any> {
+    return this.prisma.user.findUnique({
       where: { id },
-      relations: ['associations'],
+      select: {
+        id: true,
+        associationsMembers: true,
+      },
     });
   }
 
   public async findAllByName(name: string): Promise<User[]> {
-    return this.userRepository.find({ where: [{ lastname: Like(`%${name}%`) }, { firstname: Like(`%${name}%`) }] });
+    return this.prisma.user.findMany({
+      where: {
+        lastname: { contains: name },
+        firstname: { contains: name },
+      },
+    });
   }
 }

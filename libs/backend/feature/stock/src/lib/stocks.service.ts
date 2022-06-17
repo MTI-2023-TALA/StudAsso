@@ -9,8 +9,6 @@ import {
 import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
-import { StockLogs } from '@stud-asso/backend/core/orm';
-import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class StocksService {
@@ -45,7 +43,7 @@ export class StocksService {
     return this.stockRepository.findOne(id);
   }
 
-  public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<UpdateResult> {
+  public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<any> {
     const stockBeforeUpdate = await this.stockRepository.findOne(id);
     if (!stockBeforeUpdate) {
       throw new Error('Stock Not Found');
@@ -55,7 +53,7 @@ export class StocksService {
     return updatedStock;
   }
 
-  public async delete(id: number, userId: number): Promise<UpdateResult> {
+  public async delete(id: number, userId: number): Promise<any> {
     const stockBeforeDelete = await this.stockRepository.findOne(id);
     const deletedStock = await this.stockRepository.delete(id);
     await this.createStocksLogs(id, userId, stockBeforeDelete.count, 0, 'delete');
@@ -68,7 +66,7 @@ export class StocksService {
     oldCount: number,
     newCount: number,
     action: string
-  ): Promise<StockLogs> {
+  ): Promise<any> {
     if (action === 'create' || action === 'update' || action === 'delete') {
       const createStockLogsDto: CreateStockLogsDto = {
         stockId,

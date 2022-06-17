@@ -1,23 +1,14 @@
-import { AssoUserDto, CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
-import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { AssoUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch } from '@nestjs/common';
 
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-import { UpdateResult } from 'typeorm';
+
 import { UsersService } from './users.service';
 
 @SwaggerController('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  public async create(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
-    try {
-      return await this.usersService.create(createUserDto);
-    } catch (error) {
-      throw new BadRequestException('Email Already Used');
-    }
-  }
 
   @Get('IdAndEmail')
   findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
@@ -49,7 +40,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UpdateResult> {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<any> {
     try {
       return await this.usersService.update(+id, updateUserDto);
     } catch (error) {
@@ -58,7 +49,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<UpdateResult> {
+  async delete(@Param('id') id: string): Promise<any> {
     try {
       return await this.usersService.delete(+id);
     } catch (error) {
