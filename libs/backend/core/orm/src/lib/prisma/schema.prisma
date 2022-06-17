@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Association {
+  id                  Int                 @id() @default(autoincrement())
+  createdAt           DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime            @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt           DateTime?           @map("deleted_at") @db.Timestamp(6)
+  name                String              @db.VarChar
+  description         String?             @db.VarChar
+  associationsMembers AssociationMember[]
+  events              Event[]
+  news                News[]
+  roles               Role[]
+  stocks              Stock[]
+}
+
+model AssociationMember {
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt     DateTime?   @map("deleted_at") @db.Timestamp(6)
+  associationId Int         @map("association_id")
+  userId        Int         @map("user_id")
+  roleId        Int         @map("role_id")
+  association   Association @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "associations")
+  role          Role        @relation(fields: [roleId], references: [id], onDelete: Cascade, map: "role")
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, map: "members")
+
+  @@id([associationId, userId])
+}
+
+model Event {
+  id            Int         @id() @default(autoincrement())
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt     DateTime?   @map("deleted_at") @db.Timestamp(6)
+  name          String      @db.VarChar
+  date          DateTime    @db.Timestamp(6)
+  content       String
+  associationId Int         @map("association_id")
+  association   Association @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "association")
+}
+
+model News {
+  id            Int         @id() @default(autoincrement())
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt     DateTime?   @map("deleted_at") @db.Timestamp(6)
+  userId        Int         @map("user_id")
+  associationId Int         @map("association_id")
+  content       String
+  association   Association @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "association")
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, map: "user")
+}
+
+model Role {
+  id                  Int                 @id() @default(autoincrement())
+  createdAt           DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime            @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt           DateTime?           @map("deleted_at") @db.Timestamp(6)
+  name                String              @db.VarChar
+  associationId       Int                 @map("association_id")
+  association         Association         @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "association")
+  associationsMembers AssociationMember[]
+
+  @@unique([name, associationId], map: "unique_role_name_per_association")
+}
+
+model Stock {
+  id            Int         @id() @default(autoincrement())
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt     DateTime?   @map("deleted_at") @db.Timestamp(6)
+  name          String      @db.VarChar
+  count         Int
+  associationId Int         @map("association_id")
+  association   Association @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "association")
+  stocksLogs    StockLog[]
+
+  @@unique([name, associationId], map: "unique_stock_name_per_association")
+}
+
+model StockLog {
+  id        Int       @id() @default(autoincrement())
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamp(6)
+  stockId   Int       @map("stock_id")
+  userId    Int       @map("user_id")
+  oldCount  Int       @map("old_count")
+  newCount  Int       @map("new_count")
+  action    String    @default("update") @db.VarChar
+  stock     Stock     @relation(fields: [stockId], references: [id], onDelete: Cascade, map: "stock")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, map: "user")
+}
+
+model User {
+  id                  Int                 @id() @default(autoincrement())
+  createdAt           DateTime            @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt           DateTime            @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt           DateTime?           @map("deleted_at") @db.Timestamp(6)
+  firstname           String              @db.VarChar
+  lastname            String              @db.VarChar
+  email               String              @unique(map: "user_email_unique") @db.VarChar
+  passwordHash        String?             @map("password_hash") @db.VarChar
+  rtHash              String?             @map("rt_hash") @db.VarChar
+  googleId            String?             @map("google_id") @db.VarChar
+  isSchoolEmployee    Boolean             @default(false) @map("is_school_employee")
+  associationsMembers AssociationMember[]
+  news                News[]
+  stocksLogs          StockLog[]
+}

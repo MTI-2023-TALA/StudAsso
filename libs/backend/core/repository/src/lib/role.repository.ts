@@ -1,21 +1,37 @@
-import { CreateRoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
-import { BaseRepository } from './base.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { Role } from '@stud-asso/backend/core/orm';
+import { PrismaService } from '@stud-asso/backend/core/orm';
+import { Role } from '@prisma/client';
 
 @Injectable()
-export class RoleRepository extends BaseRepository<Role, CreateRoleDto, UpdateRoleDto> {
-  constructor(@InjectRepository(Role) private readonly roleRepository: Repository<Role>) {
-    super(roleRepository);
+export class RoleRepository {
+  constructor(private prisma: PrismaService) {}
+
+  public async create(createRole: any): Promise<Role> {
+    // TODO: interface
+    return this.prisma.role.create({ data: createRole });
+  }
+
+  public async findAll(): Promise<Role[]> {
+    return this.prisma.role.findMany();
+  }
+
+  public async findOne(id: number): Promise<Role> {
+    return this.prisma.role.findUnique({ where: { id } });
+  }
+
+  public async update(id: number, updateRole: any): Promise<Role> {
+    return this.prisma.role.update({ where: { id }, data: updateRole });
+  }
+
+  public async delete(id: number): Promise<Role> {
+    return this.prisma.role.delete({ where: { id } });
   }
 
   public async createRolePresident(associationId: number): Promise<Role> {
-    return this.roleRepository.save({ name: 'Président', associationId });
+    return this.prisma.role.create({ data: { name: 'Président', associationId } });
   }
 
   public async findAllAsso(id: number): Promise<Role[]> {
-    return this.roleRepository.find({ associationId: id });
+    return this.prisma.role.findMany({ where: { associationId: id } });
   }
 }

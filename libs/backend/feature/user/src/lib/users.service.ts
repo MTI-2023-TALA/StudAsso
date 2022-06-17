@@ -1,23 +1,12 @@
-import { CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import { UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PostgresError } from 'pg-error-enum';
-import { UpdateResult } from 'typeorm';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
-
-  public async create(createUserDto: CreateUserDto): Promise<UserDto> {
-    try {
-      return await this.userRepository.create(createUserDto);
-    } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Email already used');
-      }
-    }
-  }
 
   public async findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
     return this.userRepository.findAllIdAndEmail();
@@ -39,14 +28,14 @@ export class UsersService {
     return user;
   }
 
-  public async update(id: number, updateBaseDto: UpdateUserDto): Promise<UpdateResult> {
+  public async update(id: number, updateBaseDto: UpdateUserDto): Promise<any> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new Error('User not found');
     }
 
     try {
-      return await this.userRepository.update(id, updateBaseDto);
+      return await this.userRepository.update(id, updateBaseDto as any);
     } catch (error) {
       if (error?.code === PostgresError.UNIQUE_VIOLATION) {
         throw new Error('Email already used');
@@ -54,7 +43,7 @@ export class UsersService {
     }
   }
 
-  public async delete(id: number): Promise<UpdateResult> {
+  public async delete(id: number): Promise<any> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new Error('User not found');
@@ -63,7 +52,6 @@ export class UsersService {
   }
 
   public async findAssoOfUser(id: number) {
-    const res = await this.userRepository.findAssoOfUser(id);
-    return { id: res.id, associationsId: res.associations.map((asso) => ({ id: asso.id, name: asso.name })) };
+    return this.userRepository.findAssoOfUser(id);
   }
 }

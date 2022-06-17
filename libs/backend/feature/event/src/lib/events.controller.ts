@@ -2,7 +2,6 @@ import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { EventsService } from './events.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-import { UpdateResult } from 'typeorm';
 
 @SwaggerController('events')
 export class EventsController {
@@ -24,12 +23,12 @@ export class EventsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto): Promise<UpdateResult> {
+  update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto): Promise<any> {
     return this.eventsService.update(+id, updateEventDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<UpdateResult> {
+  delete(@Param('id') id: string): Promise<any> {
     return this.eventsService.delete(+id);
   }
 }

@@ -1,1 +1,1 @@
-export * from './lib/backend-feature-news-feed.module';
+export * from './lib/backend-feature-news.module';

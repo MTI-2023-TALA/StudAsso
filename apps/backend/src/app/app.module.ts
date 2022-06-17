@@ -4,7 +4,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { BackendFeatureAssociationModule } from '@stud-asso/backend/feature/association';
 import { BackendFeatureAuthModule } from '@stud-asso/backend/feature/auth';
 import { BackendFeatureEventModule } from '@stud-asso/backend/feature/event';
-import { BackendFeatureNewsFeedModule } from '@stud-asso/backend/feature/news-feed';
+import { BackendFeatureNewsModule } from '@stud-asso/backend/feature/news-feed';
 import { BackendFeatureRoleModule } from '@stud-asso/backend/feature/role';
 import { BackendFeatureStockModule } from '@stud-asso/backend/feature/stock';
 import { BackendFeatureUserModule } from '@stud-asso/backend/feature/user';
@@ -23,7 +23,7 @@ import { getConnectionOptions } from 'typeorm';
     BackendFeatureAuthModule,
     BackendFeatureAssociationModule,
     BackendFeatureEventModule,
-    BackendFeatureNewsFeedModule,
+    BackendFeatureNewsModule,
     BackendFeatureRoleModule,
     BackendFeatureStockModule,
     BackendFeatureUserModule,

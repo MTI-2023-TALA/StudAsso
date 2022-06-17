@@ -1,14 +1,28 @@
-import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
-
-import { BaseRepository } from './base.repository';
-import { Event } from '@stud-asso/backend/core/orm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { Event } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { PrismaService } from '@stud-asso/backend/core/orm';
 
 @Injectable()
-export class EventRepository extends BaseRepository<Event, CreateEventDto, UpdateEventDto> {
-  constructor(@InjectRepository(Event) private readonly eventRepository: Repository<Event>) {
-    super(eventRepository);
+export class EventRepository {
+  constructor(private prisma: PrismaService) {}
+
+  public async create(createEvent: Event): Promise<Event> {
+    return this.prisma.event.create({ data: createEvent });
+  }
+
+  public async findAll(): Promise<Event[]> {
+    return this.prisma.event.findMany();
+  }
+
+  public async findOne(id: number): Promise<Event> {
+    return this.prisma.event.findUnique({ where: { id } });
+  }
+
+  public async update(id: number, updateEvent: Event): Promise<Event> {
+    return this.prisma.event.update({ where: { id }, data: updateEvent });
+  }
+
+  public async delete(id: number): Promise<Event> {
+    return this.prisma.event.delete({ where: { id } });
   }
 }
