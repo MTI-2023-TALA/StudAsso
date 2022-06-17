@@ -13,7 +13,6 @@ import {
 
 import { Injectable } from '@nestjs/common';
 import { PostgresError } from 'pg-error-enum';
-import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class AssociationsService {
@@ -91,7 +90,7 @@ export class AssociationsService {
     };
   }
 
-  public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<UpdateResult> {
+  public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<any> {
     const asso = await this.associationRepository.findOne(id);
     if (!asso) {
       throw new Error('Association Not Found');
@@ -106,7 +105,7 @@ export class AssociationsService {
     }
   }
 
-  public async delete(id: number): Promise<UpdateResult> {
+  public async delete(id: number): Promise<any> {
     return this.associationRepository.delete(id);
   }
 }

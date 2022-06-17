@@ -1,18 +1,32 @@
-import { CreateStockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
-
-import { BaseRepository } from './base.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { Stock } from '@stud-asso/backend/core/orm';
+import { PrismaService } from '@stud-asso/backend/core/orm';
+import { Stock } from '@prisma/client';
 
 @Injectable()
-export class StockRepository extends BaseRepository<Stock, CreateStockDto, UpdateStockDto> {
-  constructor(@InjectRepository(Stock) private readonly stockRepository: Repository<Stock>) {
-    super(stockRepository);
+export class StockRepository {
+  constructor(private prisma: PrismaService) {}
+  public async create(createStock: any): Promise<Stock> {
+    // TODO: interface
+    return this.prisma.stock.create({ data: createStock });
+  }
+
+  public async findAll(): Promise<Stock[]> {
+    return this.prisma.stock.findMany();
+  }
+
+  public async findOne(id: number): Promise<Stock> {
+    return this.prisma.stock.findUnique({ where: { id } });
+  }
+
+  public async update(id: number, updateRole: any): Promise<Stock> {
+    return this.prisma.stock.update({ where: { id }, data: updateRole });
+  }
+
+  public async delete(id: number): Promise<Stock> {
+    return this.prisma.stock.delete({ where: { id } });
   }
 
   public findAllAsso(id: number): Promise<Stock[]> {
-    return this.stockRepository.find({ associationId: id });
+    return this.prisma.stock.findMany({ where: { associationId: id } });
   }
 }

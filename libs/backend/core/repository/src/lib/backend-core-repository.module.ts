@@ -3,7 +3,7 @@ import { AssociationsMemberRepository } from './associations-member.repository';
 import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
 import { EventRepository } from './event.repository';
 import { Module } from '@nestjs/common';
-import { NewsFeedRepository } from './news-feed.repository';
+import { NewsRepository } from './news.repository';
 import { RoleRepository } from './role.repository';
 import { StockLogsRepository } from './stock-logs.repository';
 import { StockRepository } from './stock.repository';
@@ -16,7 +16,7 @@ import { UserRepository } from './user.repository';
     AssociationRepository,
     AssociationsMemberRepository,
     EventRepository,
-    NewsFeedRepository,
+    NewsRepository,
     RoleRepository,
     StockRepository,
     StockLogsRepository,
@@ -26,7 +26,7 @@ import { UserRepository } from './user.repository';
     AssociationRepository,
     AssociationsMemberRepository,
     EventRepository,
-    NewsFeedRepository,
+    NewsRepository,
     RoleRepository,
     StockRepository,
     StockLogsRepository,

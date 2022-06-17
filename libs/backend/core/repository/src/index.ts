@@ -6,5 +6,5 @@ export * from './lib/event.repository';
 export * from './lib/stock.repository';
 export * from './lib/stock-logs.repository';
 export * from './lib/role.repository';
-export * from './lib/news-feed.repository';
+export * from './lib/news.repository';
 export * from './lib/user.repository';

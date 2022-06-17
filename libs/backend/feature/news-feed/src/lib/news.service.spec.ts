@@ -2,8 +2,8 @@ import { CreateNewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { NewsFeed } from '@stud-asso/backend/core/orm';
-import { NewsFeedRepository } from '@stud-asso/backend/core/repository';
-import { NewsFeedService } from './news-feed.service';
+import { NewsRepository } from '@stud-asso/backend/core/repository';
+import { NewsService } from './news.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
@@ -28,16 +28,16 @@ const mockedUpdateResult: UpdateResult = {
   affected: 1,
 };
 
-describe('NewsFeedService', () => {
-  let service: NewsFeedService;
-  let newsFeedRepository: NewsFeedRepository;
+describe('NewsService', () => {
+  let service: NewsService;
+  let repository: NewsRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        NewsFeedService,
+        NewsService,
         {
-          provide: NewsFeedRepository,
+          provide: NewsRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
             findAll: jest.fn(() => Promise.resolve(mockedNewsFeed)),
@@ -49,17 +49,17 @@ describe('NewsFeedService', () => {
       ],
     }).compile();
 
-    service = module.get<NewsFeedService>(NewsFeedService);
-    newsFeedRepository = module.get<NewsFeedRepository>(NewsFeedRepository);
+    service = module.get<NewsService>(NewsService);
+    repository = module.get<NewsRepository>(NewsRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
 
   describe('createNewsFeed', () => {
-    it('should call newsFeedRepository.create with correct params', async () => {
+    it('should call NewsRepository.create with correct params', async () => {
       const createNewsFeedParams = { userId: 1, associationId: 1, content: 'content1' };
       const createNewsFeedDto = plainToInstance(CreateNewsFeedDto, createNewsFeedParams);
-      const create = jest.spyOn(newsFeedRepository, 'create');
+      const create = jest.spyOn(repository, 'create');
 
       const createResultRetrieved = await service.create(createNewsFeedDto);
       expect(createResultRetrieved).toEqual(mockedNewsFeed[0]);
@@ -70,8 +70,8 @@ describe('NewsFeedService', () => {
   });
 
   describe('findAllNewsFeed', () => {
-    it('should call newsFeedRepository.findAll', async () => {
-      const findAll = jest.spyOn(newsFeedRepository, 'findAll');
+    it('should call NewsRepository.findAll', async () => {
+      const findAll = jest.spyOn(repository, 'findAll');
 
       const newsFeedRetrieved = await service.findAll();
       expect(newsFeedRetrieved).toEqual(mockedNewsFeed);
@@ -82,8 +82,8 @@ describe('NewsFeedService', () => {
   });
 
   describe('findOneNewsFeed', () => {
-    it('should call newsFeedRepository.findOne', async () => {
-      const findOne = jest.spyOn(newsFeedRepository, 'findOne');
+    it('should call NewsRepository.findOne', async () => {
+      const findOne = jest.spyOn(repository, 'findOne');
 
       const newsFeedRetrieved = await service.findOne(1);
       expect(newsFeedRetrieved).toEqual(mockedNewsFeed[0]);
@@ -94,9 +94,9 @@ describe('NewsFeedService', () => {
   });
 
   describe('updateNewsFeed', () => {
-    it('shoud call newsFeedRepository.update', async () => {
+    it('shoud call NewsRepository.update', async () => {
       const updateNewsFeedDto = plainToInstance(UpdateNewsFeedDto, { content: 'content renamed' });
-      const update = jest.spyOn(newsFeedRepository, 'update');
+      const update = jest.spyOn(repository, 'update');
 
       const updateResultRetrieved = await service.update(1, updateNewsFeedDto);
       expect(updateResultRetrieved).toEqual(mockedUpdateResult);
@@ -107,8 +107,8 @@ describe('NewsFeedService', () => {
   });
 
   describe('deleteNewsFeed', () => {
-    it('shoud call newsFeedRepository.remove', async () => {
-      const deleteCall = jest.spyOn(newsFeedRepository, 'delete');
+    it('shoud call NewsRepository.remove', async () => {
+      const deleteCall = jest.spyOn(repository, 'delete');
 
       const deleteResultRetrieved = await service.delete(1);
       expect(deleteResultRetrieved).toEqual(mockedUpdateResult);

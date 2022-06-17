@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { NewsFeedController } from './news-feed.controller';
+import { NewsController } from './news.controller';
 import { NewsFeedDto } from '@stud-asso/shared/dtos';
-import { NewsFeedService } from './news-feed.service';
+import { NewsFeedService } from './news.service';
 import { UpdateResult } from 'typeorm';
 
 const mockCreateNewsFeedDto: NewsFeedDto = { id: 1, userId: 1, associationId: 1, content: 'content' };
@@ -16,13 +16,13 @@ const mockedUpdateResult: UpdateResult = {
   affected: 1,
 };
 
-describe('NewsFeedController', () => {
-  let controller: NewsFeedController;
+describe('NewsController', () => {
+  let controller: NewsController;
   let service: NewsFeedService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [NewsFeedController],
+      controllers: [NewsController],
       providers: [
         {
           provide: NewsFeedService,
@@ -37,7 +37,7 @@ describe('NewsFeedController', () => {
       ],
     }).compile();
 
-    controller = module.get<NewsFeedController>(NewsFeedController);
+    controller = module.get<NewsController>(NewsController);
     service = await module.get<NewsFeedService>(NewsFeedService);
   });
 

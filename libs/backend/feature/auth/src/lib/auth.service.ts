@@ -37,6 +37,7 @@ export class AuthService {
       }
     }
 
+    console.log(user);
     const tokens = await this._getTokens(user.id, dto.email);
     this._updateRtToken(user.id, tokens.refreshToken);
 

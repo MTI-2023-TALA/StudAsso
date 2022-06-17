@@ -8,3 +8,4 @@ export * from './lib/stock.entity';
 export * from './lib/stock-logs.entity';
 export * from './lib/user.entity';
 export * from './lib/base.entity';
+export * from './lib/prisma.service';
