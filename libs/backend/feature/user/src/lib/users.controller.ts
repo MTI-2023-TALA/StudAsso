@@ -1,21 +1,12 @@
 import { AssoUserDto, CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
-import {
-  BadRequestException,
-  Body,
-  Controller,
-  Delete,
-  Get,
-  NotFoundException,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 import { UpdateResult } from 'typeorm';
 import { UsersService } from './users.service';
 
-@Controller('users')
+@SwaggerController('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 

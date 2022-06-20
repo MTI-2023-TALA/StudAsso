@@ -2,7 +2,6 @@ import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, Update
 import {
   BadRequestException,
   Body,
-  Controller,
   Delete,
   Get,
   NotFoundException,
@@ -12,9 +11,10 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 import { UpdateResult } from 'typeorm';
 
-@Controller('roles')
+@SwaggerController('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
