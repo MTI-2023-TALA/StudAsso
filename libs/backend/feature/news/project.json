@@ -1,19 +1,19 @@
 {
-  "root": "libs/backend/feature/news-feed",
-  "sourceRoot": "libs/backend/feature/news-feed/src",
+  "root": "libs/backend/feature/news",
+  "sourceRoot": "libs/backend/feature/news/src",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/backend/feature/news-feed/**/*.ts"]
+        "lintFilePatterns": ["libs/backend/feature/news/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/backend/feature/news-feed"],
+      "outputs": ["coverage/libs/backend/feature/news"],
       "options": {
-        "jestConfig": "libs/backend/feature/news-feed/jest.config.js",
+        "jestConfig": "libs/backend/feature/news/jest.config.js",
         "passWithNoTests": true
       }
     }

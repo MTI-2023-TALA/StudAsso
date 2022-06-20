@@ -8,7 +8,6 @@ import {
 
 import { Injectable } from '@nestjs/common';
 import { PostgresError } from 'pg-error-enum';
-import { UpdateResult } from 'typeorm';
 
 @Injectable()
 export class RolesService {
@@ -23,6 +22,7 @@ export class RolesService {
     try {
       return await this.roleRepository.create(createBaseDto);
     } catch (error) {
+      //TODO: handle error
       if (error?.code === PostgresError.UNIQUE_VIOLATION) {
         throw new Error('Name already exists');
       }

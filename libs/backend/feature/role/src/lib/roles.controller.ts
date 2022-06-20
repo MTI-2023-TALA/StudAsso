@@ -55,7 +55,7 @@ export class RolesController {
     try {
       return await this.rolesService.update(+id, updateRoleDto);
     } catch (error) {
-      throw new BadRequestException();
+      throw new BadRequestException(error?.message);
     }
   }
 
@@ -64,7 +64,7 @@ export class RolesController {
     try {
       return await this.rolesService.delete(+id);
     } catch (error) {
-      throw new BadRequestException();
+      throw new BadRequestException(error.message);
     }
   }
 }
