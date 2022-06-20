@@ -34,9 +34,6 @@ export class StockLogsRepository {
             isSchoolEmployee: true,
           },
         },
-        stock: {
-          select: {},
-        },
       },
     });
   }

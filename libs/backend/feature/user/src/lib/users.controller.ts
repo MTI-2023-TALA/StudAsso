@@ -10,26 +10,6 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('IdAndEmail')
-  findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
-    return this.usersService.findAllIdAndEmail();
-  }
-
-  @Get('asso')
-  findAssoOfUser(@GetCurrentUserId() userId: number): Promise<AssoUserDto> {
-    return this.usersService.findAssoOfUser(userId);
-  }
-
-  @Get()
-  findAll(): Promise<UserDto[]> {
-    return this.usersService.findAll();
-  }
-
-  @Get('name/:name')
-  async findAllByName(@Param('name') name: string): Promise<UserDto[]> {
-    return this.usersService.findAllByName(name);
-  }
-
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<UserDto> {
     try {
@@ -37,6 +17,27 @@ export class UsersController {
     } catch (error) {
       throw new NotFoundException('User Not Found');
     }
+  }
+
+  @Get()
+  findAll(): Promise<UserDto[]> {
+    return this.usersService.findAll();
+  }
+
+  @Get('IdAndEmail')
+  findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
+    return this.usersService.findAllIdAndEmail();
+  }
+
+  @Get('asso')
+  findAssoOfUser(@GetCurrentUserId() userId: number): Promise<AssoUserDto> {
+    //TODO: handle error if no asso for user
+    return this.usersService.findAssoOfUser(userId);
+  }
+
+  @Get('name/:name')
+  async findAllByName(@Param('name') name: string): Promise<UserDto[]> {
+    return this.usersService.findAllByName(name);
   }
 
   @Patch(':id')

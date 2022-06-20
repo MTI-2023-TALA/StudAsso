@@ -6,14 +6,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/backend/feature/news-feed/**/*.ts"]
+        "lintFilePatterns": ["libs/backend/feature/news/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/backend/feature/news-feed"],
+      "outputs": ["coverage/libs/backend/feature/news"],
       "options": {
-        "jestConfig": "libs/backend/feature/news-feed/jest.config.js",
+        "jestConfig": "libs/backend/feature/news/jest.config.js",
         "passWithNoTests": true
       }
     }

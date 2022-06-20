@@ -71,9 +71,7 @@ export class AssociationRepository {
           },
         },
       },
-      select: {
-        ...this.selectAssoWithPresident,
-      },
+      select: this.selectAssoWithPresident,
     });
   }
 

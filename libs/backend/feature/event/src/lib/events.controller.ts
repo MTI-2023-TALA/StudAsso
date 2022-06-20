@@ -9,6 +9,7 @@ export class EventsController {
 
   @Post()
   create(@Body() createEventDto: CreateEventDto): Promise<EventDto> {
+    createEventDto.date = new Date(createEventDto.date);
     return this.eventsService.create(createEventDto);
   }
 
@@ -24,6 +25,7 @@ export class EventsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto): Promise<any> {
+    if (updateEventDto.date) updateEventDto.date = new Date(updateEventDto.date);
     return this.eventsService.update(+id, updateEventDto);
   }
 
