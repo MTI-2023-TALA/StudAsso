@@ -62,8 +62,7 @@ export class UserRepository {
   public async findAllByName(name: string): Promise<User[]> {
     return this.prisma.user.findMany({
       where: {
-        lastname: { contains: name },
-        firstname: { contains: name },
+        OR: [{ firstname: { contains: name } }, { lastname: { contains: name } }],
       },
     });
   }

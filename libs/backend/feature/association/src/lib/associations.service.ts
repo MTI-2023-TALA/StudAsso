@@ -25,7 +25,10 @@ export class AssociationsService {
   public async create(createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
     // TODO: bug where presidentId is returned in Dto TO FIX
     try {
-      const createdAsso = await this.associationRepository.create(createAssociationDto);
+      const createdAsso = await this.associationRepository.create({
+        name: createAssociationDto.name,
+        description: createAssociationDto.description,
+      });
       const { id } = await this.roleRepository.createRolePresident(createdAsso.id);
       await this.associationsMemberRepository.linkUserToRole(createdAsso.id, createAssociationDto.presidentId, id);
       return createdAsso;
@@ -43,20 +46,7 @@ export class AssociationsService {
   }
 
   public async findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
-    const associationsWithPresident = await this.associationRepository.findAllWithPresident();
-    return associationsWithPresident.map(
-      (asso) =>
-        new AssociationWithPresidentDto(
-          asso['id'],
-          asso['name'],
-          asso['description'],
-          asso['president_id'],
-          asso['firstname'],
-          asso['lastname'],
-          asso['email'],
-          asso['is_school_employee']
-        )
-    );
+    return this.associationRepository.findAllWithPresident();
   }
 
   public async findOneWithPresident(id: number): Promise<AssociationWithPresidentDto> {
@@ -64,16 +54,7 @@ export class AssociationsService {
     if (!asso) {
       throw new Error('Association Not Found');
     }
-    return new AssociationWithPresidentDto(
-      asso['id'],
-      asso['name'],
-      asso['description'],
-      asso['president_id'],
-      asso['firstname'],
-      asso['lastname'],
-      asso['email'],
-      asso['is_school_employee']
-    );
+    return asso;
   }
 
   public async findAssociationPresident(associationId: number): Promise<UserDto> {
@@ -81,13 +62,7 @@ export class AssociationsService {
     if (!president) {
       throw new Error('Association Not Found');
     }
-    return {
-      id: president['id'],
-      firstname: president['firstname'],
-      lastname: president['lastname'],
-      email: president['email'],
-      isSchoolEmployee: president['is_school_employee'],
-    };
+    return president;
   }
 
   public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<any> {

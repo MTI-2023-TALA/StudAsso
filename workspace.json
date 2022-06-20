@@ -11,7 +11,7 @@
     "backend-feature-association": "libs/backend/feature/association",
     "backend-feature-auth": "libs/backend/feature/auth",
     "backend-feature-event": "libs/backend/feature/event",
-    "backend-feature-news-feed": "libs/backend/feature/news-feed",
+    "backend-feature-news": "libs/backend/feature/news",
     "backend-feature-role": "libs/backend/feature/role",
     "backend-feature-stock": "libs/backend/feature/stock",
     "backend-feature-user": "libs/backend/feature/user",

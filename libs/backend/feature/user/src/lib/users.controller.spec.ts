@@ -63,15 +63,6 @@ describe('UsersController', () => {
         {
           provide: UsersService,
           useValue: {
-            create: jest.fn((createUserPayload: CreateUserDto) => {
-              if (mockedUsers.find((user) => user.email === createUserPayload.email)) {
-                throw new Error('Email already used');
-              }
-              const id = mockedUsers.length + 1;
-              const newUser = plainToInstance(User, { id, ...createUserPayload });
-              mockedUsers.push(newUser);
-              return Promise.resolve(newUser);
-            }),
             findAllIdAndEmail: jest.fn(() => {
               return Promise.resolve(mockedUsers.map((user) => ({ id: user.id, email: user.email })));
             }),
@@ -122,39 +113,6 @@ describe('UsersController', () => {
   });
 
   afterEach(() => jest.clearAllMocks());
-
-  describe('Create User', () => {
-    it('should try to create a new user and fail', async () => {
-      const create = jest.spyOn(service, 'create');
-      const createUserPayload: CreateUserDto = {
-        firstname: 'Anakin',
-        lastname: 'Skywalker',
-        email: 'anakin.skywalker@test.test',
-        isSchoolEmployee: false,
-      };
-
-      expect(() => controller.create(createUserPayload)).rejects.toThrow(new Error('Email Already Used'));
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createUserPayload);
-    });
-
-    it('should create a new user', async () => {
-      const create = jest.spyOn(service, 'create');
-      const createUserPayload: CreateUserDto = {
-        firstname: 'Master',
-        lastname: 'Yoda',
-        email: 'master.yoda@test.test',
-        isSchoolEmployee: false,
-      };
-
-      const createdResult = { id: mockedUsers.length + 1, ...createUserPayload };
-
-      expect(await controller.create(createUserPayload)).toEqual(createdResult);
-      expect(mockedUsers).toContainEqual(createdResult);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createUserPayload);
-    });
-  });
 
   describe('Find All Users', () => {
     it('should find all users with id and email', async () => {
