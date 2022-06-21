@@ -1,7 +1,6 @@
 export * from './lib/association.repository';
 export * from './lib/associations-member.repository';
 export * from './lib/backend-core-repository.module';
-export * from './lib/base.repository';
 export * from './lib/event.repository';
 export * from './lib/stock.repository';
 export * from './lib/stock-logs.repository';
