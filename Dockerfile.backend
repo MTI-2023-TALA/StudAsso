@@ -1,0 +1,16 @@
+FROM node:lts-alpine
+WORKDIR /app
+
+# Install dependencies
+COPY ./package*.json .
+RUN npm ci
+
+# Copy the app
+COPY . .
+
+EXPOSE 3333
+
+RUN npx nx build backend
+# TODO: Remove useless file after building
+
+CMD [ "node", "dist/apps/backend/main.js" ]
