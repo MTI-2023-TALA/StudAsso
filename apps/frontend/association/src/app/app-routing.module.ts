@@ -11,6 +11,7 @@ import { StockPageComponent } from '@stud-asso/frontend/feature/association/stoc
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
+  { title: 'News', icon: 'newspaper', url: '/news' },
   { title: 'Rôles', icon: 'person-plus', url: '/roles' },
   { title: 'Stocks', icon: 'cart', url: '/stock' },
 ];
