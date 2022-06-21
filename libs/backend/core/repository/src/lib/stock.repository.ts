@@ -16,19 +16,23 @@ export class StockRepository {
     return this.prisma.stock.findMany();
   }
 
+  public findAllAsso(id: number): Promise<Stock[]> {
+    return this.prisma.stock.findMany({ where: { associationId: id } });
+  }
+
   public async findOne(id: number): Promise<Stock> {
     return this.prisma.stock.findUnique({ where: { id } });
   }
 
-  public async update(id: number, updateRole: any): Promise<Stock> {
-    return this.prisma.stock.update({ where: { id }, data: updateRole });
+  public async update(id: number, updateRole: any, currentTransaction: any = null): Promise<Stock> {
+    // TODO: Cannot put TransactionClient type
+    const client = currentTransaction ? currentTransaction : this.prisma;
+    return client.update({ where: { id }, data: updateRole });
   }
 
-  public async delete(id: number): Promise<Stock> {
-    return this.prisma.stock.delete({ where: { id } });
-  }
-
-  public findAllAsso(id: number): Promise<Stock[]> {
-    return this.prisma.stock.findMany({ where: { associationId: id } });
+  public async delete(id: number, currentTransaction: any = null): Promise<Stock> {
+    // TODO: Cannot put TransactionClient type
+    const client = currentTransaction ? currentTransaction : this.prisma;
+    return client.stock.delete({ where: { id } });
   }
 }

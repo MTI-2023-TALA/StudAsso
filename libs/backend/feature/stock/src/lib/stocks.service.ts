@@ -56,20 +56,27 @@ export class StocksService {
   }
 
   public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<any> {
-    const stockBeforeUpdate = await this.stockRepository.findOne(id);
-    if (!stockBeforeUpdate) {
-      throw new Error('Stock Not Found');
-    }
-    const updatedStock = await this.stockRepository.update(id, updateBaseDto);
-    await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateBaseDto.count, 'update');
-    return updatedStock;
+    return await this.prismaService.$transaction(async (transaction) => {
+      const stockBeforeUpdate = await this.stockRepository.findOne(id);
+      if (!stockBeforeUpdate) {
+        throw new Error('Stock Not Found');
+      }
+      const updatedStock = await this.stockRepository.update(id, updateBaseDto, transaction);
+      await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateBaseDto.count, 'update', transaction);
+      return updatedStock;
+    });
   }
 
   public async delete(id: number, userId: number): Promise<any> {
-    const stockBeforeDelete = await this.stockRepository.findOne(id);
-    const deletedStock = await this.stockRepository.delete(id);
-    await this.createStocksLogs(id, userId, stockBeforeDelete.count, 0, 'delete');
-    return deletedStock;
+    return await this.prismaService.$transaction(async (transaction) => {
+      const stockBeforeDelete = await this.stockRepository.findOne(id);
+      if (!stockBeforeDelete) {
+        throw new Error('Stock Not Found');
+      }
+      const deletedStock = await this.stockRepository.delete(id, transaction);
+      await this.createStocksLogs(id, userId, stockBeforeDelete.count, 0, 'delete', transaction);
+      return deletedStock;
+    });
   }
 
   private async createStocksLogs(

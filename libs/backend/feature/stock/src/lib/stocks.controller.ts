@@ -54,6 +54,7 @@ export class StocksController {
   @Delete(':id')
   public async delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<any> {
     //TODO: soft delete and careful with stock logs
+    // TODO: handle errors from service
     return this.stocksService.delete(+id, userId);
   }
 }
