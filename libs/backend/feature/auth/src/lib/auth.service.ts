@@ -111,14 +111,17 @@ export class AuthService {
   private async _getTokens(userId: number, email: string): Promise<TokenDto> {
     const jwtPayload: JwtPayload = { sub: userId, email };
 
+    const atExpiry = this.config.get<string>('AT_EXPIRY') || '15';
+    const rtExpiry = this.config.get<string>('RT_EXPIRY') || '7';
+
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get('AT_SECRET'),
-        expiresIn: '15m',
+        expiresIn: `${atExpiry}m`,
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),
-        expiresIn: '7d',
+        expiresIn: `${rtExpiry}d`,
       }),
     ]);
 
