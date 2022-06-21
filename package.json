@@ -92,7 +92,6 @@
     "googleapis": "^104.0.0",
     "jwt-decode": "^3.1.2",
     "passport-jwt": "^4.0.0",
-    "pg": "^8.7.3",
     "pg-error-enum": "^0.5.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.4.0",

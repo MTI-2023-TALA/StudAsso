@@ -8,7 +8,6 @@ import { CreateRoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { PostgresError } from 'pg-error-enum';
-import { Role } from '@stud-asso/backend/core/orm';
 import { RolesService } from './roles.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
@@ -66,7 +65,7 @@ describe('RolesService', () => {
                 throw new PostgresErrorMock(PostgresError.UNIQUE_VIOLATION, 'Name already exists');
               }
               const id = mockedRoles.length + 1;
-              const newRole = plainToInstance(Role, { id, ...createRolePayload });
+              const newRole = { id, ...createRolePayload };
               mockedRoles.push(newRole);
               return Promise.resolve(newRole);
             }),

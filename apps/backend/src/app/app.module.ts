@@ -10,15 +10,10 @@ import { BackendFeatureStockModule } from '@stud-asso/backend/feature/stock';
 import { BackendFeatureUserModule } from '@stud-asso/backend/feature/user';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { getConnectionOptions } from 'typeorm';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRootAsync({
-      useFactory: async () => Object.assign(await getConnectionOptions(), { autoLoadEntities: true }),
-    }),
     BackendCoreAuthModule,
     BackendFeatureAuthModule,
     BackendFeatureAssociationModule,

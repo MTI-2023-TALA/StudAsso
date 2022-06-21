@@ -1,25 +1,24 @@
 import { CreateNewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { NewsFeed } from '@stud-asso/backend/core/orm';
 import { NewsRepository } from '@stud-asso/backend/core/repository';
 import { NewsService } from './news.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
 const mockedNewsFeed = [
-  plainToInstance(NewsFeed, {
+  {
     id: 1,
     userId: 1,
     associationId: 1,
     content: 'content1',
-  }),
-  plainToInstance(NewsFeed, {
+  },
+  {
     id: 2,
     userId: 2,
     associationId: 2,
     content: 'content2',
-  }),
+  },
 ];
 
 const mockedUpdateResult: UpdateResult = {

@@ -164,7 +164,7 @@ describe('RolesController', () => {
         name: 'Membre',
       };
 
-      expect(() => controller.update(id, updateRolePayload)).rejects.toThrow(new Error('Bad Request'));
+      expect(() => controller.update(id, updateRolePayload)).rejects.toThrow(new Error('Role not found'));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateRolePayload);
     });
@@ -173,7 +173,9 @@ describe('RolesController', () => {
       const update = jest.spyOn(service, 'update');
       const id = '1';
 
-      expect(() => controller.update(id, { name: 'Update Président' })).rejects.toThrow(new Error('Bad Request'));
+      expect(() => controller.update(id, { name: 'Update Président' })).rejects.toThrow(
+        new Error('Cannot update role')
+      );
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, { name: 'Update Président' });
     });
@@ -199,7 +201,7 @@ describe('RolesController', () => {
       const deleteOne = jest.spyOn(service, 'delete');
       const id = '-1';
 
-      expect(() => controller.delete(id)).rejects.toThrow(new Error('Bad Request'));
+      expect(() => controller.delete(id)).rejects.toThrow(new Error('Role not found'));
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
     });
@@ -208,7 +210,7 @@ describe('RolesController', () => {
       const deleteOne = jest.spyOn(service, 'delete');
       const id = '1';
 
-      expect(() => controller.delete(id)).rejects.toThrow(new Error('Bad Request'));
+      expect(() => controller.delete(id)).rejects.toThrow(new Error('Cannot delete role'));
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
     });
