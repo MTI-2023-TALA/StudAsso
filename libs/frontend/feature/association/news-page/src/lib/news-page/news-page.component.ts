@@ -44,7 +44,6 @@ export class NewsPageComponent implements OnInit {
       this.newsList = newsList;
       this.isLoading = false;
     });
-    return;
   }
 
   createNews(): (data: ICreateNewsFormly) => void {
@@ -62,7 +61,6 @@ export class NewsPageComponent implements OnInit {
         this.toast.addAlert({ title: 'News créée', type: ToastType.Success });
         this.reloadData();
       });
-      return;
     };
   }
 
@@ -73,6 +71,5 @@ export class NewsPageComponent implements OnInit {
       submitBtnText: 'Créer',
       submit: this.createNews(),
     });
-    return;
   }
 }
