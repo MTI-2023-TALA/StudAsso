@@ -6,8 +6,11 @@ import { StockLog } from '@prisma/client';
 export class StockLogsRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(createStockLog: any): Promise<StockLog> {
-    return this.prisma.stockLog.create({ data: createStockLog });
+  public async create(createStockLog: any, currentTransaction: any = null): Promise<StockLog> {
+    // TODO: interface
+    // TODO: Cannot put TransactionClient type
+    const client = currentTransaction ? currentTransaction : this.prisma;
+    return client.stockLog.create({ data: createStockLog });
   }
 
   public async findAllAssoStockLogs(associationId: number): Promise<any[]> {

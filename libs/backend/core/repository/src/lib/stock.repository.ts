@@ -5,9 +5,11 @@ import { Stock } from '@prisma/client';
 @Injectable()
 export class StockRepository {
   constructor(private prisma: PrismaService) {}
-  public async create(createStock: any): Promise<Stock> {
+  public async create(createStock: any, currentTransaction: any = null): Promise<Stock> {
+    // TODO: Cannot put TransactionClient type
     // TODO: interface
-    return this.prisma.stock.create({ data: createStock });
+    const client = currentTransaction ? currentTransaction : this.prisma;
+    return client.stock.create({ data: createStock });
   }
 
   public async findAll(): Promise<Stock[]> {
