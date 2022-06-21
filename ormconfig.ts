@@ -1,6 +1,6 @@
 module.exports = {
   type: 'postgres',
-  host: 'localhost',
+  host: 'studasso-database',
   port: 5432,
   username: 'postgres',
   password: 'password',
