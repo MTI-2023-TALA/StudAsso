@@ -2,7 +2,6 @@ import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateNewsFeedDto, NewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
 import { NewsService } from './news.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-import { UpdateResult } from 'typeorm';
 
 @SwaggerController('news')
 export class NewsController {
@@ -24,12 +23,12 @@ export class NewsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNewsFeedDto: UpdateNewsFeedDto): Promise<UpdateResult> {
+  update(@Param('id') id: string, @Body() updateNewsFeedDto: UpdateNewsFeedDto): Promise<any> {
     return this.newsFeedService.update(+id, updateNewsFeedDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string): Promise<UpdateResult> {
+  delete(@Param('id') id: string): Promise<any> {
     return this.newsFeedService.delete(+id);
   }
 }

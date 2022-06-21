@@ -9,9 +9,6 @@
     "cd": "node dist/apps/backend/main.js",
     "prepare": "husky install",
     "postinstall": "ngcc --properties es2015 browser module main",
-    "migration:create": "npx typeorm migration:create -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
-    "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
-    "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
     "docker": "docker-compose -f docker-compose.yml up"
   },
   "prisma": {
@@ -79,7 +76,6 @@
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/swagger": "^5.2.1",
-    "@nestjs/typeorm": "^8.0.3",
     "@ngx-formly/core": "^5.12.1",
     "@prisma/client": "^3.15.2",
     "argon2": "^0.28.5",
@@ -89,7 +85,6 @@
     "class-validator": "^0.13.2",
     "jwt-decode": "^3.1.2",
     "passport-jwt": "^4.0.0",
-    "pg": "^8.7.3",
     "pg-error-enum": "^0.5.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",

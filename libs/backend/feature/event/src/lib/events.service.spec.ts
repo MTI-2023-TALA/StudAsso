@@ -1,27 +1,26 @@
 import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { Event } from '@stud-asso/backend/core/orm';
 import { EventRepository } from '@stud-asso/backend/core/repository';
 import { EventsService } from './events.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
 const mockedEvents = [
-  plainToInstance(Event, {
+  {
     id: 1,
     name: 'Event1',
     date: new Date('2022-01-15'),
     content: 'An amazing description',
     associationId: 1,
-  }),
-  plainToInstance(Event, {
+  },
+  {
     id: 2,
     name: 'Event2',
     date: new Date('2022-02-15'),
     content: 'An amazing description again',
     associationId: 2,
-  }),
+  },
 ];
 
 const mockedUpdateResult: UpdateResult = {
@@ -32,7 +31,7 @@ const mockedUpdateResult: UpdateResult = {
 
 describe('EventsService', () => {
   let service: EventsService;
-  let eventsRepository: EventRepository;
+  let repository: EventRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -52,7 +51,7 @@ describe('EventsService', () => {
     }).compile();
 
     service = module.get<EventsService>(EventsService);
-    eventsRepository = module.get<EventRepository>(EventRepository);
+    repository = module.get<EventRepository>(EventRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -66,7 +65,7 @@ describe('EventsService', () => {
         associationId: 1,
       };
       const createEventDto = plainToInstance(CreateEventDto, createEventParams);
-      const create = jest.spyOn(eventsRepository, 'create');
+      const create = jest.spyOn(repository, 'create');
 
       const createResultRetrieved = await service.create(createEventDto);
       expect(createResultRetrieved).toEqual(mockedEvents[0]);
@@ -78,7 +77,7 @@ describe('EventsService', () => {
 
   describe('findAllEvents', () => {
     it('should call eventRepository.findAll', async () => {
-      const findAll = jest.spyOn(eventsRepository, 'findAll');
+      const findAll = jest.spyOn(repository, 'findAll');
 
       const eventsRetrieved = await service.findAll();
       expect(eventsRetrieved).toEqual(mockedEvents);
@@ -90,7 +89,7 @@ describe('EventsService', () => {
 
   describe('findOneEvent', () => {
     it('should call eventRepository.findOne', async () => {
-      const findOne = jest.spyOn(eventsRepository, 'findOne');
+      const findOne = jest.spyOn(repository, 'findOne');
 
       const eventRetrieved = await service.findOne(1);
       expect(eventRetrieved).toEqual(mockedEvents[0]);
@@ -103,7 +102,7 @@ describe('EventsService', () => {
   describe('updateEvent', () => {
     it('shoud call eventRepository.update', async () => {
       const updateEventDto = plainToInstance(UpdateEventDto, { content: 'Event1 Renamed' });
-      const update = jest.spyOn(eventsRepository, 'update');
+      const update = jest.spyOn(repository, 'update');
 
       const updateResultRetrieved = await service.update(1, updateEventDto);
       expect(updateResultRetrieved).toEqual(mockedUpdateResult);
@@ -115,7 +114,7 @@ describe('EventsService', () => {
 
   describe('deleteEvent', () => {
     it('shoud call eventRepository.remove', async () => {
-      const deleteCall = jest.spyOn(eventsRepository, 'delete');
+      const deleteCall = jest.spyOn(repository, 'delete');
 
       const deleteResultRetrieved = await service.delete(1);
       expect(deleteResultRetrieved).toEqual(mockedUpdateResult);

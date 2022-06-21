@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { NewsController } from './news.controller';
 import { NewsFeedDto } from '@stud-asso/shared/dtos';
-import { NewsFeedService } from './news.service';
+import { NewsService } from './news.service';
 import { UpdateResult } from 'typeorm';
 
 const mockCreateNewsFeedDto: NewsFeedDto = { id: 1, userId: 1, associationId: 1, content: 'content' };
@@ -18,14 +18,14 @@ const mockedUpdateResult: UpdateResult = {
 
 describe('NewsController', () => {
   let controller: NewsController;
-  let service: NewsFeedService;
+  let service: NewsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [NewsController],
       providers: [
         {
-          provide: NewsFeedService,
+          provide: NewsService,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockCreateNewsFeedDto)),
             findAll: jest.fn(() => Promise.resolve(mockfindAllNewsFeed)),
@@ -38,7 +38,7 @@ describe('NewsController', () => {
     }).compile();
 
     controller = module.get<NewsController>(NewsController);
-    service = await module.get<NewsFeedService>(NewsFeedService);
+    service = await module.get<NewsService>(NewsService);
   });
 
   afterEach(() => jest.clearAllMocks());

@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { CreateUserDto } from '@stud-asso/shared/dtos';
 import { UpdateResult } from 'typeorm';
-import { User } from '@stud-asso/backend/core/orm';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
@@ -40,22 +39,22 @@ const mockedAssoOfUser = [
 describe('UsersController', () => {
   let controller: UsersController;
   let service: UsersService;
-  let mockedUsers: User[];
+  let mockedUsers;
 
   beforeEach(async () => {
     mockedUsers = [
-      plainToInstance(User, {
+      {
         id: 1,
         firstname: 'Anakin',
         lastname: 'Skywalker',
         email: 'anakin.skywalker@test.test',
-      }),
-      plainToInstance(User, {
+      },
+      {
         id: 2,
         firstname: 'Obi-Wan',
         lastname: 'Kenobi',
         email: 'obi-wan.kenobi@test.test',
-      }),
+      },
     ];
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],

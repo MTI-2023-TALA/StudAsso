@@ -1,5 +1,4 @@
 import { CreateStockDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
-import { Stock, StockLogs } from '@stud-asso/backend/core/orm';
 import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -7,19 +6,19 @@ import { StocksService } from './stocks.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
-const mockedStocks: Stock[] = [
-  plainToInstance(Stock, {
+const mockedStocks = [
+  {
     id: 1,
     name: 'Coca',
     count: 10,
     associationId: 1,
-  }),
-  plainToInstance(Stock, {
+  },
+  {
     id: 2,
     name: 'Tea',
     count: 42,
     associationId: 2,
-  }),
+  },
 ];
 
 const mockedStocksLogsWithUser: StockLogsWithUserDto[] = [
@@ -55,8 +54,8 @@ const mockedStocksLogsWithUser: StockLogsWithUserDto[] = [
   },
 ];
 
-const mockedStocksLogs: StockLogs[] = [
-  plainToInstance(StockLogs, {
+const mockedStocksLogs = [
+  {
     id: 1,
     stockId: 1,
     userId: 1,
@@ -64,7 +63,7 @@ const mockedStocksLogs: StockLogs[] = [
     newCount: 10,
     createdAt: new Date('2022-05-27'),
     action: 'create',
-  }),
+  },
 ];
 
 const mockedUpdateResult: UpdateResult = {

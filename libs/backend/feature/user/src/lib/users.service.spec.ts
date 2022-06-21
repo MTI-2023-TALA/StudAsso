@@ -3,7 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { CreateUserDto } from '@stud-asso/shared/dtos';
 import { PostgresError } from 'pg-error-enum';
 import { UpdateResult } from 'typeorm';
-import { User } from '@stud-asso/backend/core/orm';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 import { UsersService } from './users.service';
 import { plainToInstance } from 'class-transformer';
@@ -51,22 +50,22 @@ describe('UsersService', () => {
   let service: UsersService;
   let userRepository: UserRepository;
 
-  let mockedUsers: User[];
+  let mockedUsers;
 
   beforeEach(async () => {
     mockedUsers = [
-      plainToInstance(User, {
+      {
         id: 1,
         firstname: 'Anakin',
         lastname: 'Skywalker',
         email: 'anakin.skywalker@test.test',
-      }),
-      plainToInstance(User, {
+      },
+      {
         id: 2,
         firstname: 'Master',
         lastname: 'Yoda',
         email: 'master.yoda@test.test',
-      }),
+      },
     ];
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -222,7 +221,7 @@ describe('UsersService', () => {
     it('should not find any asso of user', async () => {
       const findAssoOfUser = jest.spyOn(userRepository, 'findAssoOfUser');
 
-      expect(await service.findAssoOfUser(2)).toEqual({ id: 2, associationsId: [] });
+      expect(await service.findAssoOfUser(2)).toEqual({ id: 2, associations: [] });
       expect(findAssoOfUser).toBeCalledTimes(1);
       expect(findAssoOfUser).toBeCalledWith(2);
     });
@@ -232,7 +231,7 @@ describe('UsersService', () => {
 
       expect(await service.findAssoOfUser(1)).toEqual({
         id: mockedAssoOfUser[0].id,
-        associationsId: mockedAssoOfUser[0].associations,
+        associations: mockedAssoOfUser[0].associations,
       });
       expect(findAssoOfUser).toBeCalledTimes(1);
       expect(findAssoOfUser).toBeCalledWith(1);
