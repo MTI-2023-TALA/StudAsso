@@ -3,7 +3,6 @@ import { CreateStockDto, StockDto, StockLogsDto, StockLogsWithUserDto, UpdateSto
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { StocksService } from './stocks.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-import { UpdateResult } from 'typeorm';
 
 @SwaggerController('stocks')
 export class StocksController {
@@ -44,7 +43,7 @@ export class StocksController {
     @Param('id') id: string,
     @GetCurrentUserId() userId: number,
     @Body() updateStockDto: UpdateStockDto
-  ): Promise<UpdateResult> {
+  ): Promise<any> {
     try {
       return await this.stocksService.update(+id, userId, updateStockDto);
     } catch (error) {
@@ -53,7 +52,7 @@ export class StocksController {
   }
 
   @Delete(':id')
-  public async delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<UpdateResult> {
+  public async delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<any> {
     //TODO: soft delete and careful with stock logs
     return this.stocksService.delete(+id, userId);
   }

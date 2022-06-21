@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-import { UpdateResult } from 'typeorm';
 
 @SwaggerController('roles')
 export class RolesController {
@@ -51,7 +50,7 @@ export class RolesController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<UpdateResult> {
+  async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<any> {
     try {
       return await this.rolesService.update(+id, updateRoleDto);
     } catch (error) {
@@ -60,7 +59,7 @@ export class RolesController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<UpdateResult> {
+  async delete(@Param('id') id: string): Promise<any> {
     try {
       return await this.rolesService.delete(+id);
     } catch (error) {
