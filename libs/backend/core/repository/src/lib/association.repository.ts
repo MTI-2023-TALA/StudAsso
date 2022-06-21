@@ -25,9 +25,11 @@ export class AssociationRepository {
 
   constructor(private prisma: PrismaService) {}
 
-  public async create(createAssociation: any): Promise<Association> {
+  public async create(createAssociation: any, currentTransaction: any = null): Promise<Association> {
+    // TODO: Cannot put TransactionClient type
     // TODO: interface
-    return this.prisma.association.create({ data: createAssociation });
+    const client = currentTransaction ? currentTransaction : this.prisma;
+    return client.association.create({ data: createAssociation });
   }
 
   public async findAll(): Promise<Association[]> {

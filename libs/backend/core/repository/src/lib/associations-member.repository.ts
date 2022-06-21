@@ -6,7 +6,14 @@ import { PrismaService } from '@stud-asso/backend/core/orm';
 export class AssociationsMemberRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async linkUserToRole(associationId: number, userId: number, roleId: number): Promise<AssociationMember> {
-    return this.prisma.associationMember.create({ data: { associationId, userId, roleId } });
+  public async linkUserToRole(
+    associationId: number,
+    userId: number,
+    roleId: number,
+    currentTransaction: any = null
+  ): Promise<AssociationMember> {
+    // TODO: Cannot put TransactionClient type
+    const client = currentTransaction ? currentTransaction : this.prisma;
+    return client.associationMember.create({ data: { associationId, userId, roleId } });
   }
 }

@@ -27,8 +27,10 @@ export class RoleRepository {
     return this.prisma.role.delete({ where: { id } });
   }
 
-  public async createRolePresident(associationId: number): Promise<Role> {
-    return this.prisma.role.create({ data: { name: 'Président', associationId } });
+  public async createRolePresident(associationId: number, currentTransaction: any = null): Promise<Role> {
+    // TODO: Cannot put TransactionClient type
+    const client = currentTransaction ? currentTransaction : this.prisma;
+    return client.role.create({ data: { name: 'Président', associationId } });
   }
 
   public async findAllAsso(id: number): Promise<Role[]> {
