@@ -1,17 +1,25 @@
 version: '3'
 services:
-  frontend-school:
-    build: ./apps/frontend/school/
-    ports:
-      - '8081:8081'
+  # frontend-school:
+  #   build: ./apps/frontend/school/
+  #   ports:
+  #     - '8081:8081'
   frontend-association:
-    build: ./apps/frontend/association/
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend.association
     ports:
-      - '4201:4201'
+      - '4201:80'
   backend:
-    build: ./apps/backend/
+    build:
+      context: .
+      dockerfile: ./Dockerfile.backend
     ports:
       - '3333:3333'
+    networks:
+      - backend
+    depends_on:
+      - database
   database:
     image: postgres:14-alpine3.15
     environment:
@@ -22,7 +30,12 @@ services:
       - "5432:5432"
     volumes:
       - stud-asso:/db
+    networks:
+      - backend
 
 
 volumes:
   stud-asso:
+
+networks:
+  backend:
