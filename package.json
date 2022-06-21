@@ -74,6 +74,7 @@
     "@nestjs/mapped-types": "^1.0.1",
     "@nestjs/passport": "^8.2.1",
     "@nestjs/platform-express": "^8.0.0",
+    "@nestjs/swagger": "^5.2.1",
     "@nestjs/typeorm": "^8.0.3",
     "@ngx-formly/core": "^5.12.1",
     "argon2": "^0.28.5",
@@ -87,6 +88,7 @@
     "pg-error-enum": "^0.5.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
+    "swagger-ui-express": "^4.4.0",
     "tslib": "^2.4.0",
     "typeorm": "^0.2.45",
     "zone.js": "^0.11.5"

@@ -21,6 +21,7 @@
       "@stud-asso/backend-core-migrations": ["libs/backend/core/migrations/src/index.ts"],
       "@stud-asso/backend/core/orm": ["libs/backend/core/orm/src/index.ts"],
       "@stud-asso/backend/core/repository": ["libs/backend/core/repository/src/index.ts"],
+      "@stud-asso/backend/core/swagger": ["libs/backend/core/swagger/src/index.ts"],
       "@stud-asso/backend/feature/association": ["libs/backend/feature/association/src/index.ts"],
       "@stud-asso/backend/feature/auth": ["libs/backend/feature/auth/src/index.ts"],
       "@stud-asso/backend/feature/event": ["libs/backend/feature/event/src/index.ts"],

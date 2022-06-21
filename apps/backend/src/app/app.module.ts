@@ -1,8 +1,6 @@
 import { AtGuard, BackendCoreAuthModule } from '@stud-asso/backend-core-auth';
 
 import { APP_GUARD } from '@nestjs/core';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { BackendFeatureAssociationModule } from '@stud-asso/backend/feature/association';
 import { BackendFeatureAuthModule } from '@stud-asso/backend/feature/auth';
 import { BackendFeatureEventModule } from '@stud-asso/backend/feature/event';
@@ -30,9 +28,8 @@ import { getConnectionOptions } from 'typeorm';
     BackendFeatureStockModule,
     BackendFeatureUserModule,
   ],
-  controllers: [AppController],
+  controllers: [],
   providers: [
-    AppService,
     {
       provide: APP_GUARD,
       useClass: AtGuard,

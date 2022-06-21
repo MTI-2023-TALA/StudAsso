@@ -1,10 +1,11 @@
 import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
-import { BadRequestException, Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
 import { AuthService } from './auth.service';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
-@Controller('auth')
+@SwaggerController('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 

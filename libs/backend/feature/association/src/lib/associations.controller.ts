@@ -8,7 +8,6 @@ import {
 import {
   BadRequestException,
   Body,
-  Controller,
   Delete,
   Get,
   NotFoundException,
@@ -18,9 +17,10 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { AssociationsService } from './associations.service';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 import { UpdateResult } from 'typeorm';
 
-@Controller('associations')
+@SwaggerController('associations')
 export class AssociationsController {
   constructor(private readonly associationsService: AssociationsService) {}
 
