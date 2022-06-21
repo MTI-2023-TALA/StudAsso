@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
+import { NewsPageComponent } from '@stud-asso/frontend/feature/association/news-page';
 import { NgModule } from '@angular/core';
 import { RolePageComponent } from '@stud-asso/frontend/feature/association/role-page';
 import { SelectionAssoPageComponent } from '@stud-asso/frontend/feature/association/select-association-page';
@@ -41,6 +42,10 @@ const routes: Routes = [
       {
         path: 'stock',
         component: StockPageComponent,
+      },
+      {
+        path: 'news',
+        component: NewsPageComponent,
       },
     ],
   },
