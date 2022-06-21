@@ -1,10 +1,11 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { BadRequestException, Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateStockDto, StockDto, StockLogsDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { StocksService } from './stocks.service';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 import { UpdateResult } from 'typeorm';
 
-@Controller('stocks')
+@SwaggerController('stocks')
 export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 

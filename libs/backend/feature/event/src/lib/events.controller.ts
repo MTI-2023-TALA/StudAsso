@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { EventsService } from './events.service';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 import { UpdateResult } from 'typeorm';
 
-@Controller('events')
+@SwaggerController('events')
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 

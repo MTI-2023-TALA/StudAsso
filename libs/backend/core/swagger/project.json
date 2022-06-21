@@ -1,0 +1,14 @@
+{
+  "root": "libs/backend/core/swagger",
+  "sourceRoot": "libs/backend/core/swagger/src",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/backend/core/swagger/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["type:backend", "type:backend-core"]
+}

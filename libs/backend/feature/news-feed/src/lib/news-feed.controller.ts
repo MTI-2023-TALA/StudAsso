@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
+import { Body, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateNewsFeedDto, NewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
 import { NewsFeedService } from './news-feed.service';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 import { UpdateResult } from 'typeorm';
 
-@Controller('news-feed')
+@SwaggerController('news-feed')
 export class NewsFeedController {
   constructor(private readonly newsFeedService: NewsFeedService) {}
 
