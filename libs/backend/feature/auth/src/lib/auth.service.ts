@@ -1,5 +1,6 @@
 import * as argon from 'argon2';
 
+import { Auth, google } from 'googleapis';
 import { AuthDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
@@ -11,12 +12,16 @@ import { UserRepository } from '@stud-asso/backend/core/repository';
 
 @Injectable()
 export class AuthService {
+  private oauthClient: Auth.OAuth2Client;
+
   constructor(
     private readonly userRepository: UserRepository,
     private jwtService: JwtService,
     private config: ConfigService
   ) {
-    return;
+    const clientId = config.get('GOOGLE_CLIENT_ID');
+    const clientSecret = config.get('GOOGLE_CLIENT_SECRET');
+    this.oauthClient = new google.auth.OAuth2(clientId, clientSecret);
   }
 
   async signupLocal(dto: AuthDto): Promise<TokenDto> {
@@ -53,6 +58,22 @@ export class AuthService {
     await this._updateRtToken(user.id, tokens.refreshToken);
 
     return tokens;
+  }
+
+  async loginGoogleUser(
+    token: string,
+    values: { userAgent: string; ipAddress: string }
+  ): Promise<TokenDto | undefined> {
+    const tokenInfo = await this.oauthClient.getTokenInfo(token);
+    const user = await this.userRepository.findOneByEmail(tokenInfo.email);
+    // User found
+    if (user) {
+      const tokens = await this._getTokens(user.id, tokenInfo.email);
+      await this._updateRtToken(user.id, tokens.refreshToken);
+      return tokens;
+    }
+    // TODO: User not found, Creating an account
+    return;
   }
 
   async logout(userId: number): Promise<boolean> {

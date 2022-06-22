@@ -1,5 +1,5 @@
-import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
-import { BadRequestException, Body, Post, UseGuards } from '@nestjs/common';
+import { AuthDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { BadRequestException, Body, Ip, Post, Req, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
 import { AuthService } from './auth.service';
@@ -23,6 +23,19 @@ export class AuthController {
   @Post('local/signin')
   async signinLocal(@Body() dto: AuthDto): Promise<TokenDto> {
     return this.authService.signinLocal(dto);
+  }
+
+  @Public()
+  @Post('google/login')
+  async googleLogin(@Body() dto: GoogleAuthDto, @Req() req, @Ip() ip: string): Promise<TokenDto> {
+    const result = await this.authService.loginGoogleUser(dto.token, {
+      ipAddress: ip,
+      userAgent: req.headers['user-agent'],
+    });
+    if (result) {
+      return result;
+    }
+    throw new BadRequestException('Invalid Google Token');
   }
 
   @Post('logout')

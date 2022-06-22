@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { localLoginFormly, localSignUpFormly } from './login-page.formly';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
+import { GoogleApiService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 
 @Component({
@@ -14,13 +15,22 @@ export class LoginPageComponent implements OnInit {
   isAsso = false;
   title = '';
 
-  constructor(private activatedRoute: ActivatedRoute, private authService: AuthService, private modal: ModalService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
+    private modal: ModalService,
+    private readonly signInService: GoogleApiService
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data) => {
       this.title = data['title'];
       this.isAsso = this.title === 'Portail Association';
     });
+  }
+
+  public async onClickGoogleButton() {
+    return;
   }
 
   public onClickOpenSignInButton() {
