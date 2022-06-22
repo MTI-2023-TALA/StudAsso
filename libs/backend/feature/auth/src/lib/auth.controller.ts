@@ -1,5 +1,5 @@
 import { AuthDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
-import { BadRequestException, Body, Ip, Post, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
 import { AuthService } from './auth.service';

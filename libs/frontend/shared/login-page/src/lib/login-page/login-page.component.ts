@@ -38,7 +38,7 @@ export class LoginPageComponent implements OnInit {
   public async onClickGoogleButton() {
     const accessToken = this.signInService.signIn();
     if (accessToken) {
-      await this.authService.tryToSignInWithGoogle(accessToken, this.isAsso);
+      this.authService.tryToSignInWithGoogle(accessToken, this.isAsso);
     }
   }
 

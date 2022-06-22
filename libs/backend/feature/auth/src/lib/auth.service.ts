@@ -69,9 +69,15 @@ export class AuthService {
       await this._updateRtToken(user.id, tokens.refreshToken);
       return tokens;
     } else {
-      const user = await this.userRepository.createUser(tokenInfo.email, tokenInfo.email, tokenInfo.email, false, null);
-      const tokens = await this._getTokens(user.id, tokenInfo.email);
-      await this._updateRtToken(user.id, tokens.refreshToken);
+      const newUser = await this.userRepository.createUser(
+        tokenInfo.email,
+        tokenInfo.email,
+        tokenInfo.email,
+        false,
+        null
+      );
+      const tokens = await this._getTokens(newUser.id, tokenInfo.email);
+      await this._updateRtToken(newUser.id, tokens.refreshToken);
       return tokens;
     }
   }

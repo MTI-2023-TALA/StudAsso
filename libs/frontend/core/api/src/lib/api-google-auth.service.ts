@@ -40,8 +40,7 @@ export class GoogleApiService {
       this.oAuthService.initImplicitFlow();
       return null;
     }
-    const accessToken = this.oAuthService.getAccessToken();
-    return accessToken;
+    return this.oAuthService.getAccessToken();
   }
 
   public async logout(): Promise<void> {

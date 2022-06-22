@@ -65,22 +65,14 @@ export class AuthService {
   public tryToSign(email: string, password: string, association: boolean = false) {
     const payload: AuthDto = { email, password };
     this.apiAuthService.signinLocal(payload).subscribe((res: TokenDto) => {
-      this.jwt = res.accessToken;
-      this.refreshToken = res.refreshToken;
-      this.isConnected = true;
-      if (association) this.router.navigateByUrl('/select-asso');
-      else this.router.navigateByUrl('/');
+      this.setToken(res, association);
     });
   }
 
   public tryToSignInWithGoogle(accessToken: string, association: boolean = false) {
     const payload = { token: accessToken };
     this.apiAuthService.signinWithGoogle(payload).subscribe((res: TokenDto) => {
-      this.jwt = res.accessToken;
-      this.refreshToken = res.refreshToken;
-      this.isConnected = true;
-      if (association) this.router.navigateByUrl('/select-asso');
-      else this.router.navigateByUrl('/');
+      this.setToken(res, association);
     });
   }
 
@@ -93,6 +85,14 @@ export class AuthService {
     this.apiAuthService.logout().subscribe();
     this.google.logout();
     this.router.navigateByUrl('/');
+  }
+
+  private setToken(res: TokenDto, association: boolean = false) {
+    this.jwt = res.accessToken;
+    this.refreshToken = res.refreshToken;
+    this.isConnected = true;
+    if (association) this.router.navigateByUrl('/select-asso');
+    else this.router.navigateByUrl('/');
   }
 
   private reset() {
