@@ -9,6 +9,7 @@ import {
 import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
 @Injectable()
@@ -31,6 +32,7 @@ export class StocksService {
         'create',
         transaction
       );
+      throw new Error('tt');
       return createdStock;
     });
   }
@@ -85,8 +87,9 @@ export class StocksService {
     oldCount: number,
     newCount: number,
     action: string,
-    currentTransaction: any = null // TODO: Cannot put TransactionClient type
+    currentTransaction: Prisma.TransactionClient = null
   ): Promise<any> {
+    // TODO: interface
     if (action === 'create' || action === 'update' || action === 'delete') {
       const createStockLogsDto: CreateStockLogsDto = {
         stockId,

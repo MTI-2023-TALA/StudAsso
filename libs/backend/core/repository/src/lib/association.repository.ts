@@ -1,4 +1,5 @@
-import { Association } from '@prisma/client';
+import { Association, Prisma } from '@prisma/client';
+
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
@@ -25,8 +26,10 @@ export class AssociationRepository {
 
   constructor(private prisma: PrismaService) {}
 
-  public async create(createAssociation: any, currentTransaction: any = null): Promise<Association> {
-    // TODO: Cannot put TransactionClient type
+  public async create(
+    createAssociation: any,
+    currentTransaction: Prisma.TransactionClient = null
+  ): Promise<Association> {
     // TODO: interface
     const client = currentTransaction ? currentTransaction : this.prisma;
     return client.association.create({ data: createAssociation });
@@ -41,6 +44,7 @@ export class AssociationRepository {
   }
 
   public async update(id: number, updateAssociation: any): Promise<Association> {
+    // TODO: interface
     return this.prisma.association.update({ where: { id }, data: updateAssociation });
   }
 

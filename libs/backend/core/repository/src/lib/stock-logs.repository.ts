@@ -1,14 +1,14 @@
+import { Prisma, StockLog } from '@prisma/client';
+
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
-import { StockLog } from '@prisma/client';
 
 @Injectable()
 export class StockLogsRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(createStockLog: any, currentTransaction: any = null): Promise<StockLog> {
+  public async create(createStockLog: any, currentTransaction: Prisma.TransactionClient = null): Promise<StockLog> {
     // TODO: interface
-    // TODO: Cannot put TransactionClient type
     const client = currentTransaction ? currentTransaction : this.prisma;
     return client.stockLog.create({ data: createStockLog });
   }
