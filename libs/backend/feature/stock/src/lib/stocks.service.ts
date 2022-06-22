@@ -32,7 +32,6 @@ export class StocksService {
         'create',
         transaction
       );
-      throw new Error('tt');
       return createdStock;
     });
   }
