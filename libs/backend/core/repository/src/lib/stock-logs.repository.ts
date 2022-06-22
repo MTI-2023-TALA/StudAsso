@@ -1,13 +1,16 @@
+import { Prisma, StockLog } from '@prisma/client';
+
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
-import { StockLog } from '@prisma/client';
 
 @Injectable()
 export class StockLogsRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(createStockLog: any): Promise<StockLog> {
-    return this.prisma.stockLog.create({ data: createStockLog });
+  public async create(createStockLog: any, currentTransaction: Prisma.TransactionClient = null): Promise<StockLog> {
+    // TODO: interface
+    const client = currentTransaction ? currentTransaction : this.prisma;
+    return client.stockLog.create({ data: createStockLog });
   }
 
   public async findAllAssoStockLogs(associationId: number): Promise<any[]> {

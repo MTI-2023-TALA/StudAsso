@@ -8,7 +8,7 @@ To create a migration without modifications:
 npx prisma migrate dev
 ```
 
-To cutomize your migration:
+To customize your migration:
 
 ```sh
 npx prisma migrate dev --create-only

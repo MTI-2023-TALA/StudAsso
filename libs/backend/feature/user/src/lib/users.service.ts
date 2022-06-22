@@ -8,16 +8,20 @@ import { UserRepository } from '@stud-asso/backend/core/repository';
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  public async findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
-    return this.userRepository.findAllIdAndEmail();
-  }
-
   public async findAll(): Promise<UserDto[]> {
     return this.userRepository.findAll();
   }
 
+  public async findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
+    return this.userRepository.findAllIdAndEmail();
+  }
+
   public async findAllByName(name: string): Promise<UserDto[]> {
     return this.userRepository.findAllByName(name);
+  }
+
+  public async findAssoOfUser(id: number) {
+    return this.userRepository.findAssoOfUser(id);
   }
 
   public async findOne(id: number): Promise<UserDto> {
@@ -49,9 +53,5 @@ export class UsersService {
       throw new Error('User not found');
     }
     return this.userRepository.delete(id);
-  }
-
-  public async findAssoOfUser(id: number) {
-    return this.userRepository.findAssoOfUser(id);
   }
 }
