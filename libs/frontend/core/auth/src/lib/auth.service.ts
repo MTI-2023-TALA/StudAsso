@@ -1,8 +1,8 @@
+import { ApiAuthService, GoogleApiService } from '@stud-asso/frontend-core-api';
 import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
 import { UseStorage, getData, removeData, setData } from '@stud-asso/frontend-core-storage';
 import { catchError, throwError } from 'rxjs';
 
-import { ApiAuthService } from '@stud-asso/frontend-core-api';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
@@ -20,7 +20,11 @@ export class AuthService {
   @UseStorage('jwt-token') private jwt: string | null;
   @UseStorage('refresh-token') private refreshToken: string | null;
 
-  constructor(private apiAuthService: ApiAuthService, private router: Router) {
+  constructor(
+    private apiAuthService: ApiAuthService,
+    private readonly google: GoogleApiService,
+    private router: Router
+  ) {
     this.isConnected = this.isSignIn();
   }
 
@@ -61,11 +65,14 @@ export class AuthService {
   public tryToSign(email: string, password: string, association: boolean = false) {
     const payload: AuthDto = { email, password };
     this.apiAuthService.signinLocal(payload).subscribe((res: TokenDto) => {
-      this.jwt = res.accessToken;
-      this.refreshToken = res.refreshToken;
-      this.isConnected = true;
-      if (association) this.router.navigateByUrl('/select-asso');
-      else this.router.navigateByUrl('/');
+      this.setToken(res, association);
+    });
+  }
+
+  public tryToSignInWithGoogle(accessToken: string, association: boolean = false) {
+    const payload = { token: accessToken };
+    this.apiAuthService.signinWithGoogle(payload).subscribe((res: TokenDto) => {
+      this.setToken(res, association);
     });
   }
 
@@ -76,7 +83,16 @@ export class AuthService {
   public logout() {
     this.reset();
     this.apiAuthService.logout().subscribe();
+    this.google.logout();
     this.router.navigateByUrl('/');
+  }
+
+  private setToken(res: TokenDto, association: boolean = false) {
+    this.jwt = res.accessToken;
+    this.refreshToken = res.refreshToken;
+    this.isConnected = true;
+    if (association) this.router.navigateByUrl('/select-asso');
+    else this.router.navigateByUrl('/');
   }
 
   private reset() {
