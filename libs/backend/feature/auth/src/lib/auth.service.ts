@@ -62,7 +62,6 @@ export class AuthService {
 
   async loginGoogleUser(token: string): Promise<TokenDto | undefined> {
     const tokenInfo = await this.oauthClient.getTokenInfo(token);
-    console.log(tokenInfo);
     const user = await this.userRepository.findOneByEmail(tokenInfo.email);
     if (user) {
       const tokens = await this._getTokens(user.id, tokenInfo.email);
