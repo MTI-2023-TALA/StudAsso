@@ -10,6 +10,7 @@ COPY . .
 
 EXPOSE 3333
 
+RUN mv docker.ormconfig.ts ormconfig.ts
 RUN npx nx build backend
 # TODO: Remove useless file after building
 
