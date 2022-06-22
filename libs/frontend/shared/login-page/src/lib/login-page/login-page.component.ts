@@ -27,6 +27,12 @@ export class LoginPageComponent implements OnInit {
       this.title = data['title'];
       this.isAsso = this.title === 'Portail Association';
     });
+
+    this.signInService.accessToken$.subscribe((accessToken) => {
+      if (accessToken) {
+        this.authService.tryToSignInWithGoogle(accessToken, this.isAsso);
+      }
+    });
   }
 
   public async onClickGoogleButton() {

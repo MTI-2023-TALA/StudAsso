@@ -1,6 +1,7 @@
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 
 const oAuthConfig: AuthConfig = {
   issuer: 'https://accounts.google.com',
@@ -17,6 +18,7 @@ const oAuthConfig: AuthConfig = {
 export class GoogleApiService {
   user: any;
   accessToken: string;
+  accessToken$ = new Subject<string>();
 
   constructor(private readonly oAuthService: OAuthService) {
     oAuthService.configure(oAuthConfig);
@@ -24,9 +26,9 @@ export class GoogleApiService {
       oAuthService.tryLoginImplicitFlow({ customHashFragment: location.hash }).then(() => {
         if (oAuthService.hasValidIdToken()) {
           this.accessToken = oAuthService.getAccessToken();
+          this.accessToken$.next(this.accessToken);
           oAuthService.loadUserProfile().then((user) => {
             this.user = user;
-            console.log(user);
           });
         }
       });

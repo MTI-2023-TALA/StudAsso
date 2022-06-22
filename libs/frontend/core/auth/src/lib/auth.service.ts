@@ -1,8 +1,8 @@
+import { ApiAuthService, GoogleApiService } from '@stud-asso/frontend-core-api';
 import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
 import { UseStorage, getData, removeData, setData } from '@stud-asso/frontend-core-storage';
 import { catchError, throwError } from 'rxjs';
 
-import { ApiAuthService } from '@stud-asso/frontend-core-api';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
@@ -20,7 +20,11 @@ export class AuthService {
   @UseStorage('jwt-token') private jwt: string | null;
   @UseStorage('refresh-token') private refreshToken: string | null;
 
-  constructor(private apiAuthService: ApiAuthService, private router: Router) {
+  constructor(
+    private apiAuthService: ApiAuthService,
+    private readonly google: GoogleApiService,
+    private router: Router
+  ) {
     this.isConnected = this.isSignIn();
   }
 
@@ -87,6 +91,7 @@ export class AuthService {
   public logout() {
     this.reset();
     this.apiAuthService.logout().subscribe();
+    this.google.logout();
     this.router.navigateByUrl('/');
   }
 
