@@ -69,6 +69,17 @@ export class AuthService {
     });
   }
 
+  public tryToSignInWithGoogle(accessToken: string, association: boolean = false) {
+    const payload = { token: accessToken };
+    this.apiAuthService.signinWithGoogle(payload).subscribe((res: TokenDto) => {
+      this.jwt = res.accessToken;
+      this.refreshToken = res.refreshToken;
+      this.isConnected = true;
+      if (association) this.router.navigateByUrl('/select-asso');
+      else this.router.navigateByUrl('/');
+    });
+  }
+
   public isSign(): boolean {
     return this.isConnected && getData('jwt-token') !== null;
   }

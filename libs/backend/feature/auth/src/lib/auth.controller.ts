@@ -27,11 +27,8 @@ export class AuthController {
 
   @Public()
   @Post('google/login')
-  async googleLogin(@Body() dto: GoogleAuthDto, @Req() req, @Ip() ip: string): Promise<TokenDto> {
-    const result = await this.authService.loginGoogleUser(dto.token, {
-      ipAddress: ip,
-      userAgent: req.headers['user-agent'],
-    });
+  async googleLogin(@Body() dto: GoogleAuthDto): Promise<TokenDto> {
+    const result = await this.authService.loginGoogleUser(dto.token);
     if (result) {
       return result;
     }

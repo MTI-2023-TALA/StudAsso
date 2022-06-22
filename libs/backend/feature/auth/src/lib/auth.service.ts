@@ -60,20 +60,20 @@ export class AuthService {
     return tokens;
   }
 
-  async loginGoogleUser(
-    token: string,
-    values: { userAgent: string; ipAddress: string }
-  ): Promise<TokenDto | undefined> {
+  async loginGoogleUser(token: string): Promise<TokenDto | undefined> {
     const tokenInfo = await this.oauthClient.getTokenInfo(token);
+    console.log(tokenInfo);
     const user = await this.userRepository.findOneByEmail(tokenInfo.email);
-    // User found
     if (user) {
       const tokens = await this._getTokens(user.id, tokenInfo.email);
       await this._updateRtToken(user.id, tokens.refreshToken);
       return tokens;
+    } else {
+      const user = await this.userRepository.createUser(tokenInfo.email, tokenInfo.email, tokenInfo.email, false, null);
+      const tokens = await this._getTokens(user.id, tokenInfo.email);
+      await this._updateRtToken(user.id, tokens.refreshToken);
+      return tokens;
     }
-    // TODO: User not found, Creating an account
-    return;
   }
 
   async logout(userId: number): Promise<boolean> {
