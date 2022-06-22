@@ -9,6 +9,8 @@ jobs:
       - checkout
       - run: npm install
       - run:
+          command: echo 'export DATABASE_URL="postgresql://postgres:password@localhost:5432/studasso?schema=public"' >> $BASH_ENV
+      - run:
           command: npx nx-cloud start-agent
           no_output_timeout: 60m
   main:
@@ -16,7 +18,6 @@ jobs:
       - image: 'cimg/node:17.5-browsers'
     environment:
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'true'
-      DATABASE_URL: 'postgresql://postgres:password@localhost:5432/studasso?schema=public'
     steps:
       - checkout
       - run: npm install
@@ -29,7 +30,6 @@ jobs:
       - image: 'cimg/node:17.5-browsers'
     environment:
       NX_CLOUD_DISTRIBUTED_EXECUTION: 'true'
-      DATABASE_URL: 'postgresql://postgres:password@localhost:5432/studasso?schema=public'
     steps:
       - checkout
       - run: npm install
