@@ -25,16 +25,16 @@
     "@angular/language-service": "^13.3.5",
     "@nestjs/schematics": "^8.0.11",
     "@nestjs/testing": "^8.4.7",
-    "@nrwl/angular": "^14.3.6",
-    "@nrwl/cli": "^14.3.6",
+    "@nrwl/angular": "^14.0.6",
+    "@nrwl/cli": "^14.0.6",
     "@nrwl/cypress": "^14.0.5",
     "@nrwl/eslint-plugin-nx": "^14.0.5",
-    "@nrwl/jest": "^14.3.6",
-    "@nrwl/linter": "^14.3.6",
-    "@nrwl/nest": "^14.3.6",
-    "@nrwl/node": "^14.3.6",
+    "@nrwl/jest": "^14.0.6",
+    "@nrwl/linter": "^14.0.6",
+    "@nrwl/nest": "^14.0.6",
+    "@nrwl/node": "^14.0.6",
     "@nrwl/nx-cloud": "^14.1.2",
-    "@nrwl/workspace": "^14.3.6",
+    "@nrwl/workspace": "^14.0.6",
     "@types/jest": "27.4.1",
     "@types/node": "16.11.7",
     "@typescript-eslint/eslint-plugin": "~5.18.0",
@@ -93,6 +93,6 @@
     "swagger-ui-express": "^4.4.0",
     "tslib": "^2.4.0",
     "typeorm": "^0.2.45",
-    "zone.js": "^0.11.6"
+    "zone.js": "^0.11.5"
   }
 }
