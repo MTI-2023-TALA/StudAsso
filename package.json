@@ -80,7 +80,7 @@
     "angular-oauth2-oidc": "^13.0.1",
     "argon2": "^0.28.5",
     "bootstrap-icons": "^1.8.3",
-    "bulma": "^0.9.3",
+    "bulma": "^0.9.4",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "googleapis": "^103.0.0",
@@ -93,6 +93,6 @@
     "swagger-ui-express": "^4.4.0",
     "tslib": "^2.4.0",
     "typeorm": "^0.2.45",
-    "zone.js": "^0.11.5"
+    "zone.js": "^0.11.6"
   }
 }
