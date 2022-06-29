@@ -1,5 +1,5 @@
 {
-  "root": "libs/backend/core/migrations",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/backend/core/migrations/src",
   "projectType": "library",
   "targets": {

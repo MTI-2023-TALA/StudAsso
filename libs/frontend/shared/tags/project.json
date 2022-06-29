@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/frontend/shared/tags",
   "sourceRoot": "libs/frontend/shared/tags/src",
   "prefix": "stud-asso",
   "targets": {

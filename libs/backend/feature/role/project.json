@@ -1,5 +1,5 @@
 {
-  "root": "libs/backend/feature/role",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/backend/feature/role/src",
   "targets": {
     "lint": {

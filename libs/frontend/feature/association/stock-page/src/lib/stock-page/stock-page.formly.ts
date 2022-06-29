@@ -1,9 +1,9 @@
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormControl, ValidationErrors } from '@angular/forms';
 
 import { Form } from '@stud-asso/frontend-shared-formly';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
-export function CountValidator(control: FormControl): ValidationErrors {
+export function CountValidator(control: UntypedFormControl): ValidationErrors {
   return /\d{1,4}/.test(control.value) ? { count: false } : { count: true };
 }
 

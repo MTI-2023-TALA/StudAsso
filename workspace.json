@@ -44,5 +44,6 @@
     "frontend-testing-common-mock": "libs/frontend/testing/common-mock",
     "shared-dtos": "libs/shared/dtos",
     "shared-permission": "libs/shared/permission"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }
