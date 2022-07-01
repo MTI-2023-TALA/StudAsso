@@ -20,14 +20,16 @@ export class GoogleApiService {
   accessToken: string;
   accessToken$ = new Subject<string>();
 
-  constructor(private readonly oAuthService: OAuthService) {
-    oAuthService.configure(oAuthConfig);
-    oAuthService.loadDiscoveryDocument().then(() => {
-      oAuthService.tryLoginImplicitFlow({ customHashFragment: location.hash }).then(() => {
-        if (oAuthService.hasValidIdToken()) {
-          this.accessToken = oAuthService.getAccessToken();
+  constructor(private readonly oAuthService: OAuthService) {}
+
+  public initGoogle(): void {
+    this.oAuthService.configure(oAuthConfig);
+    this.oAuthService.loadDiscoveryDocument().then(() => {
+      this.oAuthService.tryLoginImplicitFlow({ customHashFragment: location.hash }).then(() => {
+        if (this.oAuthService.hasValidIdToken()) {
+          this.accessToken = this.oAuthService.getAccessToken();
           this.accessToken$.next(this.accessToken);
-          oAuthService.loadUserProfile().then((user) => {
+          this.oAuthService.loadUserProfile().then((user) => {
             this.user = user;
           });
         }

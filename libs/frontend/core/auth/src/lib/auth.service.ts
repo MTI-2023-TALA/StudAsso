@@ -39,6 +39,7 @@ export class AuthService {
       const rtJwt: rtJwt = jwt_decode(this.refreshToken);
       if (rtJwt.exp > Date.now()) {
         this.reset();
+        this.google.initGoogle();
         return false;
       }
 
@@ -47,6 +48,7 @@ export class AuthService {
       return true;
     }
 
+    this.google.initGoogle();
     return false;
   }
 
