@@ -53,6 +53,7 @@
     "nx": "14.3.6",
     "nx-stylelint": "^13.5.0",
     "prettier": "2.7.1",
+    "prisma": "^4.0.0",
     "stylelint": "^14.8.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^26.0.0",
@@ -78,8 +79,8 @@
     "@nestjs/passport": "^8.2.2",
     "@nestjs/platform-express": "^8.4.7",
     "@nestjs/swagger": "^5.2.1",
-    "@nestjs/typeorm": "^8.0.3",
     "@ngx-formly/core": "^5.12.5",
+    "@prisma/client": "^4.0.0",
     "angular-oauth2-oidc": "^13.0.1",
     "argon2": "^0.28.5",
     "bootstrap-icons": "^1.8.3",
@@ -94,7 +95,6 @@
     "rxjs": "^7.5.5",
     "swagger-ui-express": "^4.4.0",
     "tslib": "^2.4.0",
-    "typeorm": "^0.2.45",
     "zone.js": "^0.11.6"
   }
 }
