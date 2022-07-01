@@ -25,13 +25,14 @@ export class EventPageComponent implements OnInit {
         title: 'Date',
         size: 2,
         dataProperty: 'date',
+        isDate: true,
       },
     ],
     actions: [
       {
         label: 'Modifier',
-        action: (data: number) => {
-          this.modifyModalEvent(data);
+        action: (date: number) => {
+          this.modifyModalEvent(date);
         },
         dataProperty: 'id',
       },

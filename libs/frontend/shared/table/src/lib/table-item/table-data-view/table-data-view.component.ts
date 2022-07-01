@@ -34,10 +34,15 @@ export class TableDataViewComponent implements OnInit {
   }
 
   setDataToComponent(compRef: ComponentRef<TableTextComponent>) {
-    if (this.columnConfiguration.dataProperty) {
-      compRef.instance.setData(this.data[this.columnConfiguration.dataProperty]);
-    } else {
-      compRef.instance.setData(this.data);
-    }
+      if (this.columnConfiguration.dataProperty) {
+        if(this.columnConfiguration.isDate){
+          compRef.instance.setData(new Date(this.data[this.columnConfiguration.dataProperty]).toLocaleDateString());
+        }
+        else {
+          compRef.instance.setData(this.data[this.columnConfiguration.dataProperty]);
+        }
+      } else {
+        compRef.instance.setData(this.data);
+      }
   }
 }
