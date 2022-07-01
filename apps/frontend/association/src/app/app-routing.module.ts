@@ -1,6 +1,7 @@
 import { IsNotSignGuard, IsSignGuard } from '@stud-asso/frontend-core-auth';
 import { RouterModule, Routes } from '@angular/router';
 
+import { EventPageComponent } from '@stud-asso/frontend/feature/association/event-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
@@ -13,6 +14,7 @@ import { StockPageComponent } from '@stud-asso/frontend/feature/association/stoc
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
   { title: 'News', icon: 'newspaper', url: '/news' },
+  { title: 'Evénements', icon: 'calendar-event', url: '/events' },
   { title: 'Rôles', icon: 'person-plus', url: '/roles' },
   { title: 'Stocks', icon: 'cart', url: '/stock' },
 ];
@@ -46,6 +48,10 @@ const routes: Routes = [
       {
         path: 'news',
         component: NewsPageComponent,
+      },
+      {
+        path: 'events',
+        component: EventPageComponent,
       },
     ],
   },

@@ -43,6 +43,9 @@
       "@stud-asso/frontend-shared-table": ["libs/frontend/shared/table/src/index.ts"],
       "@stud-asso/frontend-shared-toast": ["libs/frontend/shared/toast/src/index.ts"],
       "@stud-asso/frontend/core/i18n": ["libs/frontend/core/i18n/src/index.ts"],
+      "@stud-asso/frontend/feature/association/event-page": [
+        "libs/frontend/feature/association/event-page/src/index.ts"
+      ],
       "@stud-asso/frontend/feature/association/news-page": ["libs/frontend/feature/association/news-page/src/index.ts"],
       "@stud-asso/frontend/feature/association/role-page": ["libs/frontend/feature/association/role-page/src/index.ts"],
       "@stud-asso/frontend/feature/association/select-association-page": [
