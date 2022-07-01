@@ -6,7 +6,7 @@ import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-co
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NgModule } from '@angular/core';
 
-const mainRouteConfig: NavbarItem[] = [];
+const mainRouteConfig: NavbarItem[] = [{ title: 'News', icon: 'newspaper', url: '/news' }];
 
 const routes: Routes = [
   {

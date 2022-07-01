@@ -16,7 +16,9 @@ export class NavbarComponent {
 
   @Input() shouldShowLargeNavbar = true;
   @Output() shouldShowLargeNavbarChange = new EventEmitter<boolean>();
+
   assoName: string | null;
+  isNavbarCollapsed = true;
 
   constructor(private authService: AuthService) {
     if (getData('asso-name')) {
@@ -31,5 +33,9 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
+  }
+
+  toggleNavbarCollapse() {
+    this.isNavbarCollapsed = !this.isNavbarCollapsed;
   }
 }
