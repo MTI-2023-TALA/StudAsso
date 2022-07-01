@@ -4,7 +4,6 @@ export interface ColumnTableConfiguration {
   title: string;
   size: number;
   dataProperty?: string;
-  isDate?: boolean;
   dataViewComponent?: typeof TableTextComponent;
 }
 

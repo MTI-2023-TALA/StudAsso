@@ -30,7 +30,7 @@ export const createEventFormly: FormlyFieldConfig[] = [
 ];
 
 export interface ICreateEventFormly {
-  name: string,
-  date: Date,
-  content: string,
+  name: string;
+  date: string;
+  content: string;
 }

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ICreateEventFormly, createEventFormly } from './event-page.formly';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { EventDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
-import { createEventFormly } from './event-page.formly';
 import { getData } from '@stud-asso/frontend-core-storage';
 
 @Component({
@@ -24,7 +24,6 @@ export class EventPageComponent implements OnInit {
         title: 'Date',
         size: 2,
         dataProperty: 'date',
-        isDate: true,
       },
     ],
     actions: [
@@ -43,7 +42,7 @@ export class EventPageComponent implements OnInit {
       },
     ],
   };
-  eventList: EventDto[] = [];
+  eventList: any[] = [];
   isLoading = true;
 
   constructor(private api: ApiEventService, private modal: ModalService, private toast: ToastService) {}
@@ -65,6 +64,8 @@ export class EventPageComponent implements OnInit {
     //TODO ask backend for a route to get association events
     this.api.findAll().subscribe((events: EventDto[]) => {
       this.eventList = events;
+      console.log();
+      this.eventList.map((event) => (event.date = new Date(event.date).toLocaleDateString()));
       this.isLoading = false;
     });
   }
