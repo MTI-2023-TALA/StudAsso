@@ -11,7 +11,6 @@ import { getData } from '@stud-asso/frontend-core-storage';
 @Component({
   selector: 'stud-asso-event-page',
   templateUrl: './event-page.component.html',
-  styleUrls: ['./event-page.component.scss'],
 })
 export class EventPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {
