@@ -7,3 +7,4 @@ export * from './lib/api-user.service';
 export * from './lib/api-auth.service';
 export * from './lib/api-news-feed.service';
 export * from './lib/api-google-auth.service';
+export * from './lib/api-event.service';
