@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BaseModalComponent } from '../base-modal/base-modal.component';
-import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'stud-asso-form-modal',
@@ -11,7 +11,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 })
 export class FormModalComponent extends BaseModalComponent implements OnInit {
   title: string;
-  form = new FormGroup({});
+  form = new UntypedFormGroup({});
   model = {};
   fields: FormlyFieldConfig[] = [];
   submitBtnText: string;

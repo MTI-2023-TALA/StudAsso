@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "apps/frontend/student",
   "sourceRoot": "apps/frontend/student/src",
   "prefix": "stud-asso",
   "targets": {

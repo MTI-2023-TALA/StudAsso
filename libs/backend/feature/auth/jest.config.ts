@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   displayName: 'backend-feature-auth',
   preset: '../../../../jest.preset.js',
   globals: {
