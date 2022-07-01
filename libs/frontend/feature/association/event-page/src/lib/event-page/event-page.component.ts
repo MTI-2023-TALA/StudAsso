@@ -55,13 +55,13 @@ export class EventPageComponent implements OnInit {
   reloadData() {
     this.isLoading = true;
 
-    const assoIdData = getData('asso-id');
-    if (!assoIdData) {
-      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-      return;
-    }
+    // const assoIdData = getData('asso-id');
+    // if (!assoIdData) {
+    //   this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
+    //   return;
+    // }
 
-    const associationId = JSON.parse(assoIdData);
+    // const associationId = JSON.parse(assoIdData);
     //TODO ask backend for a route to get association events
     this.api.findAll().subscribe((events: EventDto[]) => {
       this.eventList = events;
