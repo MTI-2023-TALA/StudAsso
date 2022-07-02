@@ -15,7 +15,7 @@ export class EventsService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {
-          throw new Error('Association Name Not Found');
+          throw new Error('Association Not Found');
         }
       }
     }

@@ -1,4 +1,14 @@
-import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Delete,
+  Get,
+  NotFoundException,
+  Param,
+  Patch,
+  Post,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { EventsService } from './events.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -13,7 +23,7 @@ export class EventsController {
       createEventDto.date = new Date(createEventDto.date);
       return await this.eventsService.create(createEventDto);
     } catch (error) {
-      throw new NotFoundException(error?.message);
+      throw new UnprocessableEntityException(error?.message);
     }
   }
 
