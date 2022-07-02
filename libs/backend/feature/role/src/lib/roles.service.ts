@@ -7,7 +7,7 @@ import {
 } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
-import { PostgresError } from 'pg-error-enum';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class RolesService {
@@ -22,9 +22,14 @@ export class RolesService {
     try {
       return await this.roleRepository.create(createBaseDto);
     } catch (error) {
-      //TODO: handle error
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Name already exists');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
+          throw new Error('Association Name Already Exists');
+        }
+
+        if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {
+          throw new Error('Association Not Found');
+        }
       }
     }
   }
@@ -53,7 +58,7 @@ export class RolesService {
   }
 
   public async findAll(id: number): Promise<RoleDto[]> {
-    return this.roleRepository.findAllAsso(id);
+    return await this.roleRepository.findAllAsso(id);
   }
 
   public async findOne(id: number): Promise<RoleDto> {
@@ -70,8 +75,10 @@ export class RolesService {
     try {
       return await this.roleRepository.update(id, updateBaseDto);
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Name already exists');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
+          throw new Error('Association Name Already Exists');
+        }
       }
     }
   }
