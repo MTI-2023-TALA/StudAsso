@@ -1,7 +1,11 @@
 {
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "npmScope": "stud-asso",
   "affected": {
     "defaultBase": "main"
+  },
+  "cli": {
+    "packageManager": "npm"
   },
   "implicitDependencies": {
     "package.json": {
@@ -36,7 +40,6 @@
       "style": "scss"
     }
   },
-  "$schema": "./node_modules/nx/schemas/nx-schema.json",
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"]
