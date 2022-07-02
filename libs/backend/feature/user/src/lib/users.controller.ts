@@ -15,7 +15,7 @@ export class UsersController {
     try {
       return await this.usersService.findOne(+id);
     } catch (error) {
-      throw new NotFoundException('User Not Found');
+      throw new NotFoundException(error?.message);
     }
   }
 
@@ -45,7 +45,7 @@ export class UsersController {
     try {
       return await this.usersService.update(+id, updateUserDto);
     } catch (error) {
-      throw new BadRequestException();
+      throw new BadRequestException(error?.message);
     }
   }
 
@@ -54,7 +54,7 @@ export class UsersController {
     try {
       return await this.usersService.delete(+id);
     } catch (error) {
-      throw new NotFoundException('User Not Found');
+      throw new NotFoundException(error?.message);
     }
   }
 }
