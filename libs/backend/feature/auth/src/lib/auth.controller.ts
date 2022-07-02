@@ -15,8 +15,7 @@ export class AuthController {
     try {
       return await this.authService.signupLocal(dto);
     } catch (error) {
-      console.log(error);
-      throw new BadRequestException('Email Already Used');
+      throw new BadRequestException(error?.message);
     }
   }
 
