@@ -9,6 +9,7 @@ import {
   AssociationRepository,
   AssociationsMemberRepository,
   RoleRepository,
+  UserRepository,
 } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
@@ -19,10 +20,14 @@ export class AssociationsService {
   constructor(
     private readonly associationRepository: AssociationRepository,
     private readonly roleRepository: RoleRepository,
-    private readonly associationsMemberRepository: AssociationsMemberRepository
+    private readonly associationsMemberRepository: AssociationsMemberRepository,
+    private readonly userRepository: UserRepository
   ) {}
 
   public async create(createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
+    const user = await this.userRepository.findOne(createAssociationDto.presidentId);
+    if (!user) throw new Error('President Not Found');
+
     // TODO: bug where presidentId is returned in Dto TO FIX
     try {
       const createdAsso = await this.associationRepository.create({
