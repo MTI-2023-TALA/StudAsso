@@ -5,7 +5,6 @@ import { PostgresError } from 'pg-error-enum';
 import { UpdateResult } from 'typeorm';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 import { UsersService } from './users.service';
-import { plainToInstance } from 'class-transformer';
 
 class PostgresErrorMock extends Error {
   code: PostgresError;

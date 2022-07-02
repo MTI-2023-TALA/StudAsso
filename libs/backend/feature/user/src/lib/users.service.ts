@@ -1,7 +1,6 @@
 import { UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
-import { PostgresError } from 'pg-error-enum';
 import { Prisma } from '@prisma/client';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 
