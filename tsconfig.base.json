@@ -60,6 +60,7 @@
       "@stud-asso/frontend/feature/student/association-list-page": [
         "libs/frontend/feature/student/association-list-page/src/index.ts"
       ],
+      "@stud-asso/frontend/feature/student/news-page": ["libs/frontend/feature/student/news-page/src/index.ts"],
       "@stud-asso/frontend/shared/generic-page": ["libs/frontend/shared/generic-page/src/index.ts"],
       "@stud-asso/frontend/shared/login-page": ["libs/frontend/shared/login-page/src/index.ts"],
       "@stud-asso/frontend/shared/tags": ["libs/frontend/shared/tags/src/index.ts"],
