@@ -40,7 +40,7 @@ export class EventsService {
     }
 
     //TODO: transform dto to update interface
-    return await this.eventRepository.update(id, updateBaseDto as any);
+    return this.eventRepository.update(id, updateBaseDto as any);
   }
 
   public async delete(id: number): Promise<any> {

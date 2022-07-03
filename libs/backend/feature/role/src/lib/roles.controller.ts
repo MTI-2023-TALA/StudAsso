@@ -36,8 +36,8 @@ export class RolesController {
   }
 
   @Get('/asso/:id')
-  public async findAll(@Param('id') id: string): Promise<RoleDto[]> {
-    return await this.rolesService.findAll(+id);
+  public findAll(@Param('id') id: string): Promise<RoleDto[]> {
+    return this.rolesService.findAll(+id);
   }
 
   @Get(':id')

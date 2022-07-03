@@ -50,7 +50,7 @@ export class UsersService {
     if (!user) {
       throw new Error('User not found');
     }
-    return await this.userRepository.delete(id);
+    return this.userRepository.delete(id);
   }
 
   public async findAssoOfUser(id: number) {

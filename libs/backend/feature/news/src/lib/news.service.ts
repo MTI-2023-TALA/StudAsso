@@ -44,7 +44,7 @@ export class NewsService {
     }
 
     //TODO: interface
-    return await this.newsRepository.update(id, updateBaseDto as any);
+    return this.newsRepository.update(id, updateBaseDto as any);
   }
 
   public async delete(id: number): Promise<any> {

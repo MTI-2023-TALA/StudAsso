@@ -104,7 +104,7 @@ export class StocksService {
         newCount,
         action,
       };
-      return await this.stockLogsRepository.create(createStockLogsDto);
+      return this.stockLogsRepository.create(createStockLogsDto);
     }
     throw new Error('Provided action has to be either: create, update or delete when creating a stock logs');
   }

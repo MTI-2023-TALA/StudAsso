@@ -58,7 +58,7 @@ export class RolesService {
   }
 
   public async findAll(id: number): Promise<RoleDto[]> {
-    return await this.roleRepository.findAllAsso(id);
+    return this.roleRepository.findAllAsso(id);
   }
 
   public async findOne(id: number): Promise<RoleDto> {
