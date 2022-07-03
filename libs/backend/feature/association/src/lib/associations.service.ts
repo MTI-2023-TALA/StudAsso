@@ -9,20 +9,25 @@ import {
   AssociationRepository,
   AssociationsMemberRepository,
   RoleRepository,
+  UserRepository,
 } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
-import { PostgresError } from 'pg-error-enum';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AssociationsService {
   constructor(
     private readonly associationRepository: AssociationRepository,
     private readonly roleRepository: RoleRepository,
-    private readonly associationsMemberRepository: AssociationsMemberRepository
+    private readonly associationsMemberRepository: AssociationsMemberRepository,
+    private readonly userRepository: UserRepository
   ) {}
 
   public async create(createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
+    const user = await this.userRepository.findOne(createAssociationDto.presidentId);
+    if (!user) throw new Error('President Not Found');
+
     // TODO: bug where presidentId is returned in Dto TO FIX
     try {
       const createdAsso = await this.associationRepository.create({
@@ -33,13 +38,9 @@ export class AssociationsService {
       await this.associationsMemberRepository.linkUserToRole(createdAsso.id, createAssociationDto.presidentId, id);
       return createdAsso;
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        if (error?.constraint === 'unique_association_name') {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'name,') {
           throw new Error('Association Name Already Exists');
-        }
-
-        if (error?.constraint === 'unique_role_name_per_association') {
-          throw new Error('Role Name Already Exists In This Association');
         }
       }
     }
@@ -74,13 +75,23 @@ export class AssociationsService {
     try {
       return await this.associationRepository.update(id, updateBaseDto);
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Association Name Already Exists');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'name,') {
+          throw new Error('Association Name Already Exists');
+        }
       }
     }
   }
 
   public async delete(id: number): Promise<any> {
-    return this.associationRepository.delete(id);
+    try {
+      return await this.associationRepository.delete(id);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2025') {
+          throw new Error('Association To Delete Not Found');
+        }
+      }
+    }
   }
 }

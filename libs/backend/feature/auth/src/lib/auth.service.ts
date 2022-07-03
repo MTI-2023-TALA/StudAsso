@@ -7,7 +7,7 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from '@stud-asso/backend-core-auth';
 import { JwtService } from '@nestjs/jwt';
-import { PostgresError } from 'pg-error-enum';
+import { Prisma } from '@prisma/client';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 
 @Injectable()
@@ -32,14 +32,15 @@ export class AuthService {
     try {
       user = await this.userRepository.createUser(dto.email, dto.email, dto.email, false, hash);
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Email already used');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'email') {
+          throw new Error('Email Already Used');
+        }
       }
     }
 
     const tokens = await this._getTokens(user.id, dto.email);
     this._updateRtToken(user.id, tokens.refreshToken);
-
     return tokens;
   }
 

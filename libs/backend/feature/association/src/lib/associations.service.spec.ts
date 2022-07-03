@@ -160,22 +160,6 @@ describe('AssociationsService', () => {
       ).rejects.toThrow(new Error('Association Name Already Exists'));
       expect(create).toHaveBeenCalledTimes(1);
     });
-
-    it('should call associationService.create and fail unique_role_name_per_association constraint', async () => {
-      const create = jest
-        .spyOn(repository, 'create')
-        .mockRejectedValue(
-          new PostgresErrorMock(
-            PostgresError.UNIQUE_VIOLATION,
-            'unique_role_name_per_association',
-            'Role Name Already Exists In This Association'
-          )
-        );
-      expect(async () =>
-        service.create({ name: 'Association1', presidentId: 1, description: 'description' })
-      ).rejects.toThrow(new Error('Role Name Already Exists In This Association'));
-      expect(create).toHaveBeenCalledTimes(1);
-    });
   });
 
   describe('findAllAssociation', () => {

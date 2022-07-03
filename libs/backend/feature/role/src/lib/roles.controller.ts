@@ -22,7 +22,7 @@ export class RolesController {
     try {
       return await this.rolesService.create(createRoleDto);
     } catch (error) {
-      throw new UnprocessableEntityException('Name Already Exists');
+      throw new UnprocessableEntityException(error?.message);
     }
   }
 
@@ -36,7 +36,7 @@ export class RolesController {
   }
 
   @Get('/asso/:id')
-  findAll(@Param('id') id: string): Promise<RoleDto[]> {
+  public findAll(@Param('id') id: string): Promise<RoleDto[]> {
     return this.rolesService.findAll(+id);
   }
 
@@ -45,7 +45,7 @@ export class RolesController {
     try {
       return await this.rolesService.findOne(+id);
     } catch (error) {
-      throw new NotFoundException('Role Not Found');
+      throw new NotFoundException(error?.message);
     }
   }
 
@@ -63,7 +63,7 @@ export class RolesController {
     try {
       return await this.rolesService.delete(+id);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(error?.message);
     }
   }
 }

@@ -10,7 +10,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PostgresError } from 'pg-error-enum';
 import { RolesService } from './roles.service';
 import { UpdateResult } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
 
 class PostgresErrorMock extends Error {
   code: PostgresError;

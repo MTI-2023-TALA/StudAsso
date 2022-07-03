@@ -66,6 +66,10 @@ export class AssociationsController {
 
   @Delete(':id')
   public async delete(@Param('id') id: string): Promise<any> {
-    return this.associationsService.delete(+id);
+    try {
+      return await this.associationsService.delete(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
   }
 }

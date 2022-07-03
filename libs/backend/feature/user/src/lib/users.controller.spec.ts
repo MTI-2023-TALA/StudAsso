@@ -4,7 +4,6 @@ import { CreateUserDto } from '@stud-asso/shared/dtos';
 import { UpdateResult } from 'typeorm';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
-import { plainToInstance } from 'class-transformer';
 
 const mockedUpdateResult: UpdateResult = {
   raw: [],

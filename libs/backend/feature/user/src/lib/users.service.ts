@@ -1,7 +1,7 @@
 import { UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
-import { PostgresError } from 'pg-error-enum';
+import { Prisma } from '@prisma/client';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 
 @Injectable()
@@ -37,8 +37,10 @@ export class UsersService {
     try {
       return await this.userRepository.update(id, updateBaseDto as any);
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Email already used');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'email') {
+          throw new Error('Email already used');
+        }
       }
     }
   }
