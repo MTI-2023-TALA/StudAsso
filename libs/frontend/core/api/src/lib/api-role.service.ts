@@ -1,4 +1,4 @@
-import { CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -29,5 +29,9 @@ export class ApiRoleService extends ApiBaseService {
 
   public findAllRoleWithAsso(id: number): Observable<RoleDto[]> {
     return this.apiService.get<RoleDto[]>(`${this.url}/asso/${id}`);
+  }
+
+  public addRoleToUser(user: AddRoleToUserDto): Observable<AssociationsMemberDto> {
+    return this.apiService.post<AddRoleToUserDto, AssociationsMemberDto>(`${this.url}/user`, user);
   }
 }

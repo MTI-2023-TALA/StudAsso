@@ -1,5 +1,5 @@
+import { AddRoleToUserDto, AssociationDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 import { ApiRoleService, ApiUserService } from '@stud-asso/frontend-core-api';
-import { AssociationDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
@@ -68,13 +68,17 @@ export class MemberPageComponent implements OnInit {
 
   createMember(): (data: any) => void {
     return (data: any) => {
-      // TODO: Fix when backend is correctly setup !
       const assoId = getData('asso-id');
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
       }
       const associationId = JSON.parse(assoId);
+      const payload: AddRoleToUserDto = { userId: +data.userId, roleId: +data.roleId, associationId: associationId };
+      this.apiRole.addRoleToUser(payload).subscribe(() => {
+        this.toast.addAlert({ title: 'Membre ajouté', type: ToastType.Success });
+        this.reloadData();
+      });
     };
   }
 
