@@ -1,6 +1,5 @@
 {
   "projectType": "library",
-  "root": "libs/frontend/feature/association/event-page",
   "sourceRoot": "libs/frontend/feature/association/event-page/src",
   "prefix": "stud-asso",
   "targets": {

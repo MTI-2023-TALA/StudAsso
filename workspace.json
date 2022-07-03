@@ -27,6 +27,7 @@
     "frontend-feature-association-select-association-page": "libs/frontend/feature/association/select-association-page",
     "frontend-feature-association-stock-page": "libs/frontend/feature/association/stock-page",
     "frontend-feature-school-association-page": "libs/frontend/feature/school/association-page",
+    "frontend-feature-student-association-list-page": "libs/frontend/feature/student/association-list-page",
     "frontend-school": "apps/frontend/school",
     "frontend-school-e2e": "apps/frontend/school-e2e",
     "frontend-scss": "libs/frontend/core/scss",
