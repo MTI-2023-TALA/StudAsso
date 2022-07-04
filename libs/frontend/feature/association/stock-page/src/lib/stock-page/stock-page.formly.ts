@@ -1,6 +1,6 @@
+import { Form, InputType } from '@stud-asso/frontend-shared-formly';
 import { UntypedFormControl, ValidationErrors } from '@angular/forms';
 
-import { Form } from '@stud-asso/frontend-shared-formly';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
 export function CountValidator(control: UntypedFormControl): ValidationErrors {
@@ -21,6 +21,7 @@ export const createStockFormly: FormlyFieldConfig[] = [
     key: 'count',
     type: Form.Input,
     templateOptions: {
+      type: InputType.Number,
       label: 'Quantité',
       placeholder: '0',
       required: true,

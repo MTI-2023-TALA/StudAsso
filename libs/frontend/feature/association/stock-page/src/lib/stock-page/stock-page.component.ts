@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { StockDto, StockLogsDto, StockLogsWithUserDto } from '@stud-asso/shared/dtos';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { StockDto } from '@stud-asso/shared/dtos';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createStockFormly } from './stock-page.formly';
 import { getData } from '@stud-asso/frontend-core-storage';
@@ -11,6 +11,7 @@ import { getData } from '@stud-asso/frontend-core-storage';
 @Component({
   selector: 'stud-asso-stock-page',
   templateUrl: './stock-page.component.html',
+  styleUrls: ['./stock-page.component.scss'],
 })
 export class StockPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {
@@ -38,6 +39,17 @@ export class StockPageComponent implements OnInit {
         label: 'Supprimer',
         action: (data: { id: number; name: string }) => {
           this.deleteModalStock(data.id, data.name);
+        },
+      },
+      {
+        label: 'Log',
+        action: (data: { id: number; name: string }) => {
+          this.api.findSpecificStockLogs(data.id).subscribe((logs: StockLogsDto[]) => {
+            this.modal.createLogsModal({
+              message: `Logs du stock ${data.name}`,
+              logs: logs,
+            });
+          });
         },
       },
     ],
@@ -77,6 +89,17 @@ export class StockPageComponent implements OnInit {
       fields: createStockFormly,
       submitBtnText: 'Créer',
       submit: this.createStock(),
+    });
+  }
+
+  createModalAllLogs() {
+    const assoIdData = getData('asso-id');
+    if (!assoIdData) {
+      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
+      return;
+    }
+    this.api.findAllAssoStockLog(+assoIdData).subscribe((logs: StockLogsWithUserDto[]) => {
+      this.modal.createLogsModal({ message: "Logs de l'association", logs: logs });
     });
   }
 

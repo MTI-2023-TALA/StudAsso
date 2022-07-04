@@ -4,6 +4,7 @@ import { BaseModalComponent } from './base-modal/base-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
 import { FormModalComponent } from './form-modal/form-modal.component';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { LogsModalComponent } from './logs-modal/logs-modal.component';
 
 export interface ModalFormData {
   title: string;
@@ -17,6 +18,11 @@ export interface ModalFormData {
 export interface ModalConfirmData {
   submit?: () => void;
   message: string;
+}
+
+export interface ModalLogsData {
+  message: string;
+  logs: any[];
 }
 
 @Injectable({
@@ -54,5 +60,9 @@ export class ModalService {
 
   createForm(data: ModalFormData) {
     return this.createModal(FormModalComponent, data);
+  }
+
+  createLogsModal(data: ModalLogsData) {
+    return this.createModal(LogsModalComponent, data);
   }
 }
