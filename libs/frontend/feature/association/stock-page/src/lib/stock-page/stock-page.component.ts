@@ -81,9 +81,6 @@ export class StockPageComponent implements OnInit {
       this.stockList = stocks;
       this.isLoading = false;
     });
-    this.api.findAllAssoStockLog(assoId).subscribe((logStocks: StockLogsWithUserDto[]) => {
-      console.log(logStocks);
-    });
   }
 
   createModalStock() {
