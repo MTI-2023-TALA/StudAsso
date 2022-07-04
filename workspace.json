@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
     "backend": "apps/backend",
@@ -26,6 +27,8 @@
     "frontend-feature-association-select-association-page": "libs/frontend/feature/association/select-association-page",
     "frontend-feature-association-stock-page": "libs/frontend/feature/association/stock-page",
     "frontend-feature-school-association-page": "libs/frontend/feature/school/association-page",
+    "frontend-feature-student-association-list-page": "libs/frontend/feature/student/association-list-page",
+    "frontend-feature-student-news-page": "libs/frontend/feature/student/news-page",
     "frontend-school": "apps/frontend/school",
     "frontend-school-e2e": "apps/frontend/school-e2e",
     "frontend-scss": "libs/frontend/core/scss",
@@ -45,6 +48,5 @@
     "frontend-testing-common-mock": "libs/frontend/testing/common-mock",
     "shared-dtos": "libs/shared/dtos",
     "shared-permission": "libs/shared/permission"
-  },
-  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
+  }
 }

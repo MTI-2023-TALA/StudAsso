@@ -1,13 +1,13 @@
 {
   "projectType": "library",
-  "sourceRoot": "libs/frontend/feature/association/event-page/src",
+  "sourceRoot": "libs/frontend/feature/student/news-page/src",
   "prefix": "stud-asso",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/feature/association/event-page"],
+      "outputs": ["coverage/libs/frontend/feature/student/news-page"],
       "options": {
-        "jestConfig": "libs/frontend/feature/association/event-page/jest.config.ts",
+        "jestConfig": "libs/frontend/feature/student/news-page/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -15,8 +15,8 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": [
-          "libs/frontend/feature/association/event-page/**/*.ts",
-          "libs/frontend/feature/association/event-page/**/*.html"
+          "libs/frontend/feature/student/news-page/**/*.ts",
+          "libs/frontend/feature/student/news-page/**/*.html"
         ]
       }
     }

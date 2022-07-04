@@ -1,5 +1,6 @@
-module.exports = {
-  displayName: 'frontend-feature-association-event-page',
+/* eslint-disable */
+export default {
+  displayName: 'frontend-feature-student-association-list-page',
   preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../../coverage/libs/frontend/feature/association/event-page',
+  coverageDirectory: '../../../../../coverage/libs/frontend/feature/student/association-list-page',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
