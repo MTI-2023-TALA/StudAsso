@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { localLoginFormly, localSignUpFormly } from './login-page.formly';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
-import { I18nSelectPipe } from '@angular/common';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -16,7 +15,12 @@ export class LoginPageComponent implements OnInit {
   isAsso = false;
   title = '';
 
-  constructor(private activatedRoute: ActivatedRoute, private authService: AuthService, private modal: ModalService, private translate: TranslateService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private authService: AuthService,
+    private modal: ModalService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data) => {
