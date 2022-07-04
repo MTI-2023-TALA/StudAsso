@@ -93,7 +93,6 @@ export class StockPageComponent implements OnInit {
   }
 
   createModalAllLogs() {
-    console.log('Test');
     const assoIdData = getData('asso-id');
     if (!assoIdData) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
