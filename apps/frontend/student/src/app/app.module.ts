@@ -2,6 +2,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FrontendCoreApiModule } from '@stud-asso/frontend-core-api';
+import { FrontendCoreI18nModule } from '@stud-asso/frontend/core/i18n';
 import { FrontendSharedModalModule } from '@stud-asso/frontend-shared-modal';
 import { FrontendSharedTooltipModule } from '@stud-asso/frontend/shared/tooltip';
 import { NgModule } from '@angular/core';
@@ -22,8 +23,9 @@ import { environment } from '../environments/environment';
       enabled: environment.production,
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
+    FrontendCoreI18nModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

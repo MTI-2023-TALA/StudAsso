@@ -1,5 +1,5 @@
 <div class="center">
-  <h1 class="title">Vos associations :</h1>
+  <h1 class="title">{{ 'asso.found' | translate }}</h1>
   <div class="list">
     <div *ngFor="let asso of assoList?.associationsId" class="item" (click)="onClickAsso(asso.id, asso.name)">
       <div class="left">
@@ -9,11 +9,11 @@
         <i class="bi bi-box-arrow-up-right"></i>
       </div>
     </div>
-    <div *ngIf="assoList?.associationsId?.length === 0">Vous n'avez pas encore d'associations.</div>
+    <div *ngIf="assoList?.associationsId?.length === 0">{{ 'asso.none' | translate }}</div>
     <div class="logout">
       <button class="button is-danger" (click)="logout()">
         <i class="bi bi-power p-2"></i>
-        <span>Déconnexion</span>
+        <span>{{ 'deconnect' | translate }}</span>
       </button>
     </div>
   </div>

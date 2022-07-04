@@ -10,7 +10,7 @@
         <formly-form [form]="form" [fields]="fields" [model]="model"></formly-form>
       </section>
       <footer class="sa-modal-card-foot">
-        <a class="button is-ghost" (click)="closeModal()">Annuler</a>
+        <a class="button is-ghost" (click)="closeModal()">{{ 'cancel' | translate }}</a>
         <button class="button is-success">{{ submitBtnText }}</button>
       </footer>
     </div>

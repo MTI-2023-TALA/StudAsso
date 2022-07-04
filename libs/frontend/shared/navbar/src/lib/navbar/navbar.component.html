@@ -48,7 +48,7 @@
     </svg>
     <span *ngIf="shouldShowLargeNavbar" class="title">
       <span *ngIf="assoName">{{ assoName }}</span>
-      <span *ngIf="!assoName">Stud'Asso</span>
+      <span *ngIf="!assoName">{{ 'appName' | translate }}</span>
     </span>
   </h1>
 
@@ -75,7 +75,7 @@
   <div class="u-f-center">
     <button class="button is-danger" (click)="logout()">
       <i class="bi bi-power p-2"></i>
-      <span *ngIf="shouldShowLargeNavbar">Déconnexion</span>
+      <span *ngIf="shouldShowLargeNavbar">{{ 'deconnect' | translate }}</span>
     </button>
   </div>
 </div>
