@@ -1,29 +1,17 @@
 version: '3'
 services:
-  # frontend-school:
-  #   build: ./apps/frontend/school/
-  #   ports:
-  #     - '8081:8081'
-  # frontend-association:
-  #   build: ./apps/frontend/association/
-  #   ports:
-  #     - '4201:4201'
-  # backend:
-  #   build: ./apps/backend/
-  #   ports:
-  #     - '3333:3333'
+  frontend-school:
+    build: ./apps/frontend/school/
+    ports:
+      - '8081:8081'
   frontend-association:
-    image: association
+    build: ./apps/frontend/association/
     ports:
-      - '8080:3334'
-    depends_on:
-      - backend
+      - '4201:4201'
   backend:
-    image: api
+    build: ./apps/backend/
     ports:
-      - '8081:3333'
-    depends_on:
-      - database
+      - '3333:3333'
   database:
     image: postgres:14-alpine3.15
     environment:
