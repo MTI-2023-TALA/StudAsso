@@ -63,9 +63,7 @@ export class EventPageComponent implements OnInit {
     // const associationId = JSON.parse(assoIdData);
     //TODO ask backend for a route to get association events
     this.api.findAll().subscribe((events: EventDto[]) => {
-      this.eventList = events;
-      console.log();
-      this.eventList.map((event) => (event.date = new Date(event.date).toLocaleDateString()));
+      this.eventList = events.map((event) => ({ ...event, date: new Date(event.date).toLocaleDateString() }));
       this.isLoading = false;
     });
   }

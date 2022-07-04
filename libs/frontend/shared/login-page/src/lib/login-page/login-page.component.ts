@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { localLoginFormly, localSignUpFormly } from './login-page.formly';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
+import { GoogleApiService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -19,6 +20,7 @@ export class LoginPageComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService,
     private modal: ModalService,
+    private signInService: GoogleApiService,
     private translate: TranslateService
   ) {}
 
