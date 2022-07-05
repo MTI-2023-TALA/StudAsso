@@ -1,12 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ICreateEventFormly, createEventFormly } from './event-page.formly';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { EventDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
+import { createEventFormly } from './event-page.formly';
 import { getData } from '@stud-asso/frontend-core-storage';
+
+interface Event {
+  id: number;
+  name: string;
+  date: string;
+  content: string;
+  associationId: number;
+}
 
 @Component({
   selector: 'stud-asso-event-page',
@@ -42,7 +50,7 @@ export class EventPageComponent implements OnInit {
       },
     ],
   };
-  eventList: any[] = [];
+  eventList: Event[] = [];
   isLoading = true;
 
   constructor(private api: ApiEventService, private modal: ModalService, private toast: ToastService) {}
@@ -68,6 +76,19 @@ export class EventPageComponent implements OnInit {
     });
   }
 
+  getSpecificEvent(id: number): Event | null {
+    for (const event of this.eventList) {
+      if (event.id == id) {
+        return event;
+      }
+    }
+    return null;
+  }
+
+  formatDate(date: string | undefined): string {
+    return date ? date.split('/').reverse().join('-') : '';
+  }
+
   handleError() {
     return () => this.toast.addAlert({ title: 'Erreur lors de la récupération des événements', type: ToastType.Error });
   }
@@ -76,15 +97,16 @@ export class EventPageComponent implements OnInit {
     this.modal.createForm({
       title: 'Créer un nouvel événement',
       submitBtnText: 'Créer',
-      fields: createEventFormly,
+      fields: createEventFormly(),
       submit: this.createEvent(),
     });
   }
 
   modifyModalEvent(id: number) {
+    const event = this.getSpecificEvent(id);
     this.modal.createForm({
       title: 'Modifier un événement',
-      fields: createEventFormly,
+      fields: createEventFormly(event?.name, this.formatDate(event?.date), event?.content),
       submitBtnText: 'Modifier',
       submit: this.modifyEvent(id),
     });

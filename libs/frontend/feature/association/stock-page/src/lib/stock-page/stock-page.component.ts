@@ -83,10 +83,17 @@ export class StockPageComponent implements OnInit {
     });
   }
 
+  getSpecificStock(id: number): StockDto | null {
+    for (const stock of this.stockList) {
+      if (stock.id == id) return stock;
+    }
+    return null;
+  }
+
   createModalStock() {
     this.modal.createForm({
       title: 'Créer un stock',
-      fields: createStockFormly,
+      fields: createStockFormly(),
       submitBtnText: 'Créer',
       submit: this.createStock(),
     });
@@ -104,9 +111,10 @@ export class StockPageComponent implements OnInit {
   }
 
   modifyModalStock(id: number) {
+    const stock = this.getSpecificStock(id);
     this.modal.createForm({
       title: 'Modifier un stock',
-      fields: createStockFormly,
+      fields: createStockFormly(stock?.name, stock?.count),
       submitBtnText: 'Modifier',
       submit: this.modifyStock(id),
     });
