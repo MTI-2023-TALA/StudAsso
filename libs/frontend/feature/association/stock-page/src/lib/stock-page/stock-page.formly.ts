@@ -11,7 +11,7 @@ export const createStockFormly = (name: string | null = null, count: number | nu
   {
     key: 'name',
     type: Form.Input,
-    defaultValue: name ? name : ``,
+    defaultValue: name,
     templateOptions: {
       label: `Nom du stock`,
       placeholder: `Nom du stock`,
@@ -21,7 +21,7 @@ export const createStockFormly = (name: string | null = null, count: number | nu
   {
     key: 'count',
     type: Form.Input,
-    defaultValue: count ? count : ``,
+    defaultValue: count,
     templateOptions: {
       type: InputType.Number,
       label: 'Quantité',

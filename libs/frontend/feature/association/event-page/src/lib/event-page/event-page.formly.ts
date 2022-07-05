@@ -9,7 +9,7 @@ export const createEventFormly = (
   {
     key: 'name',
     type: Form.Input,
-    defaultValue: name ? name : '',
+    defaultValue: name,
     templateOptions: {
       label: `Nom de l'événement`,
       placeholder: `Nom de l'événement`,
@@ -19,7 +19,7 @@ export const createEventFormly = (
   {
     key: 'date',
     type: Form.Datepicker,
-    defaultValue: date ? date : '',
+    defaultValue: date,
     templateOptions: {
       label: `Date de l'événement`,
       required: true,
@@ -28,7 +28,7 @@ export const createEventFormly = (
   {
     key: 'content',
     type: Form.TextArea,
-    defaultValue: content ? content : '',
+    defaultValue: content,
     templateOptions: {
       label: `Description de l'événement`,
       required: true,

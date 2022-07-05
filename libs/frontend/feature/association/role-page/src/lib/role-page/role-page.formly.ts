@@ -5,7 +5,7 @@ export const createRoleFormly = (name: string | null = null): FormlyFieldConfig[
   {
     key: 'name',
     type: Form.Input,
-    defaultValue: name ? name : '',
+    defaultValue: name,
     templateOptions: {
       label: `Nom du rôle`,
       placeholder: `Nom du rôle`,
