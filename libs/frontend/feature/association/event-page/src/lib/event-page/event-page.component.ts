@@ -3,7 +3,6 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { EventDto } from '@stud-asso/shared/dtos';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createEventFormly } from './event-page.formly';
@@ -16,6 +15,7 @@ interface Event {
   content: string;
   associationId: number;
 }
+
 @Component({
   selector: 'stud-asso-event-page',
   templateUrl: './event-page.component.html',
@@ -77,7 +77,7 @@ export class EventPageComponent implements OnInit {
   }
 
   getSpecificEvent(id: number): Event | null {
-    for (let event of this.eventList) {
+    for (const event of this.eventList) {
       if (event.id == id) {
         return event;
       }
@@ -97,7 +97,7 @@ export class EventPageComponent implements OnInit {
     this.modal.createForm({
       title: 'Créer un nouvel événement',
       submitBtnText: 'Créer',
-      fields: createEventFormly() as FormlyFieldConfig[],
+      fields: createEventFormly(),
       submit: this.createEvent(),
     });
   }
@@ -106,7 +106,7 @@ export class EventPageComponent implements OnInit {
     const event = this.getSpecificEvent(id);
     this.modal.createForm({
       title: 'Modifier un événement',
-      fields: createEventFormly(event?.name, this.formatDate(event?.date), event?.content) as FormlyFieldConfig[],
+      fields: createEventFormly(event?.name, this.formatDate(event?.date), event?.content),
       submitBtnText: 'Modifier',
       submit: this.modifyEvent(id),
     });

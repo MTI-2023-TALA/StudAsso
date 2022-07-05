@@ -1,11 +1,13 @@
 import { Form, InputType } from '@stud-asso/frontend-shared-formly';
 import { UntypedFormControl, ValidationErrors } from '@angular/forms';
 
+import { FormlyFieldConfig } from '@ngx-formly/core';
+
 export function CountValidator(control: UntypedFormControl): ValidationErrors {
   return /\d{1,4}/.test(control.value) ? { count: false } : { count: true };
 }
 
-export const createStockFormly = (name: string | null = null, count: number | null = null) => [
+export const createStockFormly = (name: string | null = null, count: number | null = null): FormlyFieldConfig[] => [
   {
     key: 'name',
     type: Form.Input,

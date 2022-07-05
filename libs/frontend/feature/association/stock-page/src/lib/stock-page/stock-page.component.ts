@@ -3,7 +3,6 @@ import { StockDto, StockLogsDto, StockLogsWithUserDto } from '@stud-asso/shared/
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiStockService } from '@stud-asso/frontend-core-api';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createStockFormly } from './stock-page.formly';
@@ -94,7 +93,7 @@ export class StockPageComponent implements OnInit {
   createModalStock() {
     this.modal.createForm({
       title: 'Créer un stock',
-      fields: createStockFormly() as FormlyFieldConfig[],
+      fields: createStockFormly(),
       submitBtnText: 'Créer',
       submit: this.createStock(),
     });
@@ -115,7 +114,7 @@ export class StockPageComponent implements OnInit {
     const stock = this.getSpecificStock(id);
     this.modal.createForm({
       title: 'Modifier un stock',
-      fields: createStockFormly(stock?.name, stock?.count) as FormlyFieldConfig[],
+      fields: createStockFormly(stock?.name, stock?.count),
       submitBtnText: 'Modifier',
       submit: this.modifyStock(id),
     });

@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { RoleDto } from '@stud-asso/shared/dtos';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
@@ -66,7 +65,7 @@ export class RolePageComponent implements OnInit {
   }
 
   getSpecificRole(id: number): RoleDto | null {
-    for (let role of this.roleList) {
+    for (const role of this.roleList) {
       if (role.id == id) {
         return role;
       }
@@ -82,7 +81,7 @@ export class RolePageComponent implements OnInit {
     this.modal.createForm({
       title: 'Créer un nouveau rôle',
       submitBtnText: 'Créer',
-      fields: createRoleFormly() as FormlyFieldConfig[],
+      fields: createRoleFormly(),
       submit: this.createRole(),
     });
   }
@@ -91,7 +90,7 @@ export class RolePageComponent implements OnInit {
     const role = this.getSpecificRole(id);
     this.modal.createForm({
       title: 'Modifier un rôle',
-      fields: createRoleFormly(role?.name) as FormlyFieldConfig[],
+      fields: createRoleFormly(role?.name),
       submitBtnText: 'Modifier',
       submit: this.modifyRole(id),
     });

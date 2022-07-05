@@ -1,10 +1,11 @@
 import { Form } from '@stud-asso/frontend-shared-formly';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 export const createEventFormly = (
   name: string | null = null,
   date: string | null = null,
   content: string | null = null
-) => [
+): FormlyFieldConfig[] => [
   {
     key: 'name',
     type: Form.Input,
