@@ -24,8 +24,4 @@ export * from './lib/stocks/create-stock.dto';
 export * from './lib/stocks/update-stock.dto';
 export * from './lib/stocks-logs/stock-logs.dto';
 export * from './lib/stocks-logs/create-stock-logs.dto';
-export * from './lib/user/asso-user.dto';
 export * from './lib/user/user.dto';
-export * from './lib/user/create-user.dto';
-export * from './lib/user/update-user.dto';
-export * from './lib/user/user-id-and-email.dto';

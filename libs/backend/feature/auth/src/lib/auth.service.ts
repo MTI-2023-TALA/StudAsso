@@ -1,7 +1,7 @@
 import * as argon from 'argon2';
 
 import { Auth, google } from 'googleapis';
-import { AuthDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
+import { AuthDto, CreateUserDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
@@ -30,7 +30,14 @@ export class AuthService {
     let user: UserDto;
 
     try {
-      user = await this.userRepository.createUser(dto.email, dto.email, dto.email, false, hash);
+      const createUserDto: CreateUserDto = {
+        firstname: dto.email,
+        lastname: dto.email,
+        email: dto.email,
+        isSchoolEmployee: false,
+        passwordHash: hash,
+      };
+      user = await this.userRepository.createUser(createUserDto);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'email') {
@@ -69,13 +76,14 @@ export class AuthService {
       await this._updateRtToken(user.id, tokens.refreshToken);
       return tokens;
     } else {
-      const newUser = await this.userRepository.createUser(
-        tokenInfo.email,
-        tokenInfo.email,
-        tokenInfo.email,
-        false,
-        null
-      );
+      const createUserDto: CreateUserDto = {
+        firstname: tokenInfo.email,
+        lastname: tokenInfo.email,
+        email: tokenInfo.email,
+        isSchoolEmployee: false,
+        passwordHash: null,
+      };
+      const newUser = await this.userRepository.createUser(createUserDto);
       const tokens = await this._getTokens(newUser.id, tokenInfo.email);
       await this._updateRtToken(newUser.id, tokens.refreshToken);
       return tokens;

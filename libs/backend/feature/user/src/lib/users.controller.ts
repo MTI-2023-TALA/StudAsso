@@ -1,4 +1,4 @@
-import { AssoUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import { AssociationOfUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch } from '@nestjs/common';
 
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
@@ -10,27 +10,19 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<UserDto> {
-    try {
-      return await this.usersService.findOne(+id);
-    } catch (error) {
-      throw new NotFoundException(error?.message);
-    }
-  }
-
   @Get()
-  findAll(): Promise<UserDto[]> {
+  async findAll(): Promise<UserDto[]> {
     return this.usersService.findAll();
   }
 
+  // To keep before @Get(':id') for correct route mapping
   @Get('IdAndEmail')
   findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
     return this.usersService.findAllIdAndEmail();
   }
 
   @Get('asso')
-  findAssoOfUser(@GetCurrentUserId() userId: number): Promise<AssoUserDto> {
+  async findAssoOfUser(@GetCurrentUserId() userId: number): Promise<AssociationOfUserDto> {
     //TODO: handle error if no asso for user
     return this.usersService.findAssoOfUser(userId);
   }
@@ -40,8 +32,17 @@ export class UsersController {
     return this.usersService.findAllByName(name);
   }
 
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<UserDto> {
+    try {
+      return await this.usersService.findOne(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<any> {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UserDto> {
     try {
       return await this.usersService.update(+id, updateUserDto);
     } catch (error) {
@@ -50,7 +51,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<any> {
+  async delete(@Param('id') id: string): Promise<UserDto> {
     try {
       return await this.usersService.delete(+id);
     } catch (error) {
