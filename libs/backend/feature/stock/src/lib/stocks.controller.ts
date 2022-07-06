@@ -9,7 +9,7 @@ import {
   Post,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { CreateStockDto, StockDto, StockLogsDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockDto, StockDto, StockLogDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { StocksService } from './stocks.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -42,7 +42,7 @@ export class StocksController {
   }
 
   @Get('assologs/:id')
-  public async findAllAssoStockLogs(@Param('id') assoId: string): Promise<StockLogsWithUserDto[]> {
+  public async findAllAssoStockLogs(@Param('id') assoId: string): Promise<StockLogWithUserDto[]> {
     try {
       return await this.stocksService.findAllAssoStockLogs(+assoId);
     } catch (error) {
@@ -51,7 +51,7 @@ export class StocksController {
   }
 
   @Get('logs/:id')
-  public async findSpecificStockLogs(@Param('id') stockId: string): Promise<StockLogsDto[]> {
+  public async findSpecificStockLogs(@Param('id') stockId: string): Promise<StockLogDto[]> {
     try {
       return await this.stocksService.findSpecificStockLogs(+stockId);
     } catch (error) {

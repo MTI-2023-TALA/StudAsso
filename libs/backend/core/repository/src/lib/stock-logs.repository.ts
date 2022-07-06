@@ -1,17 +1,18 @@
+import { StockLogModel, StockLogWithUserModel } from '@stud-asso/backend/core/model';
+
+import { CreateStockLogDto } from '@stud-asso/shared/dtos';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
-import { StockLog } from '@prisma/client';
 
 @Injectable()
 export class StockLogsRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(createStockLog: any): Promise<StockLog> {
+  public async create(createStockLog: CreateStockLogDto): Promise<StockLogModel> {
     return this.prisma.stockLog.create({ data: createStockLog });
   }
 
-  public async findAllAssoStockLogs(associationId: number): Promise<any[]> {
-    // TODO: interface
+  public async findAllAssoStockLogs(associationId: number): Promise<StockLogWithUserModel[]> {
     return this.prisma.stockLog.findMany({
       where: {
         stock: {
@@ -38,8 +39,7 @@ export class StockLogsRepository {
     });
   }
 
-  public async findSpecificStockLogs(stockId: number): Promise<any[]> {
-    // TODO: interface
+  public async findSpecificStockLogs(stockId: number): Promise<StockLogModel[]> {
     return this.prisma.stockLog.findMany({
       where: {
         stockId,

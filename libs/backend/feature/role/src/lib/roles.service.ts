@@ -18,9 +18,9 @@ export class RolesService {
     private readonly userRepository: UserRepository
   ) {}
 
-  public async create(createBaseDto: CreateRoleDto): Promise<RoleDto> {
+  public async create(createRoleDto: CreateRoleDto): Promise<RoleDto> {
     try {
-      return await this.roleRepository.create(createBaseDto);
+      return await this.roleRepository.create(createRoleDto);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
@@ -67,13 +67,13 @@ export class RolesService {
     return role;
   }
 
-  public async update(id: number, updateBaseDto: UpdateRoleDto): Promise<RoleDto> {
+  public async update(id: number, updateRoleDto: UpdateRoleDto): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
     if (!role) throw new Error('Role not found');
     if (role.name === 'Président') throw new Error('Cannot update role');
 
     try {
-      return await this.roleRepository.update(id, updateBaseDto);
+      return await this.roleRepository.update(id, updateRoleDto);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {

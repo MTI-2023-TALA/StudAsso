@@ -1,10 +1,10 @@
 import { AssociationRepository, StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 import {
   CreateStockDto,
-  CreateStockLogsDto,
+  CreateStockLogDto,
   StockDto,
-  StockLogsDto,
-  StockLogsWithUserDto,
+  StockLogDto,
+  StockLogWithUserDto,
   UpdateStockDto,
 } from '@stud-asso/shared/dtos';
 
@@ -45,7 +45,7 @@ export class StocksService {
     return this.stockRepository.findAllAsso(id);
   }
 
-  public async findAllAssoStockLogs(associationId: number): Promise<StockLogsWithUserDto[]> {
+  public async findAllAssoStockLogs(associationId: number): Promise<StockLogWithUserDto[]> {
     const asso = await this.associationRepository.findOne(associationId);
     if (!asso) {
       throw new Error('Association Not Found');
@@ -53,7 +53,7 @@ export class StocksService {
     return this.stockLogsRepository.findAllAssoStockLogs(associationId);
   }
 
-  public async findSpecificStockLogs(stockId: number): Promise<StockLogsDto[]> {
+  public async findSpecificStockLogs(stockId: number): Promise<StockLogDto[]> {
     const stock = await this.stockRepository.findOne(stockId);
     if (!stock) {
       throw new Error('Stock Not Found');
@@ -69,13 +69,13 @@ export class StocksService {
     return stock;
   }
 
-  public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<StockDto> {
+  public async update(id: number, userId: number, updateStockDto: UpdateStockDto): Promise<StockDto> {
     const stockBeforeUpdate = await this.stockRepository.findOne(id);
     if (!stockBeforeUpdate) {
       throw new Error('Stock Not Found');
     }
-    const updatedStock = await this.stockRepository.update(id, updateBaseDto);
-    await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateBaseDto.count, 'update');
+    const updatedStock = await this.stockRepository.update(id, updateStockDto);
+    await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateStockDto.count, 'update');
     return updatedStock;
   }
 
@@ -95,9 +95,9 @@ export class StocksService {
     oldCount: number,
     newCount: number,
     action: string
-  ): Promise<any> {
+  ): Promise<CreateStockLogDto> {
     if (action === 'create' || action === 'update' || action === 'delete') {
-      const createStockLogsDto: CreateStockLogsDto = {
+      const createStockLogsDto: CreateStockLogDto = {
         stockId,
         userId,
         oldCount,
