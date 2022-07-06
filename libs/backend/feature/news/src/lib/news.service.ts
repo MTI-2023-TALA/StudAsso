@@ -1,4 +1,4 @@
-import { CreateNewsFeedDto, NewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { NewsRepository } from '@stud-asso/backend/core/repository';
@@ -8,9 +8,9 @@ import { Prisma } from '@prisma/client';
 export class NewsService {
   constructor(private readonly newsRepository: NewsRepository) {}
 
-  public async create(createBaseDto: CreateNewsFeedDto): Promise<any> {
+  public async create(createBaseDto: CreateNewsDto): Promise<NewsDto> {
     try {
-      return await this.newsRepository.create(createBaseDto as any);
+      return await this.newsRepository.create(createBaseDto);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003') {
@@ -25,11 +25,11 @@ export class NewsService {
     }
   }
 
-  public async findAll(): Promise<NewsFeedDto[]> {
+  public async findAll(): Promise<NewsDto[]> {
     return this.newsRepository.findAll();
   }
 
-  public async findOne(id: number): Promise<NewsFeedDto> {
+  public async findOne(id: number): Promise<NewsDto> {
     const news = await this.newsRepository.findOne(id);
     if (!news) {
       throw new Error('News Not Found');
@@ -37,18 +37,16 @@ export class NewsService {
     return news;
   }
 
-  public async update(id: number, updateBaseDto: UpdateNewsFeedDto): Promise<any> {
+  public async update(id: number, updateNewsDto: UpdateNewsDto): Promise<NewsDto> {
     const event = await this.newsRepository.findOne(id);
     if (!event) {
       throw new Error('News Not Found');
     }
 
-    //TODO: interface
-    return this.newsRepository.update(id, updateBaseDto as any);
+    return this.newsRepository.update(id, updateNewsDto);
   }
 
-  public async delete(id: number): Promise<any> {
-    // TODO: interface
+  public async delete(id: number): Promise<NewsDto> {
     try {
       return await this.newsRepository.delete(id);
     } catch (error) {

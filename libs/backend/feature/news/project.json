@@ -1,6 +1,6 @@
 {
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/backend/feature/news-feed/src",
+  "sourceRoot": "libs/backend/feature/news/src",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",

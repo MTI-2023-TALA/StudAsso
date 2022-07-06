@@ -1,5 +1,5 @@
 import { Body, Delete, Get, NotFoundException, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
-import { CreateNewsFeedDto, NewsFeedDto, UpdateNewsFeedDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 import { NewsService } from './news.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
@@ -8,7 +8,7 @@ export class NewsController {
   constructor(private readonly newsFeedService: NewsService) {}
 
   @Post()
-  public async create(@Body() createNewsFeedDto: CreateNewsFeedDto): Promise<NewsFeedDto> {
+  public async create(@Body() createNewsFeedDto: CreateNewsDto): Promise<NewsDto> {
     try {
       return await this.newsFeedService.create(createNewsFeedDto);
     } catch (error) {
@@ -17,12 +17,12 @@ export class NewsController {
   }
 
   @Get()
-  public async findAll(): Promise<NewsFeedDto[]> {
+  public async findAll(): Promise<NewsDto[]> {
     return this.newsFeedService.findAll();
   }
 
   @Get(':id')
-  public async findOne(@Param('id') id: string): Promise<NewsFeedDto> {
+  public async findOne(@Param('id') id: string): Promise<NewsDto> {
     try {
       return await this.newsFeedService.findOne(+id);
     } catch (error) {
@@ -31,7 +31,7 @@ export class NewsController {
   }
 
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() updateNewsFeedDto: UpdateNewsFeedDto): Promise<any> {
+  public async update(@Param('id') id: string, @Body() updateNewsFeedDto: UpdateNewsDto): Promise<NewsDto> {
     try {
       return await this.newsFeedService.update(+id, updateNewsFeedDto);
     } catch (error) {
@@ -40,7 +40,7 @@ export class NewsController {
   }
 
   @Delete(':id')
-  public async delete(@Param('id') id: string): Promise<any> {
+  public async delete(@Param('id') id: string): Promise<NewsDto> {
     try {
       return await this.newsFeedService.delete(+id);
     } catch (error) {
