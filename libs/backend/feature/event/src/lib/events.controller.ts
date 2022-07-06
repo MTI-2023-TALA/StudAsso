@@ -42,7 +42,7 @@ export class EventsController {
   }
 
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto): Promise<any> {
+  public async update(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto): Promise<EventDto> {
     try {
       if (updateEventDto.date) updateEventDto.date = new Date(updateEventDto.date);
       return await this.eventsService.update(+id, updateEventDto);
@@ -52,7 +52,7 @@ export class EventsController {
   }
 
   @Delete(':id')
-  public async delete(@Param('id') id: string): Promise<any> {
+  public async delete(@Param('id') id: string): Promise<EventDto> {
     try {
       return await this.eventsService.delete(+id);
     } catch (error) {
