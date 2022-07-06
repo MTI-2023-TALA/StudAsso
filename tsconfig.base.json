@@ -20,6 +20,7 @@
       "@stud-asso/backend-core-base": ["libs/backend/core/base/src/index.ts"],
       "@stud-asso/backend-core-migrations": ["libs/backend/core/migrations/src/index.ts"],
       "@stud-asso/backend-feature-news": ["libs/backend/feature/news/src/index.ts"],
+      "@stud-asso/backend/core/model": ["libs/backend/core/model/src/index.ts"],
       "@stud-asso/backend/core/orm": ["libs/backend/core/orm/src/index.ts"],
       "@stud-asso/backend/core/repository": ["libs/backend/core/repository/src/index.ts"],
       "@stud-asso/backend/core/swagger": ["libs/backend/core/swagger/src/index.ts"],

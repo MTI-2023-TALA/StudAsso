@@ -4,6 +4,7 @@
   "projects": {
     "backend": "apps/backend",
     "backend-core-auth": "libs/backend/core/auth",
+    "backend-core-model": "libs/backend/core/model",
     "backend-core-orm": "libs/backend/core/orm",
     "backend-core-repository": "libs/backend/core/repository",
     "backend-core-swagger": "libs/backend/core/swagger",
