@@ -42,7 +42,7 @@ export class StocksService {
     if (!asso) {
       throw new Error('Association Not Found');
     }
-    return await this.stockRepository.findAllAsso(id);
+    return this.stockRepository.findAllAsso(id);
   }
 
   public async findAllAssoStockLogs(associationId: number): Promise<StockLogsWithUserDto[]> {
@@ -50,7 +50,7 @@ export class StocksService {
     if (!asso) {
       throw new Error('Association Not Found');
     }
-    return await this.stockLogsRepository.findAllAssoStockLogs(associationId);
+    return this.stockLogsRepository.findAllAssoStockLogs(associationId);
   }
 
   public async findSpecificStockLogs(stockId: number): Promise<StockLogsDto[]> {
@@ -58,7 +58,7 @@ export class StocksService {
     if (!stock) {
       throw new Error('Stock Not Found');
     }
-    return await this.stockLogsRepository.findSpecificStockLogs(stockId);
+    return this.stockLogsRepository.findSpecificStockLogs(stockId);
   }
 
   public async findOne(id: number): Promise<StockDto> {
@@ -69,7 +69,7 @@ export class StocksService {
     return stock;
   }
 
-  public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<any> {
+  public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<StockDto> {
     const stockBeforeUpdate = await this.stockRepository.findOne(id);
     if (!stockBeforeUpdate) {
       throw new Error('Stock Not Found');
@@ -79,7 +79,7 @@ export class StocksService {
     return updatedStock;
   }
 
-  public async delete(id: number, userId: number): Promise<any> {
+  public async delete(id: number, userId: number): Promise<StockDto> {
     const stockBeforeDelete = await this.stockRepository.findOne(id);
     if (!stockBeforeDelete) {
       throw new Error('Stock Not Found');

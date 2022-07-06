@@ -17,8 +17,6 @@ export * from './lib/news-feed/create-news-feed.dto';
 export * from './lib/news-feed/update-news-feed.dto';
 export * from './lib/roles/role.dto';
 export * from './lib/stocks/stock.dto';
-export * from './lib/stocks/create-stock.dto';
-export * from './lib/stocks/update-stock.dto';
 export * from './lib/stocks-logs/stock-logs.dto';
 export * from './lib/stocks-logs/create-stock-logs.dto';
 export * from './lib/user/user.dto';

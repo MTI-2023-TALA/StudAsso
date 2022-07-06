@@ -73,7 +73,7 @@ export class StocksController {
     @Param('id') id: string,
     @GetCurrentUserId() userId: number,
     @Body() updateStockDto: UpdateStockDto
-  ): Promise<any> {
+  ): Promise<StockDto> {
     try {
       return await this.stocksService.update(+id, userId, updateStockDto);
     } catch (error) {
@@ -82,7 +82,7 @@ export class StocksController {
   }
 
   @Delete(':id')
-  public async delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<any> {
+  public async delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<StockDto> {
     //TODO: soft delete and careful with stock logs
     try {
       return await this.stocksService.delete(+id, userId);
