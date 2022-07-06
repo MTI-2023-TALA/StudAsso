@@ -1,37 +1,42 @@
+import { CreateRoleModel, RoleModel, UpdateRoleModel } from '@stud-asso/backend/core/model';
+
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
-import { Role } from '@prisma/client';
+
+const simpleUserSelect = { id: true, name: true, associationId: true };
 
 @Injectable()
 export class RoleRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(createRole: any): Promise<Role> {
-    // TODO: interface
-    return this.prisma.role.create({ data: createRole });
+  public async create(createRole: CreateRoleModel): Promise<RoleModel> {
+    return this.prisma.role.create({
+      data: createRole,
+      select: simpleUserSelect,
+    });
   }
 
-  public async findAll(): Promise<Role[]> {
-    return this.prisma.role.findMany();
+  public async findAll(): Promise<RoleModel[]> {
+    return this.prisma.role.findMany({ select: simpleUserSelect });
   }
 
-  public async findOne(id: number): Promise<Role> {
-    return this.prisma.role.findUnique({ where: { id } });
+  public async findOne(id: number): Promise<RoleModel> {
+    return this.prisma.role.findUnique({ where: { id }, select: simpleUserSelect });
   }
 
-  public async update(id: number, updateRole: any): Promise<Role> {
-    return this.prisma.role.update({ where: { id }, data: updateRole });
+  public async update(id: number, updateRole: UpdateRoleModel): Promise<RoleModel> {
+    return this.prisma.role.update({ where: { id }, data: updateRole, select: simpleUserSelect });
   }
 
-  public async delete(id: number): Promise<Role> {
-    return this.prisma.role.delete({ where: { id } });
+  public async delete(id: number): Promise<RoleModel> {
+    return this.prisma.role.delete({ where: { id }, select: simpleUserSelect });
   }
 
-  public async createRolePresident(associationId: number): Promise<Role> {
-    return this.prisma.role.create({ data: { name: 'Président', associationId } });
+  public async createRolePresident(associationId: number): Promise<RoleModel> {
+    return this.prisma.role.create({ data: { name: 'Président', associationId }, select: simpleUserSelect });
   }
 
-  public async findAllAsso(id: number): Promise<Role[]> {
-    return this.prisma.role.findMany({ where: { associationId: id } });
+  public async findAllAsso(id: number): Promise<RoleModel[]> {
+    return this.prisma.role.findMany({ where: { associationId: id }, select: simpleUserSelect });
   }
 }

@@ -50,7 +50,7 @@ export class RolesController {
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<any> {
+  async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<RoleDto> {
     try {
       return await this.rolesService.update(+id, updateRoleDto);
     } catch (error) {
@@ -59,7 +59,7 @@ export class RolesController {
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<any> {
+  async delete(@Param('id') id: string): Promise<RoleDto> {
     try {
       return await this.rolesService.delete(+id);
     } catch (error) {
