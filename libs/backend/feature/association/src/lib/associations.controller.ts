@@ -56,7 +56,10 @@ export class AssociationsController {
   }
 
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() updateAssociationDto: UpdateAssociationDto): Promise<any> {
+  public async update(
+    @Param('id') id: string,
+    @Body() updateAssociationDto: UpdateAssociationDto
+  ): Promise<AssociationDto> {
     try {
       return await this.associationsService.update(+id, updateAssociationDto);
     } catch (error) {
@@ -65,7 +68,7 @@ export class AssociationsController {
   }
 
   @Delete(':id')
-  public async delete(@Param('id') id: string): Promise<any> {
+  public async delete(@Param('id') id: string): Promise<AssociationDto> {
     try {
       return await this.associationsService.delete(+id);
     } catch (error) {

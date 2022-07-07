@@ -12,6 +12,7 @@ import {
   UserRepository,
 } from '@stud-asso/backend/core/repository';
 
+import { AssociationWithPresidentModel } from '@stud-asso/backend/core/model';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
@@ -32,7 +33,7 @@ export class AssociationsService {
     try {
       const createdAsso = await this.associationRepository.create({
         name: createAssociationDto.name,
-        description: createAssociationDto.description,
+        description: createAssociationDto?.description,
       });
       const { id } = await this.roleRepository.createRolePresident(createdAsso.id);
       await this.associationsMemberRepository.linkUserToRole(createdAsso.id, createAssociationDto.presidentId, id);
@@ -47,7 +48,8 @@ export class AssociationsService {
   }
 
   public async findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
-    return this.associationRepository.findAllWithPresident();
+    const assos = await this.associationRepository.findAllWithPresident();
+    return assos.map((a) => this.formatAsso(a));
   }
 
   public async findOneWithPresident(id: number): Promise<AssociationWithPresidentDto> {
@@ -55,7 +57,7 @@ export class AssociationsService {
     if (!asso) {
       throw new Error('Association Not Found');
     }
-    return asso;
+    return this.formatAsso(asso);
   }
 
   public async findAssociationPresident(associationId: number): Promise<UserDto> {
@@ -63,17 +65,23 @@ export class AssociationsService {
     if (!president) {
       throw new Error('Association Not Found');
     }
-    return president;
+    return {
+      id: president.associationsMembers[0].userId,
+      firstname: president.associationsMembers[0].user.firstname,
+      lastname: president.associationsMembers[0].user.lastname,
+      email: president.associationsMembers[0].user.email,
+      isSchoolEmployee: president.associationsMembers[0].user.isSchoolEmployee,
+    };
   }
 
-  public async update(id: number, updateBaseDto: UpdateAssociationDto): Promise<any> {
+  public async update(id: number, updateAssociationDto: UpdateAssociationDto): Promise<AssociationDto> {
     const asso = await this.associationRepository.findOne(id);
     if (!asso) {
       throw new Error('Association Not Found');
     }
 
     try {
-      return await this.associationRepository.update(id, updateBaseDto);
+      return await this.associationRepository.update(id, updateAssociationDto);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'name,') {
@@ -83,7 +91,7 @@ export class AssociationsService {
     }
   }
 
-  public async delete(id: number): Promise<any> {
+  public async delete(id: number): Promise<AssociationDto> {
     try {
       return await this.associationRepository.delete(id);
     } catch (error) {
@@ -93,5 +101,18 @@ export class AssociationsService {
         }
       }
     }
+  }
+
+  private formatAsso(asso: AssociationWithPresidentModel): AssociationWithPresidentDto {
+    return {
+      id: asso.id,
+      name: asso.name,
+      description: asso.description,
+      presidentId: asso.associationsMembers[0].userId,
+      firstname: asso.associationsMembers[0].user.firstname,
+      lastname: asso.associationsMembers[0].user.lastname,
+      email: asso.associationsMembers[0].user.email,
+      isSchoolEmployee: asso.associationsMembers[0].user.isSchoolEmployee,
+    };
   }
 }

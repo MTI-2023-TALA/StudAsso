@@ -1,52 +1,60 @@
-import { Association } from '@prisma/client';
+import {
+  AssociationModel,
+  AssociationPresidentModel,
+  AssociationWithPresidentModel,
+  CreateAssociationModel,
+} from '@stud-asso/backend/core/model';
+
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
+import { UpdateAssociationDto } from '@stud-asso/shared/dtos';
 
-@Injectable()
-export class AssociationRepository {
-  selectAssoWithPresident = {
-    id: true,
-    name: true,
-    description: true,
-    associationsMembers: {
-      select: {
-        userId: true,
-        user: {
-          select: {
-            firstname: true,
-            lastname: true,
-            email: true,
-            isSchoolEmployee: true,
-          },
+const assoSelect = { id: true, name: true, description: true };
+
+const assoWithPresidentSelect = {
+  id: true,
+  name: true,
+  description: true,
+  associationsMembers: {
+    select: {
+      userId: true,
+      user: {
+        select: {
+          firstname: true,
+          lastname: true,
+          email: true,
+          isSchoolEmployee: true,
         },
       },
     },
-  };
+  },
+};
 
+@Injectable()
+export class AssociationRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(createAssociation: any): Promise<Association> {
-    // TODO: interface
-    return this.prisma.association.create({ data: createAssociation });
+  public async create(createAssociation: CreateAssociationModel): Promise<AssociationModel> {
+    return this.prisma.association.create({ data: createAssociation, select: assoSelect });
   }
 
-  public async findAll(): Promise<Association[]> {
-    return this.prisma.association.findMany();
+  public async findAll(): Promise<AssociationModel[]> {
+    return this.prisma.association.findMany({ select: assoSelect });
   }
 
-  public async findOne(id: number): Promise<Association> {
-    return this.prisma.association.findUnique({ where: { id } });
+  public async findOne(id: number): Promise<AssociationModel> {
+    return this.prisma.association.findUnique({ where: { id }, select: assoSelect });
   }
 
-  public async update(id: number, updateAssociation: any): Promise<Association> {
-    return this.prisma.association.update({ where: { id }, data: updateAssociation });
+  public async update(id: number, updateAssociation: UpdateAssociationDto): Promise<AssociationModel> {
+    return this.prisma.association.update({ where: { id }, data: updateAssociation, select: assoSelect });
   }
 
-  public async delete(id: number): Promise<Association> {
-    return this.prisma.association.delete({ where: { id } });
+  public async delete(id: number): Promise<AssociationModel> {
+    return this.prisma.association.delete({ where: { id }, select: assoSelect });
   }
 
-  public async findAllWithPresident(): Promise<any[]> {
+  public async findAllWithPresident(): Promise<AssociationWithPresidentModel[]> {
     return this.prisma.association.findMany({
       where: {
         deletedAt: null, // TODO: soft delete middleware (see if still necessary)
@@ -56,11 +64,11 @@ export class AssociationRepository {
           },
         },
       },
-      select: this.selectAssoWithPresident,
+      select: assoWithPresidentSelect,
     });
   }
 
-  public async findOneWithPresident(associationId: number): Promise<any> {
+  public async findOneWithPresident(associationId: number): Promise<AssociationWithPresidentModel> {
     return this.prisma.association.findFirst({
       where: {
         id: associationId,
@@ -71,11 +79,11 @@ export class AssociationRepository {
           },
         },
       },
-      select: this.selectAssoWithPresident,
+      select: assoWithPresidentSelect,
     });
   }
 
-  public async findAssociationPresident(associationId: number): Promise<any> {
+  public async findAssociationPresident(associationId: number): Promise<AssociationPresidentModel> {
     return this.prisma.association.findFirst({
       where: {
         id: associationId,

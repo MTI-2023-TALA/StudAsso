@@ -63,3 +63,10 @@ export class AssociationOfUserDto {
   id: number;
   associationsId: AssociationIdAndNameDto[];
 }
+
+export class UserWithoutIdDto {
+  firstname: string;
+  lastname: string;
+  email: string;
+  isSchoolEmployee: boolean;
+}

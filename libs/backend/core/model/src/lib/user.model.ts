@@ -32,9 +32,9 @@ export class AssociationOfUserModel {
   associationsMembers: AssociationIdAndNameModel[];
 }
 
-export class UserByNameModel {
-  id: number;
+export class UserWithoutIdModel {
   firstname: string;
   lastname: string;
   email: string;
+  isSchoolEmployee: boolean;
 }
