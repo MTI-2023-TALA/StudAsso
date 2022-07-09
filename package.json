@@ -14,6 +14,9 @@
     "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
     "docker": "docker-compose -f docker-compose.yml up"
   },
+  "prisma": {
+    "schema": "./libs/backend/core/orm/src/lib/prisma/schema.prisma"
+  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "~14.0.0",
@@ -49,6 +52,7 @@
     "nx": "14.4.0",
     "nx-stylelint": "^13.5.0",
     "prettier": "^2.6.2",
+    "prisma": "^4.0.0",
     "stylelint": "^14.8.1",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^26.0.0",
@@ -75,11 +79,11 @@
     "@nestjs/passport": "^8.2.2",
     "@nestjs/platform-express": "^8.4.7",
     "@nestjs/swagger": "^5.2.1",
-    "@nestjs/typeorm": "^8.0.3",
     "@ngx-formly/core": "^5.12.5",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@nrwl/angular": "14.4.0",
+    "@prisma/client": "^4.0.0",
     "angular-oauth2-oidc": "^13.0.1",
     "argon2": "^0.28.5",
     "bootstrap-icons": "^1.8.3",
@@ -89,7 +93,6 @@
     "googleapis": "^104.0.0",
     "jwt-decode": "^3.1.2",
     "passport-jwt": "^4.0.0",
-    "pg": "^8.7.3",
     "pg-error-enum": "^0.5.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.4.0",

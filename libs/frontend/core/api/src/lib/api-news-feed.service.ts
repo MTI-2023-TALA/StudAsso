@@ -1,4 +1,4 @@
-import { CreateNewsFeedDto, NewsFeedDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto } from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -11,14 +11,14 @@ import { Observable } from 'rxjs';
 export class ApiNewsFeedService extends ApiBaseService {
   constructor(apiService: ApiService) {
     super(apiService);
-    this.url = 'news-feed';
+    this.url = 'news';
   }
 
-  public create(newsFeed: CreateNewsFeedDto): Observable<NewsFeedDto> {
-    return this.apiService.post<CreateNewsFeedDto, NewsFeedDto>(this.url, newsFeed);
+  public create(newsFeed: CreateNewsDto): Observable<NewsDto> {
+    return this.apiService.post<CreateNewsDto, NewsDto>(this.url, newsFeed);
   }
 
-  public findAll(): Observable<NewsFeedDto[]> {
-    return this.apiService.get<NewsFeedDto[]>(this.url);
+  public findAll(): Observable<NewsDto[]> {
+    return this.apiService.get<NewsDto[]>(this.url);
   }
 }

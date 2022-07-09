@@ -3,3 +3,8 @@ export class AssociationsMemberDto {
   associationId: number;
   roleId: number;
 }
+
+export class AssociationIdAndNameDto {
+  id: number;
+  name: string;
+}

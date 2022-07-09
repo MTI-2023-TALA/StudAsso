@@ -7,8 +7,7 @@ import {
 } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
-import { PostgresError } from 'pg-error-enum';
-import { UpdateResult } from 'typeorm';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class RolesService {
@@ -19,12 +18,18 @@ export class RolesService {
     private readonly userRepository: UserRepository
   ) {}
 
-  public async create(createBaseDto: CreateRoleDto): Promise<RoleDto> {
+  public async create(createRoleDto: CreateRoleDto): Promise<RoleDto> {
     try {
-      return await this.roleRepository.create(createBaseDto);
+      return await this.roleRepository.create(createRoleDto);
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Name already exists');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
+          throw new Error('Association Name Already Exists');
+        }
+
+        if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {
+          throw new Error('Association Not Found');
+        }
       }
     }
   }
@@ -58,28 +63,30 @@ export class RolesService {
 
   public async findOne(id: number): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
-    if (!role) throw new Error('Role not found');
+    if (!role) throw new Error('Role Not Found');
     return role;
   }
 
-  public async update(id: number, updateBaseDto: UpdateRoleDto): Promise<UpdateResult> {
+  public async update(id: number, updateRoleDto: UpdateRoleDto): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
-    if (!role) throw new Error('Role not found');
-    if (role.name === 'Président') throw new Error('Cannot update role');
+    if (!role) throw new Error('Role Not Found');
+    if (role.name === 'Président') throw new Error('Cannot Update Role');
 
     try {
-      return await this.roleRepository.update(id, updateBaseDto);
+      return await this.roleRepository.update(id, updateRoleDto);
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Name already exists');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
+          throw new Error('Association Name Already Exists');
+        }
       }
     }
   }
 
-  public async delete(id: number): Promise<UpdateResult> {
+  public async delete(id: number): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
-    if (!role) throw new Error('Role not found');
-    if (role.name === 'Président') throw new Error('Cannot delete role');
+    if (!role) throw new Error('Role Not Found');
+    if (role.name === 'Président') throw new Error('Cannot Delete Role');
     return this.roleRepository.delete(id);
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { StockDto, StockLogsDto, StockLogsWithUserDto } from '@stud-asso/shared/dtos';
+import { StockDto, StockLogDto, StockLogWithUserDto } from '@stud-asso/shared/dtos';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiStockService } from '@stud-asso/frontend-core-api';
@@ -44,7 +44,7 @@ export class StockPageComponent implements OnInit {
       {
         label: 'Log',
         action: (data: { id: number; name: string }) => {
-          this.api.findSpecificStockLogs(data.id).subscribe((logs: StockLogsDto[]) => {
+          this.api.findSpecificStockLogs(data.id).subscribe((logs: StockLogDto[]) => {
             this.modal.createLogsModal({
               message: `Logs du stock ${data.name}`,
               logs: logs,
@@ -105,7 +105,7 @@ export class StockPageComponent implements OnInit {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
     }
-    this.api.findAllAssoStockLog(+assoIdData).subscribe((logs: StockLogsWithUserDto[]) => {
+    this.api.findAllAssoStockLog(+assoIdData).subscribe((logs: StockLogWithUserDto[]) => {
       this.modal.createLogsModal({ message: "Logs de l'association", logs: logs });
     });
   }

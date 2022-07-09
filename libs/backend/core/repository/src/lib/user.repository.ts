@@ -1,48 +1,99 @@
+import {
+  AssociationOfUserModel,
+  SimplifiedUserModel,
+  UserIdAndEmailModel,
+  UserModel,
+} from '@stud-asso/backend/core/model';
 import { CreateUserDto, UpdateUserDto } from '@stud-asso/shared/dtos';
-import { Like, Repository, UpdateResult } from 'typeorm';
 
-import { BaseRepository } from './base.repository';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { User } from '@stud-asso/backend/core/orm';
+import { PrismaService } from '@stud-asso/backend/core/orm';
 
+const simplifiedUserSelect = { id: true, firstname: true, lastname: true, email: true, isSchoolEmployee: true };
 @Injectable()
-export class UserRepository extends BaseRepository<User, CreateUserDto, UpdateUserDto> {
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
-    super(userRepository);
-  }
+export class UserRepository {
+  constructor(private prisma: PrismaService) {}
 
-  public createUser(
-    email: string,
-    firstname: string,
-    lastname: string,
-    isSchoolEmployee: boolean,
-    hash: string
-  ): Promise<User> {
-    return this.userRepository.save({ email, passwordHash: hash, firstname, lastname, isSchoolEmployee });
-  }
-
-  public updateRt(userId: number, rt: string): Promise<UpdateResult> {
-    return this.userRepository.update(userId, { rtHash: rt });
-  }
-
-  public findOneByEmail(email: string): Promise<User> {
-    return this.userRepository.findOne({ where: { email } });
-  }
-
-  public async findAllIdAndEmail(): Promise<User[]> {
-    return this.userRepository.find({ select: ['id', 'email'] });
-  }
-
-  public async findAssoOfUser(id: number): Promise<User> {
-    return this.userRepository.findOne({
-      select: ['id'],
-      where: { id },
-      relations: ['associations'],
+  public async findAll(): Promise<SimplifiedUserModel[]> {
+    return this.prisma.user.findMany({
+      select: simplifiedUserSelect,
     });
   }
 
-  public async findAllByName(name: string): Promise<User[]> {
-    return this.userRepository.find({ where: [{ lastname: Like(`%${name}%`) }, { firstname: Like(`%${name}%`) }] });
+  public async findOne(id: number): Promise<UserModel> {
+    return this.prisma.user.findUnique({ where: { id } });
+  }
+
+  public async update(id: number, updateUser: UpdateUserDto): Promise<SimplifiedUserModel> {
+    return this.prisma.user.update({
+      where: { id },
+      data: updateUser,
+      select: simplifiedUserSelect,
+    });
+  }
+
+  public async delete(id: number): Promise<SimplifiedUserModel> {
+    return this.prisma.user.delete({
+      where: { id },
+      select: simplifiedUserSelect,
+    });
+  }
+
+  public createUser(createUserDto: CreateUserDto): Promise<SimplifiedUserModel> {
+    return this.prisma.user.create({
+      data: createUserDto,
+      select: simplifiedUserSelect,
+    });
+  }
+
+  public updateRt(userId: number, rtHash: string): Promise<UserModel> {
+    return this.prisma.user.update({ where: { id: userId }, data: { rtHash } });
+  }
+
+  public findOneByEmail(email: string): Promise<UserModel> {
+    return this.prisma.user.findUnique({ where: { email } });
+  }
+
+  public async findAllIdAndEmail(): Promise<UserIdAndEmailModel[]> {
+    return this.prisma.user.findMany({
+      select: {
+        id: true,
+        email: true,
+      },
+    });
+  }
+
+  public async findAssoOfUser(id: number): Promise<AssociationOfUserModel> {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        associationsMembers: {
+          select: {
+            associationId: true,
+            association: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  public async findAllByName(name: string): Promise<SimplifiedUserModel[]> {
+    return this.prisma.user.findMany({
+      where: {
+        OR: [{ firstname: { contains: name } }, { lastname: { contains: name } }],
+      },
+      select: {
+        id: true,
+        firstname: true,
+        lastname: true,
+        email: true,
+        isSchoolEmployee: true,
+      },
+    });
   }
 }

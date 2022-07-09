@@ -1,4 +1,4 @@
-import { CreateStockDto, StockDto, StockLogsDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockDto, StockDto, StockLogDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -31,11 +31,11 @@ export class ApiStockService extends ApiBaseService {
     return this.apiService.get<StockDto[]>(`${this.url}/asso/${id}`);
   }
 
-  public findAllAssoStockLog(assoId: number): Observable<StockLogsWithUserDto[]> {
-    return this.apiService.get<StockLogsWithUserDto[]>(`${this.url}/assologs/${assoId}`);
+  public findAllAssoStockLog(assoId: number): Observable<StockLogWithUserDto[]> {
+    return this.apiService.get<StockLogWithUserDto[]>(`${this.url}/assologs/${assoId}`);
   }
 
-  public findSpecificStockLogs(stockId: number): Observable<StockLogsDto[]> {
-    return this.apiService.get<StockLogsDto[]>(`${this.url}/logs/${stockId}`);
+  public findSpecificStockLogs(stockId: number): Observable<StockLogDto[]> {
+    return this.apiService.get<StockLogDto[]>(`${this.url}/logs/${stockId}`);
   }
 }

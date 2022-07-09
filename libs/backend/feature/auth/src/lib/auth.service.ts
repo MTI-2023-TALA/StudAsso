@@ -1,13 +1,13 @@
 import * as argon from 'argon2';
 
 import { Auth, google } from 'googleapis';
-import { AuthDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
+import { AuthDto, CreateUserDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from '@stud-asso/backend-core-auth';
 import { JwtService } from '@nestjs/jwt';
-import { PostgresError } from 'pg-error-enum';
+import { Prisma } from '@prisma/client';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 
 @Injectable()
@@ -30,16 +30,24 @@ export class AuthService {
     let user: UserDto;
 
     try {
-      user = await this.userRepository.createUser(dto.email, dto.email, dto.email, false, hash);
+      const createUserDto: CreateUserDto = {
+        firstname: dto.email,
+        lastname: dto.email,
+        email: dto.email,
+        isSchoolEmployee: false,
+        passwordHash: hash,
+      };
+      user = await this.userRepository.createUser(createUserDto);
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Email already used');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'email') {
+          throw new Error('Email Already Used');
+        }
       }
     }
 
     const tokens = await this._getTokens(user.id, dto.email);
     this._updateRtToken(user.id, tokens.refreshToken);
-
     return tokens;
   }
 
@@ -68,13 +76,14 @@ export class AuthService {
       await this._updateRtToken(user.id, tokens.refreshToken);
       return tokens;
     } else {
-      const newUser = await this.userRepository.createUser(
-        tokenInfo.email,
-        tokenInfo.email,
-        tokenInfo.email,
-        false,
-        null
-      );
+      const createUserDto: CreateUserDto = {
+        firstname: tokenInfo.email,
+        lastname: tokenInfo.email,
+        email: tokenInfo.email,
+        isSchoolEmployee: false,
+        passwordHash: null,
+      };
+      const newUser = await this.userRepository.createUser(createUserDto);
       const tokens = await this._getTokens(newUser.id, tokenInfo.email);
       await this._updateRtToken(newUser.id, tokens.refreshToken);
       return tokens;
@@ -111,14 +120,17 @@ export class AuthService {
   private async _getTokens(userId: number, email: string): Promise<TokenDto> {
     const jwtPayload: JwtPayload = { sub: userId, email };
 
+    const atExpiry = this.config.get<string>('AT_EXPIRY') || '15';
+    const rtExpiry = this.config.get<string>('RT_EXPIRY') || '7';
+
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get('AT_SECRET'),
-        expiresIn: '15m',
+        expiresIn: `${atExpiry}m`,
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),
-        expiresIn: '7d',
+        expiresIn: `${rtExpiry}d`,
       }),
     ]);
 

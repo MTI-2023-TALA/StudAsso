@@ -1,19 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { CreateUserDto } from '@stud-asso/shared/dtos';
-import { PostgresError } from 'pg-error-enum';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { UpdateResult } from 'typeorm';
-import { User } from '@stud-asso/backend/core/orm';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 import { UsersService } from './users.service';
-import { plainToInstance } from 'class-transformer';
 
-class PostgresErrorMock extends Error {
-  code: PostgresError;
-
-  constructor(code: PostgresError, message: string) {
-    super(message);
-    this.code = code;
+class PrismaErrorMock extends PrismaClientKnownRequestError {
+  constructor(code: string, message: string, meta?: any) {
+    super(message, code, '4.0.0', meta);
   }
 }
 
@@ -23,10 +18,40 @@ const mockedUpdateResult: UpdateResult = {
   affected: 1,
 };
 
-const mockedAssoOfUser = [
+const mockedAssoOfUserModel = [
   {
     id: 1,
-    associations: [
+    associationsMembers: [
+      {
+        associationId: 1,
+        association: {
+          name: 'Padawan',
+        },
+      },
+      {
+        associationId: 2,
+        association: {
+          name: 'Jedi',
+        },
+      },
+      {
+        associationId: 3,
+        association: {
+          name: 'Sith',
+        },
+      },
+    ],
+  },
+  {
+    id: 2,
+    associationsMembers: [],
+  },
+];
+
+const mockedAssoOfUserDto = [
+  {
+    id: 1,
+    associationsId: [
       {
         id: 1,
         name: 'Padawan',
@@ -43,7 +68,7 @@ const mockedAssoOfUser = [
   },
   {
     id: 2,
-    associations: [],
+    associationsId: [],
   },
 ];
 
@@ -51,22 +76,22 @@ describe('UsersService', () => {
   let service: UsersService;
   let userRepository: UserRepository;
 
-  let mockedUsers: User[];
+  let mockedUsers;
 
   beforeEach(async () => {
     mockedUsers = [
-      plainToInstance(User, {
+      {
         id: 1,
         firstname: 'Anakin',
         lastname: 'Skywalker',
         email: 'anakin.skywalker@test.test',
-      }),
-      plainToInstance(User, {
+      },
+      {
         id: 2,
         firstname: 'Master',
         lastname: 'Yoda',
         email: 'master.yoda@test.test',
-      }),
+      },
     ];
     const module: TestingModule = await Test.createTestingModule({
       providers: [
@@ -74,15 +99,6 @@ describe('UsersService', () => {
         {
           provide: UserRepository,
           useValue: {
-            create: jest.fn((createUserPayload: CreateUserDto) => {
-              if (mockedUsers.find((user) => user.email === createUserPayload.email)) {
-                throw new PostgresErrorMock(PostgresError.UNIQUE_VIOLATION, 'Email already used');
-              }
-              const id = mockedUsers.length + 1;
-              const newUser = plainToInstance(User, { id, ...createUserPayload });
-              mockedUsers.push(newUser);
-              return Promise.resolve(newUser);
-            }),
             findAllIdAndEmail: jest.fn(() => {
               return Promise.resolve(mockedUsers.map((user) => ({ id: user.id, email: user.email })));
             }),
@@ -94,7 +110,7 @@ describe('UsersService', () => {
             }),
             update: jest.fn((id: number, updateUserPayload: CreateUserDto) => {
               if (updateUserPayload.email && mockedUsers.find((user) => user.email === updateUserPayload.email)) {
-                throw new PostgresErrorMock(PostgresError.UNIQUE_VIOLATION, 'Email already used');
+                throw new PrismaErrorMock('P2002', 'Email Already Used', { target: ['email'] });
               }
               const updateUser = mockedUsers.find((user) => user.id === id);
               if (!updateUser) {
@@ -114,7 +130,7 @@ describe('UsersService', () => {
               return Promise.resolve(mockedUpdateResult);
             }),
             findAssoOfUser: jest.fn((id: number) => {
-              return Promise.resolve(mockedAssoOfUser.find((user) => user.id === id));
+              return Promise.resolve(mockedAssoOfUserModel.find((user) => user.id === id));
             }),
             findAllByName: jest.fn((name: string) => {
               return Promise.resolve(
@@ -131,40 +147,6 @@ describe('UsersService', () => {
   });
 
   afterEach(() => jest.clearAllMocks());
-
-  describe('Create User', () => {
-    it('should try to create a new user and fail unique email validation', async () => {
-      const create = jest.spyOn(userRepository, 'create');
-      const createUserPayload = {
-        firstname: 'Anakin',
-        lastname: 'Skywalker',
-        email: 'anakin.skywalker@test.test',
-        isSchoolEmployee: false,
-      };
-
-      expect(() => service.create(createUserPayload)).rejects.toThrow(new Error('Email already used'));
-      expect(create).toBeCalledTimes(1);
-      expect(create).toBeCalledWith(createUserPayload);
-    });
-
-    it('should create a new user', async () => {
-      const create = jest.spyOn(userRepository, 'create');
-
-      const createUserPayload = {
-        firstname: 'Obi-Wan',
-        lastname: 'Kenobi',
-        email: 'obi-wan.kenobi@test.test',
-        isSchoolEmployee: false,
-      };
-
-      const createdResult = { id: mockedUsers.length + 1, ...createUserPayload };
-
-      expect(await service.create(createUserPayload)).toEqual(createdResult);
-      expect(mockedUsers).toContainEqual(createdResult);
-      expect(create).toBeCalledTimes(1);
-      expect(create).toBeCalledWith(createUserPayload);
-    });
-  });
 
   describe('Find All Users', () => {
     it('should find all users with id and email', async () => {
@@ -188,7 +170,7 @@ describe('UsersService', () => {
     it('should try to find an user by id and fail', async () => {
       const findOne = jest.spyOn(userRepository, 'findOne');
 
-      expect(() => service.findOne(-1)).rejects.toThrow(new Error('User not found'));
+      expect(() => service.findOne(-1)).rejects.toThrow(new Error('User Not Found'));
       expect(findOne).toBeCalledTimes(1);
       expect(findOne).toBeCalledWith(-1);
     });
@@ -211,7 +193,7 @@ describe('UsersService', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => service.update(3, updateUserPayload)).rejects.toThrow(new Error('User not found'));
+      expect(() => service.update(3, updateUserPayload)).rejects.toThrow(new Error('User Not Found'));
       expect(update).toBeCalledTimes(0);
     });
 
@@ -221,7 +203,7 @@ describe('UsersService', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => service.update(2, updateUserPayload)).rejects.toThrow(new Error('Email already used'));
+      expect(() => service.update(2, updateUserPayload)).rejects.toThrow(new Error('Email Already Used'));
       expect(update).toBeCalledTimes(0);
     });
 
@@ -244,7 +226,7 @@ describe('UsersService', () => {
     it('should fail to delete a non-existing user', async () => {
       const deleteUser = jest.spyOn(userRepository, 'delete');
 
-      expect(() => service.delete(-1)).rejects.toThrow(new Error('User not found'));
+      expect(() => service.delete(-1)).rejects.toThrow(new Error('User Not Found'));
       expect(deleteUser).toBeCalledTimes(0);
     });
 
@@ -273,10 +255,7 @@ describe('UsersService', () => {
     it('should find asso of user', async () => {
       const findAssoOfUser = jest.spyOn(userRepository, 'findAssoOfUser');
 
-      expect(await service.findAssoOfUser(1)).toEqual({
-        id: mockedAssoOfUser[0].id,
-        associationsId: mockedAssoOfUser[0].associations,
-      });
+      expect(await service.findAssoOfUser(1)).toEqual(mockedAssoOfUserDto[0]);
       expect(findAssoOfUser).toBeCalledTimes(1);
       expect(findAssoOfUser).toBeCalledWith(1);
     });

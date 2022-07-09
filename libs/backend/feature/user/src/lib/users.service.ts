@@ -1,69 +1,66 @@
-import { CreateUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import { AssociationOfUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
-import { PostgresError } from 'pg-error-enum';
-import { UpdateResult } from 'typeorm';
+import { Prisma } from '@prisma/client';
 import { UserRepository } from '@stud-asso/backend/core/repository';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  public async create(createUserDto: CreateUserDto): Promise<UserDto> {
+  public async findAll(): Promise<UserDto[]> {
+    return this.userRepository.findAll();
+  }
+
+  public async findOne(id: number): Promise<UserDto> {
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
+      throw new Error('User Not Found');
+    }
+    return user;
+  }
+
+  public async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
+      throw new Error('User Not Found');
+    }
+
     try {
-      return await this.userRepository.create(createUserDto);
+      return await this.userRepository.update(id, updateUserDto);
     } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Email already used');
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2002' && error.meta.target[0] === 'email') {
+          throw new Error('Email Already Used');
+        }
       }
     }
+  }
+
+  public async delete(id: number): Promise<UserDto> {
+    const user = await this.userRepository.findOne(id);
+    if (!user) {
+      throw new Error('User Not Found');
+    }
+    return this.userRepository.delete(id);
   }
 
   public async findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
     return this.userRepository.findAllIdAndEmail();
   }
 
-  public async findAll(): Promise<UserDto[]> {
-    return this.userRepository.findAll();
+  public async findAssoOfUser(id: number): Promise<AssociationOfUserDto> {
+    const res = await this.userRepository.findAssoOfUser(id);
+    return {
+      id: res.id,
+      associationsId: res.associationsMembers?.map((association) => ({
+        id: association.associationId,
+        name: association.association.name,
+      })),
+    };
   }
 
   public async findAllByName(name: string): Promise<UserDto[]> {
     return this.userRepository.findAllByName(name);
-  }
-
-  public async findOne(id: number): Promise<UserDto> {
-    const user = await this.userRepository.findOne(id);
-    if (!user) {
-      throw new Error('User not found');
-    }
-    return user;
-  }
-
-  public async update(id: number, updateBaseDto: UpdateUserDto): Promise<UpdateResult> {
-    const user = await this.userRepository.findOne(id);
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    try {
-      return await this.userRepository.update(id, updateBaseDto);
-    } catch (error) {
-      if (error?.code === PostgresError.UNIQUE_VIOLATION) {
-        throw new Error('Email already used');
-      }
-    }
-  }
-
-  public async delete(id: number): Promise<UpdateResult> {
-    const user = await this.userRepository.findOne(id);
-    if (!user) {
-      throw new Error('User not found');
-    }
-    return this.userRepository.delete(id);
-  }
-
-  public async findAssoOfUser(id: number) {
-    const res = await this.userRepository.findAssoOfUser(id);
-    return { id: res.id, associationsId: res.associations.map((asso) => ({ id: asso.id, name: asso.name })) };
   }
 }

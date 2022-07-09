@@ -7,18 +7,13 @@ import {
 import { CreateRoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { PostgresError } from 'pg-error-enum';
-import { Role } from '@stud-asso/backend/core/orm';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { RolesService } from './roles.service';
 import { UpdateResult } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
 
-class PostgresErrorMock extends Error {
-  code: PostgresError;
-
-  constructor(code: PostgresError, message: string) {
-    super(message);
-    this.code = code;
+class PrismaErrorMock extends PrismaClientKnownRequestError {
+  constructor(code: string, message: string, meta?: any) {
+    super(message, code, '4.0.0', meta);
   }
 }
 
@@ -63,10 +58,12 @@ describe('RolesService', () => {
           useValue: {
             create: jest.fn((createRolePayload: CreateRoleDto) => {
               if (mockedRoles.find((role) => role.name === createRolePayload.name)) {
-                throw new PostgresErrorMock(PostgresError.UNIQUE_VIOLATION, 'Name already exists');
+                throw new PrismaErrorMock('P2002', 'Association Name Already Exists', {
+                  target: ['name', 'association_id'],
+                });
               }
               const id = mockedRoles.length + 1;
-              const newRole = plainToInstance(Role, { id, ...createRolePayload });
+              const newRole = { id, ...createRolePayload };
               mockedRoles.push(newRole);
               return Promise.resolve(newRole);
             }),
@@ -78,7 +75,9 @@ describe('RolesService', () => {
             }),
             update: jest.fn((id: number, updateRolePayload: CreateRoleDto) => {
               if (updateRolePayload.name && mockedRoles.find((role) => role.name === updateRolePayload.name)) {
-                throw new PostgresErrorMock(PostgresError.UNIQUE_VIOLATION, 'Name already exists');
+                throw new PrismaErrorMock('P2002', 'Association Name Already Exists', {
+                  target: ['name', 'association_id'],
+                });
               }
               const updateRole = mockedRoles.find((role) => role.id === id);
               updateRole.name = updateRolePayload.name;
@@ -148,7 +147,7 @@ describe('RolesService', () => {
         associationId: 1,
       };
 
-      expect(() => service.create(createRolePayload)).rejects.toThrow('Name already exists');
+      expect(() => service.create(createRolePayload)).rejects.toThrow('Association Name Already Exists');
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createRolePayload);
     });
@@ -188,7 +187,7 @@ describe('RolesService', () => {
       const findOne = jest.spyOn(roleRepository, 'findOne');
       const id = -1;
 
-      expect(() => service.findOne(id)).rejects.toThrow('Role not found');
+      expect(() => service.findOne(id)).rejects.toThrow('Role Not Found');
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(id);
     });
@@ -211,7 +210,7 @@ describe('RolesService', () => {
         name: 'New name',
       };
 
-      expect(() => service.update(id, updateRolePayload)).rejects.toThrow('Role not found');
+      expect(() => service.update(id, updateRolePayload)).rejects.toThrow('Role Not Found');
       expect(update).toHaveBeenCalledTimes(0);
     });
 
@@ -222,7 +221,7 @@ describe('RolesService', () => {
         name: 'Président',
       };
 
-      expect(() => service.update(id, updateRolePayload)).rejects.toThrow('Name already exists');
+      expect(() => service.update(id, updateRolePayload)).rejects.toThrow('Association Name Already Exists');
       expect(update).toHaveBeenCalledTimes(0);
     });
 
@@ -233,7 +232,7 @@ describe('RolesService', () => {
         name: 'Test',
       };
 
-      expect(() => service.update(id, updateRolePayload)).rejects.toThrow('Cannot update role');
+      expect(() => service.update(id, updateRolePayload)).rejects.toThrow('Cannot Update Role');
       expect(update).toHaveBeenCalledTimes(0);
     });
 
@@ -256,7 +255,7 @@ describe('RolesService', () => {
       const deleteOne = jest.spyOn(roleRepository, 'delete');
       const id = -1;
 
-      expect(() => service.delete(id)).rejects.toThrow('Role not found');
+      expect(() => service.delete(id)).rejects.toThrow('Role Not Found');
       expect(deleteOne).toHaveBeenCalledTimes(0);
     });
 
@@ -264,7 +263,7 @@ describe('RolesService', () => {
       const deleteOne = jest.spyOn(roleRepository, 'delete');
       const id = 1;
 
-      expect(() => service.delete(id)).rejects.toThrow('Cannot delete role');
+      expect(() => service.delete(id)).rejects.toThrow('Cannot Delete Role');
       expect(deleteOne).toHaveBeenCalledTimes(0);
     });
 

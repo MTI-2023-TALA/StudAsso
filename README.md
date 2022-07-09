@@ -51,22 +51,40 @@ We recommend using docker to install it.
 docker-compose -f docker-compose.yml up -d database
 ```
 
-### Creating a migration
+### .env
 
-```bash
-npm run migration:create -- -n migration_name
+Add in a .env file at the root of the project :
+
+```
+DATABASE_URL="postgresql://postgres:password@localhost:5432/studasso?schema=public"
 ```
 
-### Running migrations
+## Work with prisma
 
-```bash
-npm run migration:run
+### To create a migration without modifications:
+
+```sh
+npx prisma migrate dev
 ```
 
-### Revert migration
+### To customize your migration:
 
-```bash
-npm run migration:revert
+```sh
+npx prisma migrate dev --create-only
+# once you're finished customizing:
+npx prisma migrate dev
+```
+
+### To run new migrations after a pull
+
+```sh
+npx prisma migrate dev
+```
+
+### To generate PrismaClient (to do after each modification in database schema (prisma.schema)):
+
+```sh
+npx prisma generate
 ```
 
 ### Install the precommit
