@@ -1,4 +1,4 @@
-import { Body, Delete, Get, NotFoundException, Param, Patch, Post, UnprocessableEntityException } from '@nestjs/common';
+import { Body, ConflictException, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { CreateNewsDto, NewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 import { NewsService } from './news.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -8,11 +8,11 @@ export class NewsController {
   constructor(private readonly newsFeedService: NewsService) {}
 
   @Post()
-  public async create(@Body() createNewsFeedDto: CreateNewsDto): Promise<NewsDto> {
+  public async create(@Body() createNewsDto: CreateNewsDto): Promise<NewsDto> {
     try {
-      return await this.newsFeedService.create(createNewsFeedDto);
+      return await this.newsFeedService.create(createNewsDto);
     } catch (error) {
-      throw new UnprocessableEntityException(error?.message);
+      throw new ConflictException(error?.message);
     }
   }
 
@@ -31,9 +31,9 @@ export class NewsController {
   }
 
   @Patch(':id')
-  public async update(@Param('id') id: string, @Body() updateNewsFeedDto: UpdateNewsDto): Promise<NewsDto> {
+  public async update(@Param('id') id: string, @Body() updateNewsDto: UpdateNewsDto): Promise<NewsDto> {
     try {
-      return await this.newsFeedService.update(+id, updateNewsFeedDto);
+      return await this.newsFeedService.update(+id, updateNewsDto);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

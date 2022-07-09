@@ -63,14 +63,14 @@ export class RolesService {
 
   public async findOne(id: number): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
-    if (!role) throw new Error('Role not found');
+    if (!role) throw new Error('Role Not Found');
     return role;
   }
 
   public async update(id: number, updateRoleDto: UpdateRoleDto): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
-    if (!role) throw new Error('Role not found');
-    if (role.name === 'Président') throw new Error('Cannot update role');
+    if (!role) throw new Error('Role Not Found');
+    if (role.name === 'Président') throw new Error('Cannot Update Role');
 
     try {
       return await this.roleRepository.update(id, updateRoleDto);
@@ -85,8 +85,8 @@ export class RolesService {
 
   public async delete(id: number): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
-    if (!role) throw new Error('Role not found');
-    if (role.name === 'Président') throw new Error('Cannot delete role');
+    if (!role) throw new Error('Role Not Found');
+    if (role.name === 'Président') throw new Error('Cannot Delete Role');
     return this.roleRepository.delete(id);
   }
 }

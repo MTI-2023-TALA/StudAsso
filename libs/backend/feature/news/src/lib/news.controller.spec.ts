@@ -1,14 +1,28 @@
+import { CreateNewsDto, NewsDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { NewsController } from './news.controller';
-import { NewsFeedDto } from '@stud-asso/shared/dtos';
 import { NewsService } from './news.service';
 import { UpdateResult } from 'typeorm';
 
-const mockCreateNewsFeedDto: NewsFeedDto = { id: 1, userId: 1, associationId: 1, content: 'content' };
-const mockfindAllNewsFeed: NewsFeedDto[] = [
-  { id: 1, userId: 1, associationId: 1, content: 'content1' },
-  { id: 2, userId: 2, associationId: 2, content: 'content2' },
+const mockCreateNewsDto: CreateNewsDto = { userId: 1, associationId: 1, content: 'content' };
+const mockfindAllNewsFeed: NewsDto[] = [
+  {
+    id: 1,
+    userId: 1,
+    associationId: 1,
+    content: 'content1',
+    createdAt: new Date('07-07-2022'),
+    updatedAt: new Date('08-07-2022'),
+  },
+  {
+    id: 2,
+    userId: 2,
+    associationId: 2,
+    content: 'content2',
+    createdAt: new Date('07-07-2022'),
+    updatedAt: new Date('08-07-2022'),
+  },
 ];
 const mockedUpdateResult: UpdateResult = {
   raw: [],
@@ -27,7 +41,7 @@ describe('NewsController', () => {
         {
           provide: NewsService,
           useValue: {
-            create: jest.fn(() => Promise.resolve(mockCreateNewsFeedDto)),
+            create: jest.fn(() => Promise.resolve(mockCreateNewsDto)),
             findAll: jest.fn(() => Promise.resolve(mockfindAllNewsFeed)),
             findOne: jest.fn(() => Promise.resolve(mockfindAllNewsFeed[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -49,7 +63,7 @@ describe('NewsController', () => {
 
       const createEventParams = { userId: 1, associationId: 1, content: 'content' };
       const createdNewsFeed = await controller.create(createEventParams);
-      expect(createdNewsFeed).toEqual(mockCreateNewsFeedDto);
+      expect(createdNewsFeed).toEqual(mockCreateNewsDto);
 
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createEventParams);

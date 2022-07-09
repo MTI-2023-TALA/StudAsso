@@ -70,17 +70,17 @@ describe('UsersController', () => {
             findOne: jest.fn((id: number) => {
               const findUser = mockedUsers.find((user) => user.id === id);
               if (!findUser) {
-                throw new Error('User not found');
+                throw new Error('User Not Found');
               }
               return Promise.resolve(findUser);
             }),
             update: jest.fn((id: number, updateUserPayload: CreateUserDto) => {
               if (updateUserPayload.email && mockedUsers.find((user) => user.email === updateUserPayload.email)) {
-                throw new Error('Email already used');
+                throw new Error('Email Already Used');
               }
               const updateUser = mockedUsers.find((user) => user.id === id);
               if (!updateUser) {
-                throw new Error('User not found');
+                throw new Error('User Not Found');
               }
               updateUser.firstname = updateUserPayload.firstname;
               updateUser.lastname = updateUserPayload.lastname;
@@ -92,7 +92,7 @@ describe('UsersController', () => {
             }),
             delete: jest.fn((id: number) => {
               const findUser = mockedUsers.find((user) => user.id === id);
-              if (!findUser) throw new Error('User not found');
+              if (!findUser) throw new Error('User Not Found');
               mockedUsers = mockedUsers.filter((user) => user.id !== id);
               return Promise.resolve(mockedUpdateResult);
             }),
@@ -160,7 +160,7 @@ describe('UsersController', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('Bad Request'));
+      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('User Not Found'));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
@@ -172,7 +172,7 @@ describe('UsersController', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('Bad Request'));
+      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('Email Already Used'));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });

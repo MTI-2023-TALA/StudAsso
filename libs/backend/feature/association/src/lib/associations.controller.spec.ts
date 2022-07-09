@@ -5,7 +5,7 @@ import {
   UpdateAssociationDto,
   UserDto,
 } from '@stud-asso/shared/dtos';
-import { BadRequestException, UnprocessableEntityException } from '@nestjs/common';
+import { BadRequestException, ConflictException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsController } from './associations.controller';
@@ -108,22 +108,22 @@ describe('AssociationsController', () => {
       expect(create).toHaveBeenCalledWith(createAssoParams);
     });
 
-    it('should call associationService.create trying to create a duplicate association and return unprocessableEntity exception', async () => {
+    it('should call associationService.create trying to create a duplicate association and return Conflict exception', async () => {
       const create = jest.spyOn(service, 'create').mockRejectedValue(new Error('Association Name Already Exists'));
       expect(async () =>
         controller.create({ name: 'Association1', presidentId: 1, description: 'description' })
-      ).rejects.toThrow(new UnprocessableEntityException('Association Name Already Exists'));
+      ).rejects.toThrow(new ConflictException('Association Name Already Exists'));
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1, description: 'description' });
     });
 
-    it('should call associationService.create trying to create a duplicate role and return unprocessableEntity exception', async () => {
+    it('should call associationService.create trying to create a duplicate role and return Conflict exception', async () => {
       const create = jest
         .spyOn(service, 'create')
         .mockRejectedValue(new Error('Role Name Already Exists In This Association'));
       expect(async () =>
         controller.create({ name: 'Association1', presidentId: 1, description: 'description' })
-      ).rejects.toThrow(new UnprocessableEntityException('Role Name Already Exists In This Association'));
+      ).rejects.toThrow(new ConflictException('Role Name Already Exists In This Association'));
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1, description: 'description' });
     });

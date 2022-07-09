@@ -1,13 +1,13 @@
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Delete,
   Get,
   NotFoundException,
   Param,
   Patch,
   Post,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { EventsService } from './events.service';
@@ -23,7 +23,7 @@ export class EventsController {
       createEventDto.date = new Date(createEventDto.date);
       return await this.eventsService.create(createEventDto);
     } catch (error) {
-      throw new UnprocessableEntityException(error?.message);
+      throw new ConflictException(error?.message);
     }
   }
 

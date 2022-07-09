@@ -1,13 +1,13 @@
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Delete,
   Get,
   NotFoundException,
   Param,
   Patch,
   Post,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { CreateStockDto, StockDto, StockLogDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
@@ -23,7 +23,7 @@ export class StocksController {
     try {
       return await this.stocksService.create(userId, createStockDto);
     } catch (error) {
-      throw new UnprocessableEntityException(error?.message);
+      throw new ConflictException(error?.message);
     }
   }
 

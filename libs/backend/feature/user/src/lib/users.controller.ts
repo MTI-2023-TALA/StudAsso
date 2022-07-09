@@ -15,7 +15,6 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  // To keep before @Get(':id') for correct route mapping
   @Get('IdAndEmail')
   findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
     return this.usersService.findAllIdAndEmail();
@@ -23,7 +22,6 @@ export class UsersController {
 
   @Get('asso')
   async findAssoOfUser(@GetCurrentUserId() userId: number): Promise<AssociationOfUserDto> {
-    //TODO: handle error if no asso for user
     return this.usersService.findAssoOfUser(userId);
   }
 

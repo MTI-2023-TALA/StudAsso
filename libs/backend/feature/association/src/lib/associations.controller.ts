@@ -8,13 +8,13 @@ import {
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Delete,
   Get,
   NotFoundException,
   Param,
   Patch,
   Post,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { AssociationsService } from './associations.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -28,7 +28,7 @@ export class AssociationsController {
     try {
       return await this.associationsService.create(createAssociationDto);
     } catch (error) {
-      throw new UnprocessableEntityException(error?.message);
+      throw new ConflictException(error?.message);
     }
   }
 

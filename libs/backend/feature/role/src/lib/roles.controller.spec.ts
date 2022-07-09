@@ -56,12 +56,12 @@ describe('RolesController', () => {
             }),
             findOne: jest.fn((id: number) => {
               const findRole = mockedRoles.find((role) => role.id === id);
-              if (!findRole) throw new Error('Role not found');
+              if (!findRole) throw new Error('Role Not Found');
               return Promise.resolve(findRole);
             }),
             update: jest.fn((id: number, updateRolePayload: CreateRoleDto) => {
               const updateRole = mockedRoles.find((role) => role.id === id);
-              if (!updateRole) throw new Error('Role not found');
+              if (!updateRole) throw new Error('Role Not Found');
               if (updateRole.name === 'Président') throw new Error('Cannot update role');
               if (updateRolePayload.name && mockedRoles.find((role) => role.name === updateRolePayload.name)) {
                 throw new Error('Name Already Exists');
@@ -71,7 +71,7 @@ describe('RolesController', () => {
             }),
             delete: jest.fn((id: number) => {
               const deleteRole = mockedRoles.find((role) => role.id === id);
-              if (!deleteRole) throw new Error('Role not found');
+              if (!deleteRole) throw new Error('Role Not Found');
               if (deleteRole.name === 'Président') throw new Error('Cannot delete role');
               mockedRoles = mockedRoles.filter((role) => role.id !== id);
               return Promise.resolve(mockedUpdateResult);
@@ -164,7 +164,7 @@ describe('RolesController', () => {
         name: 'Membre',
       };
 
-      expect(() => controller.update(id, updateRolePayload)).rejects.toThrow(new Error('Role not found'));
+      expect(() => controller.update(id, updateRolePayload)).rejects.toThrow(new Error('Role Not Found'));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateRolePayload);
     });
@@ -201,7 +201,7 @@ describe('RolesController', () => {
       const deleteOne = jest.spyOn(service, 'delete');
       const id = '-1';
 
-      expect(() => controller.delete(id)).rejects.toThrow(new Error('Role not found'));
+      expect(() => controller.delete(id)).rejects.toThrow(new Error('Role Not Found'));
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
     });

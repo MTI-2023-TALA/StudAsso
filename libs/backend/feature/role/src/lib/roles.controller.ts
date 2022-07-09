@@ -2,13 +2,13 @@ import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, Update
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Delete,
   Get,
   NotFoundException,
   Param,
   Patch,
   Post,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -22,7 +22,7 @@ export class RolesController {
     try {
       return await this.rolesService.create(createRoleDto);
     } catch (error) {
-      throw new UnprocessableEntityException(error?.message);
+      throw new ConflictException(error?.message);
     }
   }
 

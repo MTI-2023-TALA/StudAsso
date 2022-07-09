@@ -15,7 +15,7 @@ export class UsersService {
   public async findOne(id: number): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('User Not Found');
     }
     return user;
   }
@@ -23,7 +23,7 @@ export class UsersService {
   public async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('User Not Found');
     }
 
     try {
@@ -31,7 +31,7 @@ export class UsersService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'email') {
-          throw new Error('Email already used');
+          throw new Error('Email Already Used');
         }
       }
     }
@@ -40,7 +40,7 @@ export class UsersService {
   public async delete(id: number): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
-      throw new Error('User not found');
+      throw new Error('User Not Found');
     }
     return this.userRepository.delete(id);
   }
@@ -53,7 +53,7 @@ export class UsersService {
     const res = await this.userRepository.findAssoOfUser(id);
     return {
       id: res.id,
-      associationsId: res.associationsMembers.map((association) => ({
+      associationsId: res.associationsMembers?.map((association) => ({
         id: association.associationId,
         name: association.association.name,
       })),

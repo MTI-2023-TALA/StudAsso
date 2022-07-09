@@ -1,7 +1,8 @@
-import { CreateStockDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
-import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
+import { AssociationRepository, StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
+import { CreateStockDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { AssociationModel } from '@stud-asso/backend/core/model';
 import { StocksService } from './stocks.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
@@ -21,7 +22,7 @@ const mockedStocks = [
   },
 ];
 
-const mockedStocksLogsWithUser: StockLogsWithUserDto[] = [
+const mockedStocksLogsWithUser: StockLogWithUserDto[] = [
   {
     id: 1,
     stockId: 1,
@@ -72,6 +73,11 @@ const mockedUpdateResult: UpdateResult = {
   affected: 1,
 };
 
+const mockedAssociation: AssociationModel = {
+  id: 0,
+  name: 'Asso1',
+};
+
 describe('StocksService', () => {
   let service: StocksService;
   let stockRepository: StockRepository;
@@ -98,6 +104,12 @@ describe('StocksService', () => {
             create: jest.fn(() => Promise.resolve(mockedStocksLogs[0])),
             findAllAssoStockLogs: jest.fn(() => Promise.resolve(mockedStocksLogsWithUser)),
             findSpecificStockLogs: jest.fn(() => Promise.resolve(mockedStocksLogs)),
+          },
+        },
+        {
+          provide: AssociationRepository,
+          useValue: {
+            findOne: jest.fn(() => Promise.resolve(mockedAssociation)),
           },
         },
       ],
