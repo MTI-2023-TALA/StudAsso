@@ -37,6 +37,9 @@ const mockedStocksLogsWithUser: StockLogWithUserDto[] = [
       email: 'johncena@gmail.com',
       isSchoolEmployee: false,
     },
+    stock: {
+      name: 'Coca',
+    },
   },
   {
     id: 2,
@@ -51,6 +54,9 @@ const mockedStocksLogsWithUser: StockLogWithUserDto[] = [
       lastname: 'Cena',
       email: 'johncena@gmail.com',
       isSchoolEmployee: false,
+    },
+    stock: {
+      name: 'Tea',
     },
   },
 ];
