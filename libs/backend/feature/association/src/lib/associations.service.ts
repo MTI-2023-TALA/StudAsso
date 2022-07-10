@@ -1,5 +1,6 @@
 import {
   AssociationDto,
+  AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   CreateAssociationDto,
   UpdateAssociationDto,
@@ -72,6 +73,20 @@ export class AssociationsService {
       email: president.associationsMembers[0].user.email,
       isSchoolEmployee: president.associationsMembers[0].user.isSchoolEmployee,
     };
+  }
+
+  public async findAssociationMembersWithRoles(associationId: number): Promise<AssociationMemberWithRoleDto[]> {
+    const association = await this.associationRepository.findOne(associationId);
+    if (!association) {
+      throw new Error('Association Not Found');
+    }
+
+    const membersWithRoles = await this.associationsMemberRepository.findAssociationMembersWithRoles(associationId);
+    return membersWithRoles.map((member) => ({
+      firstname: member.user.firstname,
+      lastname: member.user.lastname,
+      roleName: member.role.name,
+    }));
   }
 
   public async update(id: number, updateAssociationDto: UpdateAssociationDto): Promise<AssociationDto> {

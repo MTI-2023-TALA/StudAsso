@@ -12,3 +12,7 @@ export class CreateRoleModel {
 export class UpdateRoleModel {
   name: string;
 }
+
+export class RoleNameModel {
+  name: string;
+}

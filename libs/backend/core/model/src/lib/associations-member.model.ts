@@ -1,5 +1,7 @@
+import { UserFirstnameAndLastnameModel, UserWithoutIdModel } from './user.model';
+
 import { AssociationNameModel } from './association.model';
-import { UserWithoutIdModel } from './user.model';
+import { RoleNameModel } from './role.model';
 
 export class AssociationsMemberModel {
   associationId: number;
@@ -13,6 +15,11 @@ export class AssociationsMemberModel {
 export class AssociationIdAndNameModel {
   associationId: number;
   association: AssociationNameModel;
+}
+
+export class AssociationMemberWithRoleWithoutIdsModel {
+  user: UserFirstnameAndLastnameModel;
+  role: RoleNameModel;
 }
 
 export class UserIdAndUserModel {
