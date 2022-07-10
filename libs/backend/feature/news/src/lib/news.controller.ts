@@ -1,5 +1,5 @@
 import { Body, ConflictException, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
-import { CreateNewsDto, NewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 import { NewsService } from './news.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
@@ -20,6 +20,15 @@ export class NewsController {
   public async findAllAssociationNews(@Param('id') id: string): Promise<NewsDto[]> {
     try {
       return await this.newsFeedService.findAllAssociationNews(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
+  @Get('assoWithAssoName/:id')
+  public async findAllAssociationNewsWithAssoName(@Param('id') id: string): Promise<NewsWithAssoNameDto[]> {
+    try {
+      return await this.newsFeedService.findAllAssociationNewsWithAssoName(+id);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

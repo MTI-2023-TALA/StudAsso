@@ -1,7 +1,7 @@
 import { CreateNewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
+import { NewsModel, NewsWithAssoNameModel } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
-import { NewsModel } from '@stud-asso/backend/core/model';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
 const newsSelect = {
@@ -31,6 +31,25 @@ export class NewsRepository {
         associationId,
       },
       select: newsSelect,
+    });
+  }
+
+  public async findAllAssociationNewsWithAssoName(associationId): Promise<NewsWithAssoNameModel[]> {
+    return await this.prisma.news.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      where: {
+        associationId,
+      },
+      select: {
+        ...newsSelect,
+        association: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
   }
 
