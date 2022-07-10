@@ -4,5 +4,6 @@ export class NewsModel {
   updatedAt: Date;
   userId: number;
   associationId: number;
+  title: string;
   content: string;
 }

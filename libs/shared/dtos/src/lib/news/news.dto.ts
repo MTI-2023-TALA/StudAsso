@@ -13,10 +13,18 @@ export class CreateNewsDto {
 
   @IsNotEmpty()
   @IsString()
+  title: string;
+
+  @IsNotEmpty()
+  @IsString()
   content: string;
 }
 
 export class UpdateNewsDto {
+  @IsOptional()
+  @IsString()
+  title: string;
+
   @IsOptional()
   @IsString()
   content: string;
@@ -30,5 +38,6 @@ export class NewsDto {
   updatedAt: Date;
   userId: number;
   associationId: number;
+  title: string;
   content: string;
 }
