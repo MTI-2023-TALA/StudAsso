@@ -6,12 +6,13 @@ import { NewsService } from './news.service';
 import { NotFoundException } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 
-const mockCreateNewsDto: CreateNewsDto = { userId: 1, associationId: 1, content: 'content' };
+const mockCreateNewsDto: CreateNewsDto = { userId: 1, associationId: 1, title: 'title', content: 'content' };
 const mockfindAllNewsFeed: NewsDto[] = [
   {
     id: 1,
     userId: 1,
     associationId: 1,
+    title: 'Title 1',
     content: 'content1',
     createdAt: new Date('07-07-2022'),
     updatedAt: new Date('08-07-2022'),
@@ -20,6 +21,7 @@ const mockfindAllNewsFeed: NewsDto[] = [
     id: 2,
     userId: 2,
     associationId: 2,
+    title: 'Title 2',
     content: 'content2',
     createdAt: new Date('07-07-2022'),
     updatedAt: new Date('08-07-2022'),
@@ -62,7 +64,7 @@ describe('NewsController', () => {
     it('should call newsFeedService.create', async () => {
       const create = jest.spyOn(service, 'create');
 
-      const createEventParams = { userId: 1, associationId: 1, content: 'content' };
+      const createEventParams = { userId: 1, associationId: 1, title: 'title', content: 'content' };
       const createdNewsFeed = await controller.create(createEventParams);
       expect(createdNewsFeed).toEqual(mockCreateNewsDto);
 
@@ -92,7 +94,9 @@ describe('NewsController', () => {
 
   describe('updateNewsFeed', () => {
     it('should call newsFeedService.update', async () => {
-      expect(await controller.update('1', { content: 'content renamed' })).toEqual(mockedUpdateResult);
+      expect(await controller.update('1', { content: 'content renamed', title: 'title renamed' })).toEqual(
+        mockedUpdateResult
+      );
     });
   });
 

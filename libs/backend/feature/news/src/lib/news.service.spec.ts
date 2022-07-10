@@ -11,12 +11,14 @@ const mockedNewsFeed = [
     id: 1,
     userId: 1,
     associationId: 1,
+    title: 'title 1',
     content: 'content1',
   },
   {
     id: 2,
     userId: 2,
     associationId: 2,
+    title: 'title 2',
     content: 'content2',
   },
 ];
