@@ -40,7 +40,13 @@ export class NewsPageComponent implements OnInit {
 
   reloadData(): void {
     this.isLoading = true;
-    this.api.findAll().subscribe((newsList: NewsDto[]) => {
+    const assoId = getData('asso-id');
+    if (!assoId) {
+      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
+      return;
+    }
+    const associationId = JSON.parse(assoId);
+    this.api.findAllWithAsso(associationId).subscribe((newsList: NewsDto[]) => {
       this.newsList = newsList;
       this.isLoading = false;
     });

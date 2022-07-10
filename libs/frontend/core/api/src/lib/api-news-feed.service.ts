@@ -18,7 +18,7 @@ export class ApiNewsFeedService extends ApiBaseService {
     return this.apiService.post<CreateNewsDto, NewsDto>(this.url, newsFeed);
   }
 
-  public findAll(): Observable<NewsDto[]> {
-    return this.apiService.get<NewsDto[]>(this.url);
+  public findAllWithAsso(id: number): Observable<NewsDto[]> {
+    return this.apiService.get<NewsDto[]>(`${this.url}/asso/${id}`);
   }
 }
