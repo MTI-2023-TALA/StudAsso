@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EventPageComponent } from '@stud-asso/frontend/feature/association/event-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
+import { MemberPageComponent } from '@stud-asso/frontend/feature/association/member-page';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NewsPageComponent } from '@stud-asso/frontend/feature/association/news-page';
 import { NgModule } from '@angular/core';
@@ -13,6 +14,7 @@ import { StockPageComponent } from '@stud-asso/frontend/feature/association/stoc
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
+  { title: 'Membres', icon: 'people', url: '/members' },
   { title: 'News', icon: 'newspaper', url: '/news' },
   { title: 'Evénements', icon: 'calendar-event', url: '/events' },
   { title: 'Rôles', icon: 'person-plus', url: '/roles' },
@@ -40,6 +42,10 @@ const routes: Routes = [
       {
         path: 'roles',
         component: RolePageComponent,
+      },
+      {
+        path: 'members',
+        component: MemberPageComponent,
       },
       {
         path: 'stock',

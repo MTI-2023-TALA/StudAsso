@@ -23,6 +23,7 @@
     "frontend-core-storage": "libs/frontend/core/storage",
     "frontend-feature-association-event-page": "libs/frontend/feature/association/event-page",
     "frontend-feature-association-news-page": "libs/frontend/feature/association/news-page",
+    "frontend-feature-association-member-page": "libs/frontend/feature/association/member-page",
     "frontend-feature-association-role-page": "libs/frontend/feature/association/role-page",
     "frontend-feature-association-select-association-page": "libs/frontend/feature/association/select-association-page",
     "frontend-feature-association-stock-page": "libs/frontend/feature/association/stock-page",
