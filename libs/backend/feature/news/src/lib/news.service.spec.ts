@@ -58,7 +58,7 @@ describe('NewsService', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
             findAllAssociationNews: jest.fn(() => Promise.resolve(mockedNewsFeed)),
-            findAllAssociationNewsWithAssoName: jest.fn(() => Promise.resolve(mockedNewsWithAssoName)),
+            findAllNewsWithAssoName: jest.fn(() => Promise.resolve(mockedNewsWithAssoName)),
             findOne: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -117,11 +117,11 @@ describe('NewsService', () => {
     });
   });
 
-  describe('findAllAssociationNewsWithAssoName', () => {
-    it('should call NewsRepository.findAllAssociationNewsWithAssoName and succeed', async () => {
-      const findAll = jest.spyOn(repository, 'findAllAssociationNewsWithAssoName');
+  describe('findAllNewsWithAssoName', () => {
+    it('should call NewsRepository.findAllNewsWithAssoName and succeed', async () => {
+      const findAll = jest.spyOn(repository, 'findAllNewsWithAssoName');
 
-      const newsFeedRetrieved = await service.findAllAssociationNewsWithAssoName(1);
+      const newsFeedRetrieved = await service.findAllNewsWithAssoName();
       expect(newsFeedRetrieved).toEqual([
         {
           ...mockedNewsFeed[0],
@@ -134,12 +134,7 @@ describe('NewsService', () => {
       ]);
 
       expect(findAll).toHaveBeenCalledTimes(1);
-      expect(findAll).toHaveBeenCalledWith(1);
-    });
-
-    it('should call NewsRepository.findAllAssociationNewsWithAssoName and fail', async () => {
-      jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
-      expect(async () => await service.findAllAssociationNewsWithAssoName(1)).rejects.toThrow('Association Not Found');
+      expect(findAll).toHaveBeenCalledWith();
     });
   });
 

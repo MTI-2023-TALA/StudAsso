@@ -25,13 +25,9 @@ export class NewsController {
     }
   }
 
-  @Get('assoWithAssoName/:id')
-  public async findAllAssociationNewsWithAssoName(@Param('id') id: string): Promise<NewsWithAssoNameDto[]> {
-    try {
-      return await this.newsFeedService.findAllAssociationNewsWithAssoName(+id);
-    } catch (error) {
-      throw new NotFoundException(error?.message);
-    }
+  @Get('assoWithAssoName')
+  public async findAllNewsWithAssoName(): Promise<NewsWithAssoNameDto[]> {
+    return await this.newsFeedService.findAllNewsWithAssoName();
   }
 
   @Get(':id')

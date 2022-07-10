@@ -36,12 +36,8 @@ export class NewsService {
     return await this.newsRepository.findAllAssociationNews(associationId);
   }
 
-  public async findAllAssociationNewsWithAssoName(associationId: number): Promise<NewsWithAssoNameDto[]> {
-    const association = await this.associationRepository.findOne(associationId);
-    if (!association) {
-      throw new Error('Association Not Found');
-    }
-    const newsWithAssoName = await this.newsRepository.findAllAssociationNewsWithAssoName(associationId);
+  public async findAllNewsWithAssoName(): Promise<NewsWithAssoNameDto[]> {
+    const newsWithAssoName = await this.newsRepository.findAllNewsWithAssoName();
     return newsWithAssoName.map((news) => ({
       id: news.id,
       createdAt: news.createdAt,

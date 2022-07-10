@@ -34,13 +34,10 @@ export class NewsRepository {
     });
   }
 
-  public async findAllAssociationNewsWithAssoName(associationId): Promise<NewsWithAssoNameModel[]> {
+  public async findAllNewsWithAssoName(): Promise<NewsWithAssoNameModel[]> {
     return await this.prisma.news.findMany({
       orderBy: {
         createdAt: 'desc',
-      },
-      where: {
-        associationId,
       },
       select: {
         ...newsSelect,
