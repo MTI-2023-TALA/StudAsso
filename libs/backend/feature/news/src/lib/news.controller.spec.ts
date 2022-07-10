@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { NewsController } from './news.controller';
 import { NewsService } from './news.service';
+import { NotFoundException } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 
 const mockCreateNewsDto: CreateNewsDto = { userId: 1, associationId: 1, content: 'content' };
@@ -42,7 +43,7 @@ describe('NewsController', () => {
           provide: NewsService,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockCreateNewsDto)),
-            findAll: jest.fn(() => Promise.resolve(mockfindAllNewsFeed)),
+            findAllAssociationNews: jest.fn(() => Promise.resolve(mockfindAllNewsFeed)),
             findOne: jest.fn(() => Promise.resolve(mockfindAllNewsFeed[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -70,9 +71,16 @@ describe('NewsController', () => {
     });
   });
 
-  describe('findAllNewsFeed', () => {
-    it('should call newsFeedService.findAll', async () => {
-      expect(await controller.findAll()).toEqual(mockfindAllNewsFeed);
+  describe('findAllAssociationNews', () => {
+    it('should call newsFeedService.findAllAssociationNews and succeed', async () => {
+      expect(await controller.findAllAssociationNews('1')).toEqual(mockfindAllNewsFeed);
+    });
+
+    it('should call newsFeedService.findAllAssociationNews and fail', async () => {
+      jest.spyOn(service, 'findAllAssociationNews').mockRejectedValue(new Error('Association Not Found'));
+      expect(async () => controller.findAllAssociationNews('1')).rejects.toThrow(
+        new NotFoundException('Association Not Found')
+      );
     });
   });
 

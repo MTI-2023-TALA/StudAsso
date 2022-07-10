@@ -14,8 +14,16 @@ export class NewsRepository {
     return this.prisma.news.create({ data: createNews, select: newsSelect });
   }
 
-  public async findAll(): Promise<NewsModel[]> {
-    return this.prisma.news.findMany({ select: newsSelect });
+  public async findAllAssociationNews(associationId): Promise<NewsModel[]> {
+    return await this.prisma.news.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      where: {
+        associationId,
+      },
+      select: newsSelect,
+    });
   }
 
   public async findOne(id: number): Promise<NewsModel> {
