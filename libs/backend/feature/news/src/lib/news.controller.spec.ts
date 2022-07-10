@@ -1,4 +1,4 @@
-import { CreateNewsDto, NewsDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto, NewsWithAssoNameDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { NewsController } from './news.controller';
@@ -27,6 +27,16 @@ const mockfindAllNewsFeed: NewsDto[] = [
     updatedAt: new Date('08-07-2022'),
   },
 ];
+const mockfindAllNewsFeedWithAssoName: NewsWithAssoNameDto[] = [
+  {
+    ...mockfindAllNewsFeed[0],
+    associationName: 'Association 1',
+  },
+  {
+    ...mockfindAllNewsFeed[1],
+    associationName: 'Association 2',
+  },
+];
 const mockedUpdateResult: UpdateResult = {
   raw: [],
   generatedMaps: [],
@@ -46,6 +56,7 @@ describe('NewsController', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockCreateNewsDto)),
             findAllAssociationNews: jest.fn(() => Promise.resolve(mockfindAllNewsFeed)),
+            findAllAssociationNewsWithAssoName: jest.fn(() => Promise.resolve(mockfindAllNewsFeedWithAssoName)),
             findOne: jest.fn(() => Promise.resolve(mockfindAllNewsFeed[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -81,6 +92,19 @@ describe('NewsController', () => {
     it('should call newsFeedService.findAllAssociationNews and fail', async () => {
       jest.spyOn(service, 'findAllAssociationNews').mockRejectedValue(new Error('Association Not Found'));
       expect(async () => controller.findAllAssociationNews('1')).rejects.toThrow(
+        new NotFoundException('Association Not Found')
+      );
+    });
+  });
+
+  describe('findAllAssociationNewsWithAssoName', () => {
+    it('should call newsFeedService.findAllAssociationNewsWithAssoName and succeed', async () => {
+      expect(await controller.findAllAssociationNewsWithAssoName('1')).toEqual(mockfindAllNewsFeedWithAssoName);
+    });
+
+    it('should call newsFeedService.findAllAssociationNewsWithAssoName and fail', async () => {
+      jest.spyOn(service, 'findAllAssociationNewsWithAssoName').mockRejectedValue(new Error('Association Not Found'));
+      expect(async () => controller.findAllAssociationNewsWithAssoName('1')).rejects.toThrow(
         new NotFoundException('Association Not Found')
       );
     });

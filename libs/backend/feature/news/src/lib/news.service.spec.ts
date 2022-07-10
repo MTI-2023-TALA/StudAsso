@@ -23,6 +23,21 @@ const mockedNewsFeed = [
   },
 ];
 
+const mockedNewsWithAssoName = [
+  {
+    ...mockedNewsFeed[0],
+    association: {
+      name: 'association 1',
+    },
+  },
+  {
+    ...mockedNewsFeed[1],
+    association: {
+      name: 'association 2',
+    },
+  },
+];
+
 const mockedUpdateResult: UpdateResult = {
   raw: [],
   generatedMaps: [],
@@ -43,6 +58,7 @@ describe('NewsService', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
             findAllAssociationNews: jest.fn(() => Promise.resolve(mockedNewsFeed)),
+            findAllAssociationNewsWithAssoName: jest.fn(() => Promise.resolve(mockedNewsWithAssoName)),
             findOne: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -98,6 +114,32 @@ describe('NewsService', () => {
     it('should call NewsRepository.findAllAssociationNews and fail', async () => {
       jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
       expect(async () => await service.findAllAssociationNews(1)).rejects.toThrow('Association Not Found');
+    });
+  });
+
+  describe('findAllAssociationNewsWithAssoName', () => {
+    it('should call NewsRepository.findAllAssociationNewsWithAssoName and succeed', async () => {
+      const findAll = jest.spyOn(repository, 'findAllAssociationNewsWithAssoName');
+
+      const newsFeedRetrieved = await service.findAllAssociationNewsWithAssoName(1);
+      expect(newsFeedRetrieved).toEqual([
+        {
+          ...mockedNewsFeed[0],
+          associationName: 'association 1',
+        },
+        {
+          ...mockedNewsFeed[1],
+          associationName: 'association 2',
+        },
+      ]);
+
+      expect(findAll).toHaveBeenCalledTimes(1);
+      expect(findAll).toHaveBeenCalledWith(1);
+    });
+
+    it('should call NewsRepository.findAllAssociationNewsWithAssoName and fail', async () => {
+      jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
+      expect(async () => await service.findAllAssociationNewsWithAssoName(1)).rejects.toThrow('Association Not Found');
     });
   });
 
