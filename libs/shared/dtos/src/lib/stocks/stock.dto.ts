@@ -64,6 +64,10 @@ export class StockDto {
   associationId: number;
 }
 
+export class StockNameDto {
+  name: string;
+}
+
 export class StockLogDto {
   id: number;
   stockId: number;
@@ -82,4 +86,5 @@ export class StockLogWithUserDto {
   action: string;
   createdAt: Date;
   user: UserDto;
+  stock: StockNameDto;
 }

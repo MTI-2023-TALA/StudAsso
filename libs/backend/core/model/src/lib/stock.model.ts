@@ -7,6 +7,10 @@ export class StockModel {
   associationId: number;
 }
 
+export class StockNameModel {
+  name: string;
+}
+
 export class StockLogModel {
   id: number;
   stockId: number;
@@ -25,4 +29,5 @@ export class StockLogWithUserModel {
   action: string;
   createdAt: Date;
   user: SimplifiedUserModel;
+  stock: StockNameModel;
 }
