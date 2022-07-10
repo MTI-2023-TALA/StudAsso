@@ -1,7 +1,7 @@
+import { AssociationRepository, NewsRepository } from '@stud-asso/backend/core/repository';
 import { CreateNewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { NewsRepository } from '@stud-asso/backend/core/repository';
 import { NewsService } from './news.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
@@ -29,6 +29,7 @@ const mockedUpdateResult: UpdateResult = {
 
 describe('NewsService', () => {
   let service: NewsService;
+  let associationRepository: AssociationRepository;
   let repository: NewsRepository;
 
   beforeEach(async () => {
@@ -39,10 +40,22 @@ describe('NewsService', () => {
           provide: NewsRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
-            findAll: jest.fn(() => Promise.resolve(mockedNewsFeed)),
+            findAllAssociationNews: jest.fn(() => Promise.resolve(mockedNewsFeed)),
             findOne: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
+          },
+        },
+        {
+          provide: AssociationRepository,
+          useValue: {
+            findOne: jest.fn(() =>
+              Promise.resolve({
+                id: 1,
+                name: 'Association 1',
+                description: 'Description 1',
+              })
+            ),
           },
         },
       ],
@@ -50,6 +63,7 @@ describe('NewsService', () => {
 
     service = module.get<NewsService>(NewsService);
     repository = module.get<NewsRepository>(NewsRepository);
+    associationRepository = module.get<AssociationRepository>(AssociationRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -68,15 +82,20 @@ describe('NewsService', () => {
     });
   });
 
-  describe('findAllNewsFeed', () => {
-    it('should call NewsRepository.findAll', async () => {
-      const findAll = jest.spyOn(repository, 'findAll');
+  describe('findAllAssociationNews', () => {
+    it('should call NewsRepository.findAllAssociationNews and succeed', async () => {
+      const findAll = jest.spyOn(repository, 'findAllAssociationNews');
 
-      const newsFeedRetrieved = await service.findAll();
+      const newsFeedRetrieved = await service.findAllAssociationNews(1);
       expect(newsFeedRetrieved).toEqual(mockedNewsFeed);
 
       expect(findAll).toHaveBeenCalledTimes(1);
-      expect(findAll).toHaveBeenCalledWith();
+      expect(findAll).toHaveBeenCalledWith(1);
+    });
+
+    it('should call NewsRepository.findAllAssociationNews and fail', async () => {
+      jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
+      expect(async () => await service.findAllAssociationNews(1)).rejects.toThrow('Association Not Found');
     });
   });
 

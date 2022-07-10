@@ -1,12 +1,15 @@
+import { AssociationRepository, NewsRepository } from '@stud-asso/backend/core/repository';
 import { CreateNewsDto, NewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
-import { NewsRepository } from '@stud-asso/backend/core/repository';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class NewsService {
-  constructor(private readonly newsRepository: NewsRepository) {}
+  constructor(
+    private readonly associationRepository: AssociationRepository,
+    private readonly newsRepository: NewsRepository
+  ) {}
 
   public async create(createBaseDto: CreateNewsDto): Promise<NewsDto> {
     try {
@@ -25,8 +28,12 @@ export class NewsService {
     }
   }
 
-  public async findAll(): Promise<NewsDto[]> {
-    return this.newsRepository.findAll();
+  public async findAllAssociationNews(associationId: number): Promise<NewsDto[]> {
+    const association = await this.associationRepository.findOne(associationId);
+    if (!association) {
+      throw new Error('Association Not Found');
+    }
+    return await this.newsRepository.findAllAssociationNews(associationId);
   }
 
   public async findOne(id: number): Promise<NewsDto> {

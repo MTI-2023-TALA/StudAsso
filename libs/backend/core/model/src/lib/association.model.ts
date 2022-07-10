@@ -3,7 +3,7 @@ import { UserIdAndUserModel } from './associations-member.model';
 export class AssociationModel {
   id: number;
   name: string;
-  descrition?: string;
+  description?: string;
 }
 
 export class CreateAssociationModel {
