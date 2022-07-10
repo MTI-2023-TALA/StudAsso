@@ -11,13 +11,30 @@ const mockedNewsFeed = [
     id: 1,
     userId: 1,
     associationId: 1,
+    title: 'title 1',
     content: 'content1',
   },
   {
     id: 2,
     userId: 2,
     associationId: 2,
+    title: 'title 2',
     content: 'content2',
+  },
+];
+
+const mockedNewsWithAssoName = [
+  {
+    ...mockedNewsFeed[0],
+    association: {
+      name: 'association 1',
+    },
+  },
+  {
+    ...mockedNewsFeed[1],
+    association: {
+      name: 'association 2',
+    },
   },
 ];
 
@@ -41,6 +58,7 @@ describe('NewsService', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
             findAllAssociationNews: jest.fn(() => Promise.resolve(mockedNewsFeed)),
+            findAllNewsWithAssoName: jest.fn(() => Promise.resolve(mockedNewsWithAssoName)),
             findOne: jest.fn(() => Promise.resolve(mockedNewsFeed[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -96,6 +114,27 @@ describe('NewsService', () => {
     it('should call NewsRepository.findAllAssociationNews and fail', async () => {
       jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
       expect(async () => await service.findAllAssociationNews(1)).rejects.toThrow('Association Not Found');
+    });
+  });
+
+  describe('findAllNewsWithAssoName', () => {
+    it('should call NewsRepository.findAllNewsWithAssoName and succeed', async () => {
+      const findAll = jest.spyOn(repository, 'findAllNewsWithAssoName');
+
+      const newsFeedRetrieved = await service.findAllNewsWithAssoName();
+      expect(newsFeedRetrieved).toEqual([
+        {
+          ...mockedNewsFeed[0],
+          associationName: 'association 1',
+        },
+        {
+          ...mockedNewsFeed[1],
+          associationName: 'association 2',
+        },
+      ]);
+
+      expect(findAll).toHaveBeenCalledTimes(1);
+      expect(findAll).toHaveBeenCalledWith();
     });
   });
 

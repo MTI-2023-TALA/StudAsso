@@ -54,6 +54,7 @@ model News {
   deletedAt     DateTime?   @map("deleted_at") @db.Timestamp(6)
   userId        Int         @map("user_id")
   associationId Int         @map("association_id")
+  title         String      @default("Title")
   content       String
   association   Association @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "association")
   user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, map: "user")

@@ -1,5 +1,5 @@
 import { AssociationRepository, NewsRepository } from '@stud-asso/backend/core/repository';
-import { CreateNewsDto, NewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
@@ -34,6 +34,20 @@ export class NewsService {
       throw new Error('Association Not Found');
     }
     return await this.newsRepository.findAllAssociationNews(associationId);
+  }
+
+  public async findAllNewsWithAssoName(): Promise<NewsWithAssoNameDto[]> {
+    const newsWithAssoName = await this.newsRepository.findAllNewsWithAssoName();
+    return newsWithAssoName.map((news) => ({
+      id: news.id,
+      createdAt: news.createdAt,
+      updatedAt: news.updatedAt,
+      userId: news.userId,
+      associationId: news.associationId,
+      title: news.title,
+      content: news.content,
+      associationName: news.association.name,
+    }));
   }
 
   public async findOne(id: number): Promise<NewsDto> {
