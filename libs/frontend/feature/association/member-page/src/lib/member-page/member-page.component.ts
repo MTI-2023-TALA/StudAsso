@@ -1,5 +1,10 @@
-import { AddRoleToUserDto, AssociationDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
-import { ApiRoleService, ApiUserService } from '@stud-asso/frontend-core-api';
+import {
+  AddRoleToUserDto,
+  AssociationDto,
+  AssociationMemberWithRoleDto,
+  UserIdAndEmailDto,
+} from '@stud-asso/shared/dtos';
+import { ApiAssociationService, ApiRoleService, ApiUserService } from '@stud-asso/frontend-core-api';
 import { Component, OnInit } from '@angular/core';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
@@ -19,12 +24,12 @@ export class MemberPageComponent implements OnInit {
     columns: [
       {
         title: 'Mail',
-        dataProperty: 'id',
+        dataProperty: 'firstname',
         size: 1,
       },
       {
         title: 'Role',
-        dataProperty: 'content',
+        dataProperty: 'roleName',
         size: 2,
       },
     ],
@@ -34,13 +39,14 @@ export class MemberPageComponent implements OnInit {
   isLoading = true;
   usersList: SelectOption[] = [];
   rolesList: SelectOption[] = [];
-  membersList = [];
+  membersList: AssociationMemberWithRoleDto[] = [];
 
   constructor(
     private modal: ModalService,
     private toast: ToastService,
     private apiUser: ApiUserService,
-    private apiRole: ApiRoleService
+    private apiRole: ApiRoleService,
+    private apiAssociation: ApiAssociationService
   ) {}
 
   ngOnInit(): void {
@@ -62,6 +68,9 @@ export class MemberPageComponent implements OnInit {
       }),
       this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
         this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
+      }),
+      this.apiAssociation.findMembers(associationId).subscribe((members: AssociationMemberWithRoleDto[]) => {
+        this.membersList = members;
       }),
     ]).finally(() => (this.isLoading = false));
   }

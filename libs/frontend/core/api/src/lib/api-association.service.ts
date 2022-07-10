@@ -1,4 +1,9 @@
-import { AssociationDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationDto,
+  AssociationMemberWithRoleDto,
+  CreateAssociationDto,
+  UpdateAssociationDto,
+} from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -29,5 +34,9 @@ export class ApiAssociationService extends ApiBaseService {
 
   public findAll(): Observable<AssociationDto[]> {
     return this.apiService.get<AssociationDto[]>(this.url);
+  }
+
+  public findMembers(assoId: number): Observable<AssociationMemberWithRoleDto[]> {
+    return this.apiService.get<AssociationMemberWithRoleDto[]>(`${this.url}/members/${assoId}`);
   }
 }
