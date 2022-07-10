@@ -62,7 +62,7 @@ export class NewsPageComponent implements OnInit {
       }
       const associationId = JSON.parse(assoId);
 
-      const payload: CreateNewsDto = { ...data, associationId: associationId, userId: 1 };
+      const payload: CreateNewsDto = { ...data, associationId: associationId, userId: 1, title: 'title' };
       this.api.create(payload).subscribe(() => {
         this.toast.addAlert({ title: 'News créée', type: ToastType.Success });
         this.reloadData();
