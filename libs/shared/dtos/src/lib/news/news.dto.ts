@@ -41,3 +41,7 @@ export class NewsDto {
   title: string;
   content: string;
 }
+
+export class NewsWithAssoNameDto extends NewsDto {
+  associationName: string;
+}
