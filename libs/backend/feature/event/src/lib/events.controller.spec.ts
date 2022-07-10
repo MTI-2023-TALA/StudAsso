@@ -1,7 +1,6 @@
 import { EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { AssociationsService } from 'libs/backend/feature/association/src/lib/associations.service';
 import { EventsController } from './events.controller';
 import { EventsService } from './events.service';
 import { NotFoundException } from '@nestjs/common';
