@@ -1,12 +1,15 @@
+import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/repository';
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 
-import { EventRepository } from '@stud-asso/backend/core/repository';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class EventsService {
-  constructor(private readonly eventRepository: EventRepository) {}
+  constructor(
+    private readonly associationRepository: AssociationRepository,
+    private readonly eventRepository: EventRepository
+  ) {}
 
   public async create(createEventDto: CreateEventDto): Promise<EventDto> {
     try {
@@ -22,6 +25,14 @@ export class EventsService {
 
   public async findAll(): Promise<EventDto[]> {
     return this.eventRepository.findAll();
+  }
+
+  public async findAllByAssociationId(associationId: number): Promise<EventDto[]> {
+    const asso = await this.associationRepository.findOne(associationId);
+    if (!asso) {
+      throw new Error('Association Not Found');
+    }
+    return await this.eventRepository.findAllByAssociationId(associationId);
   }
 
   public async findOne(id: number): Promise<EventDto> {

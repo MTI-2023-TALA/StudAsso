@@ -15,7 +15,22 @@ export class EventRepository {
   }
 
   public async findAll(): Promise<EventModel[]> {
-    return this.prisma.event.findMany({ select: eventSelect });
+    return this.prisma.event.findMany({
+      orderBy: {
+        date: 'asc',
+      },
+      select: eventSelect,
+    });
+  }
+
+  public async findAllByAssociationId(associationId: number): Promise<EventModel[]> {
+    return await this.prisma.event.findMany({
+      orderBy: {
+        date: 'asc',
+      },
+      where: { associationId },
+      select: eventSelect,
+    });
   }
 
   public async findOne(id: number): Promise<EventModel> {

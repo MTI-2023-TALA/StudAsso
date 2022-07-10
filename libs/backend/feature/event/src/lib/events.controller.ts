@@ -32,6 +32,15 @@ export class EventsController {
     return this.eventsService.findAll();
   }
 
+  @Get('asso/:id')
+  public async findAllByAssociationId(@Param('id') id: string): Promise<EventDto[]> {
+    try {
+      return await this.eventsService.findAllByAssociationId(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @Get(':id')
   public async findOne(@Param('id') id: string): Promise<EventDto> {
     try {

@@ -1,7 +1,7 @@
+import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/repository';
 import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
-import { EventRepository } from '@stud-asso/backend/core/repository';
 import { EventsService } from './events.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
@@ -10,14 +10,14 @@ const mockedEvents = [
   {
     id: 1,
     name: 'Event1',
-    date: new Date('2022-01-15'),
+    date: new Date('2022-02-15'),
     content: 'An amazing description',
     associationId: 1,
   },
   {
     id: 2,
     name: 'Event2',
-    date: new Date('2022-02-15'),
+    date: new Date('2022-01-15'),
     content: 'An amazing description again',
     associationId: 2,
   },
@@ -31,6 +31,7 @@ const mockedUpdateResult: UpdateResult = {
 
 describe('EventsService', () => {
   let service: EventsService;
+  let associationRepository: AssociationRepository;
   let repository: EventRepository;
 
   beforeEach(async () => {
@@ -42,15 +43,29 @@ describe('EventsService', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedEvents[0])),
             findAll: jest.fn(() => Promise.resolve(mockedEvents)),
+            findAllByAssociationId: jest.fn(() => Promise.resolve([mockedEvents[0]])),
             findOne: jest.fn(() => Promise.resolve(mockedEvents[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
+          },
+        },
+        {
+          provide: AssociationRepository,
+          useValue: {
+            findOne: jest.fn(() =>
+              Promise.resolve({
+                id: 1,
+                name: 'Association 1',
+                description: 'Description 1',
+              })
+            ),
           },
         },
       ],
     }).compile();
 
     service = module.get<EventsService>(EventsService);
+    associationRepository = module.get<AssociationRepository>(AssociationRepository);
     repository = module.get<EventRepository>(EventRepository);
   });
 
@@ -84,6 +99,23 @@ describe('EventsService', () => {
 
       expect(findAll).toHaveBeenCalledTimes(1);
       expect(findAll).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('findAllByAssociationId', () => {
+    it('should call eventRepository.findAllByAssociationId and succeed', async () => {
+      const findAll = jest.spyOn(repository, 'findAllByAssociationId');
+
+      const eventsRetrieved = await service.findAllByAssociationId(1);
+      expect(eventsRetrieved).toEqual([mockedEvents[0]]);
+
+      expect(findAll).toHaveBeenCalledTimes(1);
+      expect(findAll).toHaveBeenCalledWith(1);
+    });
+
+    it('should call eventRepository.findAllByAssociationId and fail', async () => {
+      jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
+      expect(async () => await service.findAllByAssociationId(1)).rejects.toThrow('Association Not Found');
     });
   });
 
