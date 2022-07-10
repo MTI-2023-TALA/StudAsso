@@ -44,3 +44,9 @@ export class AssociationWithPresidentDto {
   email: string;
   isSchoolEmployee: boolean;
 }
+
+export class AssociationMemberWithRoleDto {
+  firstname: string;
+  lastname: string;
+  roleName: string;
+}

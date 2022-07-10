@@ -55,6 +55,15 @@ export class AssociationsController {
     }
   }
 
+  @Get('members/:id')
+  public async findAssociationMembersWithRoles(@Param('id') id: string): Promise<any> {
+    try {
+      return await this.associationsService.findAssociationMembersWithRoles(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @Patch(':id')
   public async update(
     @Param('id') id: string,
