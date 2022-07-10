@@ -1,5 +1,6 @@
 import {
   AssociationDto,
+  AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   CreateAssociationDto,
   UpdateAssociationDto,
@@ -56,7 +57,7 @@ export class AssociationsController {
   }
 
   @Get('members/:id')
-  public async findAssociationMembersWithRoles(@Param('id') id: string): Promise<any> {
+  public async findAssociationMembersWithRoles(@Param('id') id: string): Promise<AssociationMemberWithRoleDto[]> {
     try {
       return await this.associationsService.findAssociationMembersWithRoles(+id);
     } catch (error) {
