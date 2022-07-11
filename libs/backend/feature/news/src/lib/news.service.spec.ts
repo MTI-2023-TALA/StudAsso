@@ -92,11 +92,11 @@ describe('NewsService', () => {
       const createNewsDto = plainToInstance(CreateNewsDto, createNewsFeedParams);
       const create = jest.spyOn(repository, 'create');
 
-      const createResultRetrieved = await service.create(createNewsDto);
+      const createResultRetrieved = await service.create(1, createNewsDto);
       expect(createResultRetrieved).toEqual(mockedNewsFeed[0]);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createNewsFeedParams);
+      expect(create).toHaveBeenCalledWith(1, createNewsFeedParams);
     });
   });
 
