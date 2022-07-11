@@ -11,9 +11,9 @@ export class NewsService {
     private readonly newsRepository: NewsRepository
   ) {}
 
-  public async create(createBaseDto: CreateNewsDto): Promise<NewsDto> {
+  public async create(userId: number, createBaseDto: CreateNewsDto): Promise<NewsDto> {
     try {
-      return await this.newsRepository.create(createBaseDto);
+      return await this.newsRepository.create(userId, createBaseDto);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003') {

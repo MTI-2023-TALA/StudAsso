@@ -18,8 +18,8 @@ const newsSelect = {
 export class NewsRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(createNews: CreateNewsDto): Promise<NewsModel> {
-    return this.prisma.news.create({ data: createNews, select: newsSelect });
+  public async create(userId: number, createNews: CreateNewsDto): Promise<NewsModel> {
+    return this.prisma.news.create({ data: { userId, ...createNews }, select: newsSelect });
   }
 
   public async findAllAssociationNews(associationId): Promise<NewsModel[]> {
