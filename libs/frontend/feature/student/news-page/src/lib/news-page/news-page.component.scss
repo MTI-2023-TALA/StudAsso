@@ -1,0 +1,40 @@
+@import 'base/variables';
+
+
+.host {
+  box-sizing: content-box;
+  margin: 1rem 2rem;
+}
+
+.s-card {
+  background-color: $light-grey-200;
+  padding: 0.5rem 1rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+  box-shadow: 5px 2px 16px 0px #53484D;
+
+  .s-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0rem 0rem 1rem 0rem;
+
+    .s-card-title {
+      font-size: $font-size-md;
+      font-weight: $font-weight-bold;
+      color: $dark-grey-600;
+    }
+  }
+
+  .s-card-body {
+    white-space: pre-line;
+  }
+
+  .s-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
+    padding: 1rem 0rem 0rem 0rem;
+  }
+}

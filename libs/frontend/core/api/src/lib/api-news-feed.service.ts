@@ -1,4 +1,4 @@
-import { CreateNewsDto, NewsDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto, NewsWithAssoNameDto } from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -20,5 +20,9 @@ export class ApiNewsFeedService extends ApiBaseService {
 
   public findAllWithAsso(id: number): Observable<NewsDto[]> {
     return this.apiService.get<NewsDto[]>(`${this.url}/asso/${id}`);
+  }
+
+  public findAll(): Observable<NewsWithAssoNameDto[]> {
+    return this.apiService.get<NewsWithAssoNameDto[]>(`${this.url}/assoWithAssoName`);
   }
 }
