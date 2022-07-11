@@ -17,7 +17,7 @@ export class NewsPageComponent implements OnInit {
     columns: [
       {
         title: 'Titre',
-        dataProperty: 'id',
+        dataProperty: 'title',
         size: 1,
       },
       {
@@ -54,7 +54,6 @@ export class NewsPageComponent implements OnInit {
 
   createNews(): (data: ICreateNewsFormly) => void {
     return (data: ICreateNewsFormly) => {
-      // TODO: Fix when backend is correctly setup !
       const assoId = getData('asso-id');
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
@@ -62,7 +61,7 @@ export class NewsPageComponent implements OnInit {
       }
       const associationId = JSON.parse(assoId);
 
-      const payload: CreateNewsDto = { ...data, associationId: associationId, userId: 1, title: 'title' };
+      const payload: CreateNewsDto = { ...data, associationId: associationId, title: 'title' };
       this.api.create(payload).subscribe(() => {
         this.toast.addAlert({ title: 'News créée', type: ToastType.Success });
         this.reloadData();

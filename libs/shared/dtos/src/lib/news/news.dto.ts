@@ -5,10 +5,6 @@ import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 export class CreateNewsDto {
   @IsNotEmpty()
   @IsInt()
-  userId: number;
-
-  @IsNotEmpty()
-  @IsInt()
   associationId: number;
 
   @IsNotEmpty()

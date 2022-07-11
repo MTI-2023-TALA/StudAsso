@@ -2,4 +2,8 @@
   <!-- <p>{{ data[config.dataProperty] }}</p> -->
   <stud-asso-table-data-view [columnConfiguration]="config" [data]="data"></stud-asso-table-data-view>
 </div>
-<stud-asso-table-dropdown [data]="data" [tableConfiguration]="tableConfiguration"></stud-asso-table-dropdown>
+<stud-asso-table-dropdown
+  *ngIf="tableConfiguration.actions.length !== 0"
+  [data]="data"
+  [tableConfiguration]="tableConfiguration"
+></stud-asso-table-dropdown>
