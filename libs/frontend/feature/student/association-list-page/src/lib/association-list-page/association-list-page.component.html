@@ -1,1 +1,11 @@
-<p>association-list-page works!</p>
+<div class="host">
+  <div class="title">Listes des associations</div>
+
+  <div class="t-card-list">
+    <div class="t-card" *ngFor="let item of associationList">
+      <div class="t-title">{{ item.name }}</div>
+      <div class="t-body">{{ item.description }}</div>
+      <div class="t-footer">Président: {{ item.email }}</div>
+    </div>
+  </div>
+</div>

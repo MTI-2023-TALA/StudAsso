@@ -1,0 +1,35 @@
+@import 'base/variables';
+
+:host {
+  padding: 1rem 2rem;
+}
+
+.t-card {
+  padding: 1rem;
+  background-color: $light-grey-200;
+  border-radius: 4px;
+  box-shadow: 5px 2px 16px 0px #53484D;
+  margin: 1rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.t-title {
+  font-size: $font-size-xxm;
+  font-weight: $font-weight-bold;
+  color: $dark-grey-600;
+  padding-bottom: 0.5rem;
+}
+
+.t-footer {
+  padding-bottom: 0.25rem;
+}
+
+.t-card-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
