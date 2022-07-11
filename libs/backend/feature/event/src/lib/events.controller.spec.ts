@@ -3,6 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { EventsController } from './events.controller';
 import { EventsService } from './events.service';
+import { NotFoundException } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
@@ -36,6 +37,7 @@ describe('EventsController', () => {
           useValue: {
             create: jest.fn(() => Promise.resolve(mockCreateEventDto)),
             findAll: jest.fn(() => Promise.resolve(mockfindAllEvents)),
+            findAllByAssociationId: jest.fn(() => Promise.resolve([mockfindAllEvents[0]])),
             findOne: jest.fn(() => Promise.resolve(mockfindAllEvents[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
             delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -71,6 +73,19 @@ describe('EventsController', () => {
   describe('findAllEvents', () => {
     it('should call eventsService.findAll', async () => {
       expect(await controller.findAll()).toEqual(mockfindAllEvents);
+    });
+  });
+
+  describe('findAllByAssociationId', () => {
+    it('should call eventsService.findAllByAssociationId and succeed', async () => {
+      expect(await controller.findAllByAssociationId('1')).toEqual([mockfindAllEvents[0]]);
+    });
+
+    it('should call eventsService.findAllByAssociationId and fail', async () => {
+      jest.spyOn(service, 'findAllByAssociationId').mockRejectedValue(new Error('Association Not Found'));
+      expect(async () => controller.findAllByAssociationId('1')).rejects.toThrow(
+        new NotFoundException('Association Not Found')
+      );
     });
   });
 
