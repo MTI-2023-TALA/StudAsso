@@ -6,7 +6,7 @@ import { NewsService } from './news.service';
 import { NotFoundException } from '@nestjs/common';
 import { UpdateResult } from 'typeorm';
 
-const mockCreateNewsDto: CreateNewsDto = { userId: 1, associationId: 1, title: 'title', content: 'content' };
+const mockCreateNewsDto: CreateNewsDto = { associationId: 1, title: 'title', content: 'content' };
 const mockfindAllNewsFeed: NewsDto[] = [
   {
     id: 1,
@@ -76,11 +76,11 @@ describe('NewsController', () => {
       const create = jest.spyOn(service, 'create');
 
       const createEventParams = { userId: 1, associationId: 1, title: 'title', content: 'content' };
-      const createdNewsFeed = await controller.create(createEventParams);
+      const createdNewsFeed = await controller.create(1, createEventParams);
       expect(createdNewsFeed).toEqual(mockCreateNewsDto);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createEventParams);
+      expect(create).toHaveBeenCalledWith(1, createEventParams);
     });
   });
 
