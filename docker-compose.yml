@@ -1,17 +1,52 @@
 version: '3'
 services:
+  frontend-student:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend.student
+    ports:
+      - '4202:80'
+    networks:
+      - frontend
+    depends_on:
+      - backend
+    container_name: studasso-student
   frontend-school:
-    build: ./apps/frontend/school/
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend.school
     ports:
-      - '8081:8081'
+      - '4200:80'
+    networks:
+      - frontend
+    depends_on:
+      - backend
+    container_name: studasso-school
   frontend-association:
-    build: ./apps/frontend/association/
+    build:
+      context: .
+      dockerfile: ./Dockerfile.frontend.association
     ports:
-      - '4201:4201'
+      - '4201:80'
+    networks:
+      - frontend
+    depends_on:
+      - backend
+    container_name: studasso-association
   backend:
-    build: ./apps/backend/
+    build:
+      context: .
+      dockerfile: ./Dockerfile.backend
     ports:
       - '3333:3333'
+    environment:
+      POSTGRES_DB: studasso
+    networks:
+      - backend
+      - frontend
+    depends_on:
+      - database
+    container_name: studasso-backend
   database:
     image: postgres:14-alpine3.15
     environment:
@@ -22,6 +57,13 @@ services:
       - '5432:5432'
     volumes:
       - stud-asso:/db
+    networks:
+      - backend
+    container_name: studasso-database
 
 volumes:
   stud-asso:
+
+networks:
+  backend:
+  frontend:
