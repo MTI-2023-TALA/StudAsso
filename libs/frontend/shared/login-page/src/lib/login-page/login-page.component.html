@@ -1,11 +1,11 @@
-<h1 class="title">Stud'Asso | {{ title }}</h1>
+<h1 class="title">{{ 'appName' | translate }} | {{ title }}</h1>
 <div class="connection-option">
-  <button class="button is-link u-m-b-2">
+  <button class="button is-link u-m-b-2" (click)="onClickGoogleButton()">
     <i class="bi bi-google u-m-r-2"></i>
-    Se connecter avec Google
+    {{ 'googleConnect' | translate }}
   </button>
   <div>
-    <button class="button is-ghost" (click)="onClickOpenSignInButton()">Se connecter</button>
-    <button class="button is-ghost" (click)="onClickSingUpButton()">Créer un compte</button>
+    <button class="button is-ghost" (click)="onClickOpenSignInButton()">{{ 'connect' | translate }}</button>
+    <button class="button is-ghost" (click)="onClickSingUpButton()">{{ 'createAccount' | translate }}</button>
   </div>
 </div>

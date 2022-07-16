@@ -1,17 +1,32 @@
-import { AssociationsMember } from '@stud-asso/backend/core/orm';
-import { InjectRepository } from '@nestjs/typeorm';
+import { AssociationMember } from '@prisma/client';
+import { AssociationMemberWithRoleWithoutIdsModel } from '@stud-asso/backend/core/model';
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { PrismaService } from '@stud-asso/backend/core/orm';
 
 @Injectable()
 export class AssociationsMemberRepository {
-  constructor(
-    @InjectRepository(AssociationsMember) private readonly associationsMemberRepository: Repository<AssociationsMember>
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  public async linkUserToRole(associationId: number, userId: number, roleId: number): Promise<AssociationsMember> {
-    // if primary key associationId and userId doesn't exist -> associates a new role
-    // if primary key exists -> updates the role
-    return this.associationsMemberRepository.save({ associationId, userId, roleId });
+  public async linkUserToRole(associationId: number, userId: number, roleId: number): Promise<AssociationMember> {
+    return this.prisma.associationMember.create({ data: { associationId, userId, roleId } });
+  }
+
+  public findAssociationMembersWithRoles(associationId: number): Promise<AssociationMemberWithRoleWithoutIdsModel[]> {
+    return this.prisma.associationMember.findMany({
+      where: { associationId },
+      select: {
+        user: {
+          select: {
+            firstname: true,
+            lastname: true,
+          },
+        },
+        role: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
   }
 }

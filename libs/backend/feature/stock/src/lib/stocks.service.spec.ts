@@ -1,28 +1,28 @@
-import { CreateStockDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
-import { Stock, StockLogs } from '@stud-asso/backend/core/orm';
-import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
+import { AssociationRepository, StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
+import { CreateStockDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { AssociationModel } from '@stud-asso/backend/core/model';
 import { StocksService } from './stocks.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 
-const mockedStocks: Stock[] = [
-  plainToInstance(Stock, {
+const mockedStocks = [
+  {
     id: 1,
     name: 'Coca',
     count: 10,
     associationId: 1,
-  }),
-  plainToInstance(Stock, {
+  },
+  {
     id: 2,
     name: 'Tea',
     count: 42,
     associationId: 2,
-  }),
+  },
 ];
 
-const mockedStocksLogsWithUser: StockLogsWithUserDto[] = [
+const mockedStocksLogsWithUser: StockLogWithUserDto[] = [
   {
     id: 1,
     stockId: 1,
@@ -36,6 +36,9 @@ const mockedStocksLogsWithUser: StockLogsWithUserDto[] = [
       lastname: 'Cena',
       email: 'johncena@gmail.com',
       isSchoolEmployee: false,
+    },
+    stock: {
+      name: 'Coca',
     },
   },
   {
@@ -52,11 +55,14 @@ const mockedStocksLogsWithUser: StockLogsWithUserDto[] = [
       email: 'johncena@gmail.com',
       isSchoolEmployee: false,
     },
+    stock: {
+      name: 'Tea',
+    },
   },
 ];
 
-const mockedStocksLogs: StockLogs[] = [
-  plainToInstance(StockLogs, {
+const mockedStocksLogs = [
+  {
     id: 1,
     stockId: 1,
     userId: 1,
@@ -64,13 +70,18 @@ const mockedStocksLogs: StockLogs[] = [
     newCount: 10,
     createdAt: new Date('2022-05-27'),
     action: 'create',
-  }),
+  },
 ];
 
 const mockedUpdateResult: UpdateResult = {
   raw: [],
   generatedMaps: [],
   affected: 1,
+};
+
+const mockedAssociation: AssociationModel = {
+  id: 0,
+  name: 'Asso1',
 };
 
 describe('StocksService', () => {
@@ -99,6 +110,12 @@ describe('StocksService', () => {
             create: jest.fn(() => Promise.resolve(mockedStocksLogs[0])),
             findAllAssoStockLogs: jest.fn(() => Promise.resolve(mockedStocksLogsWithUser)),
             findSpecificStockLogs: jest.fn(() => Promise.resolve(mockedStocksLogs)),
+          },
+        },
+        {
+          provide: AssociationRepository,
+          useValue: {
+            findOne: jest.fn(() => Promise.resolve(mockedAssociation)),
           },
         },
       ],

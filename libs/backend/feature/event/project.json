@@ -1,5 +1,5 @@
 {
-  "root": "libs/backend/feature/event",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/backend/feature/event/src",
   "targets": {
     "lint": {

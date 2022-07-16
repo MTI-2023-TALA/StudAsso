@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { StockDto, StockLogDto, StockLogWithUserDto } from '@stud-asso/shared/dtos';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { StockDto } from '@stud-asso/shared/dtos';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createStockFormly } from './stock-page.formly';
 import { getData } from '@stud-asso/frontend-core-storage';
@@ -11,6 +11,7 @@ import { getData } from '@stud-asso/frontend-core-storage';
 @Component({
   selector: 'stud-asso-stock-page',
   templateUrl: './stock-page.component.html',
+  styleUrls: ['./stock-page.component.scss'],
 })
 export class StockPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {
@@ -38,6 +39,17 @@ export class StockPageComponent implements OnInit {
         label: 'Supprimer',
         action: (data: { id: number; name: string }) => {
           this.deleteModalStock(data.id, data.name);
+        },
+      },
+      {
+        label: 'Log',
+        action: (data: { id: number; name: string }) => {
+          this.api.findSpecificStockLogs(data.id).subscribe((logs: StockLogDto[]) => {
+            this.modal.createLogsModal({
+              message: `Logs du stock ${data.name}`,
+              logs: logs,
+            });
+          });
         },
       },
     ],
@@ -71,19 +83,38 @@ export class StockPageComponent implements OnInit {
     });
   }
 
+  getSpecificStock(id: number): StockDto | null {
+    for (const stock of this.stockList) {
+      if (stock.id == id) return stock;
+    }
+    return null;
+  }
+
   createModalStock() {
     this.modal.createForm({
       title: 'Créer un stock',
-      fields: createStockFormly,
+      fields: createStockFormly(),
       submitBtnText: 'Créer',
       submit: this.createStock(),
     });
   }
 
+  createModalAllLogs() {
+    const assoIdData = getData('asso-id');
+    if (!assoIdData) {
+      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
+      return;
+    }
+    this.api.findAllAssoStockLog(+assoIdData).subscribe((logs: StockLogWithUserDto[]) => {
+      this.modal.createLogsModal({ message: "Logs de l'association", logs: logs });
+    });
+  }
+
   modifyModalStock(id: number) {
+    const stock = this.getSpecificStock(id);
     this.modal.createForm({
       title: 'Modifier un stock',
-      fields: createStockFormly,
+      fields: createStockFormly(stock?.name, stock?.count),
       submitBtnText: 'Modifier',
       submit: this.modifyStock(id),
     });

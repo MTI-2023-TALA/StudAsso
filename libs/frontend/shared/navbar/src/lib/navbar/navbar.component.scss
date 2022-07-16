@@ -63,3 +63,47 @@ ul {
   color: $primary-600;
   border-right: 2px solid $primary-600;
 }
+
+.is-mobile {
+  display: none;
+  background-color: $light-grey-100;
+}
+
+@media screen and (max-width: 640px) {
+  .is-mobile {
+    display:block;
+  }
+
+  .not-mobile {
+    display: none;
+  }
+
+  .host {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 53px);
+    display: none;
+  }
+
+  .navbar-collapsed {
+    display: block;
+  }
+
+  .title {
+    padding: 0.5rem 1rem;
+  }
+
+  .menu-bar {
+    margin-right: 1rem;
+  }
+
+  li {
+    background-color: white;
+    padding: 0.5rem;
+
+    p {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}

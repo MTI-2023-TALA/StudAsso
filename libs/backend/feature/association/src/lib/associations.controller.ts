@@ -1,5 +1,6 @@
 import {
   AssociationDto,
+  AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   CreateAssociationDto,
   UpdateAssociationDto,
@@ -8,17 +9,16 @@ import {
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Delete,
   Get,
   NotFoundException,
   Param,
   Patch,
   Post,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { AssociationsService } from './associations.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-import { UpdateResult } from 'typeorm';
 
 @SwaggerController('associations')
 export class AssociationsController {
@@ -29,7 +29,7 @@ export class AssociationsController {
     try {
       return await this.associationsService.create(createAssociationDto);
     } catch (error) {
-      throw new UnprocessableEntityException(error?.message);
+      throw new ConflictException(error?.message);
     }
   }
 
@@ -56,11 +56,20 @@ export class AssociationsController {
     }
   }
 
+  @Get('members/:id')
+  public async findAssociationMembersWithRoles(@Param('id') id: string): Promise<AssociationMemberWithRoleDto[]> {
+    try {
+      return await this.associationsService.findAssociationMembersWithRoles(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @Patch(':id')
   public async update(
     @Param('id') id: string,
     @Body() updateAssociationDto: UpdateAssociationDto
-  ): Promise<UpdateResult> {
+  ): Promise<AssociationDto> {
     try {
       return await this.associationsService.update(+id, updateAssociationDto);
     } catch (error) {
@@ -69,7 +78,11 @@ export class AssociationsController {
   }
 
   @Delete(':id')
-  public async delete(@Param('id') id: string): Promise<UpdateResult> {
-    return this.associationsService.delete(+id);
+  public async delete(@Param('id') id: string): Promise<AssociationDto> {
+    try {
+      return await this.associationsService.delete(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
   }
 }

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
-import { AssociationDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { RoleDto } from '@stud-asso/shared/dtos';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createRoleFormly } from './role-page.formly';
 import { getData } from '@stud-asso/frontend-core-storage';
@@ -38,7 +38,7 @@ export class RolePageComponent implements OnInit {
     ],
   };
 
-  roleList: AssociationDto[] = [];
+  roleList: RoleDto[] = [];
 
   isLoading = true;
 
@@ -58,10 +58,19 @@ export class RolePageComponent implements OnInit {
     }
 
     const associationId = JSON.parse(assoIdData);
-    this.api.findAllRoleWithAsso(associationId).subscribe((roles: AssociationDto[]) => {
+    this.api.findAllRoleWithAsso(associationId).subscribe((roles: RoleDto[]) => {
       this.roleList = roles;
       this.isLoading = false;
     });
+  }
+
+  getSpecificRole(id: number): RoleDto | null {
+    for (const role of this.roleList) {
+      if (role.id == id) {
+        return role;
+      }
+    }
+    return null;
   }
 
   handleError() {
@@ -72,15 +81,16 @@ export class RolePageComponent implements OnInit {
     this.modal.createForm({
       title: 'Créer un nouveau rôle',
       submitBtnText: 'Créer',
-      fields: createRoleFormly,
+      fields: createRoleFormly(),
       submit: this.createRole(),
     });
   }
 
   modifyModalRole(id: number) {
+    const role = this.getSpecificRole(id);
     this.modal.createForm({
       title: 'Modifier un rôle',
-      fields: createRoleFormly,
+      fields: createRoleFormly(role?.name),
       submitBtnText: 'Modifier',
       submit: this.modifyRole(id),
     });

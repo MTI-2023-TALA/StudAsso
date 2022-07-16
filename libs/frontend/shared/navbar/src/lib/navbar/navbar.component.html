@@ -1,5 +1,15 @@
-<div class="host" [class.show-large-navbar]="shouldShowLargeNavbar">
-  <h1 class="title u-f-center u-f-space-evenly p-4">
+<div class="is-mobile">
+  <div class="title">
+    <span class="menu-bar" (click)="toggleNavbarCollapse()">
+      <i *ngIf="isNavbarCollapsed" class="bi bi-list"></i>
+      <i *ngIf="!isNavbarCollapsed" class="bi bi-x"></i>
+    </span>
+    <span>Stud'Asso</span>
+  </div>
+</div>
+
+<div class="host" [class.navbar-collapsed]="!isNavbarCollapsed" [class.show-large-navbar]="shouldShowLargeNavbar">
+  <h1 class="title u-f-center u-f-space-evenly p-4 not-mobile">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -38,11 +48,11 @@
     </svg>
     <span *ngIf="shouldShowLargeNavbar" class="title">
       <span *ngIf="assoName">{{ assoName }}</span>
-      <span *ngIf="!assoName">Stud'Asso</span>
+      <span *ngIf="!assoName">{{ 'appName' | translate }}</span>
     </span>
   </h1>
 
-  <div class="u-f-center" [studAssoTooltip]="'Ceci est un tooltip'" placement="top">
+  <div class="u-f-center not-mobile" [studAssoTooltip]="'Ceci est un tooltip'" placement="top">
     <button class="button" (click)="toggleShowLargeNavbar()">
       <i *ngIf="shouldShowLargeNavbar" class="bi bi-arrow-left-square"></i>
       <i *ngIf="!shouldShowLargeNavbar" class="bi bi-arrow-right-square"></i>
@@ -65,7 +75,7 @@
   <div class="u-f-center">
     <button class="button is-danger" (click)="logout()">
       <i class="bi bi-power p-2"></i>
-      <span *ngIf="shouldShowLargeNavbar">Déconnexion</span>
+      <span *ngIf="shouldShowLargeNavbar">{{ 'deconnect' | translate }}</span>
     </button>
   </div>
 </div>

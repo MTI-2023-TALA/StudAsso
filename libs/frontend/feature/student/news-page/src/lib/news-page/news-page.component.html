@@ -1,0 +1,15 @@
+<div class="host">
+  <div class="title">News</div>
+
+  <div class="s-card-list" *ngFor="let item of newsList">
+    <div class="s-card">
+      <div class="s-card-header">
+        <div class="s-card-title">{{ item.title }}</div>
+        <div class="s-card-asso">{{ item.associationName }}</div>
+      </div>
+      <div class="s-card-body">{{ item.content }}</div>
+      <!-- TODO: Use pipe instead of function -->
+      <div class="s-card-footer">{{ getDate(item.createdAt) }}</div>
+    </div>
+  </div>
+</div>

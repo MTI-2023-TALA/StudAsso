@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateNewsFeedDto, NewsFeedDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto } from '@stud-asso/shared/dtos';
 import { ICreateNewsFormly, createNewsFormly } from './news-page.formly';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
@@ -17,7 +17,7 @@ export class NewsPageComponent implements OnInit {
     columns: [
       {
         title: 'Titre',
-        dataProperty: 'id',
+        dataProperty: 'title',
         size: 1,
       },
       {
@@ -29,7 +29,7 @@ export class NewsPageComponent implements OnInit {
     actions: [],
   };
 
-  newsList: NewsFeedDto[] = [];
+  newsList: NewsDto[] = [];
   isLoading = true;
 
   constructor(private api: ApiNewsFeedService, private modal: ModalService, private toast: ToastService) {}
@@ -40,7 +40,13 @@ export class NewsPageComponent implements OnInit {
 
   reloadData(): void {
     this.isLoading = true;
-    this.api.findAll().subscribe((newsList: NewsFeedDto[]) => {
+    const assoId = getData('asso-id');
+    if (!assoId) {
+      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
+      return;
+    }
+    const associationId = JSON.parse(assoId);
+    this.api.findAllWithAsso(associationId).subscribe((newsList: NewsDto[]) => {
       this.newsList = newsList;
       this.isLoading = false;
     });
@@ -48,7 +54,6 @@ export class NewsPageComponent implements OnInit {
 
   createNews(): (data: ICreateNewsFormly) => void {
     return (data: ICreateNewsFormly) => {
-      // TODO: Fix when backend is correctly setup !
       const assoId = getData('asso-id');
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
@@ -56,7 +61,7 @@ export class NewsPageComponent implements OnInit {
       }
       const associationId = JSON.parse(assoId);
 
-      const payload: CreateNewsFeedDto = { ...data, associationId: associationId, userId: 1 };
+      const payload: CreateNewsDto = { ...data, associationId: associationId };
       this.api.create(payload).subscribe(() => {
         this.toast.addAlert({ title: 'News créée', type: ToastType.Success });
         this.reloadData();

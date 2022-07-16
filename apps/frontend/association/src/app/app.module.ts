@@ -2,6 +2,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FrontendCoreApiModule } from '@stud-asso/frontend-core-api';
+import { FrontendCoreI18nModule } from '@stud-asso/frontend/core/i18n';
 import { FrontendSharedFormlyModule } from '@stud-asso/frontend-shared-formly';
 import { FrontendSharedGenericPageModule } from '@stud-asso/frontend/shared/generic-page';
 import { FrontendSharedTableModule } from '@stud-asso/frontend-shared-table';
@@ -22,6 +23,7 @@ import { RouterModule } from '@angular/router';
     FrontendSharedTableModule,
     FrontendSharedTagsModule,
     FrontendSharedGenericPageModule,
+    FrontendCoreI18nModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

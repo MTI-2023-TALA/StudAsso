@@ -1,4 +1,4 @@
-import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { AuthDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
 
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
@@ -20,6 +20,10 @@ export class ApiAuthService {
 
   public signinLocal(payload: AuthDto): Observable<TokenDto> {
     return this.apiService.post<AuthDto, TokenDto>(`${this.url}/local/signin`, payload);
+  }
+
+  public signinWithGoogle(payload: GoogleAuthDto): Observable<TokenDto> {
+    return this.apiService.post<GoogleAuthDto, TokenDto>(`${this.url}/google/login`, payload);
   }
 
   public logout(): Observable<boolean> {

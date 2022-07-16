@@ -1,4 +1,4 @@
-import { AssoUserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import { AssociationOfUserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -20,7 +20,7 @@ export class ApiUserService extends ApiBaseService {
     return this.api.get<UserIdAndEmailDto[]>(`${this.url}/idandemail`);
   }
 
-  getUserAsso(): Observable<AssoUserDto> {
-    return this.api.get<AssoUserDto>(`${this.url}/asso`);
+  getUserAsso(): Observable<AssociationOfUserDto> {
+    return this.api.get<AssociationOfUserDto>(`${this.url}/asso`);
   }
 }

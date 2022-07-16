@@ -1,7 +1,31 @@
-# backend-core-orm
+# ORM lib
 
-This library was generated with [Nx](https://nx.dev).
+## Work with prisma
 
-## Running unit tests
+To create a migration without modifications:
 
-Run `nx test backend-core-orm` to execute the unit tests via [Jest](https://jestjs.io).
+```sh
+npx prisma migrate dev
+```
+
+To cutomize your migration:
+
+```sh
+npx prisma migrate dev --create-only
+
+# once you're finished customizing:
+
+npx prisma migrate dev
+```
+
+To run new migrations after a pull
+
+```sh
+npx prisma migrate dev
+```
+
+To generate PrismaClient (to do after each modification in database schema (prisma.schema)):
+
+```sh
+npx prisma generate
+```

@@ -1,28 +1,36 @@
+import { AssociationRepository, StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 import {
   CreateStockDto,
-  CreateStockLogsDto,
+  CreateStockLogDto,
   StockDto,
-  StockLogsDto,
-  StockLogsWithUserDto,
+  StockLogDto,
+  StockLogWithUserDto,
   UpdateStockDto,
 } from '@stud-asso/shared/dtos';
-import { StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 
 import { Injectable } from '@nestjs/common';
-import { StockLogs } from '@stud-asso/backend/core/orm';
-import { UpdateResult } from 'typeorm';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class StocksService {
   constructor(
+    private readonly associationRepository: AssociationRepository,
     private readonly stockRepository: StockRepository,
     private readonly stockLogsRepository: StockLogsRepository
   ) {}
 
   public async create(userId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
-    const createdStock: StockDto = await this.stockRepository.create(createBaseDto);
-    await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count, 'create');
-    return createdStock;
+    try {
+      const createdStock: StockDto = await this.stockRepository.create(createBaseDto);
+      await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count, 'create');
+      return createdStock;
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {
+          throw new Error('Association Not Found');
+        }
+      }
+    }
   }
 
   public async findAll(): Promise<StockDto[]> {
@@ -30,33 +38,52 @@ export class StocksService {
   }
 
   public async findAllAsso(id: number): Promise<StockDto[]> {
+    const asso = await this.associationRepository.findOne(id);
+    if (!asso) {
+      throw new Error('Association Not Found');
+    }
     return this.stockRepository.findAllAsso(id);
   }
 
-  public async findAllAssoStockLogs(associationId: number): Promise<StockLogsWithUserDto[]> {
+  public async findAllAssoStockLogs(associationId: number): Promise<StockLogWithUserDto[]> {
+    const asso = await this.associationRepository.findOne(associationId);
+    if (!asso) {
+      throw new Error('Association Not Found');
+    }
     return this.stockLogsRepository.findAllAssoStockLogs(associationId);
   }
 
-  public async findSpecificStockLogs(stockId: number): Promise<StockLogsDto[]> {
+  public async findSpecificStockLogs(stockId: number): Promise<StockLogDto[]> {
+    const stock = await this.stockRepository.findOne(stockId);
+    if (!stock) {
+      throw new Error('Stock Not Found');
+    }
     return this.stockLogsRepository.findSpecificStockLogs(stockId);
   }
 
   public async findOne(id: number): Promise<StockDto> {
-    return this.stockRepository.findOne(id);
+    const stock = await this.stockRepository.findOne(id);
+    if (!stock) {
+      throw new Error('Stock Not Found');
+    }
+    return stock;
   }
 
-  public async update(id: number, userId: number, updateBaseDto: UpdateStockDto): Promise<UpdateResult> {
+  public async update(id: number, userId: number, updateStockDto: UpdateStockDto): Promise<StockDto> {
     const stockBeforeUpdate = await this.stockRepository.findOne(id);
     if (!stockBeforeUpdate) {
       throw new Error('Stock Not Found');
     }
-    const updatedStock = await this.stockRepository.update(id, updateBaseDto);
-    await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateBaseDto.count, 'update');
+    const updatedStock = await this.stockRepository.update(id, updateStockDto);
+    await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateStockDto.count, 'update');
     return updatedStock;
   }
 
-  public async delete(id: number, userId: number): Promise<UpdateResult> {
+  public async delete(id: number, userId: number): Promise<StockDto> {
     const stockBeforeDelete = await this.stockRepository.findOne(id);
+    if (!stockBeforeDelete) {
+      throw new Error('Stock Not Found');
+    }
     const deletedStock = await this.stockRepository.delete(id);
     await this.createStocksLogs(id, userId, stockBeforeDelete.count, 0, 'delete');
     return deletedStock;
@@ -68,9 +95,9 @@ export class StocksService {
     oldCount: number,
     newCount: number,
     action: string
-  ): Promise<StockLogs> {
+  ): Promise<CreateStockLogDto> {
     if (action === 'create' || action === 'update' || action === 'delete') {
-      const createStockLogsDto: CreateStockLogsDto = {
+      const createStockLogsDto: CreateStockLogDto = {
         stockId,
         userId,
         oldCount,

@@ -1,6 +1,6 @@
 {
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "apps/frontend/student",
   "sourceRoot": "apps/frontend/student/src",
   "prefix": "stud-asso",
   "targets": {
@@ -14,12 +14,18 @@
         "polyfills": "apps/frontend/student/src/polyfills.ts",
         "tsConfig": "apps/frontend/student/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": ["apps/frontend/student/src/favicon.ico", "apps/frontend/student/src/assets"],
+        "assets": [
+          "apps/frontend/student/src/favicon.ico",
+          "apps/frontend/student/src/assets",
+          "apps/frontend/student/src/manifest.webmanifest"
+        ],
         "styles": ["node_modules/bulma/css/bulma.min.css", "libs/frontend/core/scss/src/lib/style.scss"],
         "stylePreprocessorOptions": {
           "includePaths": ["libs/frontend/core/scss/src/lib/"]
         },
-        "scripts": []
+        "scripts": [],
+        "serviceWorker": true,
+        "ngswConfigPath": "apps/frontend/student/ngsw-config.json"
       },
       "configurations": {
         "production": {

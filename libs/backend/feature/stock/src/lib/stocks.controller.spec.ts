@@ -1,4 +1,4 @@
-import { CreateStockDto, StockDto, StockLogsDto, StockLogsWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockDto, StockDto, StockLogDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { StocksController } from './stocks.controller';
@@ -26,7 +26,7 @@ const mockFindAllStocks: StockDto[] = [
     associationId: 1,
   },
 ];
-const mockFindAllAssoLogs: StockLogsWithUserDto[] = [
+const mockFindAllAssoLogs: StockLogWithUserDto[] = [
   {
     id: 1,
     stockId: 1,
@@ -40,6 +40,9 @@ const mockFindAllAssoLogs: StockLogsWithUserDto[] = [
       lastname: 'Cena',
       email: 'johncena@gmail.com',
       isSchoolEmployee: false,
+    },
+    stock: {
+      name: 'Coca',
     },
   },
   {
@@ -56,9 +59,12 @@ const mockFindAllAssoLogs: StockLogsWithUserDto[] = [
       email: 'johncena@gmail.com',
       isSchoolEmployee: false,
     },
+    stock: {
+      name: 'Tea',
+    },
   },
 ];
-const mockFindSpecificStockLogs: StockLogsDto[] = [
+const mockFindSpecificStockLogs: StockLogDto[] = [
   { id: 1, stockId: 1, userId: 1, oldCount: 10, newCount: 10, createdAt: new Date('2022-05-26'), action: 'create' },
 ];
 

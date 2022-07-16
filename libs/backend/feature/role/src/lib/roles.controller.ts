@@ -2,17 +2,16 @@ import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, Update
 import {
   BadRequestException,
   Body,
+  ConflictException,
   Delete,
   Get,
   NotFoundException,
   Param,
   Patch,
   Post,
-  UnprocessableEntityException,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-import { UpdateResult } from 'typeorm';
 
 @SwaggerController('roles')
 export class RolesController {
@@ -23,7 +22,7 @@ export class RolesController {
     try {
       return await this.rolesService.create(createRoleDto);
     } catch (error) {
-      throw new UnprocessableEntityException('Name Already Exists');
+      throw new ConflictException(error?.message);
     }
   }
 
@@ -37,7 +36,7 @@ export class RolesController {
   }
 
   @Get('/asso/:id')
-  findAll(@Param('id') id: string): Promise<RoleDto[]> {
+  public findAll(@Param('id') id: string): Promise<RoleDto[]> {
     return this.rolesService.findAll(+id);
   }
 
@@ -46,25 +45,25 @@ export class RolesController {
     try {
       return await this.rolesService.findOne(+id);
     } catch (error) {
-      throw new NotFoundException('Role Not Found');
+      throw new NotFoundException(error?.message);
     }
   }
 
   @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<UpdateResult> {
+  async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<RoleDto> {
     try {
       return await this.rolesService.update(+id, updateRoleDto);
     } catch (error) {
-      throw new BadRequestException();
+      throw new BadRequestException(error?.message);
     }
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<UpdateResult> {
+  async delete(@Param('id') id: string): Promise<RoleDto> {
     try {
       return await this.rolesService.delete(+id);
     } catch (error) {
-      throw new BadRequestException();
+      throw new BadRequestException(error?.message);
     }
   }
 }

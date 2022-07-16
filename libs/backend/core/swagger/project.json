@@ -1,5 +1,5 @@
 {
-  "root": "libs/backend/core/swagger",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/backend/core/swagger/src",
   "targets": {
     "lint": {
