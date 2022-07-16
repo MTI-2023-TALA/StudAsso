@@ -10,7 +10,9 @@ COPY . .
 
 EXPOSE 3333
 
-RUN mv docker.ormconfig.ts ormconfig.ts
+ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?schema=public
+
+RUN npx prisma generate
 RUN npx nx build backend
 # TODO: Remove useless file after building
 
