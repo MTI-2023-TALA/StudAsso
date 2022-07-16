@@ -1,4 +1,6 @@
-FROM node:lts-alpine
+FROM node:lts-alpine as build-stage
+ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?schema=public
+
 WORKDIR /app
 
 # Install dependencies
@@ -10,10 +12,21 @@ COPY . .
 
 EXPOSE 3333
 
-ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?schema=public
-
 RUN npx prisma generate
 RUN npx nx build backend
-# TODO: Remove useless file after building
 
-CMD [ "node", "dist/apps/backend/main.js" ]
+FROM node:lts-alpine
+ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?schema=public
+ENV AT_SECRET=secret
+ENV RT_SECRET=secret
+
+WORKDIR /app
+
+COPY --from=build-stage /app/dist/apps/backend/ /app
+COPY ./libs/backend/core/orm/src/lib/prisma/schema.prisma /app/prisma/schema.prisma
+
+RUN npm install
+RUN npm install --save-dev prisma
+RUN npx prisma generate
+
+CMD [ "node", "main.js" ]
