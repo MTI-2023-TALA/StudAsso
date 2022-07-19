@@ -1,6 +1,3 @@
 build:
   docker:
-    backend: Dockerfile.backend
-    web-asso: Dockerfile.frontend.association
-    web-school: Dockerfile.frontend.school
-    web-student: Dockerfile.frontend.student
+    web: Dockerfile.backend

@@ -15,10 +15,15 @@ EXPOSE 3333
 RUN npx prisma generate
 RUN npx nx build backend
 
+# Run the app
 FROM node:lts-alpine
+
+ENV NODE_ENV production
 ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?schema=public
 ENV AT_SECRET=secret
 ENV RT_SECRET=secret
+
+USER node
 
 WORKDIR /app
 
