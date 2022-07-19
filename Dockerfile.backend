@@ -23,8 +23,6 @@ ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?
 ENV AT_SECRET=secret
 ENV RT_SECRET=secret
 
-USER node
-
 WORKDIR /app
 
 COPY --from=build-stage /app/dist/apps/backend/ /app
@@ -33,5 +31,7 @@ COPY ./libs/backend/core/orm/src/lib/prisma/schema.prisma /app/prisma/schema.pri
 RUN npm install
 RUN npm install --save-dev prisma
 RUN npx prisma generate
+
+USER node
 
 CMD [ "node", "main.js" ]
