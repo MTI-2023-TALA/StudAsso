@@ -18,3 +18,4 @@ jobs:
           heroku_app_name: "stud-asso"
           heroku_email: "alois.heloir@live.fr"
           usedocker: true
+          dontuseforce: false
