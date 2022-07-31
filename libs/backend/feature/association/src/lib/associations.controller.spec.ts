@@ -1,5 +1,6 @@
 import {
   AssociationDto,
+  AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   CreateAssociationDto,
   UpdateAssociationDto,
@@ -57,6 +58,13 @@ const mockUsersDto: UserDto[] = [
     isSchoolEmployee: false,
   },
 ];
+const mockAssoMembersWithRole: AssociationMemberWithRoleDto[] = [
+  {
+    firstname: 'John',
+    lastname: 'Cena',
+    roleName: 'Président',
+  },
+];
 
 describe('AssociationsController', () => {
   let controller: AssociationsController;
@@ -72,6 +80,13 @@ describe('AssociationsController', () => {
             create: jest.fn(() => Promise.resolve(mockCreateAssociationDto)),
             findAllWithPresident: jest.fn(() => Promise.resolve(mockfindAllAssociation)),
             findOneWithPresident: jest.fn(() => Promise.resolve(mockfindAllAssociation[0])),
+            findAssociationMembersWithRoles: jest.fn((associationId: number) => {
+              if (associationId === 1) {
+                return Promise.resolve(mockAssoMembersWithRole);
+              } else {
+                throw new Error('Association Not Found');
+              }
+            }),
             findAssociationPresident: jest.fn((associationId: number) => {
               if ([1, 2].includes(associationId)) {
                 return Promise.resolve(mockUsersDto[associationId - 1]);
@@ -155,6 +170,18 @@ describe('AssociationsController', () => {
 
     it('should call associationService.findAssociationPresident and fail', async () => {
       expect(async () => await controller.findAssociationPresident('3')).rejects.toThrow(
+        new Error('Association Not Found')
+      );
+    });
+  });
+
+  describe('findAssociationMembersWithRoles', () => {
+    it('should call associationService.findAssociationMembersWithRoles', async () => {
+      expect(await controller.findAssociationMembersWithRoles('1')).toEqual(mockAssoMembersWithRole);
+    });
+
+    it('should call associationService.findAssociationMembersWithRoles and fail', async () => {
+      expect(async () => await controller.findAssociationMembersWithRoles('3')).rejects.toThrow(
         new Error('Association Not Found')
       );
     });
