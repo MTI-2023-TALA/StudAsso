@@ -9,7 +9,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsService } from './associations.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { plainToInstance } from 'class-transformer';
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
@@ -204,8 +203,11 @@ describe('AssociationsService', () => {
 
   describe('createAssociation', () => {
     it('should call associationRepository.create with correct params', async () => {
-      const createAssoParams = { name: 'Association1', description: 'description' };
-      const createAssociationDto = plainToInstance(CreateAssociationDto, createAssoParams);
+      const createAssociationDto: CreateAssociationDto = {
+        name: 'Association1',
+        presidentId: 1,
+        description: 'description',
+      };
       const create = jest.spyOn(repository, 'create');
 
       const createResultRetrieved = await service.create(createAssociationDto);
@@ -216,7 +218,10 @@ describe('AssociationsService', () => {
       });
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createAssoParams);
+      expect(create).toHaveBeenCalledWith({
+        name: 'Association1',
+        description: 'description',
+      });
     });
 
     it('should call associationRepository.create and fail because user is not found', async () => {
@@ -235,8 +240,8 @@ describe('AssociationsService', () => {
       jest
         .spyOn(repository, 'create')
         .mockRejectedValue(new PrismaClientKnownRequestError('mock', 'P2002', 'mock', { target: ['name,'] }));
-      expect(
-        async () => await service.create({ name: 'Association1', presidentId: 1, description: 'description' })
+      expect(async () =>
+        service.create({ name: 'Association1', presidentId: 1, description: 'description' })
       ).rejects.toThrow('Association Name Already Exists');
     });
   });
@@ -319,7 +324,7 @@ describe('AssociationsService', () => {
     });
 
     it('should call associationRepository.findAssociationPresident and fail', async () => {
-      expect(async () => await service.findAssociationPresident(3)).rejects.toThrow(new Error('Association Not Found'));
+      expect(() => service.findAssociationPresident(3)).rejects.toThrow(new Error('Association Not Found'));
     });
   });
 
@@ -335,9 +340,7 @@ describe('AssociationsService', () => {
     });
 
     it('should call associationsMemberRepository.findAssociationMembersWithRoles and fail', async () => {
-      expect(async () => await service.findAssociationMembersWithRoles(3)).rejects.toThrow(
-        new Error('Association Not Found')
-      );
+      expect(() => service.findAssociationMembersWithRoles(3)).rejects.toThrow(new Error('Association Not Found'));
     });
   });
 
@@ -365,9 +368,7 @@ describe('AssociationsService', () => {
         name: 'Association1 Renamed',
         description: 'description updated',
       };
-      expect(async () => await service.update(42, updateAssociationDto)).rejects.toThrow(
-        new Error('Association Not Found')
-      );
+      expect(() => service.update(42, updateAssociationDto)).rejects.toThrow(new Error('Association Not Found'));
     });
 
     it('should call associationRepository.update and fail because association name already exists', async () => {
@@ -378,7 +379,7 @@ describe('AssociationsService', () => {
         name: 'Association1 Renamed',
         description: 'description updated',
       };
-      expect(async () => await service.update(1, updateAssociationDto)).rejects.toThrow(
+      expect(() => service.update(1, updateAssociationDto)).rejects.toThrow(
         new Error('Association Name Already Exists')
       );
     });
@@ -400,7 +401,7 @@ describe('AssociationsService', () => {
     });
 
     it('should call associationRepository.delete and fail because association is not found', async () => {
-      expect(async () => await service.delete(42)).rejects.toThrow('Association To Delete Not Found');
+      expect(() => service.delete(42)).rejects.toThrow('Association To Delete Not Found');
     });
   });
 });
