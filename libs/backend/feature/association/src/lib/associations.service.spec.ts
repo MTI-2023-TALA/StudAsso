@@ -4,80 +4,17 @@ import {
   RoleRepository,
   UserRepository,
 } from '@stud-asso/backend/core/repository';
-import {
-  AssociationWithPresidentDto,
-  CreateAssociationDto,
-  UpdateAssociationDto,
-  UserDto,
-} from '@stud-asso/shared/dtos';
+import { AssociationWithPresidentDto, CreateAssociationDto, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsService } from './associations.service';
-import { PostgresError } from 'pg-error-enum';
-import { UpdateResult } from 'typeorm';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { plainToInstance } from 'class-transformer';
 
-class PostgresErrorMock extends Error {
-  code: PostgresError;
-  constraint: string;
-
-  constructor(code: PostgresError, constraint: string, message: string) {
-    super(message);
-    this.code = code;
-    this.constraint = constraint;
-  }
-}
-
-const mockedAssociations = [
-  {
-    id: 1,
-    name: 'Association1',
-    description: 'description',
-    presidentId: 1,
-    firstname: 'John',
-    lastname: 'Cena',
-    email: 'johncena@gmail.com',
-    isSchoolEmployee: false,
-  },
-  {
-    id: 2,
-    name: 'Association2',
-    description: 'description',
-    presidentId: 1,
-    firstname: 'John',
-    lastname: 'Cena',
-    email: 'johncena@gmail.com',
-    isSchoolEmployee: false,
-  },
-];
-
-const mockUsersDto: UserDto[] = [
-  {
-    id: 1,
-    firstname: 'John',
-    lastname: 'Cena',
-    email: 'johncena@gmail.com',
-    isSchoolEmployee: false,
-  },
-  {
-    id: 2,
-    firstname: 'Michael',
-    lastname: 'Jackson',
-    email: 'michaeljackson@gmail.com',
-    isSchoolEmployee: false,
-  },
-];
-
-const mockedUpdateResult: UpdateResult = {
-  raw: [],
-  generatedMaps: [],
-  affected: 1,
-};
-
-// TODO: unskip these tests
-describe.skip('AssociationsService', () => {
+describe('AssociationsService', () => {
   let service: AssociationsService;
   let repository: AssociationRepository;
+  let userRepository: UserRepository;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -86,31 +23,124 @@ describe.skip('AssociationsService', () => {
         {
           provide: AssociationRepository,
           useValue: {
-            create: jest.fn(() => Promise.resolve(mockedAssociations[0])),
-            findAllWithPresident: jest.fn(() => Promise.resolve(mockedAssociations)),
-            findOneWithPresident: jest.fn(() => Promise.resolve(mockedAssociations[0])),
-            findAssociationPresident: jest.fn((associationId: number) => {
-              if (associationId === 1) {
-                return Promise.resolve({
-                  id: 1,
-                  firstname: 'John',
-                  lastname: 'Cena',
-                  email: 'johncena@gmail.com',
-                  isSchoolEmployee: false,
-                });
-              } else {
-                return Promise.resolve(undefined);
-              }
-            }),
-            findOne: jest.fn(() =>
+            create: jest.fn(() =>
               Promise.resolve({
                 id: 1,
                 name: 'Association1',
                 description: 'description',
               })
             ),
-            update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
-            delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
+            findAllWithPresident: jest.fn(() =>
+              Promise.resolve([
+                {
+                  id: 1,
+                  name: 'Association1',
+                  description: 'description',
+                  associationsMembers: [
+                    {
+                      userId: 1,
+                      user: {
+                        firstname: 'John',
+                        lastname: 'Cena',
+                        email: 'johncena@gmail.com',
+                        isSchoolEmployee: false,
+                      },
+                    },
+                  ],
+                },
+                {
+                  id: 2,
+                  name: 'Association2',
+                  description: 'description',
+                  associationsMembers: [
+                    {
+                      userId: 1,
+                      user: {
+                        firstname: 'John',
+                        lastname: 'Cena',
+                        email: 'johncena@gmail.com',
+                        isSchoolEmployee: false,
+                      },
+                    },
+                  ],
+                },
+              ])
+            ),
+            findOneWithPresident: jest.fn(() =>
+              Promise.resolve({
+                id: 1,
+                name: 'Association1',
+                description: 'description',
+                associationsMembers: [
+                  {
+                    userId: 1,
+                    user: {
+                      firstname: 'John',
+                      lastname: 'Cena',
+                      email: 'johncena@gmail.com',
+                      isSchoolEmployee: false,
+                    },
+                  },
+                ],
+              })
+            ),
+            findAssociationPresident: jest.fn((associationId: number) => {
+              if (associationId === 1) {
+                return Promise.resolve({
+                  associationsMembers: [
+                    {
+                      userId: 1,
+                      user: {
+                        firstname: 'John',
+                        lastname: 'Cena',
+                        email: 'johncena@gmail.com',
+                        isSchoolEmployee: false,
+                      },
+                    },
+                  ],
+                });
+              } else {
+                return Promise.resolve(undefined);
+              }
+            }),
+            findOne: jest.fn((associationId: number) => {
+              if (associationId === 1) {
+                return Promise.resolve({
+                  id: 1,
+                  name: 'Association1',
+                  description: 'description',
+                });
+              } else {
+                return Promise.resolve(undefined);
+              }
+            }),
+            update: jest.fn((associationId: number) => {
+              if (associationId === 1) {
+                return Promise.resolve({
+                  id: 1,
+                  name: 'Association1 Renamed',
+                  description: 'updated description',
+                });
+              } else {
+                return Promise.resolve(undefined);
+              }
+            }),
+            delete: jest.fn((associationId: number) => {
+              if (associationId === 1) {
+                return Promise.resolve({
+                  id: 1,
+                  name: 'Association1',
+                  description: 'description',
+                });
+              } else {
+                throw new PrismaClientKnownRequestError(
+                  'Invalid `prisma.association.delete()` invocation:',
+                  'P2025',
+                  '4.0.0',
+                  { cause: 'Record to delete does not exist.' }
+                );
+              }
+            }),
           },
         },
         {
@@ -122,13 +152,44 @@ describe.skip('AssociationsService', () => {
         {
           provide: AssociationsMemberRepository,
           useValue: {
+            findAssociationMembersWithRoles: jest.fn((associationId: number) => {
+              if (associationId === 1) {
+                return Promise.resolve([
+                  {
+                    user: {
+                      firstname: 'John',
+                      lastname: 'Cena',
+                    },
+                    role: {
+                      name: 'Président',
+                    },
+                  },
+                ]);
+              } else {
+                return Promise.resolve(undefined);
+              }
+            }),
             linkUserToRole: jest.fn(() => Promise.resolve({ associationId: 1, userId: 1, roleId: 1 })),
           },
         },
         {
           provide: UserRepository,
           useValue: {
-            findOne: jest.fn(() => Promise.resolve(mockUsersDto[0])),
+            findOne: jest.fn(() =>
+              Promise.resolve({
+                id: 1,
+                createdAt: new Date('2021-02-15'),
+                updatedAt: new Date('2021-02-15'),
+                deletedAt: null,
+                firstname: 'John',
+                lastname: 'Cena',
+                email: 'johncena@gmail.com',
+                isSchoolEmployee: false,
+                passwordHash: 'hash',
+                rtHash: 'rtHash',
+                googleId: 'googleId',
+              })
+            ),
           },
         },
       ],
@@ -136,6 +197,7 @@ describe.skip('AssociationsService', () => {
 
     service = await module.get<AssociationsService>(AssociationsService);
     repository = await module.get<AssociationRepository>(AssociationRepository);
+    userRepository = await module.get<UserRepository>(UserRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -147,31 +209,40 @@ describe.skip('AssociationsService', () => {
       const create = jest.spyOn(repository, 'create');
 
       const createResultRetrieved = await service.create(createAssociationDto);
-      expect(createResultRetrieved).toEqual(mockedAssociations[0]);
+      expect(createResultRetrieved).toEqual({
+        id: 1,
+        name: 'Association1',
+        description: 'description',
+      });
 
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createAssoParams);
     });
 
+    it('should call associationRepository.create and fail because user is not found', async () => {
+      jest.spyOn(userRepository, 'findOne').mockResolvedValue(undefined);
+
+      expect(async () => {
+        await service.create({
+          name: 'Association1',
+          presidentId: 420,
+          description: 'description',
+        });
+      }).rejects.toThrow('President Not Found');
+    });
+
     it('should call associationService.create and fail unique_association_name constraint', async () => {
-      const create = jest
+      jest
         .spyOn(repository, 'create')
-        .mockRejectedValue(
-          new PostgresErrorMock(
-            PostgresError.UNIQUE_VIOLATION,
-            'unique_association_name',
-            'Association Name Already Exists'
-          )
-        );
-      expect(async () =>
-        service.create({ name: 'Association1', presidentId: 1, description: 'description' })
-      ).rejects.toThrow(new Error('Association Name Already Exists'));
-      expect(create).toHaveBeenCalledTimes(1);
+        .mockRejectedValue(new PrismaClientKnownRequestError('mock', 'P2002', 'mock', { target: ['name,'] }));
+      expect(
+        async () => await service.create({ name: 'Association1', presidentId: 1, description: 'description' })
+      ).rejects.toThrow('Association Name Already Exists');
     });
   });
 
   describe('findAllAssociation', () => {
-    it('should call associationRepository.findAll', async () => {
+    it('should call associationRepository.findAllWithPresident', async () => {
       const expectedResult: AssociationWithPresidentDto[] = [
         {
           id: 1,
@@ -236,7 +307,13 @@ describe.skip('AssociationsService', () => {
     it('should call associationRepository.findAssociationPresident', async () => {
       const findAssociationPresident = jest.spyOn(repository, 'findAssociationPresident');
 
-      expect(await service.findAssociationPresident(1)).toEqual(mockUsersDto[0]);
+      expect(await service.findAssociationPresident(1)).toEqual({
+        id: 1,
+        firstname: 'John',
+        lastname: 'Cena',
+        email: 'johncena@gmail.com',
+        isSchoolEmployee: false,
+      });
       expect(findAssociationPresident).toHaveBeenCalledTimes(1);
       expect(findAssociationPresident).toHaveBeenCalledWith(1);
     });
@@ -246,39 +323,62 @@ describe.skip('AssociationsService', () => {
     });
   });
 
+  describe('findAssociationMembersWithRoles', () => {
+    it('should call associationsMemberRepository.findAssociationMembersWithRoles', async () => {
+      expect(await service.findAssociationMembersWithRoles(1)).toEqual([
+        {
+          firstname: 'John',
+          lastname: 'Cena',
+          roleName: 'Président',
+        },
+      ]);
+    });
+
+    it('should call associationsMemberRepository.findAssociationMembersWithRoles and fail', async () => {
+      expect(async () => await service.findAssociationMembersWithRoles(3)).rejects.toThrow(
+        new Error('Association Not Found')
+      );
+    });
+  });
+
   describe('updateAssociation', () => {
     it('shoud call associationRepository.update', async () => {
-      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      const updateAssociationDto: UpdateAssociationDto = {
+        name: 'Association1 Renamed',
+        description: 'updated description',
+      };
       const update = jest.spyOn(repository, 'update');
 
       const updateResultRetrieved = await service.update(1, updateAssociationDto);
-      expect(updateResultRetrieved).toEqual(mockedUpdateResult);
+      expect(updateResultRetrieved).toEqual({
+        id: 1,
+        name: 'Association1 Renamed',
+        description: 'updated description',
+      });
 
       expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(1, { name: 'Association1 Renamed' });
+      expect(update).toHaveBeenCalledWith(1, { name: 'Association1 Renamed', description: 'updated description' });
     });
 
     it('should call associationRepository.update and fail because association does not exist', async () => {
-      const findOne = jest.spyOn(repository, 'findOne').mockResolvedValue(undefined);
-      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
+      const updateAssociationDto: UpdateAssociationDto = {
+        name: 'Association1 Renamed',
+        description: 'description updated',
+      };
       expect(async () => await service.update(42, updateAssociationDto)).rejects.toThrow(
         new Error('Association Not Found')
       );
-      expect(findOne).toHaveBeenCalledTimes(1);
     });
 
     it('should call associationRepository.update and fail because association name already exists', async () => {
       jest
         .spyOn(repository, 'update')
-        .mockRejectedValue(
-          new PostgresErrorMock(
-            PostgresError.UNIQUE_VIOLATION,
-            'unique_association_name',
-            'Association Name Already Exists'
-          )
-        );
-      const updateAssociationDto = plainToInstance(UpdateAssociationDto, { name: 'Association1 Renamed' });
-      expect(async () => await service.update(42, updateAssociationDto)).rejects.toThrow(
+        .mockRejectedValue(new PrismaClientKnownRequestError('mock', 'P2002', 'mock', { target: ['name,'] }));
+      const updateAssociationDto: UpdateAssociationDto = {
+        name: 'Association1 Renamed',
+        description: 'description updated',
+      };
+      expect(async () => await service.update(1, updateAssociationDto)).rejects.toThrow(
         new Error('Association Name Already Exists')
       );
     });
@@ -289,10 +389,18 @@ describe.skip('AssociationsService', () => {
       const deleteCall = jest.spyOn(repository, 'delete');
 
       const deleteResultRetrieved = await service.delete(1);
-      expect(deleteResultRetrieved).toEqual(mockedUpdateResult);
+      expect(deleteResultRetrieved).toEqual({
+        id: 1,
+        name: 'Association1',
+        description: 'description',
+      });
 
       expect(deleteCall).toHaveBeenCalledTimes(1);
       expect(deleteCall).toHaveBeenCalledWith(1);
+    });
+
+    it('should call associationRepository.delete and fail because association is not found', async () => {
+      expect(async () => await service.delete(42)).rejects.toThrow('Association To Delete Not Found');
     });
   });
 });

@@ -110,6 +110,7 @@ export class AssociationsService {
     try {
       return await this.associationRepository.delete(id);
     } catch (error) {
+      console.log(error);
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
           throw new Error('Association To Delete Not Found');
