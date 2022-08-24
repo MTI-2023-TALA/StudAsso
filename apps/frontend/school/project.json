@@ -85,7 +85,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/frontend/school"],
       "options": {
-        "jestConfig": "apps/frontend/school/jest.config.js",
+        "jestConfig": "apps/frontend/school/jest.config.ts",
         "passWithNoTests": true
       }
     }

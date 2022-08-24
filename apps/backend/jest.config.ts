@@ -1,6 +1,7 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'backend-feature-role',
-  preset: '../../../../jest.preset.js',
+  displayName: 'backend',
+  preset: '../../jest.preset.js',
   globals: {
     'ts-jest': {
       tsconfig: '<rootDir>/tsconfig.spec.json',
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../../coverage/libs/backend/feature/role',
+  coverageDirectory: '../../coverage/apps/backend',
 };

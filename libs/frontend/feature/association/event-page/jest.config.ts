@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   displayName: 'frontend-feature-association-event-page',
   preset: '../../../../../jest.preset.js',

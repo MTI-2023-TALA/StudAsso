@@ -1,5 +1,6 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'frontend-association',
+  displayName: 'frontend-student',
   preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/apps/frontend/association',
+  coverageDirectory: '../../../coverage/apps/frontend/student',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

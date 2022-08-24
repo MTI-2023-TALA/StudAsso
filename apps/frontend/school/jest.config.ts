@@ -1,6 +1,7 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'frontend-shared-login-page',
-  preset: '../../../../jest.preset.js',
+  displayName: 'frontend-school',
+  preset: '../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/frontend/shared/login-page',
+  coverageDirectory: '../../../coverage/apps/frontend/school',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

@@ -1,5 +1,6 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'frontend-shared-navbar',
+  displayName: 'frontend-shared-login-page',
   preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/frontend/shared/navbar',
+  coverageDirectory: '../../../../coverage/libs/frontend/shared/login-page',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
