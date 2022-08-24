@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   displayName: 'frontend-shared-toast',
   preset: '../../../../jest.preset.js',

@@ -1,6 +1,7 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'frontend-student',
-  preset: '../../../jest.preset.js',
+  displayName: 'frontend-shared-modal',
+  preset: '../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../coverage/apps/frontend/student',
+  coverageDirectory: '../../../../coverage/libs/frontend/shared/modal',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

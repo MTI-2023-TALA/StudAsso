@@ -47,10 +47,10 @@
       "@stud-asso/frontend/feature/association/event-page": [
         "libs/frontend/feature/association/event-page/src/index.ts"
       ],
-      "@stud-asso/frontend/feature/association/news-page": ["libs/frontend/feature/association/news-page/src/index.ts"],
       "@stud-asso/frontend/feature/association/member-page": [
         "libs/frontend/feature/association/member-page/src/index.ts"
       ],
+      "@stud-asso/frontend/feature/association/news-page": ["libs/frontend/feature/association/news-page/src/index.ts"],
       "@stud-asso/frontend/feature/association/role-page": ["libs/frontend/feature/association/role-page/src/index.ts"],
       "@stud-asso/frontend/feature/association/select-association-page": [
         "libs/frontend/feature/association/select-association-page/src/index.ts"

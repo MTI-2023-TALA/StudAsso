@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   displayName: 'frontend-feature-association-select-association-page',
   preset: '../../../../../jest.preset.js',

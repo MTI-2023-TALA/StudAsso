@@ -1,3 +1,4 @@
+/* eslint-disable */
 module.exports = {
   displayName: 'frontend-feature-association-stock-page',
   preset: '../../../../../jest.preset.js',

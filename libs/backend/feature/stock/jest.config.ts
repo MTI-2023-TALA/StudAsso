@@ -1,5 +1,6 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'backend-core-repository',
+  displayName: 'backend-feature-stock',
   preset: '../../../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../../coverage/libs/backend/core/repository',
+  coverageDirectory: '../../../../coverage/libs/backend/feature/stock',
 };

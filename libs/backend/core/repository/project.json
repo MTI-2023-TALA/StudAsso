@@ -13,7 +13,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/backend/core/repository"],
       "options": {
-        "jestConfig": "libs/backend/core/repository/jest.config.js",
+        "jestConfig": "libs/backend/core/repository/jest.config.ts",
         "passWithNoTests": true
       }
     }

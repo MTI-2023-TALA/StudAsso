@@ -8,7 +8,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/frontend/feature/association/role-page"],
       "options": {
-        "jestConfig": "libs/frontend/feature/association/role-page/jest.config.js",
+        "jestConfig": "libs/frontend/feature/association/role-page/jest.config.ts",
         "passWithNoTests": true
       }
     },

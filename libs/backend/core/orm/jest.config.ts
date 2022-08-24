@@ -1,5 +1,6 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'backend-feature-news-feed',
+  displayName: 'backend-core-orm',
   preset: '../../../../jest.preset.js',
   globals: {
     'ts-jest': {
@@ -11,5 +12,5 @@ module.exports = {
     '^.+\\.[tj]s$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../../coverage/libs/backend/feature/news-feed',
+  coverageDirectory: '../../../../coverage/libs/backend/core/orm',
 };

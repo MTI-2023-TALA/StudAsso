@@ -1,6 +1,7 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'frontend-shared-tags',
-  preset: '../../../../jest.preset.js',
+  displayName: 'frontend-feature-school-association-page',
+  preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/frontend/shared/tags',
+  coverageDirectory: '../../../../../coverage/libs/frontend/feature/school/association-page',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

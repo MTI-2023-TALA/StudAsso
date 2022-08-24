@@ -1,6 +1,7 @@
+/* eslint-disable */
 module.exports = {
-  displayName: 'frontend-testing-common-mock',
-  preset: '../../../../jest.preset.js',
+  displayName: 'frontend-feature-association-role-page',
+  preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../../../coverage/libs/frontend/testing/common-mock',
+  coverageDirectory: '../../../../../coverage/libs/frontend/feature/association/role-page',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },
