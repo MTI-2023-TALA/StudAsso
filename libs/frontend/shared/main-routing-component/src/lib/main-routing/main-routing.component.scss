@@ -1,13 +1,13 @@
 .grid {
   display: grid;
-  grid-template-columns: 80px 0fr 5fr;
+  grid-template-columns: 80px 5fr;
   grid-template-rows: 1fr;
   grid-gap: 0;
 }
 
 .show-large-navbar {
   display: grid;
-  grid-template-columns: 240px 0fr 5fr;
+  grid-template-columns: 240px 5fr;
   grid-template-rows: 1fr;
   grid-gap: 0;
 }
@@ -16,6 +16,12 @@
   position: absolute;
   bottom: 0;
   right: 1rem;
+}
+
+.scroll-y {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100vh;
 }
 
 @media screen and (max-width: 640px) {
