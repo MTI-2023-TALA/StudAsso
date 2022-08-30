@@ -1,10 +1,4 @@
-import {
-  AssociationDto,
-  CreateNewsDto,
-  NewsDto,
-  UpdateNewsDto,
-  UserDto,
-} from '@stud-asso/shared/dtos';
+import { AssociationDto, CreateNewsDto, NewsDto, UpdateNewsDto, UserDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { NewsController } from './news.controller';
@@ -126,11 +120,11 @@ describe('NewsController', () => {
               if (!findNews) throw new Error('News Not Found');
               return Promise.resolve(findNews);
             }),
-            update: jest.fn((id: number, updateRolePayload: UpdateNewsDto) => {
+            update: jest.fn((id: number, updateNewsPayload: UpdateNewsDto) => {
               const updateNews = mockedNews.find((news) => news.id === id);
               if (!updateNews) throw new Error('News Not Found');
-              if ('title' in updateRolePayload) updateNews.title = updateRolePayload.title;
-              if ('content' in updateRolePayload) updateNews.content = updateRolePayload.content;
+              if ('title' in updateNewsPayload) updateNews.title = updateNewsPayload.title;
+              if ('content' in updateNewsPayload) updateNews.content = updateNewsPayload.content;
               return Promise.resolve(updateNews);
             }),
             delete: jest.fn((id: number) => {
@@ -153,7 +147,7 @@ describe('NewsController', () => {
   describe('Create News', () => {
     it('should create a new news', async () => {
       const create = jest.spyOn(service, 'create');
-      const createNewsPayLoad: CreateNewsDto = {
+      const createNewsPayload: CreateNewsDto = {
         associationId: 1,
         title: 'title',
         content: 'content',
@@ -161,24 +155,24 @@ describe('NewsController', () => {
 
       const userId = 1;
 
-      const newNews = {
+      const newNews: NewsDto = {
         id: mockedNews.length + 1,
         createdAt: new Date(new Date().toLocaleDateString()),
         updatedAt: new Date(new Date().toLocaleDateString()),
         userId,
-        ...createNewsPayLoad,
+        ...createNewsPayload,
       };
 
-      expect(await controller.create(userId, createNewsPayLoad)).toEqual(newNews);
+      expect(await controller.create(userId, createNewsPayload)).toEqual(newNews);
       expect(mockedNews).toContainEqual(newNews);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(userId, createNewsPayLoad);
+      expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
     });
 
     it('should fail because an error has been raised', async () => {
       const create = jest.spyOn(service, 'create');
-      const createNewsPayLoad: CreateNewsDto = {
+      const createNewsPayload: CreateNewsDto = {
         associationId: 1,
         title: 'title',
         content: 'content',
@@ -186,9 +180,9 @@ describe('NewsController', () => {
 
       const userId = -1;
 
-      expect(() => controller.create(userId, createNewsPayLoad)).rejects.toThrow(new Error('User Not Found'));
+      expect(() => controller.create(userId, createNewsPayload)).rejects.toThrow(new Error('User Not Found'));
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(userId, createNewsPayLoad);
+      expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
     });
   });
 
@@ -262,7 +256,7 @@ describe('NewsController', () => {
         content: 'content updated',
       };
 
-      const updatedNews = {
+      const updatedNews: NewsDto = {
         ...mockedNews[1],
         ...updateNewsPayload,
       };
