@@ -1,76 +1,144 @@
-import { ConflictException, NotFoundException } from '@nestjs/common';
-import { NewsDto, NewsWithAssoNameDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationDto,
+  CreateNewsDto,
+  NewsDto,
+  UpdateNewsDto,
+  UserDto,
+} from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { NewsController } from './news.controller';
 import { NewsService } from './news.service';
 
-const mockCreateNewsDto: NewsDto = {
-  id: 1,
-  createdAt: new Date('2022-09-29'),
-  updatedAt: new Date('2022-09-29'),
-  userId: 1,
-  associationId: 1,
-  title: 'title',
-  content: 'content',
-};
-const mockfindAllNewsFeed: NewsDto[] = [
-  {
-    id: 1,
-    createdAt: new Date('07-07-2022'),
-    updatedAt: new Date('07-07-2022'),
-    userId: 1,
-    associationId: 1,
-    title: 'Title 1',
-    content: 'content1',
-  },
-  {
-    id: 2,
-    createdAt: new Date('07-07-2022'),
-    updatedAt: new Date('07-07-2022'),
-    userId: 2,
-    associationId: 2,
-    title: 'Title 2',
-    content: 'content2',
-  },
-];
-const mockFindAllNewsWithAssoName: NewsWithAssoNameDto[] = [
-  {
-    ...mockfindAllNewsFeed[0],
-    associationName: 'Association 1',
-  },
-  {
-    ...mockfindAllNewsFeed[1],
-    associationName: 'Association 2',
-  },
-];
-const mockedUpdateNews: NewsDto = {
-  id: 1,
-  createdAt: new Date('07-07-2022'),
-  updatedAt: new Date('29-08-2022'),
-  userId: 1,
-  associationId: 1,
-  title: 'Updated Title',
-  content: 'title renamed',
-};
-
 describe('NewsController', () => {
   let controller: NewsController;
   let service: NewsService;
 
+  let mockedNews: NewsDto[];
+  let mockedUsers: UserDto[];
+  let mockedAssociations: AssociationDto[];
+
   beforeEach(async () => {
+    mockedNews = [
+      {
+        id: 1,
+        createdAt: new Date('07-07-2022'),
+        updatedAt: new Date('07-07-2022'),
+        userId: 1,
+        associationId: 1,
+        title: 'title',
+        content: 'content',
+      },
+      {
+        id: 2,
+        createdAt: new Date('08-07-2022'),
+        updatedAt: new Date('08-07-2022'),
+        userId: 2,
+        associationId: 2,
+        title: 'title',
+        content: 'content',
+      },
+      {
+        id: 3,
+        createdAt: new Date('09-07-2022'),
+        updatedAt: new Date('09-07-2022'),
+        userId: 1,
+        associationId: 1,
+        title: 'title',
+        content: 'content',
+      },
+    ];
+
+    mockedUsers = [
+      {
+        id: 1,
+        firstname: 'John',
+        lastname: 'Cena',
+        email: 'john.cena@gmail.com',
+        isSchoolEmployee: false,
+      },
+      {
+        id: 2,
+        firstname: 'Karim',
+        lastname: 'Benzema',
+        email: 'karim.benzema@gmail.com',
+        isSchoolEmployee: false,
+      },
+    ];
+
+    mockedAssociations = [
+      {
+        id: 1,
+        name: 'Association 1',
+        description: 'description',
+      },
+      {
+        id: 2,
+        name: 'Association 2',
+        description: 'description',
+      },
+    ];
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [NewsController],
       providers: [
         {
           provide: NewsService,
           useValue: {
-            create: jest.fn(() => Promise.resolve(mockCreateNewsDto)),
-            findAllAssociationNews: jest.fn(() => Promise.resolve(mockfindAllNewsFeed)),
-            findAllNewsWithAssoName: jest.fn(() => Promise.resolve(mockFindAllNewsWithAssoName)),
-            findOne: jest.fn(() => Promise.resolve(mockfindAllNewsFeed[0])),
-            update: jest.fn(() => Promise.resolve(mockedUpdateNews)),
-            delete: jest.fn(() => Promise.resolve(mockfindAllNewsFeed[0])),
+            create: jest.fn((userId: number, createNewsPayload: CreateNewsDto) => {
+              if (!mockedUsers.find((user) => user.id === userId)) {
+                throw new Error('User Not Found');
+              }
+              if (!mockedAssociations.find((association) => association.id === createNewsPayload.associationId)) {
+                throw new Error('Association Not Found');
+              }
+
+              const id = mockedNews.length + 1;
+              const newNews: NewsDto = {
+                id,
+                createdAt: new Date(new Date().toLocaleDateString()),
+                updatedAt: new Date(new Date().toLocaleDateString()),
+                userId,
+                ...createNewsPayload,
+              };
+              mockedNews.push(newNews);
+              return Promise.resolve(newNews);
+            }),
+            findAllAssociationNews: jest.fn((associationId: number) => {
+              if (!mockedAssociations.find((association) => association.id === associationId)) {
+                throw new Error('Association Not Found');
+              }
+              return Promise.resolve(mockedNews.filter((news) => news.associationId === associationId));
+            }),
+            findAllNewsWithAssoName: jest.fn(() => {
+              return Promise.resolve(
+                mockedNews.map((news) => {
+                  const association = mockedAssociations.find((association) => association.id === news.associationId);
+                  return {
+                    ...news,
+                    associationName: association.name,
+                  };
+                })
+              );
+            }),
+            findOne: jest.fn((newsId: number) => {
+              const findNews = mockedNews.find((news) => news.id === newsId);
+              if (!findNews) throw new Error('News Not Found');
+              return Promise.resolve(findNews);
+            }),
+            update: jest.fn((id: number, updateRolePayload: UpdateNewsDto) => {
+              const updateNews = mockedNews.find((news) => news.id === id);
+              if (!updateNews) throw new Error('News Not Found');
+              if ('title' in updateRolePayload) updateNews.title = updateRolePayload.title;
+              if ('content' in updateRolePayload) updateNews.content = updateRolePayload.content;
+              return Promise.resolve(updateNews);
+            }),
+            delete: jest.fn((id: number) => {
+              const deleteNews = mockedNews.find((news) => news.id === id);
+              if (!deleteNews) throw new Error('News To Delete Not Found');
+              mockedNews.splice(mockedNews.indexOf(deleteNews), 1);
+              return Promise.resolve(deleteNews);
+            }),
           },
         },
       ],
@@ -82,81 +150,164 @@ describe('NewsController', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  describe('createNewsFeed', () => {
-    it('should call newsFeedService.create', async () => {
+  describe('Create News', () => {
+    it('should create a new news', async () => {
       const create = jest.spyOn(service, 'create');
+      const createNewsPayLoad: CreateNewsDto = {
+        associationId: 1,
+        title: 'title',
+        content: 'content',
+      };
 
-      const createEventParams = { associationId: 1, title: 'title', content: 'content' };
-      const createdNewsFeed = await controller.create(1, createEventParams);
-      expect(createdNewsFeed).toEqual(mockCreateNewsDto);
+      const userId = 1;
+
+      const newNews = {
+        id: mockedNews.length + 1,
+        createdAt: new Date(new Date().toLocaleDateString()),
+        updatedAt: new Date(new Date().toLocaleDateString()),
+        userId,
+        ...createNewsPayLoad,
+      };
+
+      expect(await controller.create(userId, createNewsPayLoad)).toEqual(newNews);
+      expect(mockedNews).toContainEqual(newNews);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(1, createEventParams);
+      expect(create).toHaveBeenCalledWith(userId, createNewsPayLoad);
     });
 
-    it('should call newsFeedService.create and fail because an error has been raised', async () => {
-      const create = jest.spyOn(service, 'create').mockRejectedValue(new Error('User Not Found'));
-      expect(() => controller.create(42, { associationId: 1, title: 'title', content: 'content' })).rejects.toThrow(
-        new ConflictException('User Not Found')
-      );
+    it('should fail because an error has been raised', async () => {
+      const create = jest.spyOn(service, 'create');
+      const createNewsPayLoad: CreateNewsDto = {
+        associationId: 1,
+        title: 'title',
+        content: 'content',
+      };
+
+      const userId = -1;
+
+      expect(() => controller.create(userId, createNewsPayLoad)).rejects.toThrow(new Error('User Not Found'));
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(42, { associationId: 1, title: 'title', content: 'content' });
+      expect(create).toHaveBeenCalledWith(userId, createNewsPayLoad);
     });
   });
 
-  describe('findAllAssociationNews', () => {
-    it('should call newsFeedService.findAllAssociationNews and succeed', async () => {
-      expect(await controller.findAllAssociationNews('1')).toEqual(mockfindAllNewsFeed);
-    });
+  describe('Find all news of an association', () => {
+    it('should find all news of an association', async () => {
+      const findAllAssociationNews = jest.spyOn(service, 'findAllAssociationNews');
+      const associationId = '1';
 
-    it('should call newsFeedService.findAllAssociationNews and fail', async () => {
-      jest.spyOn(service, 'findAllAssociationNews').mockRejectedValue(new Error('Association Not Found'));
-      expect(async () => controller.findAllAssociationNews('1')).rejects.toThrow(
-        new NotFoundException('Association Not Found')
+      expect(await controller.findAllAssociationNews(associationId)).toEqual(
+        mockedNews.filter((news) => news.associationId === +associationId)
       );
-    });
-  });
-
-  describe('findAllAssociationNewsWithAssoName', () => {
-    it('should call newsFeedService.findAllNewsWithAssoName and succeed', async () => {
-      expect(await controller.findAllNewsWithAssoName()).toEqual(mockFindAllNewsWithAssoName);
-    });
-  });
-
-  describe('findOne', () => {
-    it('should call newsFeedService.findOne', async () => {
-      expect(await controller.findOne('1')).toEqual(mockfindAllNewsFeed[0]);
+      expect(findAllAssociationNews).toHaveBeenCalledTimes(1);
+      expect(findAllAssociationNews).toHaveBeenCalledWith(+associationId);
     });
 
-    it('should call newsFeedService.findOne and fail because an error occured', () => {
-      jest.spyOn(service, 'findOne').mockRejectedValue(new Error('News Not Found'));
-      expect(() => controller.findOne('42')).rejects.toThrow(new NotFoundException('News Not Found'));
-    });
-  });
+    it('should fail because an error has been raised', async () => {
+      const findAllAssociationNews = jest.spyOn(service, 'findAllAssociationNews');
+      const associationId = '-1';
 
-  describe('updateNewsFeed', () => {
-    it('should call newsFeedService.update', async () => {
-      expect(await controller.update('1', { content: 'content renamed', title: 'title renamed' })).toEqual(
-        mockedUpdateNews
+      expect(() => controller.findAllAssociationNews(associationId)).rejects.toThrow(
+        new Error('Association Not Found')
       );
-    });
-
-    it('should call newsFeedService.update and fail because an error occured', async () => {
-      jest.spyOn(service, 'update').mockRejectedValue(new Error('News Not Found'));
-      expect(() => controller.update('42', { content: 'content renamed', title: 'title renamed' })).rejects.toThrow(
-        new NotFoundException('News Not Found')
-      );
+      expect(findAllAssociationNews).toHaveBeenCalledTimes(1);
+      expect(findAllAssociationNews).toHaveBeenCalledWith(+associationId);
     });
   });
 
-  describe('deleteNewsFeed', () => {
-    it('should call newsFeedService.delete', async () => {
-      expect(await controller.delete('1')).toEqual(mockfindAllNewsFeed[0]);
+  describe('Find all news with association name', () => {
+    it('should find all news with association name specified', async () => {
+      const findAllNewsWithAssoName = jest.spyOn(service, 'findAllNewsWithAssoName');
+
+      expect(await controller.findAllNewsWithAssoName()).toEqual(
+        mockedNews.map((news) => {
+          const association = mockedAssociations.find((association) => association.id === news.associationId);
+          return {
+            ...news,
+            associationName: association.name,
+          };
+        })
+      );
+      expect(findAllNewsWithAssoName).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('Find one news', () => {
+    it('should find one news', async () => {
+      const findOne = jest.spyOn(service, 'findOne');
+      const newsId = '1';
+
+      expect(await controller.findOne(newsId)).toEqual(mockedNews.find((news) => news.id === +newsId));
+      expect(findOne).toHaveBeenCalledTimes(1);
+      expect(findOne).toHaveBeenCalledWith(+newsId);
     });
 
-    it('should call newsFeedService.delete and fail because an error occured', async () => {
-      jest.spyOn(service, 'delete').mockRejectedValue(new Error('Event To Delete Not Found'));
-      expect(() => controller.delete('42')).rejects.toThrow(new NotFoundException('Event To Delete Not Found'));
+    it('should fail because an error has been raised', () => {
+      const findOne = jest.spyOn(service, 'findOne');
+      const newsId = '-1';
+
+      expect(() => controller.findOne(newsId)).rejects.toThrow(new Error('News Not Found'));
+      expect(findOne).toHaveBeenCalledTimes(1);
+      expect(findOne).toHaveBeenCalledWith(+newsId);
+    });
+  });
+
+  describe('Update news', () => {
+    it('should update a news', async () => {
+      const update = jest.spyOn(service, 'update');
+      const newsId = '2';
+      const updateNewsPayload: UpdateNewsDto = {
+        title: 'title updated',
+        content: 'content updated',
+      };
+
+      const updatedNews = {
+        ...mockedNews[1],
+        ...updateNewsPayload,
+      };
+
+      expect(await controller.update(newsId, updateNewsPayload)).toEqual(updatedNews);
+      expect(mockedNews).toContainEqual(updatedNews);
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith(+newsId, updateNewsPayload);
+    });
+
+    it('should fail to update because an error occured', async () => {
+      const update = jest.spyOn(service, 'update');
+      const newsId = '-1';
+      const updateNewsPayload: UpdateNewsDto = {
+        title: 'title updated',
+        content: 'content updated',
+      };
+
+      expect(() => controller.update(newsId, updateNewsPayload)).rejects.toThrow(new Error('News Not Found'));
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith(+newsId, updateNewsPayload);
+    });
+  });
+
+  describe('Delete news', () => {
+    it('should delete a news', async () => {
+      const deleteOne = jest.spyOn(service, 'delete');
+      const newsId = '2';
+
+      const deletedNews = mockedNews.find((news) => news.id === +newsId);
+      const filteredMockedNews = mockedNews.filter((news) => news.id !== +newsId);
+
+      expect(await controller.delete(newsId)).toEqual(deletedNews);
+      expect(mockedNews).toEqual(filteredMockedNews);
+      expect(deleteOne).toHaveBeenCalledTimes(1);
+      expect(deleteOne).toHaveBeenCalledWith(+newsId);
+    });
+
+    it('should fail to delete a news because an error occured', async () => {
+      const deleteOne = jest.spyOn(service, 'delete');
+      const newsId = '-1';
+
+      expect(() => controller.delete(newsId)).rejects.toThrow(new Error('News To Delete Not Found'));
+      expect(deleteOne).toHaveBeenCalledTimes(1);
+      expect(deleteOne).toHaveBeenCalledWith(+newsId);
     });
   });
 });
