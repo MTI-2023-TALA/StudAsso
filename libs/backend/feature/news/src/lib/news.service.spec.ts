@@ -215,7 +215,7 @@ describe('NewsService', () => {
       const findOne = jest.spyOn(associationRepository, 'findOne');
       const associationId = -1;
 
-      expect(async () => await service.findAllAssociationNews(associationId)).rejects.toThrow('Association Not Found');
+      expect(service.findAllAssociationNews(associationId)).rejects.toThrow('Association Not Found');
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(associationId);
       expect(findAllAssociationNews).toHaveBeenCalledTimes(0);
@@ -255,7 +255,7 @@ describe('NewsService', () => {
       const findOne = jest.spyOn(repository, 'findOne');
       const id = -1;
 
-      expect(async () => await service.findOne(id)).rejects.toThrow('News Not Found');
+      expect(service.findOne(id)).rejects.toThrow('News Not Found');
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(id);
     });
@@ -283,7 +283,7 @@ describe('NewsService', () => {
       const newsId = -1;
       const updateNewsPayload: UpdateNewsDto = { content: 'content renamed', title: 'title renamed' };
 
-      expect(async () => await service.update(newsId, updateNewsPayload)).rejects.toThrow('News Not Found');
+      expect(service.update(newsId, updateNewsPayload)).rejects.toThrow('News Not Found');
       expect(update).toHaveBeenCalledTimes(0);
     });
   });
