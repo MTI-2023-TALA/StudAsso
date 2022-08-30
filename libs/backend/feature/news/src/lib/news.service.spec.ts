@@ -261,36 +261,34 @@ describe('NewsService', () => {
     });
   });
 
-  // describe('updateNews', () => {
-  //   it('should call NewsRepository.update', async () => {
-  //     const updateNewsDto: UpdateNewsDto = { content: 'content renamed', title: 'title renamed' };
-  //     const update = jest.spyOn(repository, 'update');
+  describe('Update a news', () => {
+    it('should update a news ', async () => {
+      const update = jest.spyOn(repository, 'update');
+      const newsId = 2;
+      const updateNewsPayload: UpdateNewsDto = { content: 'content renamed', title: 'title renamed' };
 
-  //     const updateResultRetrieved = await service.update(1, updateNewsDto);
-  //     expect(updateResultRetrieved).toEqual({
-  //       id: 1,
-  //       createdAt: new Date('2022-09-29'),
-  //       updatedAt: new Date('2022-09-29'),
-  //       userId: 1,
-  //       associationId: 1,
-  //       title: 'updated title',
-  //       content: 'updated content',
-  //     });
+      const updatedNews: NewsDto = {
+        ...mockedNews[1],
+        ...updateNewsPayload,
+      };
 
-  //     expect(update).toHaveBeenCalledTimes(1);
-  //     expect(update).toHaveBeenCalledWith(1, updateNewsDto);
-  //   });
+      expect(await service.update(newsId, updateNewsPayload)).toEqual(updatedNews);
+      expect(mockedNews).toContainEqual(updatedNews);
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith(newsId, updateNewsPayload);
+    });
 
-  //   it('should call NewsRepository.update and fail because news does not exist', async () => {
-  //     const updateNewsDto: UpdateNewsDto = {
-  //       content: 'content renamed',
-  //       title: 'title renamed',
-  //     };
-  //     expect(() => service.update(42, updateNewsDto)).rejects.toThrow(new Error('News Not Found'));
-  //   });
-  // });
+    it('should and fail because news does not exist', async () => {
+      const update = jest.spyOn(repository, 'update');
+      const newsId = -1;
+      const updateNewsPayload: UpdateNewsDto = { content: 'content renamed', title: 'title renamed' };
 
-  // describe('deleteNews', () => {
+      expect(async () => await service.update(newsId, updateNewsPayload)).rejects.toThrow('News Not Found');
+      expect(update).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  // describe('Delete a news', () => {
   //   it('should call NewsRepository.delete', async () => {
   //     const deleteCall = jest.spyOn(repository, 'delete');
 
