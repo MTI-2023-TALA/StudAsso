@@ -278,7 +278,7 @@ describe('NewsService', () => {
       expect(update).toHaveBeenCalledWith(newsId, updateNewsPayload);
     });
 
-    it('should and fail because news does not exist', async () => {
+    it('should fail to update news because it does not exist', async () => {
       const update = jest.spyOn(repository, 'update');
       const newsId = -1;
       const updateNewsPayload: UpdateNewsDto = { content: 'content renamed', title: 'title renamed' };
@@ -288,27 +288,27 @@ describe('NewsService', () => {
     });
   });
 
-  // describe('Delete a news', () => {
-  //   it('should call NewsRepository.delete', async () => {
-  //     const deleteCall = jest.spyOn(repository, 'delete');
+  describe('Delete a news', () => {
+    it('should delete a news', async () => {
+      const deleteOne = jest.spyOn(repository, 'delete');
+      const newsId = 1;
 
-  //     const deleteResultRetrieved = await service.delete(1);
-  //     expect(deleteResultRetrieved).toEqual({
-  //       id: 1,
-  //       createdAt: new Date('2022-09-29'),
-  //       updatedAt: new Date('2022-09-29'),
-  //       userId: 1,
-  //       associationId: 1,
-  //       title: 'title',
-  //       content: 'content',
-  //     });
+      const deletedNews = mockedNews.find((news) => news.id === +newsId);
+      const filteredMockedNews = mockedNews.filter((news) => news.id !== +newsId);
 
-  //     expect(deleteCall).toHaveBeenCalledTimes(1);
-  //     expect(deleteCall).toHaveBeenCalledWith(1);
-  //   });
+      expect(await service.delete(newsId)).toEqual(deletedNews);
+      expect(mockedNews).toEqual(filteredMockedNews);
+      expect(deleteOne).toHaveBeenCalledTimes(1);
+      expect(deleteOne).toHaveBeenCalledWith(+newsId);
+    });
 
-  //   it('should call NewsRepository.delete and fail because news is not found', async () => {
-  //     expect(() => service.delete(42)).rejects.toThrow('News To Delete Not Found');
-  //   });
-  // });
+    it('should fail to delete a news because it does not exist', async () => {
+      const deleteOne = jest.spyOn(repository, 'delete');
+      const newsId = -1;
+
+      expect(() => service.delete(newsId)).rejects.toThrow(new Error('News To Delete Not Found'));
+      expect(deleteOne).toHaveBeenCalledTimes(1);
+      expect(deleteOne).toHaveBeenCalledWith(+newsId);
+    });
+  });
 });
