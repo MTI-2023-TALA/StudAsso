@@ -345,7 +345,7 @@ describe('AssociationsService', () => {
   });
 
   describe('updateAssociation', () => {
-    it('shoud call associationRepository.update', async () => {
+    it('should call associationRepository.update', async () => {
       const updateAssociationDto: UpdateAssociationDto = {
         name: 'Association1 Renamed',
         description: 'updated description',
