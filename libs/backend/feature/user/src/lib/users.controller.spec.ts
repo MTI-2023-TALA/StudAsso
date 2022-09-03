@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { CreateUserDto } from '@stud-asso/shared/dtos';
+import { ERROR } from '@stud-asso/backend/core/error';
 import { UpdateResult } from 'typeorm';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
@@ -70,17 +71,17 @@ describe('UsersController', () => {
             findOne: jest.fn((id: number) => {
               const findUser = mockedUsers.find((user) => user.id === id);
               if (!findUser) {
-                throw new Error('User Not Found');
+                throw new Error(ERROR.USER_NOT_FOUND);
               }
               return Promise.resolve(findUser);
             }),
             update: jest.fn((id: number, updateUserPayload: CreateUserDto) => {
               if (updateUserPayload.email && mockedUsers.find((user) => user.email === updateUserPayload.email)) {
-                throw new Error('Email Already Used');
+                throw new Error(ERROR.EMAIL_ALREADY_USED);
               }
               const updateUser = mockedUsers.find((user) => user.id === id);
               if (!updateUser) {
-                throw new Error('User Not Found');
+                throw new Error(ERROR.USER_NOT_FOUND);
               }
               updateUser.firstname = updateUserPayload.firstname;
               updateUser.lastname = updateUserPayload.lastname;
@@ -92,7 +93,7 @@ describe('UsersController', () => {
             }),
             delete: jest.fn((id: number) => {
               const findUser = mockedUsers.find((user) => user.id === id);
-              if (!findUser) throw new Error('User Not Found');
+              if (!findUser) throw new Error(ERROR.USER_NOT_FOUND);
               mockedUsers = mockedUsers.filter((user) => user.id !== id);
               return Promise.resolve(mockedUpdateResult);
             }),
@@ -135,7 +136,7 @@ describe('UsersController', () => {
       const findOne = jest.spyOn(service, 'findOne');
       const id = '3';
 
-      expect(() => controller.findOne(id)).rejects.toThrow(new Error('User Not Found'));
+      expect(() => controller.findOne(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(+id);
     });
@@ -160,7 +161,7 @@ describe('UsersController', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('User Not Found'));
+      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
@@ -172,7 +173,7 @@ describe('UsersController', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error('Email Already Used'));
+      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error(ERROR.EMAIL_ALREADY_USED));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
@@ -215,7 +216,7 @@ describe('UsersController', () => {
       const deleteOne = jest.spyOn(service, 'delete');
       const id = '-1';
 
-      expect(() => controller.delete(id)).rejects.toThrow(new Error('User Not Found'));
+      expect(() => controller.delete(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
     });

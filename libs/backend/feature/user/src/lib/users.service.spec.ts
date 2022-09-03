@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { CreateUserDto } from '@stud-asso/shared/dtos';
+import { ERROR } from '@stud-asso/backend/core/error';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { UpdateResult } from 'typeorm';
 import { UserRepository } from '@stud-asso/backend/core/repository';
@@ -110,7 +111,7 @@ describe('UsersService', () => {
             }),
             update: jest.fn((id: number, updateUserPayload: CreateUserDto) => {
               if (updateUserPayload.email && mockedUsers.find((user) => user.email === updateUserPayload.email)) {
-                throw new PrismaErrorMock('P2002', 'Email Already Used', { target: ['email'] });
+                throw new PrismaErrorMock('P2002', ERROR.EMAIL_ALREADY_USED, { target: ['email'] });
               }
               const updateUser = mockedUsers.find((user) => user.id === id);
               if (!updateUser) {
@@ -170,7 +171,7 @@ describe('UsersService', () => {
     it('should try to find an user by id and fail', async () => {
       const findOne = jest.spyOn(userRepository, 'findOne');
 
-      expect(() => service.findOne(-1)).rejects.toThrow(new Error('User Not Found'));
+      expect(() => service.findOne(-1)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(findOne).toBeCalledTimes(1);
       expect(findOne).toBeCalledWith(-1);
     });
@@ -193,7 +194,7 @@ describe('UsersService', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => service.update(3, updateUserPayload)).rejects.toThrow(new Error('User Not Found'));
+      expect(() => service.update(3, updateUserPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(update).toBeCalledTimes(0);
     });
 
@@ -203,7 +204,7 @@ describe('UsersService', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => service.update(2, updateUserPayload)).rejects.toThrow(new Error('Email Already Used'));
+      expect(() => service.update(2, updateUserPayload)).rejects.toThrow(ERROR.EMAIL_ALREADY_USED);
       expect(update).toBeCalledTimes(0);
     });
 
@@ -226,7 +227,7 @@ describe('UsersService', () => {
     it('should fail to delete a non-existing user', async () => {
       const deleteUser = jest.spyOn(userRepository, 'delete');
 
-      expect(() => service.delete(-1)).rejects.toThrow(new Error('User Not Found'));
+      expect(() => service.delete(-1)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(deleteUser).toBeCalledTimes(0);
     });
 
