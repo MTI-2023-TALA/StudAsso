@@ -2,6 +2,7 @@ import { AssociationDto, CreateNewsDto, NewsDto, UpdateNewsDto, UserDto } from '
 import { AssociationRepository, NewsRepository } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { NewsService } from './news.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
@@ -181,7 +182,7 @@ describe('NewsService', () => {
 
       const userId = -1;
 
-      expect(() => service.create(userId, createNewsPayload)).rejects.toThrow('User Not Found');
+      expect(() => service.create(userId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
     });
@@ -192,7 +193,7 @@ describe('NewsService', () => {
 
       const userId = 1;
 
-      expect(() => service.create(userId, createNewsPayload)).rejects.toThrow('Association Not Found');
+      expect(() => service.create(userId, createNewsPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
     });
@@ -215,7 +216,7 @@ describe('NewsService', () => {
       const findOne = jest.spyOn(associationRepository, 'findOne');
       const associationId = -1;
 
-      expect(service.findAllAssociationNews(associationId)).rejects.toThrow('Association Not Found');
+      expect(service.findAllAssociationNews(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(associationId);
       expect(findAllAssociationNews).toHaveBeenCalledTimes(0);
@@ -255,7 +256,7 @@ describe('NewsService', () => {
       const findOne = jest.spyOn(repository, 'findOne');
       const id = -1;
 
-      expect(service.findOne(id)).rejects.toThrow('News Not Found');
+      expect(service.findOne(id)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(id);
     });
@@ -283,7 +284,7 @@ describe('NewsService', () => {
       const newsId = -1;
       const updateNewsPayload: UpdateNewsDto = { content: 'content renamed', title: 'title renamed' };
 
-      expect(service.update(newsId, updateNewsPayload)).rejects.toThrow('News Not Found');
+      expect(service.update(newsId, updateNewsPayload)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
       expect(update).toHaveBeenCalledTimes(0);
     });
   });
@@ -306,7 +307,7 @@ describe('NewsService', () => {
       const deleteOne = jest.spyOn(repository, 'delete');
       const newsId = -1;
 
-      expect(() => service.delete(newsId)).rejects.toThrow(new Error('News To Delete Not Found'));
+      expect(() => service.delete(newsId)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+newsId);
     });
