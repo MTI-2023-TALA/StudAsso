@@ -1,47 +1,83 @@
-import { EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
+import { AssociationDto, CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
 import { EventsController } from './events.controller';
 import { EventsService } from './events.service';
-import { NotFoundException } from '@nestjs/common';
-import { UpdateResult } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
-
-const mockCreateEventDto: EventDto = {
-  id: 1,
-  name: 'Event1',
-  date: new Date('2022-01-15'),
-  content: 'An amazing description',
-  associationId: 1,
-};
-const mockfindAllEvents: EventDto[] = [
-  { id: 1, name: 'Event1', date: new Date('2022-01-15'), content: 'An amazing description', associationId: 1 },
-  { id: 2, name: 'Event2', date: new Date('2022-02-15'), content: 'An amazing description again', associationId: 2 },
-];
-const mockedUpdateResult: UpdateResult = {
-  raw: [],
-  generatedMaps: [],
-  affected: 1,
-};
 
 describe('EventsController', () => {
   let controller: EventsController;
   let service: EventsService;
+  let mockedEvents: EventDto[];
+  let mockedAssociations: AssociationDto[];
 
   beforeEach(async () => {
+    mockedEvents = [
+      { id: 1, name: 'Event 1', date: new Date('15-02-2022'), content: 'content', associationId: 1 },
+      { id: 2, name: 'Event 2', date: new Date('28-02-2022'), content: 'content', associationId: 2 },
+      { id: 3, name: 'Event 3', date: new Date('13-03-2022'), content: 'content', associationId: 1 },
+    ];
+
+    mockedAssociations = [
+      {
+        id: 1,
+        name: 'Association 1',
+        description: 'description',
+      },
+      {
+        id: 2,
+        name: 'Association 2',
+        description: 'description',
+      },
+    ];
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [EventsController],
       providers: [
         {
           provide: EventsService,
           useValue: {
-            create: jest.fn(() => Promise.resolve(mockCreateEventDto)),
-            findAll: jest.fn(() => Promise.resolve(mockfindAllEvents)),
-            findAllByAssociationId: jest.fn(() => Promise.resolve([mockfindAllEvents[0]])),
-            findOne: jest.fn(() => Promise.resolve(mockfindAllEvents[0])),
-            update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
-            delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
+            create: jest.fn((createEventPayload: CreateEventDto) => {
+              if (!mockedAssociations.find((association) => association.id === createEventPayload.associationId)) {
+                throw new Error(ERROR.ASSO_NOT_FOUND);
+              }
+              const id = mockedEvents.length + 1;
+              const newEvent: EventDto = {
+                id,
+                ...createEventPayload,
+              };
+              mockedEvents.push(newEvent);
+              return Promise.resolve(newEvent);
+            }),
+            findAll: jest.fn(() => {
+              return Promise.resolve(mockedEvents);
+            }),
+            findAllByAssociationId: jest.fn((associationId: number) => {
+              if (!mockedAssociations.find((association) => association.id === associationId)) {
+                throw new Error(ERROR.ASSO_NOT_FOUND);
+              }
+              return Promise.resolve(mockedEvents.filter((event) => event.associationId === associationId));
+            }),
+            findOne: jest.fn((eventId: number) => {
+              const findEvent = mockedEvents.find((event) => event.id === eventId);
+              if (!findEvent) throw new Error(ERROR.EVENT_NOT_FOUND);
+              return Promise.resolve(findEvent);
+            }),
+            update: jest.fn((eventId: number, updateEventPayload: UpdateEventDto) => {
+              const updateEvent = mockedEvents.find((event) => event.id === eventId);
+              if (!updateEvent) throw new Error(ERROR.EVENT_NOT_FOUND);
+              const updatedEvent = {
+                ...updateEvent,
+                ...updateEventPayload,
+              };
+              return Promise.resolve(updatedEvent);
+            }),
+            delete: jest.fn((eventId: number) => {
+              const deleteEvent = mockedEvents.find((event) => event.id === eventId);
+              if (!deleteEvent) throw new Error(ERROR.EVENT_NOT_FOUND);
+              mockedEvents = mockedEvents.filter((event) => event.id !== eventId);
+              return Promise.resolve(deleteEvent);
+            }),
           },
         },
       ],
@@ -53,59 +89,152 @@ describe('EventsController', () => {
 
   afterEach(() => jest.clearAllMocks());
 
-  describe('createEvent', () => {
-    it('should call eventsService.create', async () => {
+  describe('Create Event', () => {
+    it('should create a new event', async () => {
       const create = jest.spyOn(service, 'create');
-      const eventParams = {
-        name: 'Event1',
-        date: new Date('2022-01-15'),
-        content: 'An amazing description',
-        associationId: 1,
+      const associationId = 1;
+      const createEventPayload: CreateEventDto = {
+        name: 'New Event',
+        date: new Date(new Date().toLocaleDateString()),
+        content: 'new event content',
+        associationId,
       };
 
-      const createdEvent = await controller.create(eventParams);
-      expect(createdEvent).toEqual(mockCreateEventDto);
+      const newEvent: EventDto = {
+        id: mockedEvents.length + 1,
+        ...createEventPayload,
+      };
+
+      expect(await controller.create(createEventPayload)).toEqual(newEvent);
+      expect(mockedEvents).toContainEqual(newEvent);
 
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(eventParams);
+      expect(create).toHaveBeenCalledWith(createEventPayload);
+    });
+
+    it('should fail creating a new event', async () => {
+      const create = jest.spyOn(service, 'create');
+      const associationId = -1;
+      const createEventPayload: CreateEventDto = {
+        name: 'New Event',
+        date: new Date(new Date().toLocaleDateString()),
+        content: 'new event content',
+        associationId,
+      };
+
+      expect(controller.create(createEventPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith(createEventPayload);
     });
   });
 
-  describe('findAllEvents', () => {
-    it('should call eventsService.findAll', async () => {
-      expect(await controller.findAll()).toEqual(mockfindAllEvents);
+  describe('Find All Events', () => {
+    it('should return all events', async () => {
+      const findAll = jest.spyOn(service, 'findAll');
+
+      expect(await controller.findAll()).toEqual(mockedEvents);
+      expect(findAll).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('findAllByAssociationId', () => {
-    it('should call eventsService.findAllByAssociationId and succeed', async () => {
-      expect(await controller.findAllByAssociationId('1')).toEqual([mockfindAllEvents[0]]);
-    });
+  describe("Find All Association's events", () => {
+    it('should return all events of an association', async () => {
+      const findAllByAssociationId = jest.spyOn(service, 'findAllByAssociationId');
+      const associationId = '1';
 
-    it('should call eventsService.findAllByAssociationId and fail', async () => {
-      jest.spyOn(service, 'findAllByAssociationId').mockRejectedValue(new Error(ERROR.ASSO_NOT_FOUND));
-      expect(async () => controller.findAllByAssociationId('1')).rejects.toThrow(
-        new NotFoundException(ERROR.ASSO_NOT_FOUND)
+      expect(await controller.findAllByAssociationId(associationId)).toEqual(
+        mockedEvents.filter((event) => event.associationId === +associationId)
       );
+      expect(findAllByAssociationId).toHaveBeenCalledTimes(1);
+      expect(findAllByAssociationId).toHaveBeenCalledWith(+associationId);
+    });
+
+    it('should fail to return events of non existing association', async () => {
+      const findAllByAssociationId = jest.spyOn(service, 'findAllByAssociationId');
+      const associationId = '-1';
+
+      expect(controller.findAllByAssociationId(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(findAllByAssociationId).toHaveBeenCalledTimes(1);
+      expect(findAllByAssociationId).toHaveBeenCalledWith(+associationId);
     });
   });
 
-  describe('findOneEvent', () => {
-    it('shoud call eventsService.findOne', async () => {
-      expect(await controller.findOne('1')).toEqual(mockfindAllEvents[0]);
+  describe('Find One Event', () => {
+    it('should return one event', async () => {
+      const findOne = jest.spyOn(service, 'findOne');
+      const eventId = '1';
+
+      expect(await controller.findOne(eventId)).toEqual(mockedEvents.find((event) => event.id === +eventId));
+      expect(findOne).toHaveBeenCalledTimes(1);
+      expect(findOne).toHaveBeenCalledWith(+eventId);
+    });
+
+    it('should fail to return a non existing event', async () => {
+      const findOne = jest.spyOn(service, 'findOne');
+      const eventId = '-1';
+
+      expect(controller.findOne(eventId)).rejects.toThrow(ERROR.EVENT_NOT_FOUND);
+      expect(findOne).toHaveBeenCalledTimes(1);
+      expect(findOne).toHaveBeenCalledWith(+eventId);
     });
   });
 
-  describe('updateEvent', () => {
-    it('should call eventsService.update', async () => {
-      const updateEventDto = plainToInstance(UpdateEventDto, { content: 'Event1 Renamed' });
-      expect(await controller.update('1', updateEventDto)).toEqual(mockedUpdateResult);
+  describe('Update Event', () => {
+    it('should update an event', async () => {
+      const update = jest.spyOn(service, 'update');
+      const eventId = '2';
+      const updateEventPayload: UpdateEventDto = {
+        name: 'Updated Event',
+        date: new Date(new Date().toLocaleDateString()),
+        content: 'updated event content',
+      };
+
+      const updatedEvent: EventDto = {
+        ...mockedEvents[1],
+        ...updateEventPayload,
+      };
+
+      expect(await controller.update(eventId, updateEventPayload)).toEqual(updatedEvent);
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith(+eventId, updateEventPayload);
+    });
+
+    it('should fail to update an event', async () => {
+      const update = jest.spyOn(service, 'update');
+      const eventId = '-1';
+      const updateEventPayload: UpdateEventDto = {
+        name: 'Updated Event',
+        date: new Date(new Date().toLocaleDateString()),
+        content: 'updated event content',
+      };
+
+      expect(controller.update(eventId, updateEventPayload)).rejects.toThrow(ERROR.EVENT_NOT_FOUND);
+      expect(update).toHaveBeenCalledTimes(1);
+      expect(update).toHaveBeenCalledWith(+eventId, updateEventPayload);
     });
   });
 
-  describe('deleteEvent', () => {
-    it('should call eventsService.delete', async () => {
-      expect(await controller.delete('1')).toEqual(mockedUpdateResult);
+  describe('Delete Event', () => {
+    it('should delete an event', async () => {
+      const deleteOne = jest.spyOn(service, 'delete');
+      const newsId = '2';
+
+      const deletedEvent = mockedEvents.find((event) => event.id === +newsId);
+      const filteredMockedNews = mockedEvents.filter((event) => event.id !== +newsId);
+
+      expect(await controller.delete(newsId)).toEqual(deletedEvent);
+      expect(mockedEvents).toEqual(filteredMockedNews);
+      expect(deleteOne).toHaveBeenCalledTimes(1);
+      expect(deleteOne).toHaveBeenCalledWith(+newsId);
+    });
+
+    it('should fail to delete an event', async () => {
+      const deleteOne = jest.spyOn(service, 'delete');
+      const newsId = '-1';
+
+      expect(controller.delete(newsId)).rejects.toThrow(ERROR.EVENT_NOT_FOUND);
+      expect(deleteOne).toHaveBeenCalledTimes(1);
+      expect(deleteOne).toHaveBeenCalledWith(+newsId);
     });
   });
 });
