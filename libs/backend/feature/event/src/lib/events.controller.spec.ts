@@ -1,6 +1,7 @@
 import { EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { EventsController } from './events.controller';
 import { EventsService } from './events.service';
 import { NotFoundException } from '@nestjs/common';
@@ -82,9 +83,9 @@ describe('EventsController', () => {
     });
 
     it('should call eventsService.findAllByAssociationId and fail', async () => {
-      jest.spyOn(service, 'findAllByAssociationId').mockRejectedValue(new Error('Association Not Found'));
+      jest.spyOn(service, 'findAllByAssociationId').mockRejectedValue(new Error(ERROR.ASSO_NOT_FOUND));
       expect(async () => controller.findAllByAssociationId('1')).rejects.toThrow(
-        new NotFoundException('Association Not Found')
+        new NotFoundException(ERROR.ASSO_NOT_FOUND)
       );
     });
   });
