@@ -1,6 +1,7 @@
 import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/repository';
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
@@ -17,7 +18,7 @@ export class EventsService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {
-          throw new Error('Association Not Found');
+          throw new Error(ERROR.ASSO_NOT_FOUND);
         }
       }
     }
@@ -30,7 +31,7 @@ export class EventsService {
   public async findAllByAssociationId(associationId: number): Promise<EventDto[]> {
     const asso = await this.associationRepository.findOne(associationId);
     if (!asso) {
-      throw new Error('Association Not Found');
+      throw new Error(ERROR.ASSO_NOT_FOUND);
     }
     return await this.eventRepository.findAllByAssociationId(associationId);
   }
@@ -38,7 +39,7 @@ export class EventsService {
   public async findOne(id: number): Promise<EventDto> {
     const event = await this.eventRepository.findOne(id);
     if (!event) {
-      throw new Error('Event Not Found');
+      throw new Error(ERROR.EVENT_NOT_FOUND);
     }
     return event;
   }
@@ -46,7 +47,7 @@ export class EventsService {
   public async update(id: number, updateEventDto: UpdateEventDto): Promise<EventDto> {
     const event = await this.eventRepository.findOne(id);
     if (!event) {
-      throw new Error('Event Not Found');
+      throw new Error(ERROR.EVENT_NOT_FOUND);
     }
 
     return this.eventRepository.update(id, updateEventDto);
@@ -58,7 +59,7 @@ export class EventsService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
-          throw new Error('Event To Delete Not Found');
+          throw new Error(ERROR.EVENT_NOT_FOUND);
         }
       }
     }

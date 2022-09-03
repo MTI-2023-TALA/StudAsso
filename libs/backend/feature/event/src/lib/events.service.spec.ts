@@ -2,6 +2,7 @@ import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/
 import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { EventsService } from './events.service';
 import { UpdateResult } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
@@ -115,7 +116,7 @@ describe('EventsService', () => {
 
     it('should call eventRepository.findAllByAssociationId and fail', async () => {
       jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
-      expect(async () => await service.findAllByAssociationId(1)).rejects.toThrow('Association Not Found');
+      expect(service.findAllByAssociationId(1)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
