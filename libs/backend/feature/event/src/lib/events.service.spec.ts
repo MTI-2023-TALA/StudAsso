@@ -116,7 +116,7 @@ describe('EventsService', () => {
 
     it('should call eventRepository.findAllByAssociationId and fail', async () => {
       jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
-      expect(async () => await service.findAllByAssociationId(1)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(service.findAllByAssociationId(1)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
