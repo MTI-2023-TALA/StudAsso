@@ -10,6 +10,7 @@ export const enum ERROR {
   INVALID_GOOGLE_TOKEN = 'Invalid Google Token',
   NEWS_NOT_FOUND = 'News Not Found',
   PRESIDENT_NOT_FOUND = 'President Not Found',
+  ROLE_NAME_ALREADY_EXISTS = 'Role Name Is Already In Use',
   ROLE_NOT_FOUND = 'Role Not Found',
   STOCK_NOT_FOUND = 'Stock Not Found',
   USER_NOT_FOUND = 'User Not Found',

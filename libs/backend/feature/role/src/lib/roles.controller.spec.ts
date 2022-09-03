@@ -1,6 +1,7 @@
 import { CreateRoleDto, RoleDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { RolesController } from './roles.controller';
 import { RolesService } from './roles.service';
 import { UpdateResult } from 'typeorm';
@@ -44,7 +45,7 @@ describe('RolesController', () => {
           useValue: {
             create: jest.fn((createRolePayload: CreateRoleDto) => {
               if (mockedRoles.find((role) => role.name === createRolePayload.name)) {
-                throw new Error('Name Already Exists');
+                throw new Error(ERROR.ROLE_NAME_ALREADY_EXISTS);
               }
               const id = mockedRoles.length + 1;
               const newRole = plainToInstance(RoleDto, { id, ...createRolePayload });
@@ -56,23 +57,23 @@ describe('RolesController', () => {
             }),
             findOne: jest.fn((id: number) => {
               const findRole = mockedRoles.find((role) => role.id === id);
-              if (!findRole) throw new Error('Role Not Found');
+              if (!findRole) throw new Error(ERROR.ROLE_NOT_FOUND);
               return Promise.resolve(findRole);
             }),
             update: jest.fn((id: number, updateRolePayload: CreateRoleDto) => {
               const updateRole = mockedRoles.find((role) => role.id === id);
-              if (!updateRole) throw new Error('Role Not Found');
-              if (updateRole.name === 'Président') throw new Error('Cannot update role');
+              if (!updateRole) throw new Error(ERROR.ROLE_NOT_FOUND);
+              if (updateRole.name === 'Président') throw new Error(ERROR.CANNOT_UPDATE_ROLE);
               if (updateRolePayload.name && mockedRoles.find((role) => role.name === updateRolePayload.name)) {
-                throw new Error('Name Already Exists');
+                throw new Error(ERROR.ROLE_NAME_ALREADY_EXISTS);
               }
               updateRole.name = updateRolePayload.name;
               return Promise.resolve(mockedUpdateResult);
             }),
             delete: jest.fn((id: number) => {
               const deleteRole = mockedRoles.find((role) => role.id === id);
-              if (!deleteRole) throw new Error('Role Not Found');
-              if (deleteRole.name === 'Président') throw new Error('Cannot delete role');
+              if (!deleteRole) throw new Error(ERROR.ROLE_NOT_FOUND);
+              if (deleteRole.name === 'Président') throw new Error(ERROR.CANNOT_DELETE_ROLE);
               mockedRoles = mockedRoles.filter((role) => role.id !== id);
               return Promise.resolve(mockedUpdateResult);
             }),
@@ -102,7 +103,7 @@ describe('RolesController', () => {
         associationId: 1,
       };
 
-      expect(() => controller.create(createRolePayload)).rejects.toThrow(new Error('Name Already Exists'));
+      expect(() => controller.create(createRolePayload)).rejects.toThrow(new Error(ERROR.ROLE_NAME_ALREADY_EXISTS));
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith(createRolePayload);
     });
@@ -141,7 +142,7 @@ describe('RolesController', () => {
       const findOne = jest.spyOn(service, 'findOne');
       const id = '-1';
 
-      expect(() => controller.findOne(id)).rejects.toThrow(new Error('Role Not Found'));
+      expect(() => controller.findOne(id)).rejects.toThrow(new Error(ERROR.ROLE_NOT_FOUND));
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(+id);
     });
@@ -164,7 +165,7 @@ describe('RolesController', () => {
         name: 'Membre',
       };
 
-      expect(() => controller.update(id, updateRolePayload)).rejects.toThrow(new Error('Role Not Found'));
+      expect(() => controller.update(id, updateRolePayload)).rejects.toThrow(new Error(ERROR.ROLE_NOT_FOUND));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateRolePayload);
     });
@@ -174,7 +175,7 @@ describe('RolesController', () => {
       const id = '1';
 
       expect(() => controller.update(id, { name: 'Update Président' })).rejects.toThrow(
-        new Error('Cannot update role')
+        new Error(ERROR.CANNOT_UPDATE_ROLE)
       );
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, { name: 'Update Président' });
@@ -201,7 +202,7 @@ describe('RolesController', () => {
       const deleteOne = jest.spyOn(service, 'delete');
       const id = '-1';
 
-      expect(() => controller.delete(id)).rejects.toThrow(new Error('Role Not Found'));
+      expect(() => controller.delete(id)).rejects.toThrow(new Error(ERROR.ROLE_NOT_FOUND));
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
     });
@@ -210,7 +211,7 @@ describe('RolesController', () => {
       const deleteOne = jest.spyOn(service, 'delete');
       const id = '1';
 
-      expect(() => controller.delete(id)).rejects.toThrow(new Error('Cannot delete role'));
+      expect(() => controller.delete(id)).rejects.toThrow(new Error(ERROR.CANNOT_DELETE_ROLE));
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
     });
@@ -242,33 +243,33 @@ describe('RolesController', () => {
     });
 
     it('should fail to add role to user because user does not exist', async () => {
-      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error('User Not Found'));
+      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error(ERROR.USER_NOT_FOUND));
       const addRoleToUserParams = {
         userId: 666,
         associationId: 1,
         roleId: 1,
       };
-      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow('User Not Found');
+      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow(ERROR.USER_NOT_FOUND);
     });
 
     it('should fail to add role to user because association does not exist', async () => {
-      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error('Association Not Found'));
+      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error(ERROR.ASSO_NOT_FOUND));
       const addRoleToUserParams = {
         userId: 1,
         associationId: 666,
         roleId: 1,
       };
-      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow('Association Not Found');
+      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
 
     it('should fail to add role to user because role does not exist', async () => {
-      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error('Role Not Found'));
+      jest.spyOn(service, 'addRoleToUser').mockRejectedValue(new Error(ERROR.ROLE_NOT_FOUND));
       const addRoleToUserParams = {
         userId: 1,
         associationId: 1,
         roleId: 666,
       };
-      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow('Role Not Found');
+      expect(() => controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
     });
   });
 });

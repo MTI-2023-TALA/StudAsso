@@ -25,7 +25,7 @@ export class RolesService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
-          throw new Error(ERROR.ASSO_NAME_ALREADY_EXISTS);
+          throw new Error(ERROR.ROLE_NAME_ALREADY_EXISTS);
         }
 
         if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {
@@ -78,7 +78,7 @@ export class RolesService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
-          throw new Error(ERROR.ASSO_NAME_ALREADY_EXISTS);
+          throw new Error(ERROR.ROLE_NAME_ALREADY_EXISTS);
         }
       }
     }
