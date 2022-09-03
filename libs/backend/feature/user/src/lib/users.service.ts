@@ -1,5 +1,6 @@
 import { AssociationOfUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { UserRepository } from '@stud-asso/backend/core/repository';
@@ -15,7 +16,7 @@ export class UsersService {
   public async findOne(id: number): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
-      throw new Error('User Not Found');
+      throw new Error(ERROR.USER_NOT_FOUND);
     }
     return user;
   }
@@ -23,7 +24,7 @@ export class UsersService {
   public async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
-      throw new Error('User Not Found');
+      throw new Error(ERROR.USER_NOT_FOUND);
     }
 
     try {
@@ -31,7 +32,7 @@ export class UsersService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'email') {
-          throw new Error('Email Already Used');
+          throw new Error(ERROR.EMAIL_ALREADY_USED);
         }
       }
     }
@@ -40,7 +41,7 @@ export class UsersService {
   public async delete(id: number): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
-      throw new Error('User Not Found');
+      throw new Error(ERROR.USER_NOT_FOUND);
     }
     return this.userRepository.delete(id);
   }
