@@ -9,6 +9,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsController } from './associations.controller';
 import { AssociationsService } from './associations.service';
+import { ERROR } from '@stud-asso/backend/core/error';
 
 const mockfindAllAssociation: AssociationWithPresidentDto[] = [
   {
@@ -81,14 +82,14 @@ describe('AssociationsController', () => {
               if (associationId === 1) {
                 return Promise.resolve(mockAssoMembersWithRole);
               } else {
-                throw new Error('Association Not Found');
+                throw new Error(ERROR.ASSO_NOT_FOUND);
               }
             }),
             findAssociationPresident: jest.fn((associationId: number) => {
               if ([1, 2].includes(associationId)) {
                 return Promise.resolve(mockUsersDto[associationId - 1]);
               } else {
-                throw new Error('Association Not Found');
+                throw new Error(ERROR.ASSO_NOT_FOUND);
               }
             }),
             update: jest.fn(() =>
@@ -130,22 +131,11 @@ describe('AssociationsController', () => {
       });
     });
 
-    it('should call associationService.create trying to create a duplicate association and return Conflict exception', async () => {
-      const create = jest.spyOn(service, 'create').mockRejectedValue(new Error('Association Name Already Exists'));
+    it('should fail creating an Association', async () => {
+      const create = jest.spyOn(service, 'create').mockRejectedValue(new Error(ERROR.ASSO_NAME_ALREADY_EXISTS));
       expect(() =>
         controller.create({ name: 'Association1', presidentId: 1, description: 'description' })
-      ).rejects.toThrow(new ConflictException('Association Name Already Exists'));
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1, description: 'description' });
-    });
-
-    it('should call associationService.create trying to create a duplicate role and return Conflict exception', async () => {
-      const create = jest
-        .spyOn(service, 'create')
-        .mockRejectedValue(new Error('Role Name Already Exists In This Association'));
-      expect(() =>
-        controller.create({ name: 'Association1', presidentId: 1, description: 'description' })
-      ).rejects.toThrow(new ConflictException('Role Name Already Exists In This Association'));
+      ).rejects.toThrow(new ConflictException(ERROR.ASSO_NAME_ALREADY_EXISTS));
       expect(create).toHaveBeenCalledTimes(1);
       expect(create).toHaveBeenCalledWith({ name: 'Association1', presidentId: 1, description: 'description' });
     });
@@ -163,8 +153,8 @@ describe('AssociationsController', () => {
     });
 
     it('should call associationService.findOneWithPresident and fail', async () => {
-      jest.spyOn(service, 'findOneWithPresident').mockRejectedValue(new Error('Association Not Found'));
-      expect(() => controller.findOneWithPresident('42')).rejects.toThrow(new Error('Association Not Found'));
+      jest.spyOn(service, 'findOneWithPresident').mockRejectedValue(new Error(ERROR.ASSO_NOT_FOUND));
+      expect(() => controller.findOneWithPresident('42')).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
     });
   });
 
@@ -174,7 +164,7 @@ describe('AssociationsController', () => {
     });
 
     it('should call associationService.findAssociationPresident and fail', async () => {
-      expect(() => controller.findAssociationPresident('3')).rejects.toThrow(new Error('Association Not Found'));
+      expect(() => controller.findAssociationPresident('3')).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
     });
   });
 
@@ -184,7 +174,7 @@ describe('AssociationsController', () => {
     });
 
     it('should call associationService.findAssociationMembersWithRoles and fail', async () => {
-      expect(() => controller.findAssociationMembersWithRoles('3')).rejects.toThrow(new Error('Association Not Found'));
+      expect(() => controller.findAssociationMembersWithRoles('3')).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
     });
   });
 
@@ -201,25 +191,14 @@ describe('AssociationsController', () => {
       });
     });
 
-    it('should call associationService.update and fail because association does not exist', async () => {
-      jest.spyOn(service, 'update').mockRejectedValue(new Error('Association Not Found'));
+    it('should fail to update an association', async () => {
+      jest.spyOn(service, 'update').mockRejectedValue(new Error(ERROR.ASSO_NOT_FOUND));
       const updateAssoDtoParams: UpdateAssociationDto = {
         name: 'Association 1 Renamed',
         description: 'description updated',
       };
       expect(() => controller.update('42', updateAssoDtoParams)).rejects.toThrow(
-        new BadRequestException('Association Not Found')
-      );
-    });
-
-    it('should call associationService.update and fail because association name already exists', async () => {
-      jest.spyOn(service, 'update').mockRejectedValue(new Error('Association Name Already Exists'));
-      const updateAssoDtoParams: UpdateAssociationDto = {
-        name: 'Association 1 Renamed',
-        description: 'description updated',
-      };
-      expect(() => controller.update('42', updateAssoDtoParams)).rejects.toThrow(
-        new BadRequestException('Association Name Already Exists')
+        new BadRequestException(ERROR.ASSO_NOT_FOUND)
       );
     });
   });
@@ -233,9 +212,9 @@ describe('AssociationsController', () => {
       });
     });
 
-    it('should call associationService.delete and fail when willing to delete unkown association', async () => {
-      jest.spyOn(service, 'delete').mockRejectedValue(new Error('Association To Delete Not Found'));
-      expect(() => controller.delete('42')).rejects.toThrow(new NotFoundException('Association To Delete Not Found'));
+    it('should fail to delete an association', async () => {
+      jest.spyOn(service, 'delete').mockRejectedValue(new Error(ERROR.ASSO_NOT_FOUND));
+      expect(() => controller.delete('42')).rejects.toThrow(new NotFoundException(ERROR.ASSO_NOT_FOUND));
     });
   });
 });

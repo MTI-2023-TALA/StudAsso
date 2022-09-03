@@ -8,6 +8,7 @@ import { AssociationWithPresidentDto, CreateAssociationDto, UpdateAssociationDto
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsService } from './associations.service';
+import { ERROR } from '@stud-asso/backend/core/error';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 describe('AssociationsService', () => {
@@ -233,7 +234,7 @@ describe('AssociationsService', () => {
           presidentId: 420,
           description: 'description',
         });
-      }).rejects.toThrow('President Not Found');
+      }).rejects.toThrow(ERROR.PRESIDENT_NOT_FOUND);
     });
 
     it('should call associationService.create and fail unique_association_name constraint', async () => {
@@ -242,7 +243,7 @@ describe('AssociationsService', () => {
         .mockRejectedValue(new PrismaClientKnownRequestError('mock', 'P2002', 'mock', { target: ['name,'] }));
       expect(async () =>
         service.create({ name: 'Association1', presidentId: 1, description: 'description' })
-      ).rejects.toThrow('Association Name Already Exists');
+      ).rejects.toThrow(ERROR.ASSO_NAME_ALREADY_EXISTS);
     });
   });
 
@@ -303,7 +304,7 @@ describe('AssociationsService', () => {
 
     it('should call associationRepository.findOneWithPresident and fail', async () => {
       const findOne = jest.spyOn(repository, 'findOneWithPresident').mockResolvedValue(undefined);
-      expect(async () => await service.findOneWithPresident(42)).rejects.toThrow(new Error('Association Not Found'));
+      expect(async () => await service.findOneWithPresident(42)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
       expect(findOne).toHaveBeenCalledTimes(1);
     });
   });
@@ -324,7 +325,7 @@ describe('AssociationsService', () => {
     });
 
     it('should call associationRepository.findAssociationPresident and fail', async () => {
-      expect(() => service.findAssociationPresident(3)).rejects.toThrow(new Error('Association Not Found'));
+      expect(() => service.findAssociationPresident(3)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
@@ -340,7 +341,7 @@ describe('AssociationsService', () => {
     });
 
     it('should call associationsMemberRepository.findAssociationMembersWithRoles and fail', async () => {
-      expect(() => service.findAssociationMembersWithRoles(3)).rejects.toThrow(new Error('Association Not Found'));
+      expect(() => service.findAssociationMembersWithRoles(3)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
@@ -368,7 +369,7 @@ describe('AssociationsService', () => {
         name: 'Association1 Renamed',
         description: 'description updated',
       };
-      expect(() => service.update(42, updateAssociationDto)).rejects.toThrow(new Error('Association Not Found'));
+      expect(() => service.update(42, updateAssociationDto)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
 
     it('should call associationRepository.update and fail because association name already exists', async () => {
@@ -379,9 +380,7 @@ describe('AssociationsService', () => {
         name: 'Association1 Renamed',
         description: 'description updated',
       };
-      expect(() => service.update(1, updateAssociationDto)).rejects.toThrow(
-        new Error('Association Name Already Exists')
-      );
+      expect(() => service.update(1, updateAssociationDto)).rejects.toThrow(ERROR.ASSO_NAME_ALREADY_EXISTS);
     });
   });
 
@@ -401,7 +400,7 @@ describe('AssociationsService', () => {
     });
 
     it('should call associationRepository.delete and fail because association is not found', async () => {
-      expect(() => service.delete(42)).rejects.toThrow('Association To Delete Not Found');
+      expect(() => service.delete(42)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 });
