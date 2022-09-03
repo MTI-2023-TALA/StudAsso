@@ -1,6 +1,7 @@
 import { AssociationRepository, NewsRepository } from '@stud-asso/backend/core/repository';
 import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
@@ -18,10 +19,10 @@ export class NewsService {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003') {
           if (error.meta.field_name === 'user (index)') {
-            throw new Error('User Not Found');
+            throw new Error(ERROR.USER_NOT_FOUND);
           }
           if (error.meta.field_name === 'association (index)') {
-            throw new Error('Association Not Found');
+            throw new Error(ERROR.ASSO_NOT_FOUND);
           }
         }
       }
@@ -31,7 +32,7 @@ export class NewsService {
   public async findAllAssociationNews(associationId: number): Promise<NewsDto[]> {
     const association = await this.associationRepository.findOne(associationId);
     if (!association) {
-      throw new Error('Association Not Found');
+      throw new Error(ERROR.ASSO_NOT_FOUND);
     }
     return await this.newsRepository.findAllAssociationNews(associationId);
   }
@@ -53,7 +54,7 @@ export class NewsService {
   public async findOne(id: number): Promise<NewsDto> {
     const news = await this.newsRepository.findOne(id);
     if (!news) {
-      throw new Error('News Not Found');
+      throw new Error(ERROR.NEWS_NOT_FOUND);
     }
     return news;
   }
@@ -61,7 +62,7 @@ export class NewsService {
   public async update(id: number, updateNewsDto: UpdateNewsDto): Promise<NewsDto> {
     const event = await this.newsRepository.findOne(id);
     if (!event) {
-      throw new Error('News Not Found');
+      throw new Error(ERROR.NEWS_NOT_FOUND);
     }
 
     return this.newsRepository.update(id, updateNewsDto);
@@ -73,7 +74,7 @@ export class NewsService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2025') {
-          throw new Error('News To Delete Not Found');
+          throw new Error(ERROR.NEWS_NOT_FOUND);
         }
       }
     }
