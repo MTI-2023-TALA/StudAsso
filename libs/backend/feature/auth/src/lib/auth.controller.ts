@@ -3,6 +3,7 @@ import { BadRequestException, Body, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
 import { AuthService } from './auth.service';
+import { ERROR } from '@stud-asso/backend/core/error';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
 @SwaggerController('auth')
@@ -32,7 +33,7 @@ export class AuthController {
     if (result) {
       return result;
     }
-    throw new BadRequestException('Invalid Google Token');
+    throw new BadRequestException(ERROR.INVALID_GOOGLE_TOKEN);
   }
 
   @Post('logout')

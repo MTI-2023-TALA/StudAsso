@@ -5,6 +5,7 @@ import { AuthDto, CreateUserDto, TokenDto, UserDto } from '@stud-asso/shared/dto
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
+import { ERROR } from '@stud-asso/backend/core/error';
 import { JwtPayload } from '@stud-asso/backend-core-auth';
 import { JwtService } from '@nestjs/jwt';
 import { Prisma } from '@prisma/client';
@@ -41,7 +42,7 @@ export class AuthService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'email') {
-          throw new Error('Email Already Used');
+          throw new Error(ERROR.EMAIL_ALREADY_USED);
         }
       }
     }
@@ -54,12 +55,12 @@ export class AuthService {
   async signinLocal(dto: AuthDto): Promise<TokenDto> {
     const user = await this.userRepository.findOneByEmail(dto.email);
     if (!user) {
-      throw new ForbiddenException('Access Denied');
+      throw new ForbiddenException(ERROR.ACCESS_DENIED);
     }
 
     const passwordMatches = await argon.verify(user.passwordHash, dto.password);
     if (!passwordMatches) {
-      throw new Error('Access Denied');
+      throw new Error(ERROR.ACCESS_DENIED);
     }
 
     const tokens = await this._getTokens(user.id, dto.email);
@@ -98,12 +99,12 @@ export class AuthService {
   async refreshToken(userId: number, rt: string): Promise<TokenDto> {
     const user = await this.userRepository.findOne(userId);
     if (!user || !user.rtHash) {
-      throw new ForbiddenException('Access Denied');
+      throw new ForbiddenException(ERROR.ACCESS_DENIED);
     }
 
     const rtMatches = await argon.verify(user.rtHash, rt);
     if (!rtMatches) {
-      throw new ForbiddenException('Access Denied');
+      throw new ForbiddenException(ERROR.ACCESS_DENIED);
     }
 
     const tokens = await this._getTokens(user.id, user.email);
