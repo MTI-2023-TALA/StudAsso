@@ -8,6 +8,7 @@ import { EventsService } from './events.service';
 describe('EventsController', () => {
   let controller: EventsController;
   let service: EventsService;
+
   let mockedEvents: EventDto[];
   let mockedAssociations: AssociationDto[];
 
