@@ -13,6 +13,25 @@ export class UsersService {
     return this.userRepository.findAll();
   }
 
+  public async findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
+    return this.userRepository.findAllIdAndEmail();
+  }
+
+  public async findAssoOfUser(id: number): Promise<AssociationOfUserDto> {
+    const res = await this.userRepository.findAssoOfUser(id);
+    return {
+      id: res.id,
+      associationsId: res.associationsMembers?.map((association) => ({
+        id: association.associationId,
+        name: association.association.name,
+      })),
+    };
+  }
+
+  public async findAllByName(name: string): Promise<UserDto[]> {
+    return this.userRepository.findAllByName(name);
+  }
+
   public async findOne(id: number): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
@@ -44,24 +63,5 @@ export class UsersService {
       throw new Error(ERROR.USER_NOT_FOUND);
     }
     return this.userRepository.delete(id);
-  }
-
-  public async findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
-    return this.userRepository.findAllIdAndEmail();
-  }
-
-  public async findAssoOfUser(id: number): Promise<AssociationOfUserDto> {
-    const res = await this.userRepository.findAssoOfUser(id);
-    return {
-      id: res.id,
-      associationsId: res.associationsMembers?.map((association) => ({
-        id: association.associationId,
-        name: association.association.name,
-      })),
-    };
-  }
-
-  public async findAllByName(name: string): Promise<UserDto[]> {
-    return this.userRepository.findAllByName(name);
   }
 }
