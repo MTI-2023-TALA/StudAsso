@@ -1,9 +1,6 @@
 import {
   AssociationDto,
-  AssociationIdAndNameDto,
-  AssociationOfUserDto,
   AssociationsMemberDto,
-  CreateUserDto,
   RoleDto,
   UpdateUserDto,
   UserDto,
@@ -125,10 +122,6 @@ describe('UsersController', () => {
               if (updateUserPayload.email && mockedUsers.find((user) => user.email === updateUserPayload.email)) {
                 throw new Error(ERROR.EMAIL_ALREADY_USED);
               }
-              // updateUser = {
-              //   ...updateUser,
-              //   ...updateUserPayload,
-              // };
               if ('firstname' in updateUserPayload) updateUser.firstname = updateUserPayload.firstname;
               if ('lastname' in updateUserPayload) updateUser.lastname = updateUserPayload.lastname;
               if ('email' in updateUserPayload) updateUser.email = updateUserPayload.email;
