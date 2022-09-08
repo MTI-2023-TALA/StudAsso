@@ -1,5 +1,5 @@
 import { ApiAuthService, GoogleApiService } from '@stud-asso/frontend-core-api';
-import { AuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { AuthDto, CreateAccountDto, TokenDto } from '@stud-asso/shared/dtos';
 import { UseStorage, getData, removeData, setData } from '@stud-asso/frontend-core-storage';
 import { catchError, throwError } from 'rxjs';
 
@@ -53,8 +53,14 @@ export class AuthService {
     return false;
   }
 
-  public tryToSignUp(email: string, password: string, association: boolean = false) {
-    const payload: AuthDto = { email, password };
+  public tryToSignUp(
+    email: string,
+    password: string,
+    firstname: string,
+    lastname: string,
+    association: boolean = false
+  ) {
+    const payload: CreateAccountDto = { email, password, firstname, lastname };
     this.apiAuthService.signupLocal(payload).subscribe((res: TokenDto) => {
       this.jwt = res.accessToken;
       this.refreshToken = res.refreshToken;

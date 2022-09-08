@@ -1,4 +1,4 @@
-import { AuthDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { AuthDto, CreateAccountDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
 import { BadRequestException, Body, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
@@ -12,7 +12,7 @@ export class AuthController {
 
   @Public()
   @Post('local/signup')
-  async signupLocal(@Body() dto: AuthDto): Promise<TokenDto> {
+  async signupLocal(@Body() dto: CreateAccountDto): Promise<TokenDto> {
     try {
       return await this.authService.signupLocal(dto);
     } catch (error) {
