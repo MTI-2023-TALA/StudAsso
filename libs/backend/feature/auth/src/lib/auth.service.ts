@@ -1,7 +1,7 @@
 import * as argon from 'argon2';
 
 import { Auth, google } from 'googleapis';
-import { AuthDto, CreateUserDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
+import { AuthDto, CreateAccountDto, CreateUserDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
@@ -25,15 +25,15 @@ export class AuthService {
     this.oauthClient = new google.auth.OAuth2(clientId, clientSecret);
   }
 
-  async signupLocal(dto: AuthDto): Promise<TokenDto> {
+  async signupLocal(dto: CreateAccountDto): Promise<TokenDto> {
     const hash = await argon.hash(dto.password);
 
     let user: UserDto;
 
     try {
       const createUserDto: CreateUserDto = {
-        firstname: dto.email,
-        lastname: dto.email,
+        firstname: dto.firstname,
+        lastname: dto.lastname,
         email: dto.email,
         isSchoolEmployee: false,
         passwordHash: hash,
