@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AssociationPageComponent } from '@stud-asso/frontend/feature/school/association-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
+import { MyAccountPageComponent } from '@stud-asso/frontend/shared/my-account-page';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NgModule } from '@angular/core';
 
@@ -28,6 +29,10 @@ const routes: Routes = [
       {
         path: 'associations',
         component: AssociationPageComponent,
+      },
+      {
+        path: 'my-account',
+        component: MyAccountPageComponent,
       },
     ],
   },
