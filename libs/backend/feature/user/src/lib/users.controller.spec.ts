@@ -1,10 +1,4 @@
-import {
-  AssociationDto,
-  AssociationsMemberDto,
-  RoleDto,
-  UpdateUserDto,
-  UserDto,
-} from '@stud-asso/shared/dtos';
+import { AssociationDto, AssociationsMemberDto, RoleDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
