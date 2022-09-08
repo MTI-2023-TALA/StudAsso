@@ -40,6 +40,7 @@
     "frontend-shared-login-page": "libs/frontend/shared/login-page",
     "frontend-shared-main-routing-component": "libs/frontend/shared/main-routing-component",
     "frontend-shared-modal": "libs/frontend/shared/modal",
+    "frontend-shared-my-account-page": "libs/frontend/shared/my-account-page",
     "frontend-shared-navbar": "libs/frontend/shared/navbar",
     "frontend-shared-table": "libs/frontend/shared/table",
     "frontend-shared-tags": "libs/frontend/shared/tags",

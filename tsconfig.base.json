@@ -68,6 +68,7 @@
       "@stud-asso/frontend/feature/student/news-page": ["libs/frontend/feature/student/news-page/src/index.ts"],
       "@stud-asso/frontend/shared/generic-page": ["libs/frontend/shared/generic-page/src/index.ts"],
       "@stud-asso/frontend/shared/login-page": ["libs/frontend/shared/login-page/src/index.ts"],
+      "@stud-asso/frontend/shared/my-account-page": ["libs/frontend/shared/my-account-page/src/index.ts"],
       "@stud-asso/frontend/shared/tags": ["libs/frontend/shared/tags/src/index.ts"],
       "@stud-asso/frontend/shared/tooltip": ["libs/frontend/shared/tooltip/src/index.ts"],
       "@stud-asso/frontend/testing/common-mock": ["libs/frontend/testing/common-mock/src/index.ts"],

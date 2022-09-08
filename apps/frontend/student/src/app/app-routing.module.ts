@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AssociationListPageComponent } from '@stud-asso/frontend/feature/student/association-list-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
+import { MyAccountPageComponent } from '@stud-asso/frontend/shared/my-account-page';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NewsPageComponent } from '@stud-asso/frontend/feature/student/news-page';
 import { NgModule } from '@angular/core';
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'news',
         component: NewsPageComponent,
+      },
+      {
+        path: 'my-account',
+        component: MyAccountPageComponent,
       },
     ],
   },

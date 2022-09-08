@@ -1,0 +1,35 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/frontend/shared/my-account-page/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/shared/my-account-page"],
+      "options": {
+        "jestConfig": "libs/frontend/shared/my-account-page/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/shared/my-account-page/**/*.ts",
+          "libs/frontend/shared/my-account-page/**/*.html"
+        ]
+      }
+    },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/shared/my-account-page/**/*.css",
+          "libs/frontend/shared/my-account-page/**/*.scss"
+        ]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-shared"]
+}
