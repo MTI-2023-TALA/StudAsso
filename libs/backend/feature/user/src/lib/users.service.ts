@@ -82,7 +82,7 @@ export class UsersService {
     if (!user) {
       throw new Error(ERROR.USER_NOT_FOUND);
     }
-    return await this.userRepository.update(userId, updateUserDto);
+    return this.userRepository.update(userId, updateUserDto);
   }
 
   public async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
