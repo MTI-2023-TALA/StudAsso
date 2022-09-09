@@ -1,4 +1,4 @@
-import { AssociationDto, AssociationsMemberDto, RoleDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
+import { AssociationDto, AssociationsMemberDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
@@ -12,7 +12,6 @@ describe('UsersController', () => {
   let mockedAssociations: AssociationDto[];
   let mockedAssociationsMember: AssociationsMemberDto[];
   let mockedUsers: UserDto[];
-  let mockedRoles: RoleDto[];
 
   beforeEach(async () => {
     mockedAssociations = [
@@ -56,18 +55,12 @@ describe('UsersController', () => {
         email: 'obi-wan.kenobi@test.test',
         isSchoolEmployee: true,
       },
-    ];
-
-    mockedRoles = [
       {
-        id: 1,
-        name: 'President',
-        associationId: 1,
-      },
-      {
-        id: 2,
-        name: 'President',
-        associationId: 2,
+        id: 3,
+        firstname: 'John',
+        lastname: 'Cena',
+        email: 'john.cena@test.test',
+        isSchoolEmployee: false,
       },
     ];
 
@@ -84,10 +77,7 @@ describe('UsersController', () => {
               return Promise.resolve(mockedUsers.map((user) => ({ id: user.id, email: user.email })));
             }),
             findAssoOfUser: jest.fn((id: number) => {
-              const associationMembers = mockedAssociationsMember.filter(
-                (associationMember) => associationMember.userId === id
-              );
-              return associationMembers.map((assoMember) => {
+              const associationMembersFormatted = mockedAssociationsMember.map((assoMember) => {
                 const association = mockedAssociations.find((asso) => asso.id === assoMember.associationId);
                 return {
                   id: assoMember.userId,
@@ -97,6 +87,9 @@ describe('UsersController', () => {
                   },
                 };
               });
+              const result = associationMembersFormatted.find((assoMember) => assoMember.id === id);
+              if (!result) return Promise.resolve({ id, associationsId: [] });
+              return Promise.resolve(result);
             }),
             findAllByName: jest.fn((name: string) => {
               return Promise.resolve(
@@ -164,9 +157,9 @@ describe('UsersController', () => {
   describe('Find Asso Of User', () => {
     it('should find no asso of user', async () => {
       const findAssoOfUser = jest.spyOn(service, 'findAssoOfUser');
-      const userId = -1;
+      const userId = 3;
 
-      expect(await controller.findAssoOfUser(userId)).toEqual([]);
+      expect(await controller.findAssoOfUser(userId)).toEqual({ id: userId, associationsId: [] });
       expect(findAssoOfUser).toHaveBeenCalledTimes(1);
       expect(findAssoOfUser).toHaveBeenCalledWith(userId);
     });
@@ -175,15 +168,13 @@ describe('UsersController', () => {
       const findAssoOfUser = jest.spyOn(service, 'findAssoOfUser');
       const userId = 1;
 
-      const expected = [
-        {
+      const expected = {
+        id: userId,
+        associationsId: {
           id: 1,
-          associationsId: {
-            id: 1,
-            name: 'Association 1',
-          },
+          name: 'Association 1',
         },
-      ];
+      };
 
       expect(await controller.findAssoOfUser(userId)).toEqual(expected);
       expect(findAssoOfUser).toHaveBeenCalledTimes(1);
