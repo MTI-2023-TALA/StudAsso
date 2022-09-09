@@ -88,7 +88,6 @@ describe('UsersController', () => {
                   name: association.name,
                 });
               });
-              if (!associationsId) return Promise.resolve({ id, associationsId: [] });
               return Promise.resolve({ id, associationsId });
             }),
             findAllByName: jest.fn((name: string) => {
