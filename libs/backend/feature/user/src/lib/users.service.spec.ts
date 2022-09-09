@@ -292,7 +292,7 @@ describe('UsersService', () => {
       const findOne = jest.spyOn(userRepository, 'findOne');
       const userId = -1;
 
-      expect(() => service.findOne(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.findOne(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(findOne).toBeCalledTimes(1);
       expect(findOne).toBeCalledWith(userId);
     });
@@ -349,7 +349,7 @@ describe('UsersService', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => service.update(userId, updateUserPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.update(userId, updateUserPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(update).toBeCalledTimes(0);
     });
 
@@ -360,7 +360,7 @@ describe('UsersService', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => service.update(userId, updateUserPayload)).rejects.toThrow(ERROR.EMAIL_ALREADY_USED);
+      expect(service.update(userId, updateUserPayload)).rejects.toThrow(ERROR.EMAIL_ALREADY_USED);
       expect(update).toBeCalledTimes(0);
     });
 
@@ -389,7 +389,7 @@ describe('UsersService', () => {
       const deleteUser = jest.spyOn(userRepository, 'delete');
       const userId = -1;
 
-      expect(() => service.delete(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.delete(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(deleteUser).toBeCalledTimes(0);
     });
 
