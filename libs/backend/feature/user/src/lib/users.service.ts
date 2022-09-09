@@ -58,12 +58,10 @@ export class UsersService {
       throw new Error(ERROR.USER_NOT_FOUND);
     }
     const associationsWithRoles = await this.userRepository.findCurrentUserAsso(userId);
-    return associationsWithRoles.map((associationWithRole) => {
-      return {
-        associationName: associationWithRole.association.name,
-        roleName: associationWithRole.role.name,
-      };
-    });
+    return associationsWithRoles.map((associationWithRole) => ({
+      associationName: associationWithRole.association.name,
+      roleName: associationWithRole.role.name,
+    }));
   }
 
   public async findOne(id: number): Promise<UserDto> {
