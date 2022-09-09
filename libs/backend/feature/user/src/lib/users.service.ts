@@ -1,4 +1,11 @@
-import { AssociationOfUserDto, UpdateUserDto, UserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationOfUserDto,
+  SimpleUserDto,
+  UpdateUserDto,
+  UpdateUserFirstLastNameDto,
+  UserDto,
+  UserIdAndEmailDto,
+} from '@stud-asso/shared/dtos';
 
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
@@ -32,12 +39,35 @@ export class UsersService {
     return this.userRepository.findAllByName(name);
   }
 
+  public async getCurrentUserInfo(userId: number): Promise<SimpleUserDto> {
+    const user = await this.userRepository.findOne(userId);
+    if (!user) {
+      throw new Error(ERROR.USER_NOT_FOUND);
+    }
+    return {
+      email: user.email,
+      firstname: user.firstname,
+      lastname: user.lastname,
+    };
+  }
+
   public async findOne(id: number): Promise<UserDto> {
     const user = await this.userRepository.findOne(id);
     if (!user) {
       throw new Error(ERROR.USER_NOT_FOUND);
     }
     return user;
+  }
+
+  public async updateCurrentUserInfo(
+    userId: number,
+    updateUserDto: UpdateUserFirstLastNameDto
+  ): Promise<SimpleUserDto> {
+    const user = await this.userRepository.findOne(userId);
+    if (!user) {
+      throw new Error(ERROR.USER_NOT_FOUND);
+    }
+    return await this.userRepository.update(userId, updateUserDto);
   }
 
   public async update(id: number, updateUserDto: UpdateUserDto): Promise<UserDto> {
