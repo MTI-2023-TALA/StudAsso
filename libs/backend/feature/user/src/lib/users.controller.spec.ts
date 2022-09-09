@@ -377,9 +377,7 @@ describe('UsersController', () => {
         lastname: 'new lastname',
       };
 
-      expect(controller.updateCurrentUserInfo(id, updateUserPayload)).rejects.toThrow(
-        new Error(ERROR.USER_NOT_FOUND)
-      );
+      expect(controller.updateCurrentUserInfo(id, updateUserPayload)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
       expect(updateCurrentUserInfo).toHaveBeenCalledTimes(1);
       expect(updateCurrentUserInfo).toHaveBeenCalledWith(id, updateUserPayload);
     });
