@@ -77,19 +77,19 @@ describe('UsersController', () => {
               return Promise.resolve(mockedUsers.map((user) => ({ id: user.id, email: user.email })));
             }),
             findAssoOfUser: jest.fn((id: number) => {
-              const associationMembersFormatted = mockedAssociationsMember.map((assoMember) => {
-                const association = mockedAssociations.find((asso) => asso.id === assoMember.associationId);
-                return {
-                  id: assoMember.userId,
-                  associationsId: {
-                    id: association.id,
-                    name: association.name,
-                  },
-                };
+              const filteredAssociationMembers = mockedAssociationsMember.filter(
+                (associationMember) => associationMember.userId === id
+              );
+              const associationsId = [];
+              filteredAssociationMembers.forEach((associationMember) => {
+                const association = mockedAssociations.find((asso) => asso.id === associationMember.associationId);
+                associationsId.push({
+                  id: association.id,
+                  name: association.name,
+                });
               });
-              const result = associationMembersFormatted.find((assoMember) => assoMember.id === id);
-              if (!result) return Promise.resolve({ id, associationsId: [] });
-              return Promise.resolve(result);
+              if (!associationsId) return Promise.resolve({ id, associationsId: [] });
+              return Promise.resolve({ id, associationsId });
             }),
             findAllByName: jest.fn((name: string) => {
               return Promise.resolve(
@@ -170,10 +170,12 @@ describe('UsersController', () => {
 
       const expected = {
         id: userId,
-        associationsId: {
-          id: 1,
-          name: 'Association 1',
-        },
+        associationsId: [
+          {
+            id: 1,
+            name: 'Association 1',
+          },
+        ],
       };
 
       expect(await controller.findAssoOfUser(userId)).toEqual(expected);
