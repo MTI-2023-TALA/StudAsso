@@ -1,4 +1,5 @@
 import {
+  AssociationAndRoleNameModel,
   AssociationOfUserModel,
   SimplifiedUserModel,
   UserIdAndEmailModel,
@@ -59,6 +60,24 @@ export class UserRepository {
         lastname: true,
         email: true,
         isSchoolEmployee: true,
+      },
+    });
+  }
+
+  public async findCurrentUserAsso(userId: number): Promise<AssociationAndRoleNameModel[]> {
+    return this.prisma.associationMember.findMany({
+      where: { userId },
+      select: {
+        role: {
+          select: {
+            name: true,
+          },
+        },
+        association: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
   }

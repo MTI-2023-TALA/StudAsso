@@ -1,3 +1,4 @@
+import { RoleNameModel } from './role.model';
 import { UserIdAndUserModel } from './associations-member.model';
 
 export class AssociationModel {
@@ -24,4 +25,9 @@ export class AssociationPresidentModel {
 
 export class AssociationNameModel {
   name: string;
+}
+
+export class AssociationAndRoleNameModel {
+  role: RoleNameModel;
+  association: AssociationNameModel;
 }

@@ -44,6 +44,16 @@ export class UpdateUserDto {
   isSchoolEmployee?: boolean;
 }
 
+export class UpdateUserFirstLastNameDto {
+  @IsOptional()
+  @IsString()
+  firstname?: string;
+
+  @IsOptional()
+  @IsString()
+  lastname?: string;
+}
+
 // Response DTOs
 
 export class UserDto {
@@ -59,9 +69,10 @@ export class UserIdAndEmailDto {
   email: string;
 }
 
-export class AssociationOfUserDto {
-  id: number;
-  associationsId: AssociationIdAndNameDto[];
+export class SimpleUserDto {
+  firstname: string;
+  lastname: string;
+  email: string;
 }
 
 export class UserWithoutIdDto {
@@ -69,4 +80,9 @@ export class UserWithoutIdDto {
   lastname: string;
   email: string;
   isSchoolEmployee: boolean;
+}
+
+export class AssociationOfUserDto {
+  id: number;
+  associationsId: AssociationIdAndNameDto[];
 }

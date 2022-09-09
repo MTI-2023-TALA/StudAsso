@@ -1,4 +1,11 @@
-import { AssociationDto, AssociationsMemberDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationDto,
+  AssociationsMemberDto,
+  RoleDto,
+  UpdateUserDto,
+  UpdateUserFirstLastNameDto,
+  UserDto,
+} from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
@@ -11,6 +18,7 @@ describe('UsersController', () => {
 
   let mockedAssociations: AssociationDto[];
   let mockedAssociationsMember: AssociationsMemberDto[];
+  let mockedRoles: RoleDto[];
   let mockedUsers: UserDto[];
 
   beforeEach(async () => {
@@ -64,6 +72,19 @@ describe('UsersController', () => {
       },
     ];
 
+    mockedRoles = [
+      {
+        id: 1,
+        name: 'Président',
+        associationId: 1,
+      },
+      {
+        id: 2,
+        name: 'Président',
+        associationId: 2,
+      },
+    ];
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UsersController],
       providers: [
@@ -95,12 +116,49 @@ describe('UsersController', () => {
                 mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
               );
             }),
+            findCurrentUserInfo: jest.fn((userId: number) => {
+              const user = mockedUsers.find((user) => user.id === userId);
+              if (!user) {
+                throw new Error(ERROR.USER_NOT_FOUND);
+              }
+              return Promise.resolve({
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+              });
+            }),
+            findCurrentUserAsso: jest.fn((userId: number) => {
+              const user = mockedUsers.find((user) => user.id === userId);
+              if (!user) {
+                throw new Error(ERROR.USER_NOT_FOUND);
+              }
+              const filteredAssociationMembers = mockedAssociationsMember.filter(
+                (associationMember) => associationMember.userId === userId
+              );
+              return Promise.resolve(
+                filteredAssociationMembers.map((associationMember) => {
+                  const association = mockedAssociations.find((asso) => asso.id === associationMember.associationId);
+                  const role = mockedRoles.find((role) => role.id === associationMember.roleId);
+                  return {
+                    associationName: association.name,
+                    roleName: role.name,
+                  };
+                })
+              );
+            }),
             findOne: jest.fn((id: number) => {
               const findUser = mockedUsers.find((user) => user.id === id);
               if (!findUser) {
                 throw new Error(ERROR.USER_NOT_FOUND);
               }
               return Promise.resolve(findUser);
+            }),
+            updateCurrentUserInfo: jest.fn((userId: number, updateUserPayload: UpdateUserFirstLastNameDto) => {
+              const updateUser = mockedUsers.find((user) => user.id === userId);
+              if (!updateUser) throw new Error(ERROR.USER_NOT_FOUND);
+              if ('firstname' in updateUserPayload) updateUser.firstname = updateUserPayload.firstname;
+              if ('lastname' in updateUserPayload) updateUser.lastname = updateUserPayload.lastname;
+              return Promise.resolve(updateUser);
             }),
             update: jest.fn((id: number, updateUserPayload: UpdateUserDto) => {
               const updateUser = mockedUsers.find((user) => user.id === id);
@@ -203,12 +261,63 @@ describe('UsersController', () => {
     });
   });
 
+  describe('Find Current User Info', () => {
+    it('should fail to find current user', async () => {
+      const findCurrentUserInfo = jest.spyOn(service, 'findCurrentUserInfo');
+      const id = -1;
+
+      expect(controller.findCurrentUserInfo(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
+      expect(findCurrentUserInfo).toHaveBeenCalledTimes(1);
+      expect(findCurrentUserInfo).toHaveBeenCalledWith(+id);
+    });
+
+    it('should find current user', async () => {
+      const findCurrentUserInfo = jest.spyOn(service, 'findCurrentUserInfo');
+      const id = 1;
+
+      const expected = {
+        firstname: mockedUsers[0].firstname,
+        lastname: mockedUsers[0].lastname,
+        email: mockedUsers[0].email,
+      };
+      expect(await controller.findCurrentUserInfo(id)).toEqual(expected);
+      expect(findCurrentUserInfo).toHaveBeenCalledTimes(1);
+      expect(findCurrentUserInfo).toHaveBeenCalledWith(+id);
+    });
+  });
+
+  describe('Find Current User Asso', () => {
+    it('should fail to find current user asso', async () => {
+      const findCurrentUserAsso = jest.spyOn(service, 'findCurrentUserAsso');
+      const id = -1;
+
+      expect(controller.findCurrentUserAsso(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
+      expect(findCurrentUserAsso).toHaveBeenCalledWith(+id);
+    });
+
+    it('should find current user', async () => {
+      const findCurrentUserAsso = jest.spyOn(service, 'findCurrentUserAsso');
+      const id = 1;
+
+      const expected = [
+        {
+          associationName: 'Association 1',
+          roleName: 'Président',
+        },
+      ];
+
+      expect(await controller.findCurrentUserAsso(id)).toEqual(expected);
+      expect(findCurrentUserAsso).toHaveBeenCalledTimes(1);
+      expect(findCurrentUserAsso).toHaveBeenCalledWith(+id);
+    });
+  });
+
   describe('Find One User', () => {
     it('should fail to find one user', async () => {
       const findOne = jest.spyOn(service, 'findOne');
       const id = '-1';
 
-      expect(() => controller.findOne(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
+      expect(controller.findOne(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
       expect(findOne).toHaveBeenCalledTimes(1);
       expect(findOne).toHaveBeenCalledWith(+id);
     });
@@ -233,7 +342,7 @@ describe('UsersController', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => controller.update(id, updateUserPayload)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
+      expect(controller.update(id, updateUserPayload)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
       expect(update).toHaveBeenCalledTimes(1);
       expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
@@ -259,12 +368,46 @@ describe('UsersController', () => {
     });
   });
 
+  describe('Update Current User Info', () => {
+    it('should fail to update current user info', async () => {
+      const updateCurrentUserInfo = jest.spyOn(service, 'updateCurrentUserInfo');
+      const id = -1;
+      const updateUserPayload = {
+        firstname: 'new firstname',
+        lastname: 'new lastname',
+      };
+
+      expect(controller.updateCurrentUserInfo(id, updateUserPayload)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
+      expect(updateCurrentUserInfo).toHaveBeenCalledTimes(1);
+      expect(updateCurrentUserInfo).toHaveBeenCalledWith(id, updateUserPayload);
+    });
+
+    it('should update current user info', async () => {
+      const updateCurrentUserInfo = jest.spyOn(service, 'updateCurrentUserInfo');
+      const id = 2;
+      const updateUserPayload: UpdateUserDto = {
+        firstname: 'new firstname',
+        lastname: 'new lastname',
+      };
+
+      const updatedUser: UserDto = {
+        ...mockedUsers[+id - 1],
+        ...updateUserPayload,
+      };
+
+      expect(await controller.updateCurrentUserInfo(id, updateUserPayload)).toEqual(updatedUser);
+      expect(mockedUsers).toContainEqual(updatedUser);
+      expect(updateCurrentUserInfo).toHaveBeenCalledTimes(1);
+      expect(updateCurrentUserInfo).toHaveBeenCalledWith(id, updateUserPayload);
+    });
+  });
+
   describe('Delete User', () => {
     it('should fail to delete a non-existing user', async () => {
       const deleteOne = jest.spyOn(service, 'delete');
       const id = '-1';
 
-      expect(() => controller.delete(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
+      expect(controller.delete(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
       expect(deleteOne).toHaveBeenCalledTimes(1);
       expect(deleteOne).toHaveBeenCalledWith(+id);
     });

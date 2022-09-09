@@ -1,4 +1,4 @@
-import { AssociationDto, AssociationsMemberDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
+import { AssociationDto, AssociationsMemberDto, RoleDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
@@ -12,6 +12,7 @@ describe('UsersService', () => {
 
   let mockedAssociations: AssociationDto[];
   let mockedAssociationsMember: AssociationsMemberDto[];
+  let mockedRoles: RoleDto[];
   let mockedUsers: UserDto[];
 
   beforeEach(async () => {
@@ -64,6 +65,20 @@ describe('UsersService', () => {
         isSchoolEmployee: false,
       },
     ];
+
+    mockedRoles = [
+      {
+        id: 1,
+        name: 'Président',
+        associationId: 1,
+      },
+      {
+        id: 2,
+        name: 'Président',
+        associationId: 2,
+      },
+    ];
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
@@ -99,6 +114,27 @@ describe('UsersService', () => {
               return Promise.resolve(
                 mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
               );
+            }),
+            findCurrentUserAsso: jest.fn((userId: number) => {
+              const associationsAndRoleName = [];
+              const filteredAssociationMembers = mockedAssociationsMember.filter(
+                (associationMember) => associationMember.userId === userId
+              );
+              filteredAssociationMembers.forEach((associationMember) => {
+                const association = mockedAssociations.find(
+                  (association) => association.id === associationMember.associationId
+                );
+                const role = mockedRoles.find((role) => role.id === associationMember.roleId);
+                associationsAndRoleName.push({
+                  role: {
+                    name: role.name,
+                  },
+                  association: {
+                    name: association.name,
+                  },
+                });
+              });
+              return Promise.resolve(associationsAndRoleName);
             }),
             findOne: jest.fn((id: number) => {
               return Promise.resolve(mockedUsers.find((user) => user.id === id));
@@ -199,12 +235,64 @@ describe('UsersService', () => {
     });
   });
 
+  describe('Find Current User Info', () => {
+    it('should try to find current user and fail', async () => {
+      const findOne = jest.spyOn(userRepository, 'findOne');
+      const userId = -1;
+
+      expect(service.findCurrentUserInfo(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(findOne).toBeCalledTimes(1);
+      expect(findOne).toBeCalledWith(userId);
+    });
+
+    it('should find current user info', async () => {
+      const findOne = jest.spyOn(userRepository, 'findOne');
+      const userId = 1;
+
+      const expected = {
+        firstname: mockedUsers[0].firstname,
+        lastname: mockedUsers[0].lastname,
+        email: mockedUsers[0].email,
+      };
+
+      expect(await service.findCurrentUserInfo(userId)).toEqual(expected);
+      expect(findOne).toBeCalledTimes(1);
+      expect(findOne).toBeCalledWith(userId);
+    });
+  });
+
+  describe('Find Current User Assos', () => {
+    it('should try to find current user assos and fail', async () => {
+      const findCurrentUserAsso = jest.spyOn(userRepository, 'findCurrentUserAsso');
+      const userId = -1;
+
+      expect(service.findCurrentUserAsso(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(findCurrentUserAsso).toBeCalledTimes(0);
+    });
+
+    it('should find current user assos', async () => {
+      const findCurrentUserAsso = jest.spyOn(userRepository, 'findCurrentUserAsso');
+      const userId = 1;
+
+      const expected = [
+        {
+          associationName: 'Association 1',
+          roleName: 'Président',
+        },
+      ];
+
+      expect(await service.findCurrentUserAsso(userId)).toEqual(expected);
+      expect(findCurrentUserAsso).toBeCalledTimes(1);
+      expect(findCurrentUserAsso).toBeCalledWith(userId);
+    });
+  });
+
   describe('Find One User', () => {
     it('should try to find an user by id and fail', async () => {
       const findOne = jest.spyOn(userRepository, 'findOne');
       const userId = -1;
 
-      expect(() => service.findOne(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.findOne(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(findOne).toBeCalledTimes(1);
       expect(findOne).toBeCalledWith(userId);
     });
@@ -219,6 +307,38 @@ describe('UsersService', () => {
     });
   });
 
+  describe('Update Current User Info', () => {
+    it('should fail to update current user info because it does not exist', async () => {
+      const update = jest.spyOn(userRepository, 'update');
+      const userId = -1;
+      const updateUserPayload = {
+        firstname: 'new firstname',
+        lastname: 'new lastname',
+      };
+
+      expect(service.updateCurrentUserInfo(userId, updateUserPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(update).toBeCalledTimes(0);
+    });
+
+    it('should update current user info', async () => {
+      const update = jest.spyOn(userRepository, 'update');
+      const userId = 1;
+      const updateUserPayload = {
+        firstname: 'new firstname',
+        lastname: 'new lastname',
+      };
+
+      const updatedUser = {
+        ...mockedUsers[userId - 1],
+        ...updateUserPayload,
+      };
+
+      expect(await service.updateCurrentUserInfo(userId, updateUserPayload)).toEqual(updatedUser);
+      expect(update).toBeCalledTimes(1);
+      expect(update).toBeCalledWith(userId, updateUserPayload);
+    });
+  });
+
   describe('Update User', () => {
     it('should fail to update a non-existing user', async () => {
       const update = jest.spyOn(userRepository, 'update');
@@ -229,7 +349,7 @@ describe('UsersService', () => {
         email: 'qui-gon.jinn@test.test',
       };
 
-      expect(() => service.update(userId, updateUserPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.update(userId, updateUserPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(update).toBeCalledTimes(0);
     });
 
@@ -240,7 +360,7 @@ describe('UsersService', () => {
         email: 'anakin.skywalker@test.test',
       };
 
-      expect(() => service.update(userId, updateUserPayload)).rejects.toThrow(ERROR.EMAIL_ALREADY_USED);
+      expect(service.update(userId, updateUserPayload)).rejects.toThrow(ERROR.EMAIL_ALREADY_USED);
       expect(update).toBeCalledTimes(0);
     });
 
@@ -269,7 +389,7 @@ describe('UsersService', () => {
       const deleteUser = jest.spyOn(userRepository, 'delete');
       const userId = -1;
 
-      expect(() => service.delete(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.delete(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(deleteUser).toBeCalledTimes(0);
     });
 
