@@ -1,4 +1,5 @@
 import {
+  AssociationAndRoleNameDto,
   AssociationOfUserDto,
   SimpleUserDto,
   UpdateUserDto,
@@ -39,7 +40,7 @@ export class UsersService {
     return this.userRepository.findAllByName(name);
   }
 
-  public async getCurrentUserInfo(userId: number): Promise<SimpleUserDto> {
+  public async findCurrentUserInfo(userId: number): Promise<SimpleUserDto> {
     const user = await this.userRepository.findOne(userId);
     if (!user) {
       throw new Error(ERROR.USER_NOT_FOUND);
@@ -49,6 +50,20 @@ export class UsersService {
       firstname: user.firstname,
       lastname: user.lastname,
     };
+  }
+
+  public async findCurrentUserAsso(userId: number): Promise<AssociationAndRoleNameDto[]> {
+    const user = await this.userRepository.findOne(userId);
+    if (!user) {
+      throw new Error(ERROR.USER_NOT_FOUND);
+    }
+    const associationsWithRoles = await this.userRepository.findCurrentUserAsso(userId);
+    return associationsWithRoles.map((associationWithRole) => {
+      return {
+        associationName: associationWithRole.association.name,
+        roleName: associationWithRole.role.name,
+      };
+    });
   }
 
   public async findOne(id: number): Promise<UserDto> {

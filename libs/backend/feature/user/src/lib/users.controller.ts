@@ -1,4 +1,5 @@
 import {
+  AssociationAndRoleNameDto,
   AssociationOfUserDto,
   SimpleUserDto,
   UpdateUserDto,
@@ -6,7 +7,7 @@ import {
   UserDto,
   UserIdAndEmailDto,
 } from '@stud-asso/shared/dtos';
-import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
+import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch } from '@nestjs/common';
 
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -38,9 +39,18 @@ export class UsersController {
   }
 
   @Get('me')
-  public async getCurrentUserInfo(@GetCurrentUserId() userId: number): Promise<SimpleUserDto> {
+  public async findCurrentUserInfo(@GetCurrentUserId() userId: number): Promise<SimpleUserDto> {
     try {
-      return await this.usersService.getCurrentUserInfo(userId);
+      return await this.usersService.findCurrentUserInfo(userId);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
+  @Get('me/asso')
+  public async findCurrentUserAsso(@GetCurrentUserId() userId: number): Promise<AssociationAndRoleNameDto[]> {
+    try {
+      return await this.usersService.findCurrentUserAsso(userId);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

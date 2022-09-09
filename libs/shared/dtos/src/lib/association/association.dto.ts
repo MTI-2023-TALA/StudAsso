@@ -50,3 +50,8 @@ export class AssociationMemberWithRoleDto {
   lastname: string;
   roleName: string;
 }
+
+export class AssociationAndRoleNameDto {
+  associationName: string;
+  roleName: string;
+}
