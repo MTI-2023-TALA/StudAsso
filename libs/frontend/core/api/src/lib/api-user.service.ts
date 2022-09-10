@@ -1,4 +1,9 @@
-import { AssociationOfUserDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationOfUserDto,
+  SimpleUserDto,
+  UpdateUserFirstLastNameDto,
+  UserIdAndEmailDto,
+} from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -22,5 +27,13 @@ export class ApiUserService extends ApiBaseService {
 
   getUserAsso(): Observable<AssociationOfUserDto> {
     return this.api.get<AssociationOfUserDto>(`${this.url}/asso`);
+  }
+
+  getMe(): Observable<SimpleUserDto> {
+    return this.api.get<SimpleUserDto>(`${this.url}/me`);
+  }
+
+  updateMe(data: UpdateUserFirstLastNameDto) {
+    return this.api.patch(`${this.url}/me`, data);
   }
 }

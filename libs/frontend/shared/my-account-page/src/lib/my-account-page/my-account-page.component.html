@@ -2,7 +2,16 @@
   <div class="top">
     <div class="left title">Mon compte</div>
     <div class="right">
-      <button class="button">Modifier mes informations</button>
+      <button class="button" (click)="openModalUpdateUserInformation()">Modifier mes informations</button>
     </div>
+  </div>
+  <div class="main">
+    <div class="item">Nom: {{ user?.firstname }}</div>
+    <div class="item">Prénom: {{ user?.lastname }}</div>
+    <div class="item">Email: {{ user?.email }}</div>
+    <div class="item">Status:</div>
+  </div>
+  <div class="bottom">
+    <button class="button is-danger" (click)="logout()">Se déconnecter</button>
   </div>
 </div>
