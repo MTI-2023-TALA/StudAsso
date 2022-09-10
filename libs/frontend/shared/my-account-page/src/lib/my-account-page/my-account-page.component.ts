@@ -5,7 +5,6 @@ import { ApiUserService } from '@stud-asso/frontend-core-api';
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { SimpleUserDto } from '@stud-asso/shared/dtos';
-import { title } from 'process';
 
 @Component({
   selector: 'stud-asso-my-account-page',
