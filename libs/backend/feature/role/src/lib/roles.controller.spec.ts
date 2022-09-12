@@ -225,6 +225,7 @@ describe('RolesController', () => {
       expect(await controller.addRoleToUser(addRoleToUserParams)).toEqual(addRoleToUserParams);
       expect(addRoleTouser).toHaveBeenCalledTimes(1);
       expect(addRoleTouser).toHaveBeenCalledWith(addRoleToUserParams);
+      expect(mockedAssociationsMember).toContainEqual(addRoleToUserParams);
     });
 
     it('should fail to add role to user because an error occured', async () => {

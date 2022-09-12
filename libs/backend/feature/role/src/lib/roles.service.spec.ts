@@ -254,6 +254,7 @@ describe('RolesService', () => {
       expect(await service.addRoleToUser(addRoleToUserParams)).toEqual(addRoleToUserParams);
       expect(addRoleTouser).toHaveBeenCalledTimes(1);
       expect(addRoleTouser).toHaveBeenCalledWith(addRoleToUserParams);
+      expect(mockedAssociationsMember).toContainEqual(addRoleToUserParams);
     });
 
     it('should add role to user and fail because user does not exist', async () => {
