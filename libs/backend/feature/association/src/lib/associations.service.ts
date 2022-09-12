@@ -37,7 +37,11 @@ export class AssociationsService {
         description: createAssociationDto?.description,
       });
       const { id } = await this.roleRepository.createRolePresident(createdAsso.id);
-      await this.associationsMemberRepository.linkUserToRole(createdAsso.id, createAssociationDto.presidentId, id);
+      await this.associationsMemberRepository.linkUserToRole({
+        associationId: createdAsso.id,
+        userId: createAssociationDto.presidentId,
+        roleId: id,
+      });
       return createdAsso;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
