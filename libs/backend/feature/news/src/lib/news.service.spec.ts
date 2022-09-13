@@ -1,4 +1,5 @@
 import { AssociationDto, CreateNewsDto, NewsDto, UpdateNewsDto, UserDto } from '@stud-asso/shared/dtos';
+import { AssociationModel, NewsModel, NewsWithAssoNameModel } from '@stud-asso/backend/core/model';
 import { AssociationRepository, NewsRepository } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -82,7 +83,7 @@ describe('NewsService', () => {
         {
           provide: NewsRepository,
           useValue: {
-            create: jest.fn((userId: number, createNewsPayload: CreateNewsDto) => {
+            create: jest.fn((userId: number, createNewsPayload: CreateNewsDto): Promise<NewsModel> => {
               if (!mockedUsers.find((user) => user.id === userId)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2003', 'mock', { field_name: 'user (index)' });
               }
@@ -101,10 +102,10 @@ describe('NewsService', () => {
               mockedNews.push(newNews);
               return Promise.resolve(newNews);
             }),
-            findAllAssociationNews: jest.fn((associationId: number) => {
+            findAllAssociationNews: jest.fn((associationId: number): Promise<NewsModel[]> => {
               return Promise.resolve(mockedNews.filter((news) => news.associationId === associationId));
             }),
-            findAllNewsWithAssoName: jest.fn(() => {
+            findAllNewsWithAssoName: jest.fn((): Promise<NewsWithAssoNameModel[]> => {
               return Promise.resolve(
                 mockedNews.map((news) => {
                   const association = mockedAssociations.find((association) => association.id === news.associationId);
@@ -117,16 +118,16 @@ describe('NewsService', () => {
                 })
               );
             }),
-            findOne: jest.fn((id: number) => {
+            findOne: jest.fn((id: number): Promise<NewsModel> => {
               return Promise.resolve(mockedNews.find((news) => news.id === id));
             }),
-            update: jest.fn((id: number, updateNewsPayload: UpdateNewsDto) => {
+            update: jest.fn((id: number, updateNewsPayload: UpdateNewsDto): Promise<NewsModel> => {
               const updateNews = mockedNews.find((news) => news.id === id);
               if ('title' in updateNewsPayload) updateNews.title = updateNewsPayload.title;
               if ('content' in updateNewsPayload) updateNews.content = updateNewsPayload.content;
               return Promise.resolve(updateNews);
             }),
-            delete: jest.fn((id: number) => {
+            delete: jest.fn((id: number): Promise<NewsModel> => {
               const deleteNews = mockedNews.find((news) => news.id === id);
               if (!deleteNews) {
                 throw new PrismaClientKnownRequestError('Invalid `prisma.news.delete()` invocation:', 'P2025', 'mock', {
@@ -141,7 +142,7 @@ describe('NewsService', () => {
         {
           provide: AssociationRepository,
           useValue: {
-            findOne: jest.fn((id: number) => {
+            findOne: jest.fn((id: number): Promise<AssociationModel> => {
               return Promise.resolve(mockedAssociations.find((association) => association.id === id));
             }),
           },

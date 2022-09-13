@@ -1,4 +1,11 @@
-import { AssociationDto, CreateNewsDto, NewsDto, UpdateNewsDto, UserDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationDto,
+  CreateNewsDto,
+  NewsDto,
+  NewsWithAssoNameDto,
+  UpdateNewsDto,
+  UserDto,
+} from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
@@ -80,7 +87,7 @@ describe('NewsController', () => {
         {
           provide: NewsService,
           useValue: {
-            create: jest.fn((userId: number, createNewsPayload: CreateNewsDto) => {
+            create: jest.fn((userId: number, createNewsPayload: CreateNewsDto): Promise<NewsDto> => {
               if (!mockedUsers.find((user) => user.id === userId)) {
                 throw new Error(ERROR.USER_NOT_FOUND);
               }
@@ -99,13 +106,13 @@ describe('NewsController', () => {
               mockedNews.push(newNews);
               return Promise.resolve(newNews);
             }),
-            findAllAssociationNews: jest.fn((associationId: number) => {
+            findAllAssociationNews: jest.fn((associationId: number): Promise<NewsDto[]> => {
               if (!mockedAssociations.find((association) => association.id === associationId)) {
                 throw new Error(ERROR.ASSO_NOT_FOUND);
               }
               return Promise.resolve(mockedNews.filter((news) => news.associationId === associationId));
             }),
-            findAllNewsWithAssoName: jest.fn(() => {
+            findAllNewsWithAssoName: jest.fn((): Promise<NewsWithAssoNameDto[]> => {
               return Promise.resolve(
                 mockedNews.map((news) => {
                   const association = mockedAssociations.find((association) => association.id === news.associationId);
@@ -116,19 +123,19 @@ describe('NewsController', () => {
                 })
               );
             }),
-            findOne: jest.fn((newsId: number) => {
+            findOne: jest.fn((newsId: number): Promise<NewsDto> => {
               const findNews = mockedNews.find((news) => news.id === newsId);
               if (!findNews) throw new Error(ERROR.NEWS_NOT_FOUND);
               return Promise.resolve(findNews);
             }),
-            update: jest.fn((id: number, updateNewsPayload: UpdateNewsDto) => {
+            update: jest.fn((id: number, updateNewsPayload: UpdateNewsDto): Promise<NewsDto> => {
               const updateNews = mockedNews.find((news) => news.id === id);
               if (!updateNews) throw new Error(ERROR.NEWS_NOT_FOUND);
               if ('title' in updateNewsPayload) updateNews.title = updateNewsPayload.title;
               if ('content' in updateNewsPayload) updateNews.content = updateNewsPayload.content;
               return Promise.resolve(updateNews);
             }),
-            delete: jest.fn((id: number) => {
+            delete: jest.fn((id: number): Promise<NewsDto> => {
               const deleteNews = mockedNews.find((news) => news.id === id);
               if (!deleteNews) throw new Error(ERROR.NEWS_NOT_FOUND);
               mockedNews.splice(mockedNews.indexOf(deleteNews), 1);
