@@ -1,4 +1,11 @@
-import { AssociationDto, AssociationsMemberDto, RoleDto, UpdateUserDto, UserDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationAndRoleNameModel,
+  AssociationOfUserModel,
+  SimplifiedUserModel,
+  UserIdAndEmailModel,
+  UserModel,
+} from '@stud-asso/backend/core/model';
+import { AssociationDto, AssociationsMemberDto, RoleDto, UpdateUserDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
@@ -13,7 +20,7 @@ describe('UsersService', () => {
   let mockedAssociations: AssociationDto[];
   let mockedAssociationsMember: AssociationsMemberDto[];
   let mockedRoles: RoleDto[];
-  let mockedUsers: UserDto[];
+  let mockedUsers: UserModel[];
 
   beforeEach(async () => {
     mockedAssociations = [
@@ -45,24 +52,42 @@ describe('UsersService', () => {
     mockedUsers = [
       {
         id: 1,
+        createdAt: new Date('2022-9-13'),
+        updatedAt: null,
+        deletedAt: null,
         firstname: 'Anakin',
         lastname: 'Skywalker',
         email: 'anakin.skywalker@test.test',
         isSchoolEmployee: false,
+        passwordHash: 'passwordHash',
+        rtHash: 'rtHash',
+        googleId: 'googleId',
       },
       {
         id: 2,
+        createdAt: new Date('2022-9-13'),
+        updatedAt: null,
+        deletedAt: null,
         firstname: 'Obi-Wan',
         lastname: 'Kenobi',
         email: 'obi-wan.kenobi@test.test',
         isSchoolEmployee: true,
+        passwordHash: 'passwordHash',
+        rtHash: 'rtHash',
+        googleId: 'googleId',
       },
       {
         id: 3,
+        createdAt: new Date('2022-9-13'),
+        updatedAt: null,
+        deletedAt: null,
         firstname: 'John',
         lastname: 'Cena',
         email: 'john.cena@test.test',
         isSchoolEmployee: false,
+        passwordHash: 'passwordHash',
+        rtHash: 'rtHash',
+        googleId: 'googleId',
       },
     ];
 
@@ -71,11 +96,13 @@ describe('UsersService', () => {
         id: 1,
         name: 'Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 2,
         name: 'Président',
         associationId: 2,
+        permissions: [],
       },
     ];
 
@@ -85,13 +112,13 @@ describe('UsersService', () => {
         {
           provide: UserRepository,
           useValue: {
-            findAll: jest.fn(() => {
+            findAll: jest.fn((): Promise<SimplifiedUserModel[]> => {
               return Promise.resolve(mockedUsers);
             }),
-            findAllIdAndEmail: jest.fn(() => {
+            findAllIdAndEmail: jest.fn((): Promise<UserIdAndEmailModel[]> => {
               return Promise.resolve(mockedUsers.map((user) => ({ id: user.id, email: user.email })));
             }),
-            findAssoOfUser: jest.fn((id: number) => {
+            findAssoOfUser: jest.fn((id: number): Promise<AssociationOfUserModel> => {
               const filteredAssociationMembers = mockedAssociationsMember.filter(
                 (associationMember) => associationMember.userId === id
               );
@@ -110,12 +137,12 @@ describe('UsersService', () => {
                 associationsMembers,
               });
             }),
-            findAllByName: jest.fn((name: string) => {
+            findAllByName: jest.fn((name: string): Promise<SimplifiedUserModel[]> => {
               return Promise.resolve(
                 mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
               );
             }),
-            findCurrentUserAsso: jest.fn((userId: number) => {
+            findCurrentUserAsso: jest.fn((userId: number): Promise<AssociationAndRoleNameModel[]> => {
               const associationsAndRoleName = [];
               const filteredAssociationMembers = mockedAssociationsMember.filter(
                 (associationMember) => associationMember.userId === userId
@@ -136,10 +163,10 @@ describe('UsersService', () => {
               });
               return Promise.resolve(associationsAndRoleName);
             }),
-            findOne: jest.fn((id: number) => {
+            findOne: jest.fn((id: number): Promise<UserModel> => {
               return Promise.resolve(mockedUsers.find((user) => user.id === id));
             }),
-            update: jest.fn((id: number, updateUserPayload: UpdateUserDto) => {
+            update: jest.fn((id: number, updateUserPayload: UpdateUserDto): Promise<UserModel> => {
               if (updateUserPayload.email && mockedUsers.find((user) => user.email === updateUserPayload.email)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2002', 'mock', { target: ['email'] });
               }
@@ -149,7 +176,7 @@ describe('UsersService', () => {
               if ('email' in updateUserPayload) updateUser.email = updateUserPayload.email;
               return Promise.resolve(updateUser);
             }),
-            delete: jest.fn((id: number) => {
+            delete: jest.fn((id: number): Promise<UserModel> => {
               const deleteUser = mockedUsers.find((user) => user.id === id);
               mockedUsers = mockedUsers.filter((user) => user.id !== id);
               return Promise.resolve(deleteUser);

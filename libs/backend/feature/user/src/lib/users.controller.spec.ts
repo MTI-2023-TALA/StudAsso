@@ -1,10 +1,14 @@
 import {
+  AssociationAndRoleNameDto,
   AssociationDto,
+  AssociationOfUserDto,
   AssociationsMemberDto,
   RoleDto,
+  SimpleUserDto,
   UpdateUserDto,
   UpdateUserFirstLastNameDto,
   UserDto,
+  UserIdAndEmailDto,
 } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -77,11 +81,13 @@ describe('UsersController', () => {
         id: 1,
         name: 'Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 2,
         name: 'Président',
         associationId: 2,
+        permissions: [],
       },
     ];
 
@@ -91,13 +97,13 @@ describe('UsersController', () => {
         {
           provide: UsersService,
           useValue: {
-            findAll: jest.fn(() => {
+            findAll: jest.fn((): Promise<UserDto[]> => {
               return Promise.resolve(mockedUsers);
             }),
-            findAllIdAndEmail: jest.fn(() => {
+            findAllIdAndEmail: jest.fn((): Promise<UserIdAndEmailDto[]> => {
               return Promise.resolve(mockedUsers.map((user) => ({ id: user.id, email: user.email })));
             }),
-            findAssoOfUser: jest.fn((id: number) => {
+            findAssoOfUser: jest.fn((id: number): Promise<AssociationOfUserDto> => {
               const filteredAssociationMembers = mockedAssociationsMember.filter(
                 (associationMember) => associationMember.userId === id
               );
@@ -111,12 +117,12 @@ describe('UsersController', () => {
               });
               return Promise.resolve({ id, associationsId });
             }),
-            findAllByName: jest.fn((name: string) => {
+            findAllByName: jest.fn((name: string): Promise<UserDto[]> => {
               return Promise.resolve(
                 mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
               );
             }),
-            findCurrentUserInfo: jest.fn((userId: number) => {
+            findCurrentUserInfo: jest.fn((userId: number): Promise<SimpleUserDto> => {
               const user = mockedUsers.find((user) => user.id === userId);
               if (!user) {
                 throw new Error(ERROR.USER_NOT_FOUND);
@@ -127,7 +133,7 @@ describe('UsersController', () => {
                 email: user.email,
               });
             }),
-            findCurrentUserAsso: jest.fn((userId: number) => {
+            findCurrentUserAsso: jest.fn((userId: number): Promise<AssociationAndRoleNameDto[]> => {
               const user = mockedUsers.find((user) => user.id === userId);
               if (!user) {
                 throw new Error(ERROR.USER_NOT_FOUND);
@@ -146,21 +152,23 @@ describe('UsersController', () => {
                 })
               );
             }),
-            findOne: jest.fn((id: number) => {
+            findOne: jest.fn((id: number): Promise<UserDto> => {
               const findUser = mockedUsers.find((user) => user.id === id);
               if (!findUser) {
                 throw new Error(ERROR.USER_NOT_FOUND);
               }
               return Promise.resolve(findUser);
             }),
-            updateCurrentUserInfo: jest.fn((userId: number, updateUserPayload: UpdateUserFirstLastNameDto) => {
-              const updateUser = mockedUsers.find((user) => user.id === userId);
-              if (!updateUser) throw new Error(ERROR.USER_NOT_FOUND);
-              if ('firstname' in updateUserPayload) updateUser.firstname = updateUserPayload.firstname;
-              if ('lastname' in updateUserPayload) updateUser.lastname = updateUserPayload.lastname;
-              return Promise.resolve(updateUser);
-            }),
-            update: jest.fn((id: number, updateUserPayload: UpdateUserDto) => {
+            updateCurrentUserInfo: jest.fn(
+              (userId: number, updateUserPayload: UpdateUserFirstLastNameDto): Promise<SimpleUserDto> => {
+                const updateUser = mockedUsers.find((user) => user.id === userId);
+                if (!updateUser) throw new Error(ERROR.USER_NOT_FOUND);
+                if ('firstname' in updateUserPayload) updateUser.firstname = updateUserPayload.firstname;
+                if ('lastname' in updateUserPayload) updateUser.lastname = updateUserPayload.lastname;
+                return Promise.resolve(updateUser);
+              }
+            ),
+            update: jest.fn((id: number, updateUserPayload: UpdateUserDto): Promise<UserDto> => {
               const updateUser = mockedUsers.find((user) => user.id === id);
               if (!updateUser) throw new Error(ERROR.USER_NOT_FOUND);
               if (updateUserPayload.email && mockedUsers.find((user) => user.email === updateUserPayload.email)) {
@@ -174,7 +182,7 @@ describe('UsersController', () => {
               }
               return Promise.resolve(updateUser);
             }),
-            delete: jest.fn((id: number) => {
+            delete: jest.fn((id: number): Promise<UserDto> => {
               const deleteUser = mockedUsers.find((user) => user.id === id);
               if (!deleteUser) throw new Error(ERROR.USER_NOT_FOUND);
               mockedUsers = mockedUsers.filter((user) => user.id !== id);
