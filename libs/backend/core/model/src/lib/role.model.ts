@@ -8,6 +8,7 @@ export class RoleModel {
 export class CreateRoleModel {
   name: string;
   associationId: number;
+  permissions: string[];
 }
 
 export class UpdateRoleModel {

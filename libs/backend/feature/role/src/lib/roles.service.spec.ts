@@ -13,6 +13,7 @@ import {
   RoleRepository,
   UserRepository,
 } from '@stud-asso/backend/core/repository';
+import { CreateRoleModel, RoleModel, UpdateRoleModel } from '@stud-asso/backend/core/model';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
@@ -67,21 +68,25 @@ describe('RolesService', () => {
         id: 1,
         name: 'Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 2,
         name: 'Président',
         associationId: 2,
+        permissions: [],
       },
       {
         id: 3,
         name: 'Vice-Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 4,
         name: 'Secrétaire',
         associationId: 1,
+        permissions: [],
       },
     ];
 
@@ -122,7 +127,7 @@ describe('RolesService', () => {
         {
           provide: RoleRepository,
           useValue: {
-            create: jest.fn((createRolePayload: CreateRoleDto) => {
+            create: jest.fn((createRolePayload: CreateRoleModel): Promise<RoleModel> => {
               if (mockedRoles.find((role) => role.name === createRolePayload.name)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2002', 'mock', {
                   target: ['name', 'association_id'],
@@ -138,13 +143,13 @@ describe('RolesService', () => {
               mockedRoles.push(newRole);
               return Promise.resolve(newRole);
             }),
-            findAll: jest.fn((id: number) => {
+            findAll: jest.fn((id: number): Promise<RoleModel[]> => {
               return Promise.resolve(mockedRoles.filter((role) => role.associationId === id));
             }),
-            findOne: jest.fn((id: number) => {
+            findOne: jest.fn((id: number): Promise<RoleModel> => {
               return Promise.resolve(mockedRoles.find((role) => role.id === id));
             }),
-            update: jest.fn((id: number, updateRolePayload: CreateRoleDto) => {
+            update: jest.fn((id: number, updateRolePayload: UpdateRoleModel): Promise<RoleModel> => {
               if (updateRolePayload.name && mockedRoles.find((role) => role.name === updateRolePayload.name)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2002', 'mock', {
                   target: ['name', 'association_id'],
@@ -204,6 +209,7 @@ describe('RolesService', () => {
       const createRolePayload: CreateRoleDto = {
         name: 'Président',
         associationId: 1,
+        permissions: [],
       };
 
       expect(service.create(createRolePayload)).rejects.toThrow(ERROR.ROLE_NAME_ALREADY_EXISTS);
@@ -216,6 +222,7 @@ describe('RolesService', () => {
       const createRolePayload: CreateRoleDto = {
         name: 'Membre',
         associationId: -42,
+        permissions: [],
       };
 
       expect(service.create(createRolePayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
@@ -228,6 +235,7 @@ describe('RolesService', () => {
       const createRolePayload: CreateRoleDto = {
         name: 'Membre',
         associationId: 1,
+        permissions: [],
       };
 
       const newRole = {

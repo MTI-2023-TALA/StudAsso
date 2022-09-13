@@ -10,6 +10,10 @@ export class CreateRoleDto {
   @IsNotEmpty()
   @IsInt()
   associationId: number;
+
+  @IsNotEmpty()
+  @IsString({ each: true })
+  permissions: string[];
 }
 
 export class UpdateRoleDto {
@@ -43,4 +47,5 @@ export class RoleDto {
   id: number;
   name: string;
   associationId: number;
+  permissions: string[];
 }

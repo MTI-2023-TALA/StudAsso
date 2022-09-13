@@ -58,21 +58,25 @@ describe('RolesController', () => {
         id: 1,
         name: 'Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 2,
         name: 'Président',
         associationId: 2,
+        permissions: [],
       },
       {
         id: 3,
         name: 'Vice-Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 4,
         name: 'Secrétaire',
         associationId: 1,
+        permissions: [],
       },
     ];
 
@@ -152,7 +156,7 @@ describe('RolesController', () => {
             findAll: jest.fn((id: number) => {
               return Promise.resolve(mockedRoles.filter((role) => role.associationId === id));
             }),
-            findOne: jest.fn((id: number) => {
+            findOne: jest.fn((id: number): Promise<RoleDto> => {
               const findRole = mockedRoles.find((role) => role.id === id);
               if (!findRole) throw new Error(ERROR.ROLE_NOT_FOUND);
               return Promise.resolve(findRole);
@@ -191,6 +195,7 @@ describe('RolesController', () => {
       const createRolePayload: CreateRoleDto = {
         name: 'Vice-Président',
         associationId: 1,
+        permissions: [],
       };
 
       expect(controller.create(createRolePayload)).rejects.toThrow(ERROR.ROLE_NAME_ALREADY_EXISTS);
@@ -203,6 +208,7 @@ describe('RolesController', () => {
       const createRolePayload = {
         name: 'Membre',
         associationId: 1,
+        permissions: [],
       };
 
       const newRole = { id: mockedRoles.length + 1, ...createRolePayload };
