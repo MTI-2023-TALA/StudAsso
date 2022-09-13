@@ -1,4 +1,5 @@
 import { AssociationDto, CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
+import { AssociationModel, EventModel } from '@stud-asso/backend/core/model';
 import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -39,7 +40,7 @@ describe('EventsService', () => {
         {
           provide: EventRepository,
           useValue: {
-            create: jest.fn((createEventPayload: CreateEventDto) => {
+            create: jest.fn((createEventPayload: CreateEventDto): Promise<EventModel> => {
               if (!mockedAssociations.find((association) => association.id === createEventPayload.associationId)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2003', 'mock', { field_name: 'association (index)' });
               }
@@ -51,16 +52,16 @@ describe('EventsService', () => {
               mockedEvents.push(newEvent);
               return Promise.resolve(newEvent);
             }),
-            findAll: jest.fn(() => {
+            findAll: jest.fn((): Promise<EventModel[]> => {
               return Promise.resolve(mockedEvents);
             }),
-            findAllByAssociationId: jest.fn((associationId: number) => {
+            findAllByAssociationId: jest.fn((associationId: number): Promise<EventModel[]> => {
               return Promise.resolve(mockedEvents.filter((event) => event.associationId === associationId));
             }),
-            findOne: jest.fn((id: number) => {
+            findOne: jest.fn((id: number): Promise<EventModel> => {
               return Promise.resolve(mockedEvents.find((event) => event.id === id));
             }),
-            update: jest.fn((id: number, updateEventPayload: UpdateEventDto) => {
+            update: jest.fn((id: number, updateEventPayload: UpdateEventDto): Promise<EventModel> => {
               let updateEvent = mockedEvents.find((event) => event.id === id);
               updateEvent = {
                 ...updateEvent,
@@ -68,7 +69,7 @@ describe('EventsService', () => {
               };
               return Promise.resolve(updateEvent);
             }),
-            delete: jest.fn((id: number) => {
+            delete: jest.fn((id: number): Promise<EventModel> => {
               const deleteEvent = mockedEvents.find((event) => event.id === id);
               if (!deleteEvent) {
                 throw new PrismaClientKnownRequestError(
@@ -88,7 +89,7 @@ describe('EventsService', () => {
         {
           provide: AssociationRepository,
           useValue: {
-            findOne: jest.fn((id: number) => {
+            findOne: jest.fn((id: number): Promise<AssociationModel> => {
               return Promise.resolve(mockedAssociations.find((association) => association.id === id));
             }),
           },

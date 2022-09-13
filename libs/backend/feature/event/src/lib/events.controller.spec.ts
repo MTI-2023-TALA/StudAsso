@@ -38,7 +38,7 @@ describe('EventsController', () => {
         {
           provide: EventsService,
           useValue: {
-            create: jest.fn((createEventPayload: CreateEventDto) => {
+            create: jest.fn((createEventPayload: CreateEventDto): Promise<EventDto> => {
               if (!mockedAssociations.find((association) => association.id === createEventPayload.associationId)) {
                 throw new Error(ERROR.ASSO_NOT_FOUND);
               }
@@ -50,21 +50,21 @@ describe('EventsController', () => {
               mockedEvents.push(newEvent);
               return Promise.resolve(newEvent);
             }),
-            findAll: jest.fn(() => {
+            findAll: jest.fn((): Promise<EventDto[]> => {
               return Promise.resolve(mockedEvents);
             }),
-            findAllByAssociationId: jest.fn((associationId: number) => {
+            findAllByAssociationId: jest.fn((associationId: number): Promise<EventDto[]> => {
               if (!mockedAssociations.find((association) => association.id === associationId)) {
                 throw new Error(ERROR.ASSO_NOT_FOUND);
               }
               return Promise.resolve(mockedEvents.filter((event) => event.associationId === associationId));
             }),
-            findOne: jest.fn((eventId: number) => {
+            findOne: jest.fn((eventId: number): Promise<EventDto> => {
               const findEvent = mockedEvents.find((event) => event.id === eventId);
               if (!findEvent) throw new Error(ERROR.EVENT_NOT_FOUND);
               return Promise.resolve(findEvent);
             }),
-            update: jest.fn((eventId: number, updateEventPayload: UpdateEventDto) => {
+            update: jest.fn((eventId: number, updateEventPayload: UpdateEventDto): Promise<EventDto> => {
               const updateEvent = mockedEvents.find((event) => event.id === eventId);
               if (!updateEvent) throw new Error(ERROR.EVENT_NOT_FOUND);
               const updatedEvent = {
@@ -73,7 +73,7 @@ describe('EventsController', () => {
               };
               return Promise.resolve(updatedEvent);
             }),
-            delete: jest.fn((eventId: number) => {
+            delete: jest.fn((eventId: number): Promise<EventDto> => {
               const deleteEvent = mockedEvents.find((event) => event.id === eventId);
               if (!deleteEvent) throw new Error(ERROR.EVENT_NOT_FOUND);
               mockedEvents = mockedEvents.filter((event) => event.id !== eventId);
