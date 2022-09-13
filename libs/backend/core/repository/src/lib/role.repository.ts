@@ -16,8 +16,12 @@ export class RoleRepository {
     });
   }
 
-  public async findAll(): Promise<RoleModel[]> {
-    return this.prisma.role.findMany({ select: simpleUserSelect });
+  public async createRolePresident(associationId: number): Promise<RoleModel> {
+    return this.prisma.role.create({ data: { name: 'Président', associationId }, select: simpleUserSelect });
+  }
+
+  public async findAll(id: number): Promise<RoleModel[]> {
+    return this.prisma.role.findMany({ where: { associationId: id }, select: simpleUserSelect });
   }
 
   public async findPermissionsOfUserInAsso(userId: number, assoId: number): Promise<string[]> {
@@ -38,13 +42,5 @@ export class RoleRepository {
 
   public async delete(id: number): Promise<RoleModel> {
     return this.prisma.role.delete({ where: { id }, select: simpleUserSelect });
-  }
-
-  public async createRolePresident(associationId: number): Promise<RoleModel> {
-    return this.prisma.role.create({ data: { name: 'Président', associationId }, select: simpleUserSelect });
-  }
-
-  public async findAllAsso(id: number): Promise<RoleModel[]> {
-    return this.prisma.role.findMany({ where: { associationId: id }, select: simpleUserSelect });
   }
 }

@@ -5,6 +5,7 @@ import { EventPageComponent } from '@stud-asso/frontend/feature/association/even
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
 import { MemberPageComponent } from '@stud-asso/frontend/feature/association/member-page';
+import { MyAccountPageComponent } from '@stud-asso/frontend/shared/my-account-page';
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NewsPageComponent } from '@stud-asso/frontend/feature/association/news-page';
 import { NgModule } from '@angular/core';
@@ -58,6 +59,10 @@ const routes: Routes = [
       {
         path: 'events',
         component: EventPageComponent,
+      },
+      {
+        path: 'my-account',
+        component: MyAccountPageComponent,
       },
     ],
   },

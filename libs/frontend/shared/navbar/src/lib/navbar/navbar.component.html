@@ -73,9 +73,9 @@
   </nav>
 
   <div class="u-f-center">
-    <button class="button is-danger" (click)="logout()">
-      <i class="bi bi-power p-2"></i>
-      <span *ngIf="shouldShowLargeNavbar">{{ 'deconnect' | translate }}</span>
-    </button>
+    <a class="button" [routerLink]="['/my-account']" routerLinkActive="router-link-active">
+      <i class="bi bi-person p-2"></i>
+      <span *ngIf="shouldShowLargeNavbar">{{ 'my-account' | translate }}</span>
+    </a>
   </div>
 </div>

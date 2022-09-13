@@ -1,158 +1,250 @@
+import { AssociationDto, CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/repository';
-import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { EventsService } from './events.service';
-import { UpdateResult } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
-
-const mockedEvents = [
-  {
-    id: 1,
-    name: 'Event1',
-    date: new Date('2022-02-15'),
-    content: 'An amazing description',
-    associationId: 1,
-  },
-  {
-    id: 2,
-    name: 'Event2',
-    date: new Date('2022-01-15'),
-    content: 'An amazing description again',
-    associationId: 2,
-  },
-];
-
-const mockedUpdateResult: UpdateResult = {
-  raw: [],
-  generatedMaps: [],
-  affected: 1,
-};
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 describe('EventsService', () => {
   let service: EventsService;
-  let associationRepository: AssociationRepository;
   let repository: EventRepository;
 
+  let mockedEvents: EventDto[];
+  let mockedAssociations: AssociationDto[];
+
   beforeEach(async () => {
+    mockedEvents = [
+      { id: 1, name: 'Event 1', date: new Date('15-02-2022'), content: 'content', associationId: 1 },
+      { id: 2, name: 'Event 2', date: new Date('28-02-2022'), content: 'content', associationId: 2 },
+      { id: 3, name: 'Event 3', date: new Date('13-03-2022'), content: 'content', associationId: 1 },
+    ];
+
+    mockedAssociations = [
+      {
+        id: 1,
+        name: 'Association 1',
+        description: 'description',
+      },
+      {
+        id: 2,
+        name: 'Association 2',
+        description: 'description',
+      },
+    ];
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         EventsService,
         {
           provide: EventRepository,
           useValue: {
-            create: jest.fn(() => Promise.resolve(mockedEvents[0])),
-            findAll: jest.fn(() => Promise.resolve(mockedEvents)),
-            findAllByAssociationId: jest.fn(() => Promise.resolve([mockedEvents[0]])),
-            findOne: jest.fn(() => Promise.resolve(mockedEvents[0])),
-            update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
-            delete: jest.fn(() => Promise.resolve(mockedUpdateResult)),
+            create: jest.fn((createEventPayload: CreateEventDto) => {
+              if (!mockedAssociations.find((association) => association.id === createEventPayload.associationId)) {
+                throw new PrismaClientKnownRequestError('mock', 'P2003', 'mock', { field_name: 'association (index)' });
+              }
+              const id = mockedEvents.length + 1;
+              const newEvent: EventDto = {
+                id,
+                ...createEventPayload,
+              };
+              mockedEvents.push(newEvent);
+              return Promise.resolve(newEvent);
+            }),
+            findAll: jest.fn(() => {
+              return Promise.resolve(mockedEvents);
+            }),
+            findAllByAssociationId: jest.fn((associationId: number) => {
+              return Promise.resolve(mockedEvents.filter((event) => event.associationId === associationId));
+            }),
+            findOne: jest.fn((id: number) => {
+              return Promise.resolve(mockedEvents.find((event) => event.id === id));
+            }),
+            update: jest.fn((id: number, updateEventPayload: UpdateEventDto) => {
+              let updateEvent = mockedEvents.find((event) => event.id === id);
+              updateEvent = {
+                ...updateEvent,
+                ...updateEventPayload,
+              };
+              return Promise.resolve(updateEvent);
+            }),
+            delete: jest.fn((id: number) => {
+              const deleteEvent = mockedEvents.find((event) => event.id === id);
+              if (!deleteEvent) {
+                throw new PrismaClientKnownRequestError(
+                  'Invalid `prisma.event.delete()` invocation:',
+                  'P2025',
+                  'mock',
+                  {
+                    cause: 'Record to delete does not exist.',
+                  }
+                );
+              }
+              mockedEvents = mockedEvents.filter((event) => event.id !== id);
+              return Promise.resolve(deleteEvent);
+            }),
           },
         },
         {
           provide: AssociationRepository,
           useValue: {
-            findOne: jest.fn(() =>
-              Promise.resolve({
-                id: 1,
-                name: 'Association 1',
-                description: 'Description 1',
-              })
-            ),
+            findOne: jest.fn((id: number) => {
+              return Promise.resolve(mockedAssociations.find((association) => association.id === id));
+            }),
           },
         },
       ],
     }).compile();
 
     service = module.get<EventsService>(EventsService);
-    associationRepository = module.get<AssociationRepository>(AssociationRepository);
     repository = module.get<EventRepository>(EventRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
 
-  describe('createEvent', () => {
-    it('should call eventRepository.create with correct params', async () => {
-      const createEventParams = {
-        name: 'Event1',
-        date: new Date('2022-01-15'),
-        content: 'An amazing description',
-        associationId: 1,
-      };
-      const createEventDto = plainToInstance(CreateEventDto, createEventParams);
+  describe('Create Event', () => {
+    it('should create a new event', async () => {
       const create = jest.spyOn(repository, 'create');
+      const associationId = 1;
+      const createEventPayload: CreateEventDto = {
+        name: 'New Event',
+        date: new Date('15-02-2022'),
+        content: 'content',
+        associationId,
+      };
 
-      const createResultRetrieved = await service.create(createEventDto);
-      expect(createResultRetrieved).toEqual(mockedEvents[0]);
+      const newEvent: EventDto = {
+        id: mockedEvents.length + 1,
+        ...createEventPayload,
+      };
 
+      expect(await service.create(createEventPayload)).toEqual(newEvent);
       expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createEventParams);
-    });
-  });
-
-  describe('findAllEvents', () => {
-    it('should call eventRepository.findAll', async () => {
-      const findAll = jest.spyOn(repository, 'findAll');
-
-      const eventsRetrieved = await service.findAll();
-      expect(eventsRetrieved).toEqual(mockedEvents);
-
-      expect(findAll).toHaveBeenCalledTimes(1);
-      expect(findAll).toHaveBeenCalledWith();
-    });
-  });
-
-  describe('findAllByAssociationId', () => {
-    it('should call eventRepository.findAllByAssociationId and succeed', async () => {
-      const findAll = jest.spyOn(repository, 'findAllByAssociationId');
-
-      const eventsRetrieved = await service.findAllByAssociationId(1);
-      expect(eventsRetrieved).toEqual([mockedEvents[0]]);
-
-      expect(findAll).toHaveBeenCalledTimes(1);
-      expect(findAll).toHaveBeenCalledWith(1);
+      expect(create).toHaveBeenCalledWith(createEventPayload);
     });
 
-    it('should call eventRepository.findAllByAssociationId and fail', async () => {
-      jest.spyOn(associationRepository, 'findOne').mockReturnValue(Promise.resolve(undefined));
-      expect(async () => await service.findAllByAssociationId(1)).rejects.toThrow('Association Not Found');
+    it('should fail to create a new event because the association does not exist', async () => {
+      const create = jest.spyOn(repository, 'create');
+      const associationId = -1;
+      const createEventPayload: CreateEventDto = {
+        name: 'New Event',
+        date: new Date('15-02-2022'),
+        content: 'content',
+        associationId,
+      };
+
+      expect(service.create(createEventPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(create).toHaveBeenCalledTimes(1);
+      expect(create).toHaveBeenCalledWith(createEventPayload);
     });
-  });
 
-  describe('findOneEvent', () => {
-    it('should call eventRepository.findOne', async () => {
-      const findOne = jest.spyOn(repository, 'findOne');
+    describe('Find All Events', () => {
+      it('should return all events', async () => {
+        const findAll = jest.spyOn(repository, 'findAll');
 
-      const eventRetrieved = await service.findOne(1);
-      expect(eventRetrieved).toEqual(mockedEvents[0]);
-
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(1);
+        expect(await service.findAll()).toEqual(mockedEvents);
+        expect(findAll).toHaveBeenCalledTimes(1);
+        expect(findAll).toHaveBeenCalledWith();
+      });
     });
-  });
 
-  describe('updateEvent', () => {
-    it('shoud call eventRepository.update', async () => {
-      const updateEventDto = plainToInstance(UpdateEventDto, { content: 'Event1 Renamed' });
-      const update = jest.spyOn(repository, 'update');
+    describe("Find All Association's events", () => {
+      it('should return all association events', async () => {
+        const findAllByAssociationId = jest.spyOn(repository, 'findAllByAssociationId');
+        const associationId = 1;
 
-      const updateResultRetrieved = await service.update(1, updateEventDto);
-      expect(updateResultRetrieved).toEqual(mockedUpdateResult);
+        expect(await service.findAllByAssociationId(associationId)).toEqual(
+          mockedEvents.filter((event) => event.associationId === associationId)
+        );
+        expect(findAllByAssociationId).toHaveBeenCalledTimes(1);
+        expect(findAllByAssociationId).toHaveBeenCalledWith(associationId);
+      });
 
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(1, { content: 'Event1 Renamed' });
+      it("should fail to return all association's events because association does not exist", async () => {
+        const findAllByAssociationId = jest.spyOn(repository, 'findAllByAssociationId');
+        const associationId = -1;
+
+        expect(service.findAllByAssociationId(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+        expect(findAllByAssociationId).toHaveBeenCalledTimes(0);
+      });
     });
-  });
 
-  describe('deleteEvent', () => {
-    it('shoud call eventRepository.remove', async () => {
-      const deleteCall = jest.spyOn(repository, 'delete');
+    describe('Find One Event', () => {
+      it('should return one event', async () => {
+        const findOne = jest.spyOn(repository, 'findOne');
+        const id = 1;
 
-      const deleteResultRetrieved = await service.delete(1);
-      expect(deleteResultRetrieved).toEqual(mockedUpdateResult);
+        expect(await service.findOne(id)).toEqual(mockedEvents.find((event) => event.id === id));
+        expect(findOne).toHaveBeenCalledTimes(1);
+        expect(findOne).toHaveBeenCalledWith(id);
+      });
 
-      expect(deleteCall).toHaveBeenCalledTimes(1);
-      expect(deleteCall).toHaveBeenCalledWith(1);
+      it('should fail to return one event because event does not exist', async () => {
+        const findOne = jest.spyOn(repository, 'findOne');
+        const id = -1;
+
+        expect(service.findOne(id)).rejects.toThrow(ERROR.EVENT_NOT_FOUND);
+        expect(findOne).toHaveBeenCalledTimes(1);
+        expect(findOne).toHaveBeenCalledWith(id);
+      });
+    });
+
+    describe('Update Event', () => {
+      it('should update one event', async () => {
+        const update = jest.spyOn(repository, 'update');
+        const id = 1;
+        const updateEventPayload: UpdateEventDto = {
+          name: 'updated event name',
+          date: new Date('22-02-2022'),
+          content: 'new content',
+        };
+
+        const updateEvent: EventDto = {
+          ...mockedEvents[id - 1],
+          ...updateEventPayload,
+        };
+
+        expect(await service.update(id, updateEventPayload)).toEqual(updateEvent);
+        expect(update).toHaveBeenCalledTimes(1);
+        expect(update).toHaveBeenCalledWith(id, updateEventPayload);
+      });
+
+      it('should fail to update event because event does not exist', async () => {
+        const update = jest.spyOn(repository, 'update');
+        const id = -1;
+        const updateEventPayload: UpdateEventDto = {
+          name: 'updated event name',
+          date: new Date('22-02-2022'),
+          content: 'new content',
+        };
+
+        expect(service.update(id, updateEventPayload)).rejects.toThrow(ERROR.EVENT_NOT_FOUND);
+        expect(update).toHaveBeenCalledTimes(0);
+      });
+    });
+
+    describe('Delete Event', () => {
+      it('should delete an event', async () => {
+        const deleteCall = jest.spyOn(repository, 'delete');
+        const eventId = 1;
+
+        const deletedEvent = mockedEvents.find((event) => event.id === eventId);
+        const filteredMockedEvents = mockedEvents.filter((event) => event.id !== eventId);
+
+        expect(await service.delete(eventId)).toEqual(deletedEvent);
+        expect(mockedEvents).toEqual(filteredMockedEvents);
+        expect(deleteCall).toHaveBeenCalledTimes(1);
+        expect(deleteCall).toHaveBeenCalledWith(eventId);
+      });
+
+      it('should fail to delete an event that does not exist', async () => {
+        const deleteCall = jest.spyOn(repository, 'delete');
+        const eventId = -1;
+
+        expect(service.delete(eventId)).rejects.toThrow(ERROR.EVENT_NOT_FOUND);
+        expect(deleteCall).toHaveBeenCalledTimes(1);
+        expect(deleteCall).toHaveBeenCalledWith(eventId);
+      });
     });
   });
 });

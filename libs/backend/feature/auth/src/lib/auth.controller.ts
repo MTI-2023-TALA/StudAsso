@@ -1,8 +1,9 @@
-import { AssoIdOfUserDto, AuthDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { AssoIdOfUserDto, AuthDto, CreateAccountDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
 import { BadRequestException, Body, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
 import { AuthService } from './auth.service';
+import { ERROR } from '@stud-asso/backend/core/error';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
 @SwaggerController('auth')
@@ -11,7 +12,7 @@ export class AuthController {
 
   @Public()
   @Post('local/signup')
-  async signupLocal(@Body() dto: AuthDto): Promise<TokenDto> {
+  async signupLocal(@Body() dto: CreateAccountDto): Promise<TokenDto> {
     try {
       return await this.authService.signupLocal(dto);
     } catch (error) {
@@ -32,7 +33,7 @@ export class AuthController {
     if (result) {
       return result;
     }
-    throw new BadRequestException('Invalid Google Token');
+    throw new BadRequestException(ERROR.INVALID_GOOGLE_TOKEN);
   }
 
   @Post('logout')

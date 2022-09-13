@@ -8,6 +8,7 @@ import {
   UpdateStockDto,
 } from '@stud-asso/shared/dtos';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
@@ -27,7 +28,7 @@ export class StocksService {
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {
-          throw new Error('Association Not Found');
+          throw new Error(ERROR.ASSO_NOT_FOUND);
         }
       }
     }
@@ -40,7 +41,7 @@ export class StocksService {
   public async findAllAsso(id: number): Promise<StockDto[]> {
     const asso = await this.associationRepository.findOne(id);
     if (!asso) {
-      throw new Error('Association Not Found');
+      throw new Error(ERROR.ASSO_NOT_FOUND);
     }
     return this.stockRepository.findAllAsso(id);
   }
@@ -48,7 +49,7 @@ export class StocksService {
   public async findAllAssoStockLogs(associationId: number): Promise<StockLogWithUserDto[]> {
     const asso = await this.associationRepository.findOne(associationId);
     if (!asso) {
-      throw new Error('Association Not Found');
+      throw new Error(ERROR.ASSO_NOT_FOUND);
     }
     return this.stockLogsRepository.findAllAssoStockLogs(associationId);
   }
@@ -56,7 +57,7 @@ export class StocksService {
   public async findSpecificStockLogs(stockId: number): Promise<StockLogDto[]> {
     const stock = await this.stockRepository.findOne(stockId);
     if (!stock) {
-      throw new Error('Stock Not Found');
+      throw new Error(ERROR.STOCK_NOT_FOUND);
     }
     return this.stockLogsRepository.findSpecificStockLogs(stockId);
   }
@@ -64,7 +65,7 @@ export class StocksService {
   public async findOne(id: number): Promise<StockDto> {
     const stock = await this.stockRepository.findOne(id);
     if (!stock) {
-      throw new Error('Stock Not Found');
+      throw new Error(ERROR.STOCK_NOT_FOUND);
     }
     return stock;
   }
@@ -72,7 +73,7 @@ export class StocksService {
   public async update(id: number, userId: number, updateStockDto: UpdateStockDto): Promise<StockDto> {
     const stockBeforeUpdate = await this.stockRepository.findOne(id);
     if (!stockBeforeUpdate) {
-      throw new Error('Stock Not Found');
+      throw new Error(ERROR.STOCK_NOT_FOUND);
     }
     const updatedStock = await this.stockRepository.update(id, updateStockDto);
     await this.createStocksLogs(id, userId, stockBeforeUpdate.count, updateStockDto.count, 'update');
@@ -82,7 +83,7 @@ export class StocksService {
   public async delete(id: number, userId: number): Promise<StockDto> {
     const stockBeforeDelete = await this.stockRepository.findOne(id);
     if (!stockBeforeDelete) {
-      throw new Error('Stock Not Found');
+      throw new Error(ERROR.STOCK_NOT_FOUND);
     }
     const deletedStock = await this.stockRepository.delete(id);
     await this.createStocksLogs(id, userId, stockBeforeDelete.count, 0, 'delete');
@@ -106,6 +107,6 @@ export class StocksService {
       };
       return this.stockLogsRepository.create(createStockLogsDto);
     }
-    throw new Error('Provided action has to be either: create, update or delete when creating a stock logs');
+    throw new Error(ERROR.BAD_STOCK_ACTION);
   }
 }

@@ -1,4 +1,5 @@
 import {
+  AssociationAndRoleNameModel,
   AssociationOfUserModel,
   SimplifiedUserModel,
   UserIdAndEmailModel,
@@ -18,40 +19,6 @@ export class UserRepository {
     return this.prisma.user.findMany({
       select: simplifiedUserSelect,
     });
-  }
-
-  public async findOne(id: number): Promise<UserModel> {
-    return this.prisma.user.findUnique({ where: { id } });
-  }
-
-  public async update(id: number, updateUser: UpdateUserDto): Promise<SimplifiedUserModel> {
-    return this.prisma.user.update({
-      where: { id },
-      data: updateUser,
-      select: simplifiedUserSelect,
-    });
-  }
-
-  public async delete(id: number): Promise<SimplifiedUserModel> {
-    return this.prisma.user.delete({
-      where: { id },
-      select: simplifiedUserSelect,
-    });
-  }
-
-  public createUser(createUserDto: CreateUserDto): Promise<SimplifiedUserModel> {
-    return this.prisma.user.create({
-      data: createUserDto,
-      select: simplifiedUserSelect,
-    });
-  }
-
-  public updateRt(userId: number, rtHash: string): Promise<UserModel> {
-    return this.prisma.user.update({ where: { id: userId }, data: { rtHash } });
-  }
-
-  public findOneByEmail(email: string): Promise<UserModel> {
-    return this.prisma.user.findUnique({ where: { email } });
   }
 
   public async findAllIdAndEmail(): Promise<UserIdAndEmailModel[]> {
@@ -95,5 +62,57 @@ export class UserRepository {
         isSchoolEmployee: true,
       },
     });
+  }
+
+  public async findCurrentUserAsso(userId: number): Promise<AssociationAndRoleNameModel[]> {
+    return this.prisma.associationMember.findMany({
+      where: { userId },
+      select: {
+        role: {
+          select: {
+            name: true,
+          },
+        },
+        association: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+  }
+
+  public async findOne(id: number): Promise<UserModel> {
+    return this.prisma.user.findUnique({ where: { id } });
+  }
+
+  public async update(id: number, updateUser: UpdateUserDto): Promise<SimplifiedUserModel> {
+    return this.prisma.user.update({
+      where: { id },
+      data: updateUser,
+      select: simplifiedUserSelect,
+    });
+  }
+
+  public async delete(id: number): Promise<SimplifiedUserModel> {
+    return this.prisma.user.delete({
+      where: { id },
+      select: simplifiedUserSelect,
+    });
+  }
+
+  public createUser(createUserDto: CreateUserDto): Promise<SimplifiedUserModel> {
+    return this.prisma.user.create({
+      data: createUserDto,
+      select: simplifiedUserSelect,
+    });
+  }
+
+  public updateRt(userId: number, rtHash: string): Promise<UserModel> {
+    return this.prisma.user.update({ where: { id: userId }, data: { rtHash } });
+  }
+
+  public findOneByEmail(email: string): Promise<UserModel> {
+    return this.prisma.user.findUnique({ where: { email } });
   }
 }
