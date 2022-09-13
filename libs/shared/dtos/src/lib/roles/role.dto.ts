@@ -32,6 +32,12 @@ export class AddRoleToUserDto {
   roleId: number;
 }
 
+export class AssoIdOfUserDto {
+  @IsNotEmpty()
+  @IsInt()
+  assoId: number;
+}
+
 // Response DTOs
 export class RoleDto {
   id: number;

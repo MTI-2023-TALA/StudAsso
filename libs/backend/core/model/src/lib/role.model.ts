@@ -2,6 +2,7 @@ export class RoleModel {
   id: number;
   name: string;
   associationId: number;
+  permissions: string[];
 }
 
 export class CreateRoleModel {
