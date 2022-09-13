@@ -1,4 +1,4 @@
-import { AuthDto, CreateAccountDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { AssoIdOfUserDto, AuthDto, CreateAccountDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
 import { BadRequestException, Body, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
@@ -49,5 +49,14 @@ export class AuthController {
     @GetCurrentUser('refreshToken') refreshToken: string
   ): Promise<TokenDto> {
     return this.authService.refreshToken(userId, refreshToken);
+  }
+
+  @Post('local/refreshWithAssoId')
+  async refreshWithAssoId(
+    @GetCurrentUserId() userId: number,
+    @GetCurrentUser('email') userEmail: string,
+    @Body() assoIdDto: AssoIdOfUserDto
+  ): Promise<TokenDto> {
+    return this.authService.refreshWithAssoId(userId, userEmail, assoIdDto.assoId);
   }
 }

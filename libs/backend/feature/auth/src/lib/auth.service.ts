@@ -113,13 +113,26 @@ export class AuthService {
     return tokens;
   }
 
+  async refreshWithAssoId(userId: number, userEmail: string, assoId): Promise<TokenDto> {
+    const id = userId;
+    const email = userEmail;
+
+    const currentAssos = await this.userRepository.findAssoOfUser(userId);
+
+    if (!currentAssos.associationsMembers.some((asso) => asso.associationId === assoId)) {
+      throw new ForbiddenException('Access Denied');
+    }
+
+    return this._getTokens(id, email, { assoId });
+  }
+
   private async _updateRtToken(userId: number, rt: string): Promise<void> {
     const hash = await argon.hash(rt);
     await this.userRepository.updateRt(userId, hash);
   }
 
-  private async _getTokens(userId: number, email: string): Promise<TokenDto> {
-    const jwtPayload: JwtPayload = { sub: userId, email };
+  private async _getTokens(userId: number, email: string, options = {}): Promise<TokenDto> {
+    const jwtPayload: JwtPayload = { sub: userId, email, ...options };
 
     const atExpiry = this.config.get<string>('AT_EXPIRY') || '15';
     const rtExpiry = this.config.get<string>('RT_EXPIRY') || '7';

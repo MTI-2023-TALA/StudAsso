@@ -1,6 +1,7 @@
-import { AtGuard, BackendCoreAuthModule } from '@stud-asso/backend-core-auth';
+import { AccessGuard, AtGuard, BackendCoreAuthModule } from '@stud-asso/backend-core-auth';
 
 import { APP_GUARD } from '@nestjs/core';
+import { BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
 import { BackendFeatureAssociationModule } from '@stud-asso/backend/feature/association';
 import { BackendFeatureAuthModule } from '@stud-asso/backend/feature/auth';
 import { BackendFeatureEventModule } from '@stud-asso/backend/feature/event';
@@ -15,6 +16,7 @@ import { Module } from '@nestjs/common';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     BackendCoreAuthModule,
+    BackendCoreRepositoryModule,
     BackendFeatureAuthModule,
     BackendFeatureAssociationModule,
     BackendFeatureEventModule,
@@ -29,6 +31,11 @@ import { Module } from '@nestjs/common';
       provide: APP_GUARD,
       useClass: AtGuard,
     },
+    // Uncomment only when handled on frontend
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AccessGuard,
+    // },
   ],
 })
 export class AppModule {}

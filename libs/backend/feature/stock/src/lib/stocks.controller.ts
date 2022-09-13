@@ -1,3 +1,4 @@
+import { Access, GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import {
   BadRequestException,
   Body,
@@ -10,7 +11,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateStockDto, StockDto, StockLogDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
-import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { StocksService } from './stocks.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
@@ -27,11 +28,13 @@ export class StocksController {
     }
   }
 
+  @Access(PermissionId.STOCK_READ)
   @Get()
   public async findAll(): Promise<StockDto[]> {
     return this.stocksService.findAll();
   }
 
+  @Access(PermissionId.STOCK_READ)
   @Get('asso/:id')
   public async findAllAsso(@Param('id') id: string): Promise<StockDto[]> {
     try {

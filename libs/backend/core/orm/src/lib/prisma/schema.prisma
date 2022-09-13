@@ -67,6 +67,7 @@ model Role {
   deletedAt           DateTime?           @map("deleted_at") @db.Timestamp(6)
   name                String              @db.VarChar
   associationId       Int                 @map("association_id")
+  permissions         String[]
   association         Association         @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "association")
   associationsMembers AssociationMember[]
 
