@@ -20,8 +20,8 @@ describe('NewsService', () => {
     mockedNews = [
       {
         id: 1,
-        createdAt: new Date('07-07-2022'),
-        updatedAt: new Date('07-07-2022'),
+        createdAt: new Date('2022-7-7'),
+        updatedAt: new Date('2022-7-7'),
         userId: 1,
         associationId: 1,
         title: 'title',
@@ -29,8 +29,8 @@ describe('NewsService', () => {
       },
       {
         id: 2,
-        createdAt: new Date('08-07-2022'),
-        updatedAt: new Date('08-07-2022'),
+        createdAt: new Date('2022-7-8'),
+        updatedAt: new Date('2022-7-8'),
         userId: 2,
         associationId: 2,
         title: 'title',
@@ -38,8 +38,8 @@ describe('NewsService', () => {
       },
       {
         id: 3,
-        createdAt: new Date('09-07-2022'),
-        updatedAt: new Date('09-07-2022'),
+        createdAt: new Date('2022-7-9'),
+        updatedAt: new Date('2022-7-9'),
         userId: 1,
         associationId: 1,
         title: 'title',

@@ -16,9 +16,9 @@ describe('EventsService', () => {
 
   beforeEach(async () => {
     mockedEvents = [
-      { id: 1, name: 'Event 1', date: new Date('15-02-2022'), content: 'content', associationId: 1 },
-      { id: 2, name: 'Event 2', date: new Date('28-02-2022'), content: 'content', associationId: 2 },
-      { id: 3, name: 'Event 3', date: new Date('13-03-2022'), content: 'content', associationId: 1 },
+      { id: 1, name: 'Event 1', date: new Date('2022-2-15'), content: 'content', associationId: 1 },
+      { id: 2, name: 'Event 2', date: new Date('2022-2-28'), content: 'content', associationId: 2 },
+      { id: 3, name: 'Event 3', date: new Date('2022-3-13'), content: 'content', associationId: 1 },
     ];
 
     mockedAssociations = [
@@ -109,7 +109,7 @@ describe('EventsService', () => {
       const associationId = 1;
       const createEventPayload: CreateEventDto = {
         name: 'New Event',
-        date: new Date('15-02-2022'),
+        date: new Date('2022-2-15'),
         content: 'content',
         associationId,
       };
@@ -129,7 +129,7 @@ describe('EventsService', () => {
       const associationId = -1;
       const createEventPayload: CreateEventDto = {
         name: 'New Event',
-        date: new Date('15-02-2022'),
+        date: new Date('2022-2-15'),
         content: 'content',
         associationId,
       };
@@ -196,7 +196,7 @@ describe('EventsService', () => {
         const id = 1;
         const updateEventPayload: UpdateEventDto = {
           name: 'updated event name',
-          date: new Date('22-02-2022'),
+          date: new Date('2022-2-22'),
           content: 'new content',
         };
 
@@ -215,7 +215,7 @@ describe('EventsService', () => {
         const id = -1;
         const updateEventPayload: UpdateEventDto = {
           name: 'updated event name',
-          date: new Date('22-02-2022'),
+          date: new Date('2022-2-22'),
           content: 'new content',
         };
 
