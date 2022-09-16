@@ -7,7 +7,7 @@ export function UseStorage(storageKey: string) {
     const valStorage = getData(storageKey);
     let firstime = true;
     if (valStorage !== null) {
-      val = JSON.parse(valStorage);
+      val = valStorage;
     }
 
     const getter = () => {
@@ -17,7 +17,7 @@ export function UseStorage(storageKey: string) {
     const setter = (newVal: any) => {
       val = newVal;
       if (firstime && valStorage) {
-        val = JSON.parse(valStorage);
+        val = valStorage;
         firstime = false;
         return;
       }
