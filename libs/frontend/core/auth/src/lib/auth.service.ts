@@ -1,6 +1,6 @@
 import { ApiAuthService, GoogleApiService } from '@stud-asso/frontend-core-api';
 import { AuthDto, CreateAccountDto, TokenDto } from '@stud-asso/shared/dtos';
-import { LocalStorageKey, UseStorage, getData, removeData, setData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageKey, getData, removeData, setData } from '@stud-asso/frontend-core-storage';
 import { catchError, throwError } from 'rxjs';
 
 import { Injectable } from '@angular/core';
