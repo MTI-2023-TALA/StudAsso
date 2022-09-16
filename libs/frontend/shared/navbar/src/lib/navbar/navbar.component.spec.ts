@@ -33,13 +33,5 @@ describe('NavbarComponent', () => {
       fixture.toggleShowLargeNavbar();
       expect(fixture.shouldShowLargeNavbar).toBeTruthy();
     });
-
-    it('Should emit false when calling toggleShowLargeNavbar', () => {
-      spyOn(fixture.shouldShowLargeNavbarChange, 'emit');
-
-      fixture.toggleShowLargeNavbar();
-
-      expect(fixture.shouldShowLargeNavbarChange.emit).toHaveBeenCalledWith(false);
-    });
   });
 });

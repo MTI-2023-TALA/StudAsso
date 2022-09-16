@@ -1,6 +1,6 @@
 import { ApiAuthService, GoogleApiService } from '@stud-asso/frontend-core-api';
 import { AuthDto, CreateAccountDto, TokenDto } from '@stud-asso/shared/dtos';
-import { UseStorage, getData, removeData, setData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { catchError, throwError } from 'rxjs';
 
 import { Injectable } from '@angular/core';
@@ -18,14 +18,16 @@ interface rtJwt {
 export class AuthService {
   public isConnected = false;
   private refreshId: NodeJS.Timer;
-  @UseStorage('jwt-token') private jwt: string | null;
-  @UseStorage('refresh-token') private refreshToken: string | null;
+  private jwt: string | null;
+  private refreshToken: string | null;
 
   constructor(
     private apiAuthService: ApiAuthService,
     private readonly google: GoogleApiService,
     private router: Router
   ) {
+    this.jwt = LocalStorageHelper.getData(LocalStorageKey.JWT_TOKEN);
+    this.refreshToken = LocalStorageHelper.getData(LocalStorageKey.REFRESH_TOKEN);
     this.isConnected = this.isSignIn();
   }
 
@@ -63,7 +65,9 @@ export class AuthService {
     const payload: CreateAccountDto = { email, password, firstname, lastname };
     this.apiAuthService.signupLocal(payload).subscribe((res: TokenDto) => {
       this.jwt = res.accessToken;
+      LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
       this.refreshToken = res.refreshToken;
+      LocalStorageHelper.setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
       this.isConnected = true;
       this.refreshTokenPeriodically();
       if (association) this.router.navigateByUrl('/select-asso');
@@ -86,7 +90,7 @@ export class AuthService {
   }
 
   public isSign(): boolean {
-    return this.isConnected && getData('jwt-token') !== null;
+    return this.isConnected && LocalStorageHelper.getData(LocalStorageKey.JWT_TOKEN) !== null;
   }
 
   public logout() {
@@ -98,15 +102,17 @@ export class AuthService {
 
   private setToken(res: TokenDto, association: boolean = false) {
     this.jwt = res.accessToken;
+    LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
     this.refreshToken = res.refreshToken;
+    LocalStorageHelper.setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
     this.isConnected = true;
     if (association) this.router.navigateByUrl('/select-asso');
     else this.router.navigateByUrl('/');
   }
 
   private reset() {
-    removeData('jwt-token');
-    removeData('refresh-token');
+    LocalStorageHelper.removeData(LocalStorageKey.JWT_TOKEN);
+    LocalStorageHelper.removeData(LocalStorageKey.REFRESH_TOKEN);
     window.clearInterval(this.refreshId);
     this.isConnected = false;
   }
@@ -121,10 +127,10 @@ export class AuthService {
         })
       )
       .subscribe((res: TokenDto) => {
-        setData('jwt-token', res.accessToken);
-        setData('refresh-token', res.refreshToken);
         this.jwt = res.accessToken;
         this.refreshToken = res.refreshToken;
+        LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
+        LocalStorageHelper.setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
       });
   }
 

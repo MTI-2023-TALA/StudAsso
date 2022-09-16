@@ -3,10 +3,10 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { EventDto } from '@stud-asso/shared/dtos';
+import { LocalStorageHelper } from '@stud-asso/frontend-core-storage';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createEventFormly } from './event-page.formly';
-import { getData } from '@stud-asso/frontend-core-storage';
 
 interface Event {
   id: number;
@@ -62,13 +62,12 @@ export class EventPageComponent implements OnInit {
   reloadData() {
     this.isLoading = true;
 
-    // const assoIdData = getData('asso-id');
+    // const assoIdData = LocalStorageHelper.getData('asso-id');
     // if (!assoIdData) {
     //   this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
     //   return;
     // }
 
-    // const associationId = JSON.parse(assoIdData);
     //TODO ask backend for a route to get association events
     this.api.findAll().subscribe((events: EventDto[]) => {
       this.eventList = events.map((event) => ({ ...event, date: new Date(event.date).toLocaleDateString() }));
@@ -114,14 +113,13 @@ export class EventPageComponent implements OnInit {
 
   createEvent() {
     return (model: any) => {
-      const assoIdData = getData('asso-id');
-      if (!assoIdData) {
+      const assoId = LocalStorageHelper.getData('asso-id');
+      if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
       }
-      const associationId = JSON.parse(assoIdData);
 
-      const payload = { ...model, associationId };
+      const payload = { ...model, assoId };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Evénement créé', type: ToastType.Success });
