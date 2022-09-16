@@ -18,14 +18,16 @@ interface rtJwt {
 export class AuthService {
   public isConnected = false;
   private refreshId: NodeJS.Timer;
-  @UseStorage(LocalStorageKey.JWT_TOKEN) private jwt: string | null;
-  @UseStorage(LocalStorageKey.REFRESH_TOKEN) private refreshToken: string | null;
+  private jwt: string | null;
+  private refreshToken: string | null;
 
   constructor(
     private apiAuthService: ApiAuthService,
     private readonly google: GoogleApiService,
     private router: Router
   ) {
+    this.jwt = getData(LocalStorageKey.JWT_TOKEN);
+    this.refreshToken = getData(LocalStorageKey.REFRESH_TOKEN);
     this.isConnected = this.isSignIn();
   }
 
@@ -63,7 +65,9 @@ export class AuthService {
     const payload: CreateAccountDto = { email, password, firstname, lastname };
     this.apiAuthService.signupLocal(payload).subscribe((res: TokenDto) => {
       this.jwt = res.accessToken;
+      setData(LocalStorageKey.JWT_TOKEN, this.jwt);
       this.refreshToken = res.refreshToken;
+      setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
       this.isConnected = true;
       this.refreshTokenPeriodically();
       if (association) this.router.navigateByUrl('/select-asso');
@@ -98,7 +102,9 @@ export class AuthService {
 
   private setToken(res: TokenDto, association: boolean = false) {
     this.jwt = res.accessToken;
+    setData(LocalStorageKey.JWT_TOKEN, this.jwt);
     this.refreshToken = res.refreshToken;
+    setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
     this.isConnected = true;
     if (association) this.router.navigateByUrl('/select-asso');
     else this.router.navigateByUrl('/');
@@ -121,10 +127,10 @@ export class AuthService {
         })
       )
       .subscribe((res: TokenDto) => {
-        setData(LocalStorageKey.JWT_TOKEN, res.accessToken);
-        setData(LocalStorageKey.REFRESH_TOKEN, res.refreshToken);
         this.jwt = res.accessToken;
         this.refreshToken = res.refreshToken;
+        setData(LocalStorageKey.JWT_TOKEN, this.jwt);
+        setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
       });
   }
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { LocalStorageKey, getData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageKey, getData, setData } from '@stud-asso/frontend-core-storage';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { NavbarItem } from './navbar.model';
@@ -28,6 +28,7 @@ export class NavbarComponent {
 
   toggleShowLargeNavbar() {
     this.shouldShowLargeNavbar = !this.shouldShowLargeNavbar;
+    setData(LocalStorageKey.ENABLE_LARGE_NAVBAR, this.shouldShowLargeNavbar);
     this.shouldShowLargeNavbarChange.emit(this.shouldShowLargeNavbar);
   }
 
