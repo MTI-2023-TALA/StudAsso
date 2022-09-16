@@ -18,8 +18,8 @@ interface rtJwt {
 export class AuthService {
   public isConnected = false;
   private refreshId: NodeJS.Timer;
-  @UseStorage('jwt-token') private jwt: string | null;
-  @UseStorage('refresh-token') private refreshToken: string | null;
+  @UseStorage(LocalStorageKey.JWT_TOKEN) private jwt: string | null;
+  @UseStorage(LocalStorageKey.REFRESH_TOKEN) private refreshToken: string | null;
 
   constructor(
     private apiAuthService: ApiAuthService,
@@ -105,8 +105,8 @@ export class AuthService {
   }
 
   private reset() {
-    removeData('jwt-token');
-    removeData('refresh-token');
+    removeData(LocalStorageKey.JWT_TOKEN);
+    removeData(LocalStorageKey.REFRESH_TOKEN);
     window.clearInterval(this.refreshId);
     this.isConnected = false;
   }
@@ -121,8 +121,8 @@ export class AuthService {
         })
       )
       .subscribe((res: TokenDto) => {
-        setData('jwt-token', res.accessToken);
-        setData('refresh-token', res.refreshToken);
+        setData(LocalStorageKey.JWT_TOKEN, res.accessToken);
+        setData(LocalStorageKey.REFRESH_TOKEN, res.refreshToken);
         this.jwt = res.accessToken;
         this.refreshToken = res.refreshToken;
       });
