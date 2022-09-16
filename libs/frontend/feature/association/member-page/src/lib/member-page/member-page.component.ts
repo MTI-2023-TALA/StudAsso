@@ -6,7 +6,7 @@ import {
 } from '@stud-asso/shared/dtos';
 import { ApiAssociationService, ApiRoleService, ApiUserService } from '@stud-asso/frontend-core-api';
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageKey, getData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -55,7 +55,7 @@ export class MemberPageComponent implements OnInit {
 
   reloadData(): void {
     this.isLoading = true;
-    const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+    const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
     if (!assoId) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
@@ -76,7 +76,7 @@ export class MemberPageComponent implements OnInit {
 
   createMember(): (data: any) => void {
     return (data: any) => {
-      const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+      const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;

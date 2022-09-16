@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageKey, getData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { StockDto, StockLogDto, StockLogWithUserDto } from '@stud-asso/shared/dtos';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
@@ -70,7 +70,7 @@ export class StockPageComponent implements OnInit {
   }
 
   reloadData() {
-    const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+    const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
     if (!assoId) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
@@ -99,7 +99,7 @@ export class StockPageComponent implements OnInit {
   }
 
   createModalAllLogs() {
-    const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+    const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
     if (!assoId) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
@@ -121,7 +121,7 @@ export class StockPageComponent implements OnInit {
 
   createStock() {
     return (model: any) => {
-      const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+      const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;

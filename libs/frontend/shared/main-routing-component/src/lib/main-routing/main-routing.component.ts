@@ -1,6 +1,6 @@
 import { ActivatedRoute, Data } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LocalStorageKey, getData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { ToastDirective, ToastService } from '@stud-asso/frontend-shared-toast';
 
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
@@ -19,7 +19,7 @@ export class MainRoutingComponent implements OnInit {
   shouldShowLargeNavbar: boolean;
 
   constructor(private activatedRoute: ActivatedRoute, private toastService: ToastService) {
-    this.shouldShowLargeNavbar = getData(LocalStorageKey.ENABLE_LARGE_NAVBAR) ?? true;
+    this.shouldShowLargeNavbar = LocalStorageHelper.getData(LocalStorageKey.ENABLE_LARGE_NAVBAR) ?? true;
   }
 
   ngOnInit(): void {

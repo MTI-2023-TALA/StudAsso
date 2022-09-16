@@ -1,5 +1,5 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { LocalStorageKey, getData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { Observable, catchError } from 'rxjs';
 
 import { Injectable } from '@angular/core';
@@ -14,10 +14,10 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let token = getData(LocalStorageKey.JWT_TOKEN);
+    let token = LocalStorageHelper.getData(LocalStorageKey.JWT_TOKEN);
 
     if (req.url.includes('/api/auth/refresh')) {
-      token = getData(LocalStorageKey.REFRESH_TOKEN);
+      token = LocalStorageHelper.getData(LocalStorageKey.REFRESH_TOKEN);
     }
 
     if (token) {

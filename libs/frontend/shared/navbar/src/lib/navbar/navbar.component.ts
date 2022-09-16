@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { LocalStorageKey, getData, setData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { NavbarItem } from './navbar.model';
@@ -21,14 +21,14 @@ export class NavbarComponent {
   isNavbarCollapsed = true;
 
   constructor(private authService: AuthService) {
-    if (getData(LocalStorageKey.ASSOCIATION_NAME)) {
-      this.assoName = getData(LocalStorageKey.ASSOCIATION_NAME);
+    if (LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_NAME)) {
+      this.assoName = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_NAME);
     }
   }
 
   toggleShowLargeNavbar() {
     this.shouldShowLargeNavbar = !this.shouldShowLargeNavbar;
-    setData(LocalStorageKey.ENABLE_LARGE_NAVBAR, this.shouldShowLargeNavbar);
+    LocalStorageHelper.setData(LocalStorageKey.ENABLE_LARGE_NAVBAR, this.shouldShowLargeNavbar);
     this.shouldShowLargeNavbarChange.emit(this.shouldShowLargeNavbar);
   }
 

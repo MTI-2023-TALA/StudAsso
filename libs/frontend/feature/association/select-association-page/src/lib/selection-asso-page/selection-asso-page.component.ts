@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageKey, setData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 
 import { ApiUserService } from '@stud-asso/frontend-core-api';
 import { AssociationOfUserDto } from '@stud-asso/shared/dtos';
@@ -23,8 +23,8 @@ export class SelectionAssoPageComponent implements OnInit {
   }
 
   onClickAsso(id: number, name: string) {
-    setData(LocalStorageKey.ASSOCIATION_ID, id);
-    setData(LocalStorageKey.ASSOCIATION_NAME, name);
+    LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_ID, id);
+    LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_NAME, name);
     this.router.navigate(['/']);
   }
 

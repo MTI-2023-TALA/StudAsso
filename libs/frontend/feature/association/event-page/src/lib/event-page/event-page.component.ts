@@ -3,10 +3,10 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { EventDto } from '@stud-asso/shared/dtos';
+import { LocalStorageHelper } from '@stud-asso/frontend-core-storage';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createEventFormly } from './event-page.formly';
-import { getData } from '@stud-asso/frontend-core-storage';
 
 interface Event {
   id: number;
@@ -62,7 +62,7 @@ export class EventPageComponent implements OnInit {
   reloadData() {
     this.isLoading = true;
 
-    // const assoIdData = getData('asso-id');
+    // const assoIdData = LocalStorageHelper.getData('asso-id');
     // if (!assoIdData) {
     //   this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
     //   return;
@@ -113,7 +113,7 @@ export class EventPageComponent implements OnInit {
 
   createEvent() {
     return (model: any) => {
-      const assoId = getData('asso-id');
+      const assoId = LocalStorageHelper.getData('asso-id');
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageKey, getData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
@@ -51,7 +51,7 @@ export class RolePageComponent implements OnInit {
   reloadData() {
     this.isLoading = true;
 
-    const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+    const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
     if (!assoId) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
@@ -97,7 +97,7 @@ export class RolePageComponent implements OnInit {
 
   createRole() {
     return (model: any) => {
-      const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+      const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
