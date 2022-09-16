@@ -9,7 +9,7 @@
     <div class="item">Nom: {{ user?.firstname }}</div>
     <div class="item">Prénom: {{ user?.lastname }}</div>
     <div class="item">Email: {{ user?.email }}</div>
-    <div class="item">Status:</div>
+    <div class="item">Status: {{ user?.isSchoolEmployee ? "employer de l'école" : 'étudiant' }}</div>
   </div>
   <div class="bottom">
     <button class="button is-danger" (click)="logout()">Se déconnecter</button>
