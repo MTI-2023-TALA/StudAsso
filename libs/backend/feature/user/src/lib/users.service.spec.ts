@@ -253,6 +253,7 @@ describe('UsersService', () => {
         firstname: mockedUsers[0].firstname,
         lastname: mockedUsers[0].lastname,
         email: mockedUsers[0].email,
+        isSchoolEmployee: mockedUsers[0].isSchoolEmployee,
       };
 
       expect(await service.findCurrentUserInfo(userId)).toEqual(expected);

@@ -125,6 +125,7 @@ describe('UsersController', () => {
                 firstname: user.firstname,
                 lastname: user.lastname,
                 email: user.email,
+                isSchoolEmployee: user.isSchoolEmployee,
               });
             }),
             findCurrentUserAsso: jest.fn((userId: number) => {
@@ -279,6 +280,7 @@ describe('UsersController', () => {
         firstname: mockedUsers[0].firstname,
         lastname: mockedUsers[0].lastname,
         email: mockedUsers[0].email,
+        isSchoolEmployee: mockedUsers[0].isSchoolEmployee,
       };
       expect(await controller.findCurrentUserInfo(id)).toEqual(expected);
       expect(findCurrentUserInfo).toHaveBeenCalledTimes(1);
