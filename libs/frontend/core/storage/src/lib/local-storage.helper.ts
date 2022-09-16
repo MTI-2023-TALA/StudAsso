@@ -16,7 +16,7 @@ export class LocalStorageHelper {
     localStorage.setItem(key, jsonData);
   }
 
-  public static getData(key: string) {
+  public static getData<Type>(key: string): Type | null {
     const jsonData = localStorage.getItem(key);
     if (!jsonData) {
       return null;

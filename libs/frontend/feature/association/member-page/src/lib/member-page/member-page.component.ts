@@ -55,7 +55,7 @@ export class MemberPageComponent implements OnInit {
 
   reloadData(): void {
     this.isLoading = true;
-    const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
+    const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
     if (!assoId) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
@@ -76,7 +76,7 @@ export class MemberPageComponent implements OnInit {
 
   createMember(): (data: any) => void {
     return (data: any) => {
-      const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
+      const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
