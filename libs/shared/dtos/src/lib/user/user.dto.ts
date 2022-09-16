@@ -73,6 +73,7 @@ export class SimpleUserDto {
   firstname: string;
   lastname: string;
   email: string;
+  isSchoolEmployee: boolean;
 }
 
 export class UserWithoutIdDto {
