@@ -1,6 +1,6 @@
 import { ApiAuthService, GoogleApiService } from '@stud-asso/frontend-core-api';
 import { AuthDto, CreateAccountDto, TokenDto } from '@stud-asso/shared/dtos';
-import { UseStorage, getData, removeData, setData } from '@stud-asso/frontend-core-storage';
+import { LocalStorageKey, UseStorage, getData, removeData, setData } from '@stud-asso/frontend-core-storage';
 import { catchError, throwError } from 'rxjs';
 
 import { Injectable } from '@angular/core';
@@ -86,7 +86,7 @@ export class AuthService {
   }
 
   public isSign(): boolean {
-    return this.isConnected && getData('jwt-token') !== null;
+    return this.isConnected && getData(LocalStorageKey.JWT_TOKEN) !== null;
   }
 
   public logout() {

@@ -4,7 +4,11 @@ export function setData<Type>(key: string, data: Type) {
 }
 
 export function getData(key: string) {
-  return localStorage.getItem(key);
+  const jsonData = localStorage.getItem(key);
+  if (!jsonData) {
+    return null;
+  }
+  return JSON.parse(jsonData);
 }
 
 export function removeData(key: string) {

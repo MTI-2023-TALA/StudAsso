@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { LocalStorageKey, getData } from '@stud-asso/frontend-core-storage';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { NavbarItem } from './navbar.model';
-import { getData } from '@stud-asso/frontend-core-storage';
 
 @Component({
   selector: 'stud-asso-navbar',
@@ -21,8 +21,8 @@ export class NavbarComponent {
   isNavbarCollapsed = true;
 
   constructor(private authService: AuthService) {
-    if (getData('asso-name')) {
-      this.assoName = JSON.parse(getData('asso-name') as string);
+    if (getData(LocalStorageKey.ASSOCIATION_NAME)) {
+      this.assoName = getData(LocalStorageKey.ASSOCIATION_NAME);
     }
   }
 

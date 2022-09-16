@@ -68,7 +68,6 @@ export class EventPageComponent implements OnInit {
     //   return;
     // }
 
-    // const associationId = JSON.parse(assoIdData);
     //TODO ask backend for a route to get association events
     this.api.findAll().subscribe((events: EventDto[]) => {
       this.eventList = events.map((event) => ({ ...event, date: new Date(event.date).toLocaleDateString() }));
@@ -114,14 +113,13 @@ export class EventPageComponent implements OnInit {
 
   createEvent() {
     return (model: any) => {
-      const assoIdData = getData('asso-id');
-      if (!assoIdData) {
+      const assoId = getData('asso-id');
+      if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
       }
-      const associationId = JSON.parse(assoIdData);
 
-      const payload = { ...model, associationId };
+      const payload = { ...model, assoId };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Evénement créé', type: ToastType.Success });

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageKey, getData } from '@stud-asso/frontend-core-storage';
 import { StockDto, StockLogDto, StockLogWithUserDto } from '@stud-asso/shared/dtos';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
@@ -6,7 +7,6 @@ import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { createStockFormly } from './stock-page.formly';
-import { getData } from '@stud-asso/frontend-core-storage';
 
 @Component({
   selector: 'stud-asso-stock-page',
@@ -70,12 +70,11 @@ export class StockPageComponent implements OnInit {
   }
 
   reloadData() {
-    const assoIdData = getData('asso-id');
-    if (!assoIdData) {
+    const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+    if (!assoId) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
     }
-    const assoId = JSON.parse(assoIdData);
     this.isLoading = true;
     this.api.findAllStockWithAssoId(assoId).subscribe((stocks: StockDto[]) => {
       this.stockList = stocks;
@@ -100,12 +99,12 @@ export class StockPageComponent implements OnInit {
   }
 
   createModalAllLogs() {
-    const assoIdData = getData('asso-id');
-    if (!assoIdData) {
+    const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+    if (!assoId) {
       this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
       return;
     }
-    this.api.findAllAssoStockLog(+assoIdData).subscribe((logs: StockLogWithUserDto[]) => {
+    this.api.findAllAssoStockLog(+assoId).subscribe((logs: StockLogWithUserDto[]) => {
       this.modal.createLogsModal({ message: "Logs de l'association", logs: logs });
     });
   }
@@ -122,12 +121,12 @@ export class StockPageComponent implements OnInit {
 
   createStock() {
     return (model: any) => {
-      const assoIdData = getData('asso-id');
-      if (!assoIdData) {
+      const assoId = getData(LocalStorageKey.ASSOCIATION_ID);
+      if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
       }
-      const assoId = JSON.parse(assoIdData);
+
       const tmp = { associationId: assoId };
       model = Object.assign(model, tmp);
       model['count'] = Number(model['count']);
