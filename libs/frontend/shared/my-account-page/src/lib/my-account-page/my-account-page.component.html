@@ -11,22 +11,24 @@
     <div class="item">Email: {{ user?.email }}</div>
     <div class="item">Status: {{ user?.isSchoolEmployee ? "employé de l'école" : 'étudiant' }}</div>
   </div>
-  <div class="u-m-t-2 title">Mes associations</div>
-  <div class="main-asso">
-    <div *ngIf="userAssociationList?.length === 0">
-      {{ 'asso.none' | translate }}
-    </div>
-    <div
-      class="asso-item"
-      *ngFor="let asso of userAssociationList"
-      (click)="onClickAsso(asso.associationId, asso.associationName)"
-    >
-      <div class="left">
-        <div class="name">{{ asso.associationName }}</div>
-        <div class="role">{{ asso.roleName }}</div>
+  <div class="asso-list" *ngIf="shouldDisplayAssoList">
+    <div class="u-m-t-2 title">Mes associations</div>
+    <div class="main-asso">
+      <div *ngIf="userAssociationList?.length === 0">
+        {{ 'asso.none' | translate }}
       </div>
-      <div class="right">
-        <i class="bi bi-box-arrow-up-right"></i>
+      <div
+        class="asso-item"
+        *ngFor="let asso of userAssociationList"
+        (click)="onClickAsso(asso.associationId, asso.associationName)"
+      >
+        <div class="left">
+          <div class="name">{{ asso.associationName }}</div>
+          <div class="role">{{ asso.roleName }}</div>
+        </div>
+        <div class="right">
+          <i class="bi bi-box-arrow-up-right"></i>
+        </div>
       </div>
     </div>
   </div>

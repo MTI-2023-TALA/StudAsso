@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 export class MyAccountPageComponent implements OnInit {
   user: SimpleUserDto | null = null;
   userAssociationList: AssociationAndRoleNameDto[] = [];
+  shouldDisplayAssoList = false;
 
   constructor(
     private router: Router,
@@ -26,6 +27,7 @@ export class MyAccountPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.shouldDisplayAssoList = LocalStorageHelper.getData(LocalStorageKey.APP_NAME) === AppName.ASSOCIATION;
     this.reloadData();
   }
 
@@ -34,7 +36,7 @@ export class MyAccountPageComponent implements OnInit {
       this.user = user;
     });
 
-    if (LocalStorageHelper.getData(LocalStorageKey.APP_NAME) === AppName.ASSOCIATION) {
+    if (this.shouldDisplayAssoList) {
       this.userApi.getMeAsso().subscribe((asso) => {
         this.userAssociationList = asso;
       });
