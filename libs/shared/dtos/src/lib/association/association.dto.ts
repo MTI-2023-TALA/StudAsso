@@ -52,6 +52,7 @@ export class AssociationMemberWithRoleDto {
 }
 
 export class AssociationAndRoleNameDto {
+  associationId: number;
   associationName: string;
   roleName: string;
 }

@@ -62,6 +62,7 @@ export class UsersService {
     return associationsWithRoles.map((associationWithRole) => ({
       associationName: associationWithRole.association.name,
       roleName: associationWithRole.role.name,
+      associationId: associationWithRole.association.id,
     }));
   }
 

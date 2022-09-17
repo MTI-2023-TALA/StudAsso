@@ -1,11 +1,12 @@
+import { ApiAuthService, ApiUserService } from '@stud-asso/frontend-core-api';
 import { AppName, LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
-import { AssociationAndRoleNameDto, SimpleUserDto } from '@stud-asso/shared/dtos';
+import { AssociationAndRoleNameDto, SimpleUserDto, TokenDto } from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
 import { IUpdateUserInfo, updateUserInfo } from './my-account-page.formly';
 
-import { ApiUserService } from '@stud-asso/frontend-core-api';
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'stud-asso-my-account-page',
@@ -16,7 +17,13 @@ export class MyAccountPageComponent implements OnInit {
   user: SimpleUserDto | null = null;
   userAssociationList: AssociationAndRoleNameDto[] = [];
 
-  constructor(private authService: AuthService, private userApi: ApiUserService, private modal: ModalService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private userApi: ApiUserService,
+    private apiAuthService: ApiAuthService,
+    private modal: ModalService
+  ) {}
 
   ngOnInit(): void {
     this.reloadData();
@@ -48,6 +55,15 @@ export class MyAccountPageComponent implements OnInit {
       fields: updateUserInfo,
       submitBtnText: 'Modifier',
       submit: this.updateUserInformation(),
+    });
+  }
+
+  onClickAsso(id: number, name: string) {
+    LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_ID, id);
+    LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_NAME, name);
+    this.apiAuthService.refreshTokenWithAssoId({ assoId: id }).subscribe((token: TokenDto) => {
+      this.authService.setToken(token);
+      this.router.navigate(['/']);
     });
   }
 
