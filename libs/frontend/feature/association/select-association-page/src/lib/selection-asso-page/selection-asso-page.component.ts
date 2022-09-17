@@ -34,7 +34,7 @@ export class SelectionAssoPageComponent implements OnInit {
     LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_NAME, name);
     this.isLoading = true;
     this.apiAuthService.refreshTokenWithAssoId({ assoId: id }).subscribe((token: TokenDto) => {
-      this.authService.onlySetToken(token);
+      this.authService.setToken(token);
       this.router.navigate(['/']);
     });
   }

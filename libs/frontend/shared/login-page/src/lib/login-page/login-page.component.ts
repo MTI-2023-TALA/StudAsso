@@ -13,7 +13,6 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent implements OnInit {
-  isAsso = false;
   title = '';
 
   constructor(
@@ -27,12 +26,11 @@ export class LoginPageComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe((data: Data) => {
       this.title = data['title'];
-      this.isAsso = this.title === 'Portail Association';
     });
 
     this.signInService.accessToken$.subscribe((accessToken) => {
       if (accessToken) {
-        this.authService.tryToSignInWithGoogle(accessToken, this.isAsso);
+        this.authService.tryToSignInWithGoogle(accessToken);
       }
     });
   }
@@ -40,7 +38,7 @@ export class LoginPageComponent implements OnInit {
   public async onClickGoogleButton() {
     const accessToken = this.signInService.signIn();
     if (accessToken) {
-      this.authService.tryToSignInWithGoogle(accessToken, this.isAsso);
+      this.authService.tryToSignInWithGoogle(accessToken);
     }
   }
 
@@ -55,7 +53,7 @@ export class LoginPageComponent implements OnInit {
 
   public tryToSignIn() {
     return (model: { email: string; password: string }) => {
-      this.authService.tryToSign(model.email, model.password, this.isAsso);
+      this.authService.tryToSign(model.email, model.password);
     };
   }
 
@@ -70,7 +68,7 @@ export class LoginPageComponent implements OnInit {
 
   public tryToSignUp() {
     return (model: { email: string; password: string; firstname: string; lastname: string }) => {
-      return this.authService.tryToSignUp(model.email, model.password, model.firstname, model.lastname, this.isAsso);
+      return this.authService.tryToSignUp(model.email, model.password, model.firstname, model.lastname);
     };
   }
 }
