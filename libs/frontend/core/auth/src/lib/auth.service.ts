@@ -104,9 +104,8 @@ export class AuthService {
 
   private redirectAfterSucessfullLogin() {
     const appName = LocalStorageHelper.getData(LocalStorageKey.APP_NAME);
-    if (appName === AppName.ASSOCIATION) {
-      this.router.navigateByUrl('/select-asso');
-    } else [this.router.navigateByUrl('/')];
+    if (appName === AppName.ASSOCIATION) this.router.navigateByUrl('/select-asso');
+    else [this.router.navigateByUrl('/')];
   }
 
   private reset() {
