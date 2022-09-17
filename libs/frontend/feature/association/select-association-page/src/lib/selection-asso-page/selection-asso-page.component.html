@@ -1,4 +1,4 @@
-<div class="center">
+<div class="center" *ngIf="!isLoading">
   <h1 class="title">{{ 'asso.found' | translate }}</h1>
   <div class="list">
     <div *ngFor="let asso of assoList?.associationsId" class="item" (click)="onClickAsso(asso.id, asso.name)">
@@ -17,4 +17,7 @@
       </button>
     </div>
   </div>
+</div>
+<div *ngIf="isLoading">
+  <stud-asso-spinner></stud-asso-spinner>
 </div>

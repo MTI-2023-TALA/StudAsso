@@ -1,4 +1,4 @@
-import { AuthDto, CreateAccountDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
+import { AssoIdOfUserDto, AuthDto, CreateAccountDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
 
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
@@ -32,5 +32,9 @@ export class ApiAuthService {
 
   public refreshToken(): Observable<TokenDto> {
     return this.apiService.post<Record<string, never>, TokenDto>(`${this.url}/refresh`, {});
+  }
+
+  public refreshTokenWithAssoId(payload: AssoIdOfUserDto): Observable<TokenDto> {
+    return this.apiService.post<AssoIdOfUserDto, TokenDto>(`${this.url}/local/refreshWithAssoId`, payload);
   }
 }

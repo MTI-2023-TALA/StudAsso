@@ -1,8 +1,8 @@
+import { ApiAuthService, ApiUserService } from '@stud-asso/frontend-core-api';
+import { AssociationOfUserDto, TokenDto } from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 
-import { ApiUserService } from '@stud-asso/frontend-core-api';
-import { AssociationOfUserDto } from '@stud-asso/shared/dtos';
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { Router } from '@angular/router';
 
@@ -13,19 +13,30 @@ import { Router } from '@angular/router';
 })
 export class SelectionAssoPageComponent implements OnInit {
   assoList: AssociationOfUserDto | null;
+  isLoading = true;
 
-  constructor(private router: Router, private api: ApiUserService, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private api: ApiUserService,
+    private authService: AuthService,
+    private apiAuthService: ApiAuthService
+  ) {}
 
   ngOnInit() {
     this.api.getUserAsso().subscribe((assoList) => {
       this.assoList = assoList;
+      this.isLoading = false;
     });
   }
 
   onClickAsso(id: number, name: string) {
     LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_ID, id);
     LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_NAME, name);
-    this.router.navigate(['/']);
+    this.isLoading = true;
+    this.apiAuthService.refreshTokenWithAssoId({ assoId: id }).subscribe((token: TokenDto) => {
+      this.authService.onlySetToken(token);
+      this.router.navigate(['/']);
+    });
   }
 
   logout() {
