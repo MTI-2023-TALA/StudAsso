@@ -1,4 +1,5 @@
 import {
+  AssociationAndRoleNameDto,
   AssociationOfUserDto,
   SimpleUserDto,
   UpdateUserFirstLastNameDto,
@@ -31,6 +32,10 @@ export class ApiUserService extends ApiBaseService {
 
   getMe(): Observable<SimpleUserDto> {
     return this.api.get<SimpleUserDto>(`${this.url}/me`);
+  }
+
+  getMeAsso(): Observable<AssociationAndRoleNameDto[]> {
+    return this.api.get<AssociationAndRoleNameDto[]>(`${this.url}/me/asso`);
   }
 
   updateMe(data: UpdateUserFirstLastNameDto) {
