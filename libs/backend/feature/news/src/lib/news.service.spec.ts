@@ -112,6 +112,7 @@ describe('NewsService', () => {
                     ...news,
                     association: {
                       name: association.name,
+                      id: association.id,
                     },
                   };
                 })

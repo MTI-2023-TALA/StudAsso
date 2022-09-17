@@ -123,7 +123,10 @@ export class AuthService {
       throw new ForbiddenException('Access Denied');
     }
 
-    return this._getTokens(id, email, { assoId });
+    const tokens = await this._getTokens(id, email, { assoId });
+    await this._updateRtToken(id, tokens.refreshToken);
+
+    return tokens;
   }
 
   private async _updateRtToken(userId: number, rt: string): Promise<void> {

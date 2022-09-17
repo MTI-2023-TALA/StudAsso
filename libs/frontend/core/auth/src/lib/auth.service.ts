@@ -1,6 +1,6 @@
 import { ApiAuthService, GoogleApiService } from '@stud-asso/frontend-core-api';
+import { AppName, LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { AuthDto, CreateAccountDto, TokenDto } from '@stud-asso/shared/dtos';
-import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { catchError, throwError } from 'rxjs';
 
 import { Injectable } from '@angular/core';
@@ -40,12 +40,14 @@ export class AuthService {
   public isSignIn(): boolean {
     if (this.refreshToken) {
       const rtJwt: rtJwt = jwt_decode(this.refreshToken);
+      // Token expired
       if (rtJwt.exp > Date.now()) {
         this.reset();
         this.google.initGoogle();
         return false;
       }
 
+      // Token not expired - Regenering token
       this.refreshTokenPeriodically();
       this.refresh();
       return true;
@@ -55,37 +57,29 @@ export class AuthService {
     return false;
   }
 
-  public tryToSignUp(
-    email: string,
-    password: string,
-    firstname: string,
-    lastname: string,
-    association: boolean = false
-  ) {
+  public tryToSignUp(email: string, password: string, firstname: string, lastname: string) {
     const payload: CreateAccountDto = { email, password, firstname, lastname };
     this.apiAuthService.signupLocal(payload).subscribe((res: TokenDto) => {
-      this.jwt = res.accessToken;
-      LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
-      this.refreshToken = res.refreshToken;
-      LocalStorageHelper.setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
-      this.isConnected = true;
+      this.setToken(res);
       this.refreshTokenPeriodically();
-      if (association) this.router.navigateByUrl('/select-asso');
-      else this.router.navigateByUrl('/');
+      this.redirectAfterSucessfullLogin();
     });
   }
 
-  public tryToSign(email: string, password: string, association: boolean = false) {
+  public tryToSign(email: string, password: string) {
     const payload: AuthDto = { email, password };
     this.apiAuthService.signinLocal(payload).subscribe((res: TokenDto) => {
-      this.setToken(res, association);
+      this.setToken(res);
+      this.refreshTokenPeriodically();
+      this.redirectAfterSucessfullLogin();
     });
   }
 
-  public tryToSignInWithGoogle(accessToken: string, association: boolean = false) {
+  public tryToSignInWithGoogle(accessToken: string) {
     const payload = { token: accessToken };
     this.apiAuthService.signinWithGoogle(payload).subscribe((res: TokenDto) => {
-      this.setToken(res, association);
+      this.setToken(res);
+      this.redirectAfterSucessfullLogin();
     });
   }
 
@@ -97,10 +91,10 @@ export class AuthService {
     this.reset();
     this.apiAuthService.logout().subscribe();
     this.google.logout();
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/login');
   }
 
-  public onlySetToken(res: TokenDto) {
+  public setToken(res: TokenDto) {
     this.jwt = res.accessToken;
     LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
     this.refreshToken = res.refreshToken;
@@ -108,13 +102,9 @@ export class AuthService {
     this.isConnected = true;
   }
 
-  private setToken(res: TokenDto, association: boolean = false) {
-    this.jwt = res.accessToken;
-    LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
-    this.refreshToken = res.refreshToken;
-    LocalStorageHelper.setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
-    this.isConnected = true;
-    if (association) this.router.navigateByUrl('/select-asso');
+  private redirectAfterSucessfullLogin() {
+    const appName = LocalStorageHelper.getData(LocalStorageKey.APP_NAME);
+    if (appName === AppName.ASSOCIATION) this.router.navigateByUrl('/select-asso');
     else this.router.navigateByUrl('/');
   }
 
@@ -131,14 +121,11 @@ export class AuthService {
       .pipe(
         catchError((err) => {
           this.logout();
-          return throwError(err);
+          return throwError(() => err);
         })
       )
       .subscribe((res: TokenDto) => {
-        this.jwt = res.accessToken;
-        this.refreshToken = res.refreshToken;
-        LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
-        LocalStorageHelper.setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
+        this.setToken(res);
       });
   }
 

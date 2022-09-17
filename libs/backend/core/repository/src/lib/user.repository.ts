@@ -41,6 +41,7 @@ export class UserRepository {
             association: {
               select: {
                 name: true,
+                id: true,
               },
             },
           },
@@ -75,6 +76,7 @@ export class UserRepository {
         },
         association: {
           select: {
+            id: true,
             name: true,
           },
         },

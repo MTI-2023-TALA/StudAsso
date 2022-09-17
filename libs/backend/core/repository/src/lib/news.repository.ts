@@ -44,6 +44,7 @@ export class NewsRepository {
         association: {
           select: {
             name: true,
+            id: true,
           },
         },
       },

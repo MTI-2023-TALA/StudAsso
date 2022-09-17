@@ -1,3 +1,5 @@
+@import 'base/variables';
+
 .host {
   padding: 0 3rem;
 }
@@ -6,6 +8,25 @@
   display: flex;
   justify-content: space-between;
   padding: 2rem 0;
+}
+
+.main-asso {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.asso-item {
+  cursor: pointer;
+  display: flex;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  background-color: $light-grey-200;
+
+  .right {
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+  }
 }
 
 .bottom {

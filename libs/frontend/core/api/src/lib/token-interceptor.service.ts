@@ -31,8 +31,8 @@ export class TokenInterceptorService implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error) => {
         if (error.status === 401) {
-          localStorage.removeItem('jwt-token');
-          localStorage.removeItem('refresh-token');
+          localStorage.removeItem(LocalStorageKey.JWT_TOKEN);
+          localStorage.removeItem(LocalStorageKey.REFRESH_TOKEN);
           this.router.navigateByUrl('/login');
         }
         return next.handle(req);
