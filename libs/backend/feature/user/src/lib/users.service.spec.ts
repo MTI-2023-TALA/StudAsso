@@ -102,6 +102,7 @@ describe('UsersService', () => {
                   associationId: associationMember.associationId,
                   association: {
                     name: association.name,
+                    id: association.id,
                   },
                 });
               });
@@ -131,6 +132,7 @@ describe('UsersService', () => {
                   },
                   association: {
                     name: association.name,
+                    id: association.id,
                   },
                 });
               });
@@ -279,6 +281,7 @@ describe('UsersService', () => {
         {
           associationName: 'Association 1',
           roleName: 'Président',
+          associationId: 1,
         },
       ];
 
