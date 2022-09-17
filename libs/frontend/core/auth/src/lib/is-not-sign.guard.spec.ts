@@ -24,7 +24,7 @@ describe('IsNotSignGuard', () => {
   });
 
   it('should return false if user is signed', () => {
-    authService.tryToSign('a', 'a', false);
+    authService.tryToSign('a', 'a');
     expect(
       guard.canActivate(null as unknown as ActivatedRouteSnapshot, null as unknown as RouterStateSnapshot)
     ).toBeFalsy();

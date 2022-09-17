@@ -143,6 +143,7 @@ describe('UsersController', () => {
                   return {
                     associationName: association.name,
                     roleName: role.name,
+                    associationId: association.id,
                   };
                 })
               );
@@ -305,6 +306,7 @@ describe('UsersController', () => {
         {
           associationName: 'Association 1',
           roleName: 'Président',
+          associationId: 1,
         },
       ];
 
