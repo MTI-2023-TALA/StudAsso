@@ -100,6 +100,14 @@ export class AuthService {
     this.router.navigateByUrl('/');
   }
 
+  public onlySetToken(res: TokenDto) {
+    this.jwt = res.accessToken;
+    LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
+    this.refreshToken = res.refreshToken;
+    LocalStorageHelper.setData(LocalStorageKey.REFRESH_TOKEN, this.refreshToken);
+    this.isConnected = true;
+  }
+
   private setToken(res: TokenDto, association: boolean = false) {
     this.jwt = res.accessToken;
     LocalStorageHelper.setData(LocalStorageKey.JWT_TOKEN, this.jwt);
