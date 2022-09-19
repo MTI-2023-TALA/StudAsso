@@ -1,4 +1,4 @@
-import { AccessGuard, AtGuard, BackendCoreAuthModule } from '@stud-asso/backend-core-auth';
+import { AccessGuard, AtGuard, BackendCoreAuthModule, SchoolEmployeeGuard } from '@stud-asso/backend-core-auth';
 
 import { APP_GUARD } from '@nestjs/core';
 import { BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
@@ -31,11 +31,14 @@ import { Module } from '@nestjs/common';
       provide: APP_GUARD,
       useClass: AtGuard,
     },
-    // Uncomment only when handled on frontend
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: AccessGuard,
-    // },
+    {
+      provide: APP_GUARD,
+      useClass: AccessGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: SchoolEmployeeGuard,
+    },
   ],
 })
 export class AppModule {}

@@ -13,3 +13,7 @@ export const createRoleFormly = (name: string | null = null): FormlyFieldConfig[
     },
   },
 ];
+
+export interface ICreateRoleFormly {
+  name: string;
+}

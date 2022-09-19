@@ -6,7 +6,7 @@ export enum PermissionId {
   MEMBER_ADD = 'MEMBER_ADD',
   MEMBER_REMOVE = 'MEMBER_REMOVE',
   NEWS_MANAGEMENT = 'NEWS_MANAGEMENT',
-  EVENT_MANAGEMENT = 'EVENEMENT_MANAGEMENT',
+  EVENT_MANAGEMENT = 'EVENT_MANAGEMENT',
   ROLE_MANAGEMENT = 'ROLE_MANAGEMENT',
 }
 
@@ -54,9 +54,9 @@ export const permissions: Permissions = {
   },
   EVENT_MANAGEMENT: {
     id: PermissionId.EVENT_MANAGEMENT,
-    name: 'Evenement Management',
+    name: 'Event Management',
     color: PermissionColor.PRIMARY,
-    description: 'Evenement Management',
+    description: 'Event Management',
   },
   ROLE_MANAGEMENT: {
     id: PermissionId.ROLE_MANAGEMENT,
