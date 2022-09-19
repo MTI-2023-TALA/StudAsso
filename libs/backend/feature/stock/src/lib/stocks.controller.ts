@@ -19,6 +19,7 @@ import { SwaggerController } from '@stud-asso/backend/core/swagger';
 export class StocksController {
   constructor(private readonly stocksService: StocksService) {}
 
+  @Access(PermissionId.STOCK_MANAGEMENT)
   @Post()
   public async create(@GetCurrentUserId() userId: number, @Body() createStockDto: CreateStockDto): Promise<StockDto> {
     try {
@@ -28,13 +29,13 @@ export class StocksController {
     }
   }
 
-  @Access(PermissionId.STOCK_READ)
+  @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get()
   public async findAll(): Promise<StockDto[]> {
     return this.stocksService.findAll();
   }
 
-  @Access(PermissionId.STOCK_READ)
+  @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get('asso/:id')
   public async findAllAsso(@Param('id') id: string): Promise<StockDto[]> {
     try {
@@ -44,6 +45,7 @@ export class StocksController {
     }
   }
 
+  @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get('assologs/:id')
   public async findAllAssoStockLogs(@Param('id') assoId: string): Promise<StockLogWithUserDto[]> {
     try {
@@ -53,6 +55,7 @@ export class StocksController {
     }
   }
 
+  @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get('logs/:id')
   public async findSpecificStockLogs(@Param('id') stockId: string): Promise<StockLogDto[]> {
     try {
@@ -62,6 +65,7 @@ export class StocksController {
     }
   }
 
+  @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get(':id')
   public async findOne(@Param('id') id: string): Promise<StockDto> {
     try {
@@ -71,6 +75,7 @@ export class StocksController {
     }
   }
 
+  @Access(PermissionId.STOCK_MANAGEMENT)
   @Patch(':id')
   public async update(
     @Param('id') id: string,
@@ -84,6 +89,7 @@ export class StocksController {
     }
   }
 
+  @Access(PermissionId.STOCK_MANAGEMENT)
   @Delete(':id')
   public async delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<StockDto> {
     //TODO: soft delete and careful with stock logs

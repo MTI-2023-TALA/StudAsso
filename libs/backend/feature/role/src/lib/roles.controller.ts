@@ -10,6 +10,8 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { Access } from '@stud-asso/backend-core-auth';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { RolesService } from './roles.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
@@ -17,6 +19,7 @@ import { SwaggerController } from '@stud-asso/backend/core/swagger';
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
+  @Access(PermissionId.ROLE_MANAGEMENT)
   @Post()
   public async create(@Body() createRoleDto: CreateRoleDto): Promise<RoleDto> {
     try {
@@ -26,6 +29,7 @@ export class RolesController {
     }
   }
 
+  @Access(PermissionId.MEMBER_ADD)
   @Post('/user')
   public async addRoleToUser(@Body() addRoleToUser: AddRoleToUserDto): Promise<AssociationsMemberDto> {
     try {
@@ -49,6 +53,7 @@ export class RolesController {
     }
   }
 
+  @Access(PermissionId.ROLE_MANAGEMENT)
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<RoleDto> {
     try {
@@ -58,6 +63,7 @@ export class RolesController {
     }
   }
 
+  @Access(PermissionId.ROLE_MANAGEMENT)
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<RoleDto> {
     try {
