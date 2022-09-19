@@ -1,4 +1,4 @@
-import { CreateRoleModel, RoleModel, UpdateRoleModel } from '@stud-asso/backend/core/model';
+import { CreateRoleModel, RoleModel, RolePermissionModel, UpdateRoleModel } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -24,12 +24,12 @@ export class RoleRepository {
     return this.prisma.role.findMany({ where: { associationId: id }, select: simpleUserSelect });
   }
 
-  public async findPermissionsOfUserInAsso(userId: number, assoId: number): Promise<string[]> {
+  public async findPermissionsOfUserInAsso(userId: number, assoId: number): Promise<RolePermissionModel> {
     const res = await this.prisma.associationMember.findFirst({
       where: { associationId: assoId, userId },
-      select: { role: { select: { permissions: true } } },
+      select: { role: { select: { permissions: true, name: true } } },
     });
-    return res?.role.permissions ?? [];
+    return res?.role;
   }
 
   public async findOne(id: number): Promise<RoleModel> {

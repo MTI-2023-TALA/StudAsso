@@ -36,7 +36,11 @@ export class AccessGuard implements CanActivate {
     associationId: number
   ): Promise<boolean> {
     const userPerms = await this.roleRepository.findPermissionsOfUserInAsso(userId, associationId);
-    return requiredPermissions.filter((perm) => userPerms.includes(perm)).length !== 0;
+
+    return (
+      userPerms.name === 'Président' ||
+      requiredPermissions.filter((perm) => userPerms.permissions.includes(perm)).length !== 0
+    );
   }
 
   private getCurrentUserAssociationId(context: ExecutionContext): number {

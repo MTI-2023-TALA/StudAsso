@@ -18,12 +18,14 @@ import {
   Post,
 } from '@nestjs/common';
 import { AssociationsService } from './associations.service';
+import { IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
 @SwaggerController('associations')
 export class AssociationsController {
   constructor(private readonly associationsService: AssociationsService) {}
 
+  @IsSchoolEmployee()
   @Post()
   public async create(@Body() createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
     try {

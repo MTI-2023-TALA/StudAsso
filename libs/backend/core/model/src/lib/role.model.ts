@@ -17,3 +17,8 @@ export class UpdateRoleModel {
 export class RoleNameModel {
   name: string;
 }
+
+export class RolePermissionModel {
+  name: string;
+  permissions: string[];
+}
