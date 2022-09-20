@@ -116,17 +116,28 @@ export class AuthService {
   }
 
   private refresh() {
-    this.apiAuthService
-      .refreshToken()
-      .pipe(
-        catchError((err) => {
-          this.logout();
-          return throwError(() => err);
-        })
-      )
-      .subscribe((res: TokenDto) => {
-        this.setToken(res);
-      });
+    const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
+    if (assoId) {
+      this.apiAuthService
+        .refreshTokenWithAssoId({ assoId })
+        .pipe(
+          catchError((err) => {
+            this.logout();
+            return throwError(() => err);
+          })
+        )
+        .subscribe(this.setToken);
+    } else {
+      this.apiAuthService
+        .refreshToken()
+        .pipe(
+          catchError((err) => {
+            this.logout();
+            return throwError(() => err);
+          })
+        )
+        .subscribe(this.setToken);
+    }
   }
 
   private _minToMs(min: number): number {
