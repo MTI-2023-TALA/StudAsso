@@ -1,3 +1,5 @@
+import { AssociationOfferApplicationRepository } from './association-offer-application.repository';
+import { AssociationOfferRepository } from './association-offer.repository';
 import { AssociationRepository } from './association.repository';
 import { AssociationsMemberRepository } from './associations-member.repository';
 import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
@@ -15,6 +17,8 @@ import { UserRepository } from './user.repository';
   providers: [
     AssociationRepository,
     AssociationsMemberRepository,
+    AssociationOfferRepository,
+    AssociationOfferApplicationRepository,
     EventRepository,
     NewsRepository,
     RoleRepository,
@@ -25,6 +29,8 @@ import { UserRepository } from './user.repository';
   exports: [
     AssociationRepository,
     AssociationsMemberRepository,
+    AssociationOfferRepository,
+    AssociationOfferApplicationRepository,
     EventRepository,
     NewsRepository,
     RoleRepository,
