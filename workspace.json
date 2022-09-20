@@ -10,6 +10,7 @@
     "backend-core-repository": "libs/backend/core/repository",
     "backend-core-swagger": "libs/backend/core/swagger",
     "backend-feature-association": "libs/backend/feature/association",
+    "backend-feature-association-offer": "libs/backend/feature/association-offer",
     "backend-feature-auth": "libs/backend/feature/auth",
     "backend-feature-event": "libs/backend/feature/event",
     "backend-feature-news": "libs/backend/feature/news",
