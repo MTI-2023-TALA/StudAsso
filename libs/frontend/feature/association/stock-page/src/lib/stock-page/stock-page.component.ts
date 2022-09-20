@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ICreateStockFormly, createStockFormly } from './stock-page.formly';
 import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { StockDto, StockLogDto, StockLogWithUserDto } from '@stud-asso/shared/dtos';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
@@ -6,7 +7,6 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
-import { createStockFormly } from './stock-page.formly';
 
 @Component({
   selector: 'stud-asso-stock-page',
@@ -120,17 +120,15 @@ export class StockPageComponent implements OnInit {
   }
 
   createStock() {
-    return (model: any) => {
-      const assoId = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_ID);
+    return (model: ICreateStockFormly) => {
+      const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
       }
 
-      const tmp = { associationId: assoId };
-      model = Object.assign(model, tmp);
-      model['count'] = Number(model['count']);
-      this.api.create(model).subscribe({
+      const payload = { ...model, associationId: assoId };
+      this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Stock créé', type: ToastType.Success });
           this.reloadData();
@@ -159,7 +157,7 @@ export class StockPageComponent implements OnInit {
   }
 
   modifyStock(id: number) {
-    return (model: any) => {
+    return (model: ICreateStockFormly) => {
       this.api.update(id, model).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Stock modifié`, type: ToastType.Success });
