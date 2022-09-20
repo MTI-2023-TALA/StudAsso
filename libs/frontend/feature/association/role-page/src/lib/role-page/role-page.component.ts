@@ -133,7 +133,7 @@ export class RolePageComponent implements OnInit {
   }
 
   modifyRole(id: number) {
-    return (model: any) => {
+    return (model: ICreateRoleFormly) => {
       this.api.update(id, model).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Nom du rôle modifié`, type: ToastType.Success });
