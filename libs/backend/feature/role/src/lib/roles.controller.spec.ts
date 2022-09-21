@@ -133,11 +133,11 @@ describe('RolesController', () => {
               mockedRoles.push(newRole);
               return Promise.resolve(newRole);
             }),
-            addRoleToUser: jest.fn((addRoleToUserPayload: AddRoleToUserDto) => {
+            addRoleToUser: jest.fn((associationId: number, addRoleToUserPayload: AddRoleToUserDto) => {
               if (!mockedUsers.find((user) => user.id === addRoleToUserPayload.userId)) {
                 throw new Error(ERROR.USER_NOT_FOUND);
               }
-              if (!mockedAssociations.find((association) => association.id === addRoleToUserPayload.associationId)) {
+              if (!mockedAssociations.find((association) => association.id === associationId)) {
                 throw new Error(ERROR.ASSO_NOT_FOUND);
               }
               if (!mockedRoles.find((role) => role.id === addRoleToUserPayload.roleId)) {
@@ -145,8 +145,9 @@ describe('RolesController', () => {
               }
               const newAssociationMember: AssociationsMemberDto = {
                 ...addRoleToUserPayload,
+                associationId,
               };
-              mockedAssociationsMember.push(addRoleToUserPayload);
+              mockedAssociationsMember.push({ ...addRoleToUserPayload, associationId });
               return Promise.resolve(newAssociationMember);
             }),
             findAll: jest.fn((id: number) => {
@@ -216,35 +217,32 @@ describe('RolesController', () => {
 
   describe('addRoleToUser', () => {
     it('should add a role to a user', async () => {
-      const addRoleTouser = jest.spyOn(service, 'addRoleToUser');
+      const associationId = 1;
       const addRoleToUserParams = {
         userId: 4,
-        associationId: 1,
         roleId: 4,
       };
-      expect(await controller.addRoleToUser(addRoleToUserParams)).toEqual(addRoleToUserParams);
-      expect(addRoleTouser).toHaveBeenCalledTimes(1);
-      expect(addRoleTouser).toHaveBeenCalledWith(addRoleToUserParams);
-      expect(mockedAssociationsMember).toContainEqual(addRoleToUserParams);
+      expect(await controller.addRoleToUser(associationId, addRoleToUserParams)).toEqual({
+        ...addRoleToUserParams,
+        associationId,
+      });
+      expect(mockedAssociationsMember).toContainEqual({ ...addRoleToUserParams, associationId });
     });
 
     it('should fail to add role to user because an error occured', async () => {
-      const addRoleTouser = jest.spyOn(service, 'addRoleToUser');
+      const associationId = 1;
       const addRoleToUserParams = {
         userId: 1,
-        associationId: 1,
         roleId: 666,
       };
-      expect(controller.addRoleToUser(addRoleToUserParams)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
-      expect(addRoleTouser).toHaveBeenCalledTimes(1);
-      expect(addRoleTouser).toHaveBeenCalledWith(addRoleToUserParams);
+      expect(controller.addRoleToUser(associationId, addRoleToUserParams)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
     });
   });
 
   describe('Find all roles of an asso', () => {
     it('should find all roles', async () => {
       const findAll = jest.spyOn(service, 'findAll');
-      const associationId = '1';
+      const associationId = 1;
 
       expect(await controller.findAll(associationId)).toEqual(
         mockedRoles.filter((role) => role.associationId === +associationId)

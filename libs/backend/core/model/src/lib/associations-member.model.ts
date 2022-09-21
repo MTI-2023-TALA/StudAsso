@@ -26,3 +26,9 @@ export class UserIdAndUserModel {
   userId: number;
   user: UserWithoutIdModel;
 }
+
+export class AddRoleToUserModel {
+  associationId: number;
+  userId: number;
+  roleId: number;
+}

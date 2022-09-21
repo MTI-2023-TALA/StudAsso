@@ -55,20 +55,15 @@ export class MemberPageComponent implements OnInit {
 
   reloadData(): void {
     this.isLoading = true;
-    const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-    if (!assoId) {
-      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-      return;
-    }
 
     Promise.all([
-      this.apiRole.findAllRoleWithAsso(assoId).subscribe((roles: AssociationDto[]) => {
+      this.apiRole.findAllRoleWithAsso().subscribe((roles: AssociationDto[]) => {
         this.rolesList = roles.map((role) => ({ label: role.name, value: role.id.toString() }));
       }),
       this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
         this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
       }),
-      this.apiAssociation.findMembers(assoId).subscribe((members: AssociationMemberWithRoleDto[]) => {
+      this.apiAssociation.findMembers().subscribe((members: AssociationMemberWithRoleDto[]) => {
         this.membersList = members;
       }),
     ]).finally(() => (this.isLoading = false));
@@ -76,12 +71,7 @@ export class MemberPageComponent implements OnInit {
 
   createMember(): (data: ICreateMemberFormly) => void {
     return (data: ICreateMemberFormly) => {
-      const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-      if (!assoId) {
-        this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-        return;
-      }
-      const payload: AddRoleToUserDto = { userId: +data.userId, roleId: +data.roleId, associationId: assoId };
+      const payload: AddRoleToUserDto = { userId: +data.userId, roleId: +data.roleId };
       this.apiRole.addRoleToUser(payload).subscribe(() => {
         this.toast.addAlert({ title: 'Membre ajouté', type: ToastType.Success });
         this.reloadData();

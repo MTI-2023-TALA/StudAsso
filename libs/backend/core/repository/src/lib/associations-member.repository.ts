@@ -1,6 +1,6 @@
-import { AddRoleToUserDto } from '@stud-asso/shared/dtos';
+import { AddRoleToUserModel, AssociationMemberWithRoleWithoutIdsModel } from '@stud-asso/backend/core/model';
+
 import { AssociationMember } from '@prisma/client';
-import { AssociationMemberWithRoleWithoutIdsModel } from '@stud-asso/backend/core/model';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
@@ -8,7 +8,7 @@ import { PrismaService } from '@stud-asso/backend/core/orm';
 export class AssociationsMemberRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async linkUserToRole(addRoleToUserDto: AddRoleToUserDto): Promise<AssociationMember> {
+  public async linkUserToRole(addRoleToUserDto: AddRoleToUserModel): Promise<AssociationMember> {
     return this.prisma.associationMember.create({ data: addRoleToUserDto });
   }
 

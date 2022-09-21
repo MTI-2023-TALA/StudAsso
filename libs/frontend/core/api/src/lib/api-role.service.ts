@@ -27,8 +27,8 @@ export class ApiRoleService extends ApiBaseService {
     return this.apiService.delete<RoleDto>(`${this.url}/${id}`);
   }
 
-  public findAllRoleWithAsso(id: number): Observable<RoleDto[]> {
-    return this.apiService.get<RoleDto[]>(`${this.url}/asso/${id}`);
+  public findAllRoleWithAsso(): Observable<RoleDto[]> {
+    return this.apiService.get<RoleDto[]>(`${this.url}/asso`);
   }
 
   public addRoleToUser(user: AddRoleToUserDto): Observable<AssociationsMemberDto> {

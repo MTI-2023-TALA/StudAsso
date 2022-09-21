@@ -51,13 +51,7 @@ export class RolePageComponent implements OnInit {
   reloadData() {
     this.isLoading = true;
 
-    const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-    if (!assoId) {
-      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-      return;
-    }
-
-    this.api.findAllRoleWithAsso(assoId).subscribe((roles: RoleDto[]) => {
+    this.api.findAllRoleWithAsso().subscribe((roles: RoleDto[]) => {
       this.roleList = roles;
       this.isLoading = false;
     });

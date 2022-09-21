@@ -1,3 +1,4 @@
+import { Access, GetCurrentAssoId } from '@stud-asso/backend-core-auth';
 import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
 import {
   BadRequestException,
@@ -10,7 +11,6 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Access } from '@stud-asso/backend-core-auth';
 import { PermissionId } from '@stud-asso/shared/permission';
 import { RolesService } from './roles.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -31,17 +31,20 @@ export class RolesController {
 
   @Access(PermissionId.MEMBER_ADD)
   @Post('/user')
-  public async addRoleToUser(@Body() addRoleToUser: AddRoleToUserDto): Promise<AssociationsMemberDto> {
+  public async addRoleToUser(
+    @GetCurrentAssoId() associationId: number,
+    @Body() addRoleToUser: AddRoleToUserDto
+  ): Promise<AssociationsMemberDto> {
     try {
-      return await this.rolesService.addRoleToUser(addRoleToUser);
+      return await this.rolesService.addRoleToUser(associationId, addRoleToUser);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
   }
 
-  @Get('/asso/:id')
-  public findAll(@Param('id') id: string): Promise<RoleDto[]> {
-    return this.rolesService.findAll(+id);
+  @Get('/asso')
+  public findAll(@GetCurrentAssoId() id: number): Promise<RoleDto[]> {
+    return this.rolesService.findAll(id);
   }
 
   @Get(':id')

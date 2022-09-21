@@ -25,10 +25,6 @@ export class AddRoleToUserDto {
 
   @IsNotEmpty()
   @IsInt()
-  associationId: number;
-
-  @IsNotEmpty()
-  @IsInt()
   roleId: number;
 }
 

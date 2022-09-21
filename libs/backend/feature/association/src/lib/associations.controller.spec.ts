@@ -170,11 +170,11 @@ describe('AssociationsController', () => {
 
   describe('findAssociationMembersWithRoles', () => {
     it('should call associationService.findAssociationMembersWithRoles', async () => {
-      expect(await controller.findAssociationMembersWithRoles('1')).toEqual(mockAssoMembersWithRole);
+      expect(await controller.findAssociationMembersWithRoles(1)).toEqual(mockAssoMembersWithRole);
     });
 
     it('should call associationService.findAssociationMembersWithRoles and fail', async () => {
-      expect(() => controller.findAssociationMembersWithRoles('3')).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
+      expect(() => controller.findAssociationMembersWithRoles(3)).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
     });
   });
 

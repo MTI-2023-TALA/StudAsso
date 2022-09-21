@@ -35,13 +35,13 @@ export class RolesService {
     }
   }
 
-  public async addRoleToUser(addRoleToUserDto: AddRoleToUserDto): Promise<AssociationsMemberDto> {
+  public async addRoleToUser(associationId, addRoleToUserDto: AddRoleToUserDto): Promise<AssociationsMemberDto> {
     const user = await this.userRepository.findOne(addRoleToUserDto.userId);
     if (!user) {
       throw new Error(ERROR.USER_NOT_FOUND);
     }
 
-    const asso = await this.associationRepository.findOne(addRoleToUserDto.associationId);
+    const asso = await this.associationRepository.findOne(associationId);
     if (!asso) {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
@@ -51,7 +51,7 @@ export class RolesService {
       throw new Error(ERROR.ROLE_NOT_FOUND);
     }
 
-    return await this.associationsMemberRepository.linkUserToRole(addRoleToUserDto);
+    return await this.associationsMemberRepository.linkUserToRole({ ...addRoleToUserDto, associationId });
   }
 
   public async findAll(id: number): Promise<RoleDto[]> {
