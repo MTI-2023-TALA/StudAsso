@@ -12,9 +12,9 @@ export class NewsService {
     private readonly newsRepository: NewsRepository
   ) {}
 
-  public async create(userId: number, createBaseDto: CreateNewsDto): Promise<NewsDto> {
+  public async create(userId: number, associationId: number, createBaseDto: CreateNewsDto): Promise<NewsDto> {
     try {
-      return await this.newsRepository.create(userId, createBaseDto);
+      return await this.newsRepository.create(userId, associationId, createBaseDto);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003') {

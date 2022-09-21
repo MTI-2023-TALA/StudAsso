@@ -82,11 +82,11 @@ describe('NewsService', () => {
         {
           provide: NewsRepository,
           useValue: {
-            create: jest.fn((userId: number, createNewsPayload: CreateNewsDto) => {
+            create: jest.fn((userId: number, associationId: number, createNewsPayload: CreateNewsDto) => {
               if (!mockedUsers.find((user) => user.id === userId)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2003', 'mock', { field_name: 'user (index)' });
               }
-              if (!mockedAssociations.find((association) => association.id === createNewsPayload.associationId)) {
+              if (!mockedAssociations.find((association) => association.id === associationId)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2003', 'mock', { field_name: 'association (index)' });
               }
 
@@ -96,6 +96,7 @@ describe('NewsService', () => {
                 createdAt: new Date(new Date().toLocaleDateString()),
                 updatedAt: new Date(new Date().toLocaleDateString()),
                 userId,
+                associationId,
                 ...createNewsPayload,
               };
               mockedNews.push(newNews);
@@ -160,7 +161,8 @@ describe('NewsService', () => {
   describe('Create News', () => {
     it('should create a news', async () => {
       const create = jest.spyOn(repository, 'create');
-      const createNewsPayload: CreateNewsDto = { associationId: 1, content: 'content', title: 'title' };
+      const associationId = 1;
+      const createNewsPayload: CreateNewsDto = { content: 'content', title: 'title' };
 
       const userId = 1;
 
@@ -169,34 +171,29 @@ describe('NewsService', () => {
         createdAt: new Date(new Date().toLocaleDateString()),
         updatedAt: new Date(new Date().toLocaleDateString()),
         userId,
+        associationId,
         ...createNewsPayload,
       };
 
-      expect(await service.create(userId, createNewsPayload)).toEqual(newNews);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
+      expect(await service.create(userId, associationId, createNewsPayload)).toEqual(newNews);
     });
 
     it('should fail to create a news because the given user does not exist', async () => {
-      const create = jest.spyOn(repository, 'create');
-      const createNewsPayload: CreateNewsDto = { associationId: 1, content: 'content', title: 'title' };
+      const associationId = 1;
+      const createNewsPayload: CreateNewsDto = { content: 'content', title: 'title' };
 
       const userId = -1;
 
-      expect(() => service.create(userId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
+      expect(() => service.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
     });
 
     it('should fail to create a news because the given association does not exist', async () => {
-      const create = jest.spyOn(repository, 'create');
-      const createNewsPayload: CreateNewsDto = { associationId: -1, content: 'content', title: 'title' };
+      const associationId = -1;
 
+      const createNewsPayload: CreateNewsDto = { content: 'content', title: 'title' };
       const userId = 1;
 
-      expect(() => service.create(userId, createNewsPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
+      expect(() => service.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
