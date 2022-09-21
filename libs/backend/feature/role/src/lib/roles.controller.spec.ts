@@ -113,21 +113,19 @@ describe('RolesController', () => {
         {
           provide: RolesService,
           useValue: {
-            create: jest.fn((createRolePayload: CreateRoleDto) => {
+            create: jest.fn((associationId: number, createRolePayload: CreateRoleDto) => {
               if (
-                mockedRoles.find(
-                  (role) =>
-                    role.name === createRolePayload.name && role.associationId === createRolePayload.associationId
-                )
+                mockedRoles.find((role) => role.name === createRolePayload.name && role.associationId === associationId)
               ) {
                 throw new Error(ERROR.ROLE_NAME_ALREADY_EXISTS);
               }
-              if (!mockedRoles.find((role) => role.associationId === createRolePayload.associationId)) {
+              if (!mockedRoles.find((role) => role.associationId === associationId)) {
                 throw new Error(ERROR.ASSO_NOT_FOUND);
               }
               const id = mockedRoles.length + 1;
               const newRole: RoleDto = {
                 id,
+                associationId,
                 ...createRolePayload,
               };
               mockedRoles.push(newRole);
@@ -188,30 +186,24 @@ describe('RolesController', () => {
 
   describe('Create role', () => {
     it('should fail to create a new role', async () => {
-      const create = jest.spyOn(service, 'create');
+      const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Vice-Président',
-        associationId: 1,
       };
 
-      expect(controller.create(createRolePayload)).rejects.toThrow(ERROR.ROLE_NAME_ALREADY_EXISTS);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createRolePayload);
+      expect(controller.create(associationId, createRolePayload)).rejects.toThrow(ERROR.ROLE_NAME_ALREADY_EXISTS);
     });
 
     it('should create a new role', async () => {
-      const create = jest.spyOn(service, 'create');
+      const associationId = 1;
       const createRolePayload = {
         name: 'Membre',
-        associationId: 1,
       };
 
       const newRole = { id: mockedRoles.length + 1, ...createRolePayload };
 
-      expect(await controller.create(createRolePayload)).toEqual(newRole);
-      expect(mockedRoles).toContainEqual(newRole);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createRolePayload);
+      expect(await controller.create(associationId, createRolePayload)).toEqual({ ...newRole, associationId });
+      expect(mockedRoles).toContainEqual({ ...newRole, associationId });
     });
   });
 

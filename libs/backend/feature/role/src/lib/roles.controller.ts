@@ -21,9 +21,9 @@ export class RolesController {
 
   @Access(PermissionId.ROLE_MANAGEMENT)
   @Post()
-  public async create(@Body() createRoleDto: CreateRoleDto): Promise<RoleDto> {
+  public async create(@GetCurrentAssoId() assoId: number, @Body() createRoleDto: CreateRoleDto): Promise<RoleDto> {
     try {
-      return await this.rolesService.create(createRoleDto);
+      return await this.rolesService.create(assoId, createRoleDto);
     } catch (error) {
       throw new ConflictException(error?.message);
     }

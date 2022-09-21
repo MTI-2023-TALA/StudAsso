@@ -1,5 +1,5 @@
+import { AddRoleToUserModel, CreateRoleModel } from '@stud-asso/backend/core/model';
 import {
-  AddRoleToUserDto,
   AssociationDto,
   AssociationsMemberDto,
   CreateRoleDto,
@@ -122,7 +122,7 @@ describe('RolesService', () => {
         {
           provide: RoleRepository,
           useValue: {
-            create: jest.fn((createRolePayload: CreateRoleDto) => {
+            create: jest.fn((createRolePayload: CreateRoleModel) => {
               if (mockedRoles.find((role) => role.name === createRolePayload.name)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2002', 'mock', {
                   target: ['name', 'association_id'],
@@ -144,7 +144,7 @@ describe('RolesService', () => {
             findOne: jest.fn((id: number) => {
               return Promise.resolve(mockedRoles.find((role) => role.id === id));
             }),
-            update: jest.fn((id: number, updateRolePayload: CreateRoleDto) => {
+            update: jest.fn((id: number, updateRolePayload: CreateRoleModel) => {
               if (updateRolePayload.name && mockedRoles.find((role) => role.name === updateRolePayload.name)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2002', 'mock', {
                   target: ['name', 'association_id'],
@@ -180,8 +180,8 @@ describe('RolesService', () => {
         {
           provide: AssociationsMemberRepository,
           useValue: {
-            linkUserToRole: jest.fn((addRoleToUserPayload: AddRoleToUserDto) => {
-              mockedAssociationsMember.push(addRoleToUserPayload);
+            linkUserToRole: jest.fn((addRoleToUserPayload: AddRoleToUserModel) => {
+              mockedAssociationsMember.push({ ...addRoleToUserPayload });
               return Promise.resolve(addRoleToUserPayload);
             }),
           },
@@ -200,91 +200,83 @@ describe('RolesService', () => {
 
   describe('Create Role', () => {
     it('should fail to create a new role with unique name validation', async () => {
-      const create = jest.spyOn(roleRepository, 'create');
+      const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Président',
-        associationId: 1,
       };
 
-      expect(service.create(createRolePayload)).rejects.toThrow(ERROR.ROLE_NAME_ALREADY_EXISTS);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createRolePayload);
+      expect(service.create(associationId, createRolePayload)).rejects.toThrow(ERROR.ROLE_NAME_ALREADY_EXISTS);
     });
 
     it('should fail to create a new role in a non existing association', async () => {
-      const create = jest.spyOn(roleRepository, 'create');
+      const associationId = -42;
       const createRolePayload: CreateRoleDto = {
         name: 'Membre',
-        associationId: -42,
       };
 
-      expect(service.create(createRolePayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createRolePayload);
+      expect(service.create(associationId, createRolePayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
 
     it('should create a new role', async () => {
-      const create = jest.spyOn(roleRepository, 'create');
+      const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Membre',
-        associationId: 1,
       };
 
       const newRole = {
         id: mockedRoles.length + 1,
+        associationId,
         ...createRolePayload,
       };
 
-      expect(await service.create(createRolePayload)).toEqual(newRole);
+      expect(await service.create(associationId, createRolePayload)).toEqual(newRole);
       expect(mockedRoles).toContainEqual(newRole);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createRolePayload);
     });
   });
 
   describe('Add Role To User', () => {
     it('should add role to user', async () => {
-      const addRoleTouser = jest.spyOn(associationsMemberRepository, 'linkUserToRole');
+      const associationId = 1;
 
       const addRoleToUserParams = {
         userId: 4,
-        associationId: 1,
         roleId: 4,
       };
-      expect(await service.addRoleToUser(addRoleToUserParams)).toEqual(addRoleToUserParams);
-      expect(addRoleTouser).toHaveBeenCalledTimes(1);
-      expect(addRoleTouser).toHaveBeenCalledWith(addRoleToUserParams);
-      expect(mockedAssociationsMember).toContainEqual(addRoleToUserParams);
+      expect(await service.addRoleToUser(associationId, addRoleToUserParams)).toEqual({
+        ...addRoleToUserParams,
+        associationId,
+      });
+      expect(mockedAssociationsMember).toContainEqual({ ...addRoleToUserParams, associationId });
     });
 
     it('should add role to user and fail because user does not exist', async () => {
       jest.spyOn(userRepository, 'findOne');
+      const associationId = 1;
       const addRoleToUserParams = {
         userId: 666,
-        associationId: 1,
         roleId: 1,
       };
-      expect(service.addRoleToUser(addRoleToUserParams)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.addRoleToUser(associationId, addRoleToUserParams)).rejects.toThrow(ERROR.USER_NOT_FOUND);
     });
 
     it('should add role to user and fail because association does not exist', async () => {
       jest.spyOn(associationRepository, 'findOne');
+      const associationId = 666;
       const addRoleToUserParams = {
         userId: 1,
-        associationId: 666,
         roleId: 1,
       };
-      expect(service.addRoleToUser(addRoleToUserParams)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(service.addRoleToUser(associationId, addRoleToUserParams)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
 
     it('should add role to user and fail because role does not exist', async () => {
       jest.spyOn(roleRepository, 'findOne');
+      const associationId = 1;
       const addRoleToUserParams = {
         userId: 1,
-        associationId: 1,
         roleId: 666,
       };
-      expect(service.addRoleToUser(addRoleToUserParams)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
+      expect(service.addRoleToUser(associationId, addRoleToUserParams)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
     });
   });
 

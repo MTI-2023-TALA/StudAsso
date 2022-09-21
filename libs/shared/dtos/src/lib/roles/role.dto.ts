@@ -6,10 +6,6 @@ export class CreateRoleDto {
   @IsNotEmpty()
   @IsString()
   name: string;
-
-  @IsNotEmpty()
-  @IsInt()
-  associationId: number;
 }
 
 export class UpdateRoleDto {

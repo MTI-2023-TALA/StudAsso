@@ -19,9 +19,9 @@ export class RolesService {
     private readonly userRepository: UserRepository
   ) {}
 
-  public async create(createRoleDto: CreateRoleDto): Promise<RoleDto> {
+  public async create(associationId: number, createRoleDto: CreateRoleDto): Promise<RoleDto> {
     try {
-      return await this.roleRepository.create(createRoleDto);
+      return await this.roleRepository.create({ ...createRoleDto, associationId });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
