@@ -25,6 +25,17 @@ import { SwaggerController } from '@stud-asso/backend/core/swagger';
 export class AssociationsController {
   constructor(private readonly associationsService: AssociationsService) {}
 
+  @Get('members')
+  public async findAssociationMembersWithRoles(
+    @GetCurrentAssoId() id: number
+  ): Promise<AssociationMemberWithRoleDto[]> {
+    try {
+      return await this.associationsService.findAssociationMembersWithRoles(id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @IsSchoolEmployee()
   @Post()
   public async create(@Body() createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
@@ -53,17 +64,6 @@ export class AssociationsController {
   public async findAssociationPresident(@Param('id') id: string): Promise<UserDto> {
     try {
       return await this.associationsService.findAssociationPresident(+id);
-    } catch (error) {
-      throw new NotFoundException(error?.message);
-    }
-  }
-
-  @Get('members')
-  public async findAssociationMembersWithRoles(
-    @GetCurrentAssoId() id: number
-  ): Promise<AssociationMemberWithRoleDto[]> {
-    try {
-      return await this.associationsService.findAssociationMembersWithRoles(id);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
