@@ -13,10 +13,6 @@ export class CreateStockDto {
   @IsInt()
   @Min(0)
   count: number;
-
-  @IsNotEmpty()
-  @IsInt()
-  associationId: number;
 }
 
 export class UpdateStockDto {

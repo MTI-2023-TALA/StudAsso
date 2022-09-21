@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateStockFormly, createStockFormly } from './stock-page.formly';
-import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { StockDto, StockLogDto, StockLogWithUserDto } from '@stud-asso/shared/dtos';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
@@ -70,13 +69,8 @@ export class StockPageComponent implements OnInit {
   }
 
   reloadData() {
-    const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-    if (!assoId) {
-      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-      return;
-    }
     this.isLoading = true;
-    this.api.findAllStockWithAssoId(assoId).subscribe((stocks: StockDto[]) => {
+    this.api.findAllStockWithAssoId().subscribe((stocks: StockDto[]) => {
       this.stockList = stocks;
       this.isLoading = false;
     });
@@ -99,12 +93,7 @@ export class StockPageComponent implements OnInit {
   }
 
   createModalAllLogs() {
-    const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-    if (!assoId) {
-      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-      return;
-    }
-    this.api.findAllAssoStockLog(+assoId).subscribe((logs: StockLogWithUserDto[]) => {
+    this.api.findAllAssoStockLog().subscribe((logs: StockLogWithUserDto[]) => {
       this.modal.createLogsModal({ message: "Logs de l'association", logs: logs });
     });
   }
@@ -121,13 +110,7 @@ export class StockPageComponent implements OnInit {
 
   createStock() {
     return (model: ICreateStockFormly) => {
-      const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-      if (!assoId) {
-        this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-        return;
-      }
-
-      const payload = { ...model, associationId: assoId };
+      const payload = { ...model };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Stock créé', type: ToastType.Success });
