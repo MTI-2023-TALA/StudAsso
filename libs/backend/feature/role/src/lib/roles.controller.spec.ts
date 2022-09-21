@@ -193,7 +193,6 @@ describe('RolesController', () => {
       const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Vice-Président',
-        associationId: 1,
         permissions: [],
       };
 
