@@ -12,9 +12,9 @@ export class EventsService {
     private readonly eventRepository: EventRepository
   ) {}
 
-  public async create(createEventDto: CreateEventDto): Promise<EventDto> {
+  public async create(associationId: number, createEventDto: CreateEventDto): Promise<EventDto> {
     try {
-      return await this.eventRepository.create(createEventDto);
+      return await this.eventRepository.create({ ...createEventDto, associationId });
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {

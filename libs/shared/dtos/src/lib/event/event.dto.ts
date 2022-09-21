@@ -1,4 +1,4 @@
-import { IsDateString, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 // Request DTOs
 
@@ -14,10 +14,6 @@ export class CreateEventDto {
   @IsNotEmpty()
   @IsString()
   content: string;
-
-  @IsNotEmpty()
-  @IsInt()
-  associationId: number;
 }
 
 export class UpdateEventDto {

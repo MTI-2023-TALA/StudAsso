@@ -1,6 +1,7 @@
 export * from './lib/backend-core-auth.module';
 
 export * from './lib/decorators/access.decorator';
+export * from './lib/decorators/get-current-asso-id.decorator';
 export * from './lib/decorators/get-current-user-id.decorator';
 export * from './lib/decorators/get-current-user.decorator';
 export * from './lib/decorators/public.decorator';
