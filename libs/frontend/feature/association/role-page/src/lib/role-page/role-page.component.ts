@@ -103,7 +103,7 @@ export class RolePageComponent implements OnInit {
         return;
       }
 
-      const payload = { ...model, associationId: assoId };
+      const payload = { ...model, associationId: assoId, permissions: [] };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });
