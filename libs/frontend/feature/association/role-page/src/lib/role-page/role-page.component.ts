@@ -90,7 +90,7 @@ export class RolePageComponent implements OnInit {
 
   createRole() {
     return (model: ICreateRoleFormly) => {
-      const payload = { ...model };
+      const payload = { ...model, permissions: [] };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });

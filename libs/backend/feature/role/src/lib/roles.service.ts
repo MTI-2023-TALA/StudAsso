@@ -8,6 +8,7 @@ import {
 
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { Prisma } from '@prisma/client';
 
 @Injectable()
@@ -21,7 +22,8 @@ export class RolesService {
 
   public async create(associationId: number, createRoleDto: CreateRoleDto): Promise<RoleDto> {
     try {
-      return await this.roleRepository.create({ ...createRoleDto, associationId });
+      const createdRole = await this.roleRepository.create({ ...createRoleDto, associationId });
+      return { ...createdRole, permissions: createdRole.permissions as PermissionId[] };
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
@@ -57,13 +59,16 @@ export class RolesService {
   public async findAll(id: number): Promise<RoleDto[]> {
     const association = await this.associationRepository.findOne(id);
     if (!association) throw new Error(ERROR.ASSO_NOT_FOUND);
-    return this.roleRepository.findAll(id);
+    return (await this.roleRepository.findAll(id)).map((role) => ({
+      ...role,
+      permissions: role.permissions as PermissionId[],
+    }));
   }
 
   public async findOne(id: number): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
     if (!role) throw new Error(ERROR.ROLE_NOT_FOUND);
-    return role;
+    return { ...role, permissions: role.permissions as PermissionId[] };
   }
 
   public async update(id: number, updateRoleDto: UpdateRoleDto): Promise<RoleDto> {
@@ -72,7 +77,11 @@ export class RolesService {
     if (role.name === 'Président') throw new Error(ERROR.CANNOT_UPDATE_ROLE);
 
     try {
-      return await this.roleRepository.update(id, updateRoleDto);
+      const updatedRole = await this.roleRepository.update(id, updateRoleDto);
+      return {
+        ...updatedRole,
+        permissions: updatedRole.permissions as PermissionId[],
+      };
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         if (error.code === 'P2002' && error.meta.target[0] === 'name' && error.meta.target[1] === 'association_id') {
@@ -86,6 +95,10 @@ export class RolesService {
     const role = await this.roleRepository.findOne(id);
     if (!role) throw new Error('Role Not Found');
     if (role.name === 'Président') throw new Error(ERROR.CANNOT_DELETE_ROLE);
-    return this.roleRepository.delete(id);
+    const deletedRole = await this.roleRepository.delete(id);
+    return {
+      ...deletedRole,
+      permissions: deletedRole.permissions as PermissionId[],
+    };
   }
 }

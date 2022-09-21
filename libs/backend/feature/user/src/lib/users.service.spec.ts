@@ -71,11 +71,13 @@ describe('UsersService', () => {
         id: 1,
         name: 'Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 2,
         name: 'Président',
         associationId: 2,
+        permissions: [],
       },
     ];
 

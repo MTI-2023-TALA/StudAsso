@@ -67,21 +67,25 @@ describe('RolesService', () => {
         id: 1,
         name: 'Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 2,
         name: 'Président',
         associationId: 2,
+        permissions: [],
       },
       {
         id: 3,
         name: 'Vice-Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 4,
         name: 'Secrétaire',
         associationId: 1,
+        permissions: [],
       },
     ];
 
@@ -203,6 +207,8 @@ describe('RolesService', () => {
       const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Président',
+        associationId: 1,
+        permissions: [],
       };
 
       expect(service.create(associationId, createRolePayload)).rejects.toThrow(ERROR.ROLE_NAME_ALREADY_EXISTS);
@@ -212,6 +218,8 @@ describe('RolesService', () => {
       const associationId = -42;
       const createRolePayload: CreateRoleDto = {
         name: 'Membre',
+        associationId: -42,
+        permissions: [],
       };
 
       expect(service.create(associationId, createRolePayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
@@ -221,6 +229,8 @@ describe('RolesService', () => {
       const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Membre',
+        associationId: 1,
+        permissions: [],
       };
 
       const newRole = {

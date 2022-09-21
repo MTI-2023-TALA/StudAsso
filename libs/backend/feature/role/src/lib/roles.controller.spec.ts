@@ -58,21 +58,25 @@ describe('RolesController', () => {
         id: 1,
         name: 'Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 2,
         name: 'Président',
         associationId: 2,
+        permissions: [],
       },
       {
         id: 3,
         name: 'Vice-Président',
         associationId: 1,
+        permissions: [],
       },
       {
         id: 4,
         name: 'Secrétaire',
         associationId: 1,
+        permissions: [],
       },
     ];
 
@@ -189,6 +193,8 @@ describe('RolesController', () => {
       const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Vice-Président',
+        associationId: 1,
+        permissions: [],
       };
 
       expect(controller.create(associationId, createRolePayload)).rejects.toThrow(ERROR.ROLE_NAME_ALREADY_EXISTS);
@@ -198,6 +204,8 @@ describe('RolesController', () => {
       const associationId = 1;
       const createRolePayload = {
         name: 'Membre',
+        associationId: 1,
+        permissions: [],
       };
 
       const newRole = { id: mockedRoles.length + 1, ...createRolePayload };
