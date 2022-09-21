@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ICreateEventFormly, createEventFormly } from './event-page.formly';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
@@ -6,7 +7,6 @@ import { EventDto } from '@stud-asso/shared/dtos';
 import { LocalStorageHelper } from '@stud-asso/frontend-core-storage';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
-import { createEventFormly } from './event-page.formly';
 
 interface Event {
   id: number;
@@ -112,14 +112,14 @@ export class EventPageComponent implements OnInit {
   }
 
   createEvent() {
-    return (model: any) => {
-      const assoId = LocalStorageHelper.getData('asso-id');
+    return (model: ICreateEventFormly) => {
+      const assoId = LocalStorageHelper.getData<number>('asso-id');
       if (!assoId) {
         this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
         return;
       }
 
-      const payload = { ...model, assoId };
+      const payload = { ...model, date: new Date(model.date), associationId: assoId };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Evénement créé', type: ToastType.Success });
@@ -149,8 +149,8 @@ export class EventPageComponent implements OnInit {
   }
 
   modifyEvent(id: number) {
-    return (model: any) => {
-      this.api.update(id, model).subscribe({
+    return (model: ICreateEventFormly) => {
+      this.api.update(id, { ...model, date: new Date(model.date) }).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Evénement modifié`, type: ToastType.Success });
           this.reloadData();

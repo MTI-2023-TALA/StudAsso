@@ -43,4 +43,24 @@ export const modifyAssociationFormly = [
       required: true,
     },
   },
+  {
+    key: 'description',
+    type: Form.TextArea,
+    templateOptions: {
+      label: `Description de l'association`,
+      placeholder: `Ceci est une description obligatoire.`,
+      required: true,
+    },
+  },
 ];
+
+export interface ICreateAssociationFormly {
+  name: string;
+  description: string;
+  presidentId: number;
+}
+
+export interface IModifyAssociationFormly {
+  name: string;
+  description: string;
+}

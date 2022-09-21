@@ -36,3 +36,8 @@ export const createStockFormly = (name: string | null = null, count: number | nu
     },
   },
 ];
+
+export interface ICreateStockFormly {
+  name: string;
+  count: number;
+}

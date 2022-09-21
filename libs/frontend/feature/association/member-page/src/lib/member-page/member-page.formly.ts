@@ -23,6 +23,7 @@ export const createMemberFormly = async (usersList: SelectOption[], rolesList: S
   },
 ];
 
-export interface ICreateNewsFormly {
-  content: string;
+export interface ICreateMemberFormly {
+  userId: number;
+  roleId: number;
 }

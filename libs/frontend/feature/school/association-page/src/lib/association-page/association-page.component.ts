@@ -1,13 +1,18 @@
 import { ApiAssociationService, ApiUserService } from '@stud-asso/frontend-core-api';
+import { AssociationWithPresidentDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmModalComponent, ModalService } from '@stud-asso/frontend-shared-modal';
+import {
+  ICreateAssociationFormly,
+  IModifyAssociationFormly,
+  createAssociationFormly,
+  modifyAssociationFormly,
+} from './association-page.formly';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
-import { createAssociationFormly, modifyAssociationFormly } from './association-page.formly';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
-import { UserIdAndEmailDto } from '@stud-asso/shared/dtos';
 
 @Component({
   selector: 'stud-asso-association-page',
@@ -40,7 +45,7 @@ export class AssociationPageComponent implements OnInit {
     ],
   };
 
-  associationList: any[] = [];
+  associationList: AssociationWithPresidentDto[] = [];
 
   usersList: SelectOption[] = [];
 
@@ -60,7 +65,7 @@ export class AssociationPageComponent implements OnInit {
   reloadData() {
     this.isLoading = true;
     Promise.all([
-      this.apiAssociation.findAll().subscribe((associations: any) => {
+      this.apiAssociation.findAll().subscribe((associations: AssociationWithPresidentDto[]) => {
         this.associationList = associations;
       }),
       this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
@@ -93,7 +98,7 @@ export class AssociationPageComponent implements OnInit {
   }
 
   createAssociation() {
-    return (model: any) => {
+    return (model: ICreateAssociationFormly) => {
       const dto = { ...model, presidentId: +model.presidentId };
       this.apiAssociation.create(dto).subscribe({
         complete: () => {
@@ -119,7 +124,7 @@ export class AssociationPageComponent implements OnInit {
   }
 
   modifyAssociation(id: number) {
-    return (model: any) => {
+    return (model: IModifyAssociationFormly) => {
       this.apiAssociation.update(id, model).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Nom de l'association modifiée`, type: ToastType.Success });
