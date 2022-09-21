@@ -1,5 +1,6 @@
 import { AssociationDto, CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/repository';
+import { CreateEventModel, UpdateEventModel } from '@stud-asso/backend/core/model';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
@@ -39,7 +40,7 @@ describe('EventsService', () => {
         {
           provide: EventRepository,
           useValue: {
-            create: jest.fn((createEventPayload: CreateEventDto) => {
+            create: jest.fn((createEventPayload: CreateEventModel) => {
               if (!mockedAssociations.find((association) => association.id === createEventPayload.associationId)) {
                 throw new PrismaClientKnownRequestError('mock', 'P2003', 'mock', { field_name: 'association (index)' });
               }
@@ -60,7 +61,7 @@ describe('EventsService', () => {
             findOne: jest.fn((id: number) => {
               return Promise.resolve(mockedEvents.find((event) => event.id === id));
             }),
-            update: jest.fn((id: number, updateEventPayload: UpdateEventDto) => {
+            update: jest.fn((id: number, updateEventPayload: UpdateEventModel) => {
               let updateEvent = mockedEvents.find((event) => event.id === id);
               updateEvent = {
                 ...updateEvent,
@@ -104,47 +105,36 @@ describe('EventsService', () => {
 
   describe('Create Event', () => {
     it('should create a new event', async () => {
-      const create = jest.spyOn(repository, 'create');
       const associationId = 1;
       const createEventPayload: CreateEventDto = {
         name: 'New Event',
         date: new Date('15-02-2022'),
         content: 'content',
-        associationId,
       };
 
       const newEvent: EventDto = {
         id: mockedEvents.length + 1,
         ...createEventPayload,
+        associationId,
       };
 
-      expect(await service.create(createEventPayload)).toEqual(newEvent);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createEventPayload);
+      expect(await service.create(associationId, createEventPayload)).toEqual(newEvent);
     });
 
     it('should fail to create a new event because the association does not exist', async () => {
-      const create = jest.spyOn(repository, 'create');
       const associationId = -1;
       const createEventPayload: CreateEventDto = {
         name: 'New Event',
         date: new Date('15-02-2022'),
         content: 'content',
-        associationId,
       };
 
-      expect(service.create(createEventPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createEventPayload);
+      expect(service.create(associationId, createEventPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
 
     describe('Find All Events', () => {
       it('should return all events', async () => {
-        const findAll = jest.spyOn(repository, 'findAll');
-
         expect(await service.findAll()).toEqual(mockedEvents);
-        expect(findAll).toHaveBeenCalledTimes(1);
-        expect(findAll).toHaveBeenCalledWith();
       });
     });
 
