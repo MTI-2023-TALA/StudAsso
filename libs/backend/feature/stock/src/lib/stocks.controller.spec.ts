@@ -76,7 +76,6 @@ const mockedUpdateResult: UpdateResult = {
 
 describe('StocksController', () => {
   let controller: StocksController;
-  let service: StocksService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -99,7 +98,6 @@ describe('StocksController', () => {
     }).compile();
 
     controller = module.get<StocksController>(StocksController);
-    service = await module.get<StocksService>(StocksService);
   });
 
   afterEach(() => jest.clearAllMocks());

@@ -16,6 +16,7 @@ import {
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { ERROR } from '@stud-asso/backend/core/error';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { RolesService } from './roles.service';
 
@@ -24,7 +25,6 @@ describe('RolesService', () => {
   let roleRepository: RoleRepository;
   let userRepository: UserRepository;
   let associationRepository: AssociationRepository;
-  let associationsMemberRepository: AssociationsMemberRepository;
   let mockedAssociations: AssociationDto[];
   let mockedAssociationsMember: AssociationsMemberDto[];
   let mockedRoles: RoleDto[];
@@ -138,7 +138,11 @@ describe('RolesService', () => {
                 });
               }
               const id = mockedRoles.length + 1;
-              const newRole = { id, ...createRolePayload };
+              const newRole = {
+                id,
+                ...createRolePayload,
+                permissions: createRolePayload.permissions as PermissionId[],
+              };
               mockedRoles.push(newRole);
               return Promise.resolve(newRole);
             }),
@@ -197,7 +201,6 @@ describe('RolesService', () => {
     roleRepository = module.get<RoleRepository>(RoleRepository);
     associationRepository = module.get<AssociationRepository>(AssociationRepository);
     userRepository = module.get<UserRepository>(UserRepository);
-    associationsMemberRepository = module.get<AssociationsMemberRepository>(AssociationsMemberRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -207,7 +210,6 @@ describe('RolesService', () => {
       const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Président',
-        associationId: 1,
         permissions: [],
       };
 
@@ -218,7 +220,6 @@ describe('RolesService', () => {
       const associationId = -42;
       const createRolePayload: CreateRoleDto = {
         name: 'Membre',
-        associationId: -42,
         permissions: [],
       };
 
@@ -229,7 +230,6 @@ describe('RolesService', () => {
       const associationId = 1;
       const createRolePayload: CreateRoleDto = {
         name: 'Membre',
-        associationId: 1,
         permissions: [],
       };
 

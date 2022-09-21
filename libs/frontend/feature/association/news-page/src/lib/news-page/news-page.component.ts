@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateNewsDto, NewsDto } from '@stud-asso/shared/dtos';
 import { ICreateNewsFormly, createNewsFormly } from './news-page.formly';
-import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiNewsFeedService } from '@stud-asso/frontend-core-api';

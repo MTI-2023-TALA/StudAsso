@@ -7,7 +7,6 @@ import {
 import { ApiAssociationService, ApiRoleService, ApiUserService } from '@stud-asso/frontend-core-api';
 import { Component, OnInit } from '@angular/core';
 import { ICreateMemberFormly, createMemberFormly } from './member-page.formly';
-import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';

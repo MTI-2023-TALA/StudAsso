@@ -160,7 +160,6 @@ describe('NewsService', () => {
 
   describe('Create News', () => {
     it('should create a news', async () => {
-      const create = jest.spyOn(repository, 'create');
       const associationId = 1;
       const createNewsPayload: CreateNewsDto = { content: 'content', title: 'title' };
 
