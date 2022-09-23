@@ -52,6 +52,9 @@
       "@stud-asso/frontend/feature/association/event-page": [
         "libs/frontend/feature/association/event-page/src/index.ts"
       ],
+      "@stud-asso/frontend/feature/association/financement-page": [
+        "libs/frontend/feature/association/financement-page/src/index.ts"
+      ],
       "@stud-asso/frontend/feature/association/member-page": [
         "libs/frontend/feature/association/member-page/src/index.ts"
       ],

@@ -26,6 +26,7 @@
     "frontend-core-main-changeable-data": "libs/frontend/core/main-changeable-data",
     "frontend-core-storage": "libs/frontend/core/storage",
     "frontend-feature-association-event-page": "libs/frontend/feature/association/event-page",
+    "frontend-feature-association-financement-page": "libs/frontend/feature/association/financement-page",
     "frontend-feature-association-member-page": "libs/frontend/feature/association/member-page",
     "frontend-feature-association-news-page": "libs/frontend/feature/association/news-page",
     "frontend-feature-association-offer-page": "libs/frontend/feature/association/offer-page",
