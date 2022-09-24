@@ -1,5 +1,6 @@
 import {
   AssociationOfferApplicationDto,
+  AssociationOfferApplicationReviewDto,
   AssociationOfferDto,
   AssociationOfferWithAssoAndRoleDto,
   CreateAssociationOfferApplicationDto,
@@ -76,6 +77,22 @@ export class AssociationOfferService {
       associationName: offer.association.name,
       roleId: offer.role.id,
       roleName: offer.role.name,
+    }));
+  }
+
+  public async findAllApplications(associationId: number): Promise<AssociationOfferApplicationReviewDto[]> {
+    const allApplications = await this.associationOfferApplicationRepository.findAll(associationId);
+    return allApplications.map((application) => ({
+      id: application.id,
+      applicationDate: application.createdAt,
+      motivation: application.motivation,
+      associationOfferId: application.associationOffer.id,
+      roleId: application.associationOffer.role.id,
+      roleName: application.associationOffer.role.name,
+      userId: application.user.id,
+      userFirstname: application.user.firstname,
+      userLastname: application.user.lastname,
+      userEmail: application.user.email,
     }));
   }
 }

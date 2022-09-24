@@ -1,5 +1,6 @@
 import {
   AssociationOfferApplicationDto,
+  AssociationOfferApplicationReviewDto,
   AssociationOfferDto,
   AssociationOfferWithAssoAndRoleDto,
   CreateAssociationOfferApplicationDto,
@@ -44,5 +45,12 @@ export class AssociationOfferController {
   @Get()
   public async findAllOffers(): Promise<AssociationOfferWithAssoAndRoleDto[]> {
     return this.associationOfferService.findAllOffers();
+  }
+
+  @Get('/application')
+  public async findAllApplications(
+    @GetCurrentAssoId() assoId: number
+  ): Promise<AssociationOfferApplicationReviewDto[]> {
+    return this.associationOfferService.findAllApplications(assoId);
   }
 }

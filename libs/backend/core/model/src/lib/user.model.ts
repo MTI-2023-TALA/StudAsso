@@ -22,6 +22,13 @@ export class SimplifiedUserModel {
   isSchoolEmployee: boolean;
 }
 
+export class SimpleUserNoSchoolEmployeeModel {
+  id: number;
+  firstname: string;
+  lastname: string;
+  email: string;
+}
+
 export class UserIdAndEmailModel {
   id: number;
   email: string;
