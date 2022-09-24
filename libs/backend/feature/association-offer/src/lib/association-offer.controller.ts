@@ -1,12 +1,22 @@
-import { Body, Controller } from '@nestjs/common';
+import { AssociationOfferDto, CreateAssociationOfferDto } from '@stud-asso/shared/dtos';
+import { Body, ConflictException, Post } from '@nestjs/common';
 import { AssociationOfferService } from './association-offer.service';
-import { CreateAssociationOfferDto } from '@stud-asso/shared/dtos';
+import { GetCurrentAssoId } from '@stud-asso/backend-core-auth';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
-@Controller('association-offer')
+@SwaggerController('association_offers')
 export class AssociationOfferController {
-  constructor(private AssociationOfferService: AssociationOfferService) {}
+  constructor(private associationOfferService: AssociationOfferService) {}
 
-  public async createAssociationOffer(@Body() createAssociationOfferDto: CreateAssociationOfferDto) {
-    return 'toto';
+  @Post()
+  public async createAssociationOffer(
+    @GetCurrentAssoId() assoId: number,
+    @Body() createAssociationOfferPayload: CreateAssociationOfferDto
+  ): Promise<AssociationOfferDto> {
+    try {
+      return await this.associationOfferService.createAssociationOffer(assoId, createAssociationOfferPayload);
+    } catch (error) {
+      throw new ConflictException(error?.message);
+    }
   }
 }

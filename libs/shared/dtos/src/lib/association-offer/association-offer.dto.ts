@@ -9,7 +9,14 @@ export class CreateAssociationOfferDto {
 
   @IsNotEmpty()
   @IsDateString()
-  date: Date;
+  deadLine: Date;
 }
 
 // Response DTOs
+
+export class AssociationOfferDto {
+  id: number;
+  associationId: number;
+  roleId: number;
+  deadLine: Date;
+}
