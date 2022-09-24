@@ -1,12 +1,8 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 // Request DTOs
 
 export class CreateNewsDto {
-  @IsNotEmpty()
-  @IsInt()
-  associationId: number;
-
   @IsNotEmpty()
   @IsString()
   title: string;

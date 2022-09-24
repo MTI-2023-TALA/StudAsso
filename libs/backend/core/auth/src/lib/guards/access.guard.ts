@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { PERMISSIONS_KEY } from '../decorators/access.decorator';
 import { Reflector } from '@nestjs/core';
 import { RoleRepository } from '@stud-asso/backend/core/repository';
+import { getCurrentUserAssociationId } from '../decorators/get-current-asso-id.decorator';
 import { getCurrentUserId } from '../decorators/get-current-user-id.decorator';
 
 @Injectable()
@@ -21,7 +22,7 @@ export class AccessGuard implements CanActivate {
     }
 
     const userId = getCurrentUserId(context);
-    const associationId = this.getCurrentUserAssociationId(context);
+    const associationId = getCurrentUserAssociationId(context);
 
     if (!userId || !associationId) {
       return false;
@@ -41,10 +42,5 @@ export class AccessGuard implements CanActivate {
       userPerms.name === 'Président' ||
       requiredPermissions.filter((perm) => userPerms.permissions.includes(perm)).length !== 0
     );
-  }
-
-  private getCurrentUserAssociationId(context: ExecutionContext): number {
-    const request = context.switchToHttp().getRequest();
-    return request.user.assoId;
   }
 }

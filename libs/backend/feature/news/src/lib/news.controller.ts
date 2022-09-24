@@ -1,4 +1,4 @@
-import { Access, GetCurrentUserId } from '@stud-asso/backend-core-auth';
+import { Access, GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { Body, ConflictException, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
 import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 
@@ -12,18 +12,22 @@ export class NewsController {
 
   @Access(PermissionId.NEWS_MANAGEMENT)
   @Post()
-  public async create(@GetCurrentUserId() userId: number, @Body() createNewsDto: CreateNewsDto): Promise<NewsDto> {
+  public async create(
+    @GetCurrentUserId() userId: number,
+    @GetCurrentAssoId() assoId: number,
+    @Body() createNewsDto: CreateNewsDto
+  ): Promise<NewsDto> {
     try {
-      return await this.newsFeedService.create(userId, createNewsDto);
+      return await this.newsFeedService.create(userId, assoId, createNewsDto);
     } catch (error) {
       throw new ConflictException(error?.message);
     }
   }
 
-  @Get('asso/:id')
-  public async findAllAssociationNews(@Param('id') id: string): Promise<NewsDto[]> {
+  @Get('asso')
+  public async findAllAssociationNews(@GetCurrentAssoId() id: number): Promise<NewsDto[]> {
     try {
-      return await this.newsFeedService.findAllAssociationNews(+id);
+      return await this.newsFeedService.findAllAssociationNews(id);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

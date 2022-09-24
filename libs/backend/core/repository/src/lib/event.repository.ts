@@ -1,6 +1,5 @@
-import { CreateEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
+import { CreateEventModel, EventModel, UpdateEventModel } from '@stud-asso/backend/core/model';
 
-import { EventModel } from '@stud-asso/backend/core/model';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
@@ -10,7 +9,7 @@ const eventSelect = { id: true, name: true, date: true, content: true, associati
 export class EventRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async create(createEvent: CreateEventDto): Promise<EventModel> {
+  public async create(createEvent: CreateEventModel): Promise<EventModel> {
     return this.prisma.event.create({ data: createEvent, select: eventSelect });
   }
 
@@ -37,7 +36,7 @@ export class EventRepository {
     return this.prisma.event.findUnique({ where: { id }, select: eventSelect });
   }
 
-  public async update(id: number, updateEvent: UpdateEventDto): Promise<EventModel> {
+  public async update(id: number, updateEvent: UpdateEventModel): Promise<EventModel> {
     return this.prisma.event.update({ where: { id }, data: updateEvent, select: eventSelect });
   }
 

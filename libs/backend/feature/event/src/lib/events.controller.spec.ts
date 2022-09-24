@@ -38,14 +38,15 @@ describe('EventsController', () => {
         {
           provide: EventsService,
           useValue: {
-            create: jest.fn((createEventPayload: CreateEventDto) => {
-              if (!mockedAssociations.find((association) => association.id === createEventPayload.associationId)) {
+            create: jest.fn((associationId: number, createEventPayload: CreateEventDto) => {
+              if (!mockedAssociations.find((association) => association.id === associationId)) {
                 throw new Error(ERROR.ASSO_NOT_FOUND);
               }
               const id = mockedEvents.length + 1;
               const newEvent: EventDto = {
                 id,
                 ...createEventPayload,
+                associationId,
               };
               mockedEvents.push(newEvent);
               return Promise.resolve(newEvent);
@@ -92,40 +93,32 @@ describe('EventsController', () => {
 
   describe('Create Event', () => {
     it('should create a new event', async () => {
-      const create = jest.spyOn(service, 'create');
       const associationId = 1;
       const createEventPayload: CreateEventDto = {
         name: 'New Event',
         date: new Date(new Date().toLocaleDateString()),
         content: 'new event content',
-        associationId,
       };
 
       const newEvent: EventDto = {
         id: mockedEvents.length + 1,
         ...createEventPayload,
+        associationId,
       };
 
-      expect(await controller.create(createEventPayload)).toEqual(newEvent);
+      expect(await controller.create(associationId, createEventPayload)).toEqual(newEvent);
       expect(mockedEvents).toContainEqual(newEvent);
-
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createEventPayload);
     });
 
     it('should fail creating a new event', async () => {
-      const create = jest.spyOn(service, 'create');
       const associationId = -1;
       const createEventPayload: CreateEventDto = {
         name: 'New Event',
         date: new Date(new Date().toLocaleDateString()),
         content: 'new event content',
-        associationId,
       };
 
-      expect(controller.create(createEventPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createEventPayload);
+      expect(controller.create(associationId, createEventPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 

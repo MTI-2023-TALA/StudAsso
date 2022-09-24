@@ -18,8 +18,8 @@ export class ApiNewsFeedService extends ApiBaseService {
     return this.apiService.post<CreateNewsDto, NewsDto>(this.url, newsFeed);
   }
 
-  public findAllWithAsso(id: number): Observable<NewsDto[]> {
-    return this.apiService.get<NewsDto[]>(`${this.url}/asso/${id}`);
+  public findAllWithAsso(): Observable<NewsDto[]> {
+    return this.apiService.get<NewsDto[]>(`${this.url}/asso`);
   }
 
   public findAll(): Observable<NewsWithAssoNameDto[]> {

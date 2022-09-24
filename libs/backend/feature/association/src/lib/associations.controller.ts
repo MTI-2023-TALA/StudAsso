@@ -17,13 +17,24 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
+import { GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { AssociationsService } from './associations.service';
-import { IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
 @SwaggerController('associations')
 export class AssociationsController {
   constructor(private readonly associationsService: AssociationsService) {}
+
+  @Get('members')
+  public async findAssociationMembersWithRoles(
+    @GetCurrentAssoId() id: number
+  ): Promise<AssociationMemberWithRoleDto[]> {
+    try {
+      return await this.associationsService.findAssociationMembersWithRoles(id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
 
   @IsSchoolEmployee()
   @Post()
@@ -53,15 +64,6 @@ export class AssociationsController {
   public async findAssociationPresident(@Param('id') id: string): Promise<UserDto> {
     try {
       return await this.associationsService.findAssociationPresident(+id);
-    } catch (error) {
-      throw new NotFoundException(error?.message);
-    }
-  }
-
-  @Get('members/:id')
-  public async findAssociationMembersWithRoles(@Param('id') id: string): Promise<AssociationMemberWithRoleDto[]> {
-    try {
-      return await this.associationsService.findAssociationMembersWithRoles(+id);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

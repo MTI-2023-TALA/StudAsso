@@ -4,7 +4,6 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { EventDto } from '@stud-asso/shared/dtos';
-import { LocalStorageHelper } from '@stud-asso/frontend-core-storage';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
@@ -113,13 +112,7 @@ export class EventPageComponent implements OnInit {
 
   createEvent() {
     return (model: ICreateEventFormly) => {
-      const assoId = LocalStorageHelper.getData<number>('asso-id');
-      if (!assoId) {
-        this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-        return;
-      }
-
-      const payload = { ...model, date: new Date(model.date), associationId: assoId };
+      const payload = { ...model, date: new Date(model.date) };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Evénement créé', type: ToastType.Success });

@@ -31,3 +31,9 @@ export class StockLogWithUserModel {
   user: SimplifiedUserModel;
   stock: StockNameModel;
 }
+
+export class CreateStockModel {
+  name: string;
+  count: number;
+  associationId: number;
+}

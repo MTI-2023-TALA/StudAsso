@@ -1,4 +1,4 @@
-import { Access, GetCurrentUserId } from '@stud-asso/backend-core-auth';
+import { Access, GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import {
   BadRequestException,
   Body,
@@ -21,9 +21,13 @@ export class StocksController {
 
   @Access(PermissionId.STOCK_MANAGEMENT)
   @Post()
-  public async create(@GetCurrentUserId() userId: number, @Body() createStockDto: CreateStockDto): Promise<StockDto> {
+  public async create(
+    @GetCurrentUserId() userId: number,
+    @GetCurrentAssoId() assoId: number,
+    @Body() createStockDto: CreateStockDto
+  ): Promise<StockDto> {
     try {
-      return await this.stocksService.create(userId, createStockDto);
+      return await this.stocksService.create(userId, assoId, createStockDto);
     } catch (error) {
       throw new ConflictException(error?.message);
     }
@@ -36,20 +40,20 @@ export class StocksController {
   }
 
   @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
-  @Get('asso/:id')
-  public async findAllAsso(@Param('id') id: string): Promise<StockDto[]> {
+  @Get('asso')
+  public async findAllAsso(@GetCurrentAssoId() id: number): Promise<StockDto[]> {
     try {
-      return await this.stocksService.findAllAsso(+id);
+      return await this.stocksService.findAllAsso(id);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
   }
 
   @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
-  @Get('assologs/:id')
-  public async findAllAssoStockLogs(@Param('id') assoId: string): Promise<StockLogWithUserDto[]> {
+  @Get('assologs')
+  public async findAllAssoStockLogs(@GetCurrentAssoId() assoId: number): Promise<StockLogWithUserDto[]> {
     try {
-      return await this.stocksService.findAllAssoStockLogs(+assoId);
+      return await this.stocksService.findAllAssoStockLogs(assoId);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

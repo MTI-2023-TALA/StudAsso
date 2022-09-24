@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateRoleFormly, createRoleFormly } from './role-page.formly';
-import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
@@ -51,13 +50,7 @@ export class RolePageComponent implements OnInit {
   reloadData() {
     this.isLoading = true;
 
-    const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-    if (!assoId) {
-      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-      return;
-    }
-
-    this.api.findAllRoleWithAsso(assoId).subscribe((roles: RoleDto[]) => {
+    this.api.findAllRoleWithAsso().subscribe((roles: RoleDto[]) => {
       this.roleList = roles;
       this.isLoading = false;
     });
@@ -97,13 +90,7 @@ export class RolePageComponent implements OnInit {
 
   createRole() {
     return (model: ICreateRoleFormly) => {
-      const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-      if (!assoId) {
-        this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-        return;
-      }
-
-      const payload = { ...model, associationId: assoId, permissions: [] };
+      const payload = { ...model, permissions: [] };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });

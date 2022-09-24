@@ -130,17 +130,15 @@ describe('StocksService', () => {
 
   describe('createStock', () => {
     it('should call stockRepository.create with correct params', async () => {
-      const createStockParams = { name: 'Coca', count: 10, associationId: 1 };
+      const associationId = 1;
+      const createStockParams = { name: 'Coca', count: 10 };
       const createStockDto = plainToInstance(CreateStockDto, createStockParams);
 
-      const create = jest.spyOn(stockRepository, 'create');
       const createLogs = jest.spyOn(stockLogsRepository, 'create');
 
-      const createResultRetrieved = await service.create(1, createStockDto);
+      const createResultRetrieved = await service.create(1, associationId, createStockDto);
       expect(createResultRetrieved).toEqual(mockedStocks[0]);
 
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(createStockParams);
       expect(createLogs).toHaveBeenCalledTimes(1);
       expect(createLogs).toHaveBeenCalledWith({ stockId: 1, userId: 1, oldCount: 10, newCount: 10, action: 'create' });
     });

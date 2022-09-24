@@ -1,15 +1,15 @@
-import { CreateStockDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import { CreateStockModel, StockModel } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
-import { StockModel } from '@stud-asso/backend/core/model';
+import { UpdateStockDto } from '@stud-asso/shared/dtos';
 
 const stockSelect = { id: true, name: true, count: true, associationId: true };
 
 @Injectable()
 export class StockRepository {
   constructor(private prisma: PrismaService) {}
-  public async create(createStock: CreateStockDto): Promise<StockModel> {
+  public async create(createStock: CreateStockModel): Promise<StockModel> {
     return this.prisma.stock.create({ data: createStock, select: stockSelect });
   }
 

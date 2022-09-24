@@ -10,10 +10,6 @@ export class CreateRoleDto {
   name: string;
 
   @IsNotEmpty()
-  @IsInt()
-  associationId: number;
-
-  @IsNotEmpty()
   @IsEnum(PermissionId, { each: true })
   permissions: PermissionId[];
 }
@@ -32,10 +28,6 @@ export class AddRoleToUserDto {
   @IsNotEmpty()
   @IsInt()
   userId: number;
-
-  @IsNotEmpty()
-  @IsInt()
-  associationId: number;
 
   @IsNotEmpty()
   @IsInt()

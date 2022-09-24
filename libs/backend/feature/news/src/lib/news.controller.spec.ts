@@ -80,11 +80,11 @@ describe('NewsController', () => {
         {
           provide: NewsService,
           useValue: {
-            create: jest.fn((userId: number, createNewsPayload: CreateNewsDto) => {
+            create: jest.fn((userId: number, associationId: number, createNewsPayload: CreateNewsDto) => {
               if (!mockedUsers.find((user) => user.id === userId)) {
                 throw new Error(ERROR.USER_NOT_FOUND);
               }
-              if (!mockedAssociations.find((association) => association.id === createNewsPayload.associationId)) {
+              if (!mockedAssociations.find((association) => association.id === associationId)) {
                 throw new Error(ERROR.ASSO_NOT_FOUND);
               }
 
@@ -94,6 +94,7 @@ describe('NewsController', () => {
                 createdAt: new Date(new Date().toLocaleDateString()),
                 updatedAt: new Date(new Date().toLocaleDateString()),
                 userId,
+                associationId,
                 ...createNewsPayload,
               };
               mockedNews.push(newNews);
@@ -147,9 +148,8 @@ describe('NewsController', () => {
 
   describe('Create News', () => {
     it('should create a new news', async () => {
-      const create = jest.spyOn(service, 'create');
+      const associationId = 1;
       const createNewsPayload: CreateNewsDto = {
-        associationId: 1,
         title: 'title',
         content: 'content',
       };
@@ -161,36 +161,31 @@ describe('NewsController', () => {
         createdAt: new Date(new Date().toLocaleDateString()),
         updatedAt: new Date(new Date().toLocaleDateString()),
         userId,
+        associationId,
         ...createNewsPayload,
       };
 
-      expect(await controller.create(userId, createNewsPayload)).toEqual(newNews);
+      expect(await controller.create(userId, associationId, createNewsPayload)).toEqual(newNews);
       expect(mockedNews).toContainEqual(newNews);
-
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
     });
 
     it('should fail because an error has been raised', async () => {
-      const create = jest.spyOn(service, 'create');
+      const associationId = 1;
       const createNewsPayload: CreateNewsDto = {
-        associationId: 1,
         title: 'title',
         content: 'content',
       };
 
       const userId = -1;
 
-      expect(() => controller.create(userId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(userId, createNewsPayload);
+      expect(() => controller.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
     });
   });
 
   describe('Find all news of an association', () => {
     it('should find all news of an association', async () => {
       const findAllAssociationNews = jest.spyOn(service, 'findAllAssociationNews');
-      const associationId = '1';
+      const associationId = 1;
 
       expect(await controller.findAllAssociationNews(associationId)).toEqual(
         mockedNews.filter((news) => news.associationId === +associationId)
@@ -201,7 +196,7 @@ describe('NewsController', () => {
 
     it('should fail because an error has been raised', async () => {
       const findAllAssociationNews = jest.spyOn(service, 'findAllAssociationNews');
-      const associationId = '-1';
+      const associationId = -1;
 
       expect(() => controller.findAllAssociationNews(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
       expect(findAllAssociationNews).toHaveBeenCalledTimes(1);

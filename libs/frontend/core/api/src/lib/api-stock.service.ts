@@ -27,12 +27,12 @@ export class ApiStockService extends ApiBaseService {
     return this.apiService.delete<StockDto>(`${this.url}/${id}`);
   }
 
-  public findAllStockWithAssoId(id: number): Observable<StockDto[]> {
-    return this.apiService.get<StockDto[]>(`${this.url}/asso/${id}`);
+  public findAllStockWithAssoId(): Observable<StockDto[]> {
+    return this.apiService.get<StockDto[]>(`${this.url}/asso`);
   }
 
-  public findAllAssoStockLog(assoId: number): Observable<StockLogWithUserDto[]> {
-    return this.apiService.get<StockLogWithUserDto[]>(`${this.url}/assologs/${assoId}`);
+  public findAllAssoStockLog(): Observable<StockLogWithUserDto[]> {
+    return this.apiService.get<StockLogWithUserDto[]>(`${this.url}/assologs`);
   }
 
   public findSpecificStockLogs(stockId: number): Observable<StockLogDto[]> {

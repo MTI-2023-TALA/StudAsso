@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CreateNewsDto, NewsDto } from '@stud-asso/shared/dtos';
 import { ICreateNewsFormly, createNewsFormly } from './news-page.formly';
-import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiNewsFeedService } from '@stud-asso/frontend-core-api';
@@ -40,13 +39,8 @@ export class NewsPageComponent implements OnInit {
 
   reloadData(): void {
     this.isLoading = true;
-    const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-    if (!assoId) {
-      this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-      return;
-    }
-    const associationId = JSON.parse(assoId.toString());
-    this.api.findAllWithAsso(associationId).subscribe((newsList: NewsDto[]) => {
+
+    this.api.findAllWithAsso().subscribe((newsList: NewsDto[]) => {
       this.newsList = newsList;
       this.isLoading = false;
     });
@@ -54,13 +48,7 @@ export class NewsPageComponent implements OnInit {
 
   createNews(): (data: ICreateNewsFormly) => void {
     return (data: ICreateNewsFormly) => {
-      const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
-      if (!assoId) {
-        this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-        return;
-      }
-
-      const payload: CreateNewsDto = { ...data, associationId: assoId };
+      const payload: CreateNewsDto = { ...data };
       this.api.create(payload).subscribe(() => {
         this.toast.addAlert({ title: 'News créée', type: ToastType.Success });
         this.reloadData();

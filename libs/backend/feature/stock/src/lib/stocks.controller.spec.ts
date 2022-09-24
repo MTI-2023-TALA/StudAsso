@@ -76,7 +76,6 @@ const mockedUpdateResult: UpdateResult = {
 
 describe('StocksController', () => {
   let controller: StocksController;
-  let service: StocksService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -99,21 +98,16 @@ describe('StocksController', () => {
     }).compile();
 
     controller = module.get<StocksController>(StocksController);
-    service = await module.get<StocksService>(StocksService);
   });
 
   afterEach(() => jest.clearAllMocks());
 
   describe('createStock', () => {
     it('should call stockService.create', async () => {
-      const create = jest.spyOn(service, 'create');
-
-      const createStockParams: CreateStockDto = { name: 'Coca', count: 10, associationId: 1 };
-      const createdStock = await controller.create(1, createStockParams);
+      const associationId = 1;
+      const createStockParams: CreateStockDto = { name: 'Coca', count: 10 };
+      const createdStock = await controller.create(1, associationId, createStockParams);
       expect(createdStock).toEqual(mockCreatedStockDto);
-
-      expect(create).toHaveBeenCalledTimes(1);
-      expect(create).toHaveBeenCalledWith(1, createStockParams);
     });
   });
 
@@ -125,13 +119,13 @@ describe('StocksController', () => {
 
   describe('findAllAsso', () => {
     it('should call stockService.findAllAsso', async () => {
-      expect(await controller.findAllAsso('1')).toEqual(mockFindAllStocks);
+      expect(await controller.findAllAsso(1)).toEqual(mockFindAllStocks);
     });
   });
 
   describe('findAllAssoStockLogs', () => {
     it('should call stockService.findAllAssoStockLogs', async () => {
-      expect(await controller.findAllAssoStockLogs('1')).toEqual(mockFindAllAssoLogs);
+      expect(await controller.findAllAssoStockLogs(1)).toEqual(mockFindAllAssoLogs);
     });
   });
 

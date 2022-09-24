@@ -1,3 +1,4 @@
+import { Access, GetCurrentAssoId } from '@stud-asso/backend-core-auth';
 import {
   BadRequestException,
   Body,
@@ -10,7 +11,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
-import { Access } from '@stud-asso/backend-core-auth';
 import { EventsService } from './events.service';
 import { PermissionId } from '@stud-asso/shared/permission';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -21,10 +21,10 @@ export class EventsController {
 
   @Access(PermissionId.EVENT_MANAGEMENT)
   @Post()
-  public async create(@Body() createEventDto: CreateEventDto): Promise<EventDto> {
+  public async create(@GetCurrentAssoId() assoId: number, @Body() createEventDto: CreateEventDto): Promise<EventDto> {
     try {
       createEventDto.date = new Date(createEventDto.date);
-      return await this.eventsService.create(createEventDto);
+      return await this.eventsService.create(assoId, createEventDto);
     } catch (error) {
       throw new ConflictException(error?.message);
     }

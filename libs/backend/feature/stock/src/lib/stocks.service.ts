@@ -20,9 +20,9 @@ export class StocksService {
     private readonly stockLogsRepository: StockLogsRepository
   ) {}
 
-  public async create(userId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
+  public async create(userId: number, associationId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
     try {
-      const createdStock: StockDto = await this.stockRepository.create(createBaseDto);
+      const createdStock: StockDto = await this.stockRepository.create({ ...createBaseDto, associationId });
       await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count, 'create');
       return createdStock;
     } catch (error) {
