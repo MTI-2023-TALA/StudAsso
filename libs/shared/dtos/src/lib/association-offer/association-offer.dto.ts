@@ -9,7 +9,7 @@ export class CreateAssociationOfferDto {
 
   @IsNotEmpty()
   @IsDateString()
-  deadLine: Date;
+  deadline: Date;
 }
 
 // Response DTOs
@@ -18,12 +18,12 @@ export class AssociationOfferDto {
   id: number;
   associationId: number;
   roleId: number;
-  deadLine: Date;
+  deadline: Date;
 }
 
 export class AssociationOfferWithAssoAndRoleDto {
   id: number;
-  deadLine: Date;
+  deadline: Date;
   associationId: number;
   associationName: string;
   roleId: number;
@@ -32,7 +32,7 @@ export class AssociationOfferWithAssoAndRoleDto {
 
 export class AssociationOfferStatsDto {
   id: number;
-  deadLine: Date;
+  deadline: Date;
   roleId: number;
   roleName: string;
   numberOfApplications: number;

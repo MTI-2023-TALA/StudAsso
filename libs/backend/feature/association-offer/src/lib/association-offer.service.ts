@@ -36,15 +36,15 @@ export class AssociationOfferService {
     if (role.associationId !== associationId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
     if (role.name === 'Président') throw new Error(ERROR.CANNOT_CREATE_OFFER_PRESIDENT);
 
-    if (new Date(createAssociationOfferPayload.deadLine) <= new Date()) {
-      throw new Error(ERROR.BAD_DEAD_LINE);
+    if (new Date(createAssociationOfferPayload.deadline) <= new Date()) {
+      throw new Error(ERROR.BAD_DEADLINE);
     }
 
-    const createAssoOfferPayload: CreateAssociationOfferModel = {
+    const createAssoOfferModel: CreateAssociationOfferModel = {
       associationId,
       ...createAssociationOfferPayload,
     };
-    return this.associationOfferRepository.create(createAssoOfferPayload);
+    return this.associationOfferRepository.create(createAssoOfferModel);
   }
 
   public async createAssociationOfferApplication(
@@ -62,18 +62,18 @@ export class AssociationOfferService {
     );
     if (isMemberOfAsso) throw new Error(ERROR.USER_ALREADY_MEMBER_OF_ASSO);
 
-    const createApplicationPayload: CreateAssociationOfferApplicationModel = {
+    const createAssoOfferApplicationModel: CreateAssociationOfferApplicationModel = {
       userId,
       ...createAssociationOfferApplicationPayload,
     };
-    return this.associationOfferApplicationRepository.create(createApplicationPayload);
+    return this.associationOfferApplicationRepository.create(createAssoOfferApplicationModel);
   }
 
   public async findAllOffers(): Promise<AssociationOfferWithAssoAndRoleDto[]> {
     const allOffers = await this.associationOfferRepository.findAll();
     return allOffers.map((offer) => ({
       id: offer.id,
-      deadLine: offer.deadLine,
+      deadline: offer.deadline,
       associationId: offer.association.id,
       associationName: offer.association.name,
       roleId: offer.role.id,
@@ -101,7 +101,7 @@ export class AssociationOfferService {
     const allAlssoOffersWithStats = await this.associationOfferRepository.findStatsForOffers(associationId);
     return allAlssoOffersWithStats.map((offer) => ({
       id: offer.id,
-      deadLine: offer.deadLine,
+      deadline: offer.deadline,
       roleId: offer.role.id,
       roleName: offer.role.name,
       numberOfApplications: offer.numberOfApplications,

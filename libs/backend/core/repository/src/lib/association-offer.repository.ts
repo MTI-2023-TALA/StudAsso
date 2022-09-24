@@ -8,19 +8,29 @@ import {
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
+const assoOfferSelect = {
+  id: true,
+  associationId: true,
+  roleId: true,
+  deadline: true,
+};
+
 @Injectable()
 export class AssociationOfferRepository {
   constructor(private prisma: PrismaService) {}
 
   public async create(createAssociationOffer: CreateAssociationOfferModel): Promise<AssociationOfferModel> {
-    return this.prisma.associationOffer.create({ data: createAssociationOffer });
+    return this.prisma.associationOffer.create({
+      data: createAssociationOffer,
+      select: assoOfferSelect,
+    });
   }
 
   public async findAll(): Promise<AssociationOfferWithAssoAndRoleModel[]> {
     return this.prisma.associationOffer.findMany({
       select: {
         id: true,
-        deadLine: true,
+        deadline: true,
         association: {
           select: {
             id: true,
@@ -43,7 +53,7 @@ export class AssociationOfferRepository {
       where: { associationId },
       select: {
         id: true,
-        deadLine: true,
+        deadline: true,
         role: {
           select: {
             id: true,
@@ -77,6 +87,9 @@ export class AssociationOfferRepository {
   }
 
   public async findOne(id: number): Promise<AssociationOfferModel> {
-    return this.prisma.associationOffer.findUnique({ where: { id } });
+    return this.prisma.associationOffer.findUnique({
+      where: { id },
+      select: assoOfferSelect,
+    });
   }
 }

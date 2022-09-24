@@ -4,7 +4,7 @@ export const enum ERROR {
   ASSO_NOT_FOUND = 'Association Not Found',
   ASSOCIATION_OFFER_APPLICATION_NOT_FOUND = 'Association Offer Application Not Found',
   ASSOCIATION_OFFER_NOT_FOUND = 'Association Offer Not Found',
-  BAD_DEAD_LINE = 'Dead Line Cannot Be Before Today',
+  BAD_DEADLINE = 'Dead Line Cannot Be Before Today',
   BAD_STOCK_ACTION = 'Provided action has to be either: create, update or delete when creating a stock logs',
   CANNOT_CREATE_OFFER_PRESIDENT = 'Cannot Create Offer For President Role',
   CANNOT_DELETE_ROLE = 'Cannot Delete Role',

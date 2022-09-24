@@ -32,9 +32,10 @@ export class AssociationsMemberRepository {
     });
   }
 
-  public async isUserMemberOfAssociation(userId: number, associationId: number) {
-    return this.prisma.associationMember.findFirst({
+  public async isUserMemberOfAssociation(userId: number, associationId: number): Promise<boolean> {
+    const isMemberOfAsso = await this.prisma.associationMember.findFirst({
       where: { userId, associationId },
     });
+    return isMemberOfAsso ? true : false;
   }
 }

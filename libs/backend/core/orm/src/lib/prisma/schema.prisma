@@ -43,7 +43,7 @@ model AssociationOffer {
   deletedAt                   DateTime?                     @map("deleted_at") @db.Timestamp(6)
   associationId               Int                           @map("association_id")
   roleId                      Int                           @map("role_id")
-  deadLine                    DateTime                      @map("dead_line") @db.Timestamp(6)
+  deadline                    DateTime                      @db.Timestamp(6)
   association                 Association                   @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "associations")
   role                        Role                          @relation(fields: [roleId], references: [id], onDelete: Cascade, map: "role")
   AssociationOfferApplication AssociationOfferApplication[]

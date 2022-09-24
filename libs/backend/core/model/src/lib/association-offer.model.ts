@@ -5,7 +5,7 @@ import { RoleNameModel } from './role.model';
 export class CreateAssociationOfferModel {
   associationId: number;
   roleId: number;
-  deadLine: Date;
+  deadline: Date;
 }
 
 // response Models
@@ -13,19 +13,19 @@ export class AssociationOfferModel {
   id: number;
   associationId: number;
   roleId: number;
-  deadLine: Date;
+  deadline: Date;
 }
 
 export class AssociationOfferWithAssoAndRoleModel {
   id: number;
-  deadLine: Date;
+  deadline: Date;
   association: AssociationNameModel;
   role: RoleNameModel;
 }
 
 export class AssociationOfferStatsModel {
   id: number;
-  deadLine: Date;
+  deadline: Date;
   role: RoleNameModel;
   numberOfApplications: number;
 }

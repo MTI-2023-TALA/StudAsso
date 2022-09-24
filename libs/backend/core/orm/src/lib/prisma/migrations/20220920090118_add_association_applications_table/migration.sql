@@ -6,7 +6,7 @@ CREATE TABLE "AssociationOffer" (
     "deleted_at" TIMESTAMP(6),
     "association_id" INTEGER NOT NULL,
     "role_id" INTEGER NOT NULL,
-    "dead_line" TIMESTAMP(6) NOT NULL,
+    "deadline" TIMESTAMP(6) NOT NULL,
 
     CONSTRAINT "AssociationOffer_pkey" PRIMARY KEY ("id")
 );
