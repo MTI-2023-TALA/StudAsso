@@ -35,6 +35,7 @@
     "frontend-feature-association-stock-page": "libs/frontend/feature/association/stock-page",
     "frontend-feature-school-association-page": "libs/frontend/feature/school/association-page",
     "frontend-feature-student-application-page": "libs/frontend/feature/student/application-page",
+    "frontend-feature-school-financement-page": "libs/frontend/feature/school/financement-page",
     "frontend-feature-student-association-list-page": "libs/frontend/feature/student/association-list-page",
     "frontend-feature-student-news-page": "libs/frontend/feature/student/news-page",
     "frontend-school": "apps/frontend/school",
