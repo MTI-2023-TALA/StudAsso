@@ -24,6 +24,7 @@ export class AssociationsMemberRepository {
         },
         role: {
           select: {
+            id: true,
             name: true,
           },
         },

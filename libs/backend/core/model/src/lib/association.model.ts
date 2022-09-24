@@ -24,8 +24,8 @@ export class AssociationPresidentModel {
 }
 
 export class AssociationNameModel {
-  name: string;
   id: number;
+  name: string;
 }
 
 export class AssociationAndRoleNameModel {

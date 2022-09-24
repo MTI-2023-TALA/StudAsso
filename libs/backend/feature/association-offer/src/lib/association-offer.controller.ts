@@ -1,5 +1,9 @@
-import { AssociationOfferDto, CreateAssociationOfferDto } from '@stud-asso/shared/dtos';
-import { Body, ConflictException, Post } from '@nestjs/common';
+import {
+  AssociationOfferDto,
+  AssociationOfferWithAssoAndRoleDto,
+  CreateAssociationOfferDto,
+} from '@stud-asso/shared/dtos';
+import { Body, ConflictException, Get, Post } from '@nestjs/common';
 import { AssociationOfferService } from './association-offer.service';
 import { GetCurrentAssoId } from '@stud-asso/backend-core-auth';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -18,5 +22,10 @@ export class AssociationOfferController {
     } catch (error) {
       throw new ConflictException(error?.message);
     }
+  }
+
+  @Get()
+  public async findAllOffers(): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+    return this.associationOfferService.findAllOffers();
   }
 }

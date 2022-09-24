@@ -1,3 +1,6 @@
+import { AssociationNameModel } from './association.model';
+import { RoleNameModel } from './role.model';
+
 // Request Models
 export class CreateAssociationOfferModel {
   associationId: number;
@@ -11,4 +14,11 @@ export class AssociationOfferModel {
   associationId: number;
   roleId: number;
   deadLine: Date;
+}
+
+export class AssociationOfferWithAssoAndRoleModel {
+  id: number;
+  deadLine: Date;
+  association: AssociationNameModel;
+  role: RoleNameModel;
 }

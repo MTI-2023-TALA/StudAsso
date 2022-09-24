@@ -20,3 +20,12 @@ export class AssociationOfferDto {
   roleId: number;
   deadLine: Date;
 }
+
+export class AssociationOfferWithAssoAndRoleDto {
+  id: number;
+  deadLine: Date;
+  associationId: number;
+  associationName: string;
+  roleId: number;
+  roleName: string;
+}

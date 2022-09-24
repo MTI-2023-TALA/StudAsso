@@ -3,7 +3,11 @@ import {
   AssociationOfferRepository,
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
-import { AssociationOfferDto, CreateAssociationOfferDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationOfferDto,
+  AssociationOfferWithAssoAndRoleDto,
+  CreateAssociationOfferDto,
+} from '@stud-asso/shared/dtos';
 
 import { CreateAssociationOfferModel } from '@stud-asso/backend/core/model';
 import { ERROR } from '@stud-asso/backend/core/error';
@@ -35,5 +39,17 @@ export class AssociationOfferService {
       ...createAssociationOfferPayload,
     };
     return this.associationOfferRepository.create(createAssoOfferPayload);
+  }
+
+  public async findAllOffers(): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+    const allOffers = await this.associationOfferRepository.findAll();
+    return allOffers.map((offer) => ({
+      id: offer.id,
+      deadLine: offer.deadLine,
+      associationId: offer.association.id,
+      associationName: offer.association.name,
+      roleId: offer.role.id,
+      roleName: offer.role.name,
+    }));
   }
 }

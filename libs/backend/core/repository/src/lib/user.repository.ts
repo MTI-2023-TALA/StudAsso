@@ -71,6 +71,7 @@ export class UserRepository {
       select: {
         role: {
           select: {
+            id: true,
             name: true,
           },
         },
