@@ -29,3 +29,11 @@ export class AssociationOfferWithAssoAndRoleDto {
   roleId: number;
   roleName: string;
 }
+
+export class AssociationOfferStatsDto {
+  id: number;
+  deadLine: Date;
+  roleId: number;
+  roleName: string;
+  numberOfApplications: number;
+}

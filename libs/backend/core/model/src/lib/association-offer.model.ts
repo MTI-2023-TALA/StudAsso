@@ -22,3 +22,10 @@ export class AssociationOfferWithAssoAndRoleModel {
   association: AssociationNameModel;
   role: RoleNameModel;
 }
+
+export class AssociationOfferStatsModel {
+  id: number;
+  deadLine: Date;
+  role: RoleNameModel;
+  numberOfApplications: number;
+}

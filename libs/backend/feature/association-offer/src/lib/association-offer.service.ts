@@ -2,6 +2,7 @@ import {
   AssociationOfferApplicationDto,
   AssociationOfferApplicationReviewDto,
   AssociationOfferDto,
+  AssociationOfferStatsDto,
   AssociationOfferWithAssoAndRoleDto,
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
@@ -93,6 +94,17 @@ export class AssociationOfferService {
       userFirstname: application.user.firstname,
       userLastname: application.user.lastname,
       userEmail: application.user.email,
+    }));
+  }
+
+  public async findStatsForOffers(associationId: number): Promise<AssociationOfferStatsDto[]> {
+    const allAlssoOffersWithStats = await this.associationOfferRepository.findStatsForOffers(associationId);
+    return allAlssoOffersWithStats.map((offer) => ({
+      id: offer.id,
+      deadLine: offer.deadLine,
+      roleId: offer.role.id,
+      roleName: offer.role.name,
+      numberOfApplications: offer.numberOfApplications,
     }));
   }
 
