@@ -95,4 +95,11 @@ export class AssociationOfferService {
       userEmail: application.user.email,
     }));
   }
+
+  public async deleteApplication(id: number): Promise<AssociationOfferApplicationDto> {
+    const application = await this.associationOfferApplicationRepository.findOne(id);
+    if (!application) throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
+
+    return this.associationOfferApplicationRepository.delete(id);
+  }
 }

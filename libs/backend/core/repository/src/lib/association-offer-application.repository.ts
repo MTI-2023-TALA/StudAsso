@@ -46,4 +46,12 @@ export class AssociationOfferApplicationRepository {
       },
     });
   }
+
+  public async findOne(id: number): Promise<AssociationOfferApplicationModel> {
+    return this.prisma.associationOfferApplication.findUnique({ where: { id } });
+  }
+
+  public async delete(id: number): Promise<AssociationOfferApplicationModel> {
+    return this.prisma.associationOfferApplication.delete({ where: { id } });
+  }
 }

@@ -6,7 +6,7 @@ import {
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
 } from '@stud-asso/shared/dtos';
-import { Body, ConflictException, Get, Post } from '@nestjs/common';
+import { Body, ConflictException, Delete, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { AssociationOfferService } from './association-offer.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -52,5 +52,14 @@ export class AssociationOfferController {
     @GetCurrentAssoId() assoId: number
   ): Promise<AssociationOfferApplicationReviewDto[]> {
     return this.associationOfferService.findAllApplications(assoId);
+  }
+
+  @Delete('/application/:id')
+  public async deleteApplication(@Param('id') id: string): Promise<AssociationOfferApplicationDto> {
+    try {
+      return await this.associationOfferService.deleteApplication(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
   }
 }
