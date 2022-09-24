@@ -35,4 +35,8 @@ export class AssociationOfferRepository {
       },
     });
   }
+
+  public async findOne(id: number): Promise<AssociationOfferModel> {
+    return this.prisma.associationOffer.findUnique({ where: { id } });
+  }
 }

@@ -1,23 +1,27 @@
 import {
-  AssociationOfferApplicationRepository,
-  AssociationOfferRepository,
-  RoleRepository,
-} from '@stud-asso/backend/core/repository';
-import {
+  AssociationOfferApplicationDto,
   AssociationOfferDto,
   AssociationOfferWithAssoAndRoleDto,
+  CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
 } from '@stud-asso/shared/dtos';
+import {
+  AssociationOfferApplicationRepository,
+  AssociationOfferRepository,
+  AssociationsMemberRepository,
+  RoleRepository,
+} from '@stud-asso/backend/core/repository';
+import { CreateAssociationOfferApplicationModel, CreateAssociationOfferModel } from '@stud-asso/backend/core/model';
 
-import { CreateAssociationOfferModel } from '@stud-asso/backend/core/model';
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AssociationOfferService {
   constructor(
-    private readonly associationOfferRepository: AssociationOfferRepository,
     private readonly associationOfferApplicationRepository: AssociationOfferApplicationRepository,
+    private readonly associationOfferRepository: AssociationOfferRepository,
+    private readonly associationsMemberRepository: AssociationsMemberRepository,
     private readonly roleRepository: RoleRepository
   ) {}
 
@@ -39,6 +43,28 @@ export class AssociationOfferService {
       ...createAssociationOfferPayload,
     };
     return this.associationOfferRepository.create(createAssoOfferPayload);
+  }
+
+  public async createAssociationOfferApplication(
+    userId: number,
+    createAssociationOfferApplicationPayload: CreateAssociationOfferApplicationDto
+  ): Promise<AssociationOfferApplicationDto> {
+    const applicationOffer = await this.associationOfferRepository.findOne(
+      createAssociationOfferApplicationPayload.associationOfferId
+    );
+    if (!applicationOffer) throw new Error(ERROR.ASSOCIATION_OFFER_NOT_FOUND);
+
+    const isMemberOfAsso = await this.associationsMemberRepository.isUserMemberOfAssociation(
+      userId,
+      applicationOffer.associationId
+    );
+    if (isMemberOfAsso) throw new Error(ERROR.USER_ALREADY_MEMBER_OF_ASSO);
+
+    const createApplicationPayload: CreateAssociationOfferApplicationModel = {
+      userId,
+      ...createAssociationOfferApplicationPayload,
+    };
+    return this.associationOfferApplicationRepository.create(createApplicationPayload);
   }
 
   public async findAllOffers(): Promise<AssociationOfferWithAssoAndRoleDto[]> {

@@ -31,4 +31,10 @@ export class AssociationsMemberRepository {
       },
     });
   }
+
+  public async isUserMemberOfAssociation(userId: number, associationId: number) {
+    return this.prisma.associationMember.findFirst({
+      where: { userId, associationId },
+    });
+  }
 }

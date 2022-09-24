@@ -2,6 +2,7 @@ export const enum ERROR {
   ACCESS_DENIED = 'Access Denied',
   ASSO_NAME_ALREADY_EXISTS = 'Association Name Is Already In Use',
   ASSO_NOT_FOUND = 'Association Not Found',
+  ASSOCIATION_OFFER_NOT_FOUND = 'Association Offer Not Found',
   BAD_DEAD_LINE = 'Dead Line Cannot Be Before Today',
   BAD_STOCK_ACTION = 'Provided action has to be either: create, update or delete when creating a stock logs',
   CANNOT_CREATE_OFFER_PRESIDENT = 'Cannot Create Offer For President Role',
@@ -16,5 +17,6 @@ export const enum ERROR {
   ROLE_NOT_FOUND = 'Role Not Found',
   ROLE_NOT_IN_ASSO = 'Role Is Not In Association',
   STOCK_NOT_FOUND = 'Stock Not Found',
+  USER_ALREADY_MEMBER_OF_ASSO = 'User Is Already Member Of Association',
   USER_NOT_FOUND = 'User Not Found',
 }
