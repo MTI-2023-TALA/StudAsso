@@ -1,8 +1,10 @@
+@import 'base/variables';
+
 .multiple-select-list {
   display: flex;
   width: 100%;
   max-width: 100%;
-  background-color: #ffffff;
+  background-color: $white;
   border: 1px solid #dbdbdb;
   color: #363636;
 
@@ -26,7 +28,7 @@
 
 .sub-menu {
   margin-top: 0.25rem;
-  background-color: #ffffff;
+  background-color: $white;
   border: 1px solid #dbdbdb;
   color: #363636;
   position: absolute;

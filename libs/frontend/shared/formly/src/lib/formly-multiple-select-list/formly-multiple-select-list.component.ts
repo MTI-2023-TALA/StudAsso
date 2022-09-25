@@ -15,7 +15,7 @@ export class FormlyMultipleSelectListComponent extends FieldType<FieldTypeConfig
 
   constructor() {
     super();
-    this.selectedOptions = [{ label: 'test', value: 'test' }];
+    this.selectedOptions = [];
     this.avalaibleOptions = [];
   }
 

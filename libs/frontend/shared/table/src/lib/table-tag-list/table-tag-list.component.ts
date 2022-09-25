@@ -12,7 +12,6 @@ export class TableTagListComponent extends TableTextComponent {
   permissions = permissions;
 
   override setData(data: string[]): void {
-    console.log(data);
     this.tagList = data;
   }
 }
