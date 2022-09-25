@@ -17,7 +17,7 @@ export interface IPermission {
   description: string;
 }
 
-interface Permissions {
+export interface Permissions {
   [key: string]: IPermission;
 }
 
@@ -65,3 +65,15 @@ export const permissions: Permissions = {
     description: 'Role Management',
   },
 };
+
+export const permissionsToOptionArray = Object.keys(permissions).reduce(
+  (acc: Array<{ label: string; value: string }>, key) => {
+    const permission = permissions[key];
+    acc.push({
+      label: permission.name,
+      value: permission.id,
+    });
+    return acc;
+  },
+  []
+);

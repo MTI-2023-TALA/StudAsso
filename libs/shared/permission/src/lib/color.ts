@@ -1,6 +1,6 @@
 export enum PermissionColor {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
+  PRIMARY = 'default',
+  SECONDARY = 'information',
   SUCCESS = 'success',
-  DANGER = 'danger',
+  DANGER = 'warning',
 }

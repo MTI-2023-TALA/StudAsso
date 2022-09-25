@@ -9,15 +9,18 @@ import { FormlyFormFieldComponent } from './formly-form-field/formly-form-field.
 import { FormlyInputComponent } from './formly-input/formly-input.component';
 import { FormlyInputListComponent } from './formly-input-list/formly-input-list.component';
 import { FormlyModule } from '@ngx-formly/core';
+import { FormlyMultipleSelectListComponent } from './formly-multiple-select-list/formly-multiple-select-list.component';
 import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
 import { FormlySelectComponent } from './formly-select/formly-select.component';
 import { FormlyTextareaComponent } from './formly-textarea/formly-textarea.component';
+import { FrontendSharedTagsModule } from '@stud-asso/frontend/shared/tags';
 import { NgModule } from '@angular/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
+    FrontendSharedTagsModule,
     ReactiveFormsModule,
     FormlyModule.forRoot({
       wrappers: [{ name: Form.Field, component: FormlyFormFieldComponent }],
@@ -60,6 +63,11 @@ import { NgModule } from '@angular/core';
           component: FormlyDatepickerComponent,
           wrappers: [Form.Field],
         },
+        {
+          name: Form.MultipleSelectList,
+          component: FormlyMultipleSelectListComponent,
+          wrappers: [Form.Field],
+        },
       ],
       validationMessages: [{ name: 'required', message: 'Le champ est obligatoire' }],
     }),
@@ -74,6 +82,7 @@ import { NgModule } from '@angular/core';
     FormlyFileComponent,
     FormlyInputListComponent,
     FormlyDatepickerComponent,
+    FormlyMultipleSelectListComponent,
   ],
   exports: [FormlyModule, ReactiveFormsModule, FormsModule],
 })
