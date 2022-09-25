@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateRoleFormly, createRoleFormly } from './role-page.formly';
+import { TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { RoleDto } from '@stud-asso/shared/dtos';
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 @Component({
   selector: 'stud-asso-role-page',
@@ -18,6 +19,12 @@ export class RolePageComponent implements OnInit {
         title: 'Rôle',
         size: 2,
         dataProperty: 'name',
+      },
+      {
+        title: 'Permissions',
+        size: 2,
+        dataProperty: 'permissions',
+        dataViewComponent: TableTagListComponent,
       },
     ],
     actions: [
@@ -90,7 +97,12 @@ export class RolePageComponent implements OnInit {
 
   createRole() {
     return (model: ICreateRoleFormly) => {
-      const payload = { ...model, permissions: [] };
+      const payload = {
+        ...model,
+        permissions: model.permissions.map((option) => {
+          return option.value as PermissionId;
+        }),
+      };
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });
@@ -121,7 +133,13 @@ export class RolePageComponent implements OnInit {
 
   modifyRole(id: number) {
     return (model: ICreateRoleFormly) => {
-      this.api.update(id, model).subscribe({
+      const payload = {
+        ...model,
+        permissions: model.permissions.map((option) => {
+          return option.value as PermissionId;
+        }),
+      };
+      this.api.update(id, payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Nom du rôle modifié`, type: ToastType.Success });
           this.reloadData();

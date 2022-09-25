@@ -1,0 +1,45 @@
+@import 'base/variables';
+
+.multiple-select-list {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  background-color: $white;
+  border: 1px solid #dbdbdb;
+  color: #363636;
+
+  .multiple-input {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .right {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+  }
+}
+
+.sub-menu {
+  margin-top: 0.25rem;
+  background-color: $white;
+  border: 1px solid #dbdbdb;
+  color: #363636;
+  position: absolute;
+  z-index: 1;
+  padding: 0.5rem;
+  width: 100%;
+
+  .options {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}

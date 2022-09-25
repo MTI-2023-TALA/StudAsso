@@ -8,6 +8,7 @@ export enum Form {
   File = 'file',
   InputList = 'list',
   Datepicker = 'datepicker',
+  MultipleSelectList = 'multiple-select-list',
 }
 
 export enum InputType {

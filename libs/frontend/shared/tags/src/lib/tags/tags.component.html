@@ -5,5 +5,12 @@
   [class.tags-success]="type === TagsType.Success"
   [class.tags-information]="type === TagsType.Information"
 >
-  {{ message }}
+  <div class="inside-tag">
+    <div class="left">
+      {{ message }}
+    </div>
+    <div class="right" *ngIf="shouldDisplayIcon" (click)="onClickCross()">
+      <i class="bi bi-{{ icon }}"></i>
+    </div>
+  </div>
 </div>
