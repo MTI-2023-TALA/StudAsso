@@ -451,4 +451,27 @@ describe('AssociationOfferController', () => {
       expect(findStatsForOffers).toHaveBeenCalledWith(associationId);
     });
   });
+
+  describe('Delete An Application', () => {
+    it('should delete an application', async () => {
+      const deleteApplication = jest.spyOn(service, 'deleteApplication');
+      const applicationId = '2';
+
+      const expected = mockedAssociationOfferApplications.find((event) => event.id === +applicationId);
+      const filteredMockedApplications = mockedAssociationOfferApplications.filter((app) => app.id !== +applicationId);
+
+      expect(await controller.deleteApplication(applicationId)).toEqual(expected);
+      expect(mockedAssociationOfferApplications).toEqual(filteredMockedApplications);
+      expect(deleteApplication).toHaveBeenCalledTimes(1);
+      expect(deleteApplication).toHaveBeenCalledWith(+applicationId);
+    });
+
+    it('should fail to delete an application because an error has been raised', async () => {
+      const deleteApplication = jest.spyOn(service, 'deleteApplication');
+      const applicationId = '-1';
+      expect(controller.deleteApplication(applicationId)).rejects.toThrow(
+        ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND
+      );
+    });
+  });
 });
