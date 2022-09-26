@@ -430,4 +430,25 @@ describe('AssociationOfferController', () => {
       expect(findAllApplications).toHaveBeenCalledWith(associationId);
     });
   });
+
+  describe('Find Stats For Offers', () => {
+    it('should find stats for offers', async () => {
+      const findStatsForOffers = jest.spyOn(service, 'findStatsForOffers');
+      const associationId = 2;
+
+      const expected: AssociationOfferStatsDto[] = [
+        {
+          id: 2,
+          deadline: new Date('2023-3-15'),
+          roleId: 4,
+          roleName: mockedRoles[3].name,
+          numberOfApplications: 2,
+        },
+      ];
+
+      expect(await controller.findStatsForOffers(associationId)).toEqual(expected);
+      expect(findStatsForOffers).toHaveBeenCalledTimes(1);
+      expect(findStatsForOffers).toHaveBeenCalledWith(associationId);
+    });
+  });
 });
