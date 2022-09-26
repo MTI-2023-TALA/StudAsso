@@ -17,6 +17,8 @@ import { AssociationOfferController } from './association-offer.controller';
 import { AssociationOfferService } from './association-offer.service';
 import { ERROR } from '@stud-asso/backend/core/error';
 
+const mockedApplicationDate: Date = new Date('2022-12-24');
+
 describe('AssociationOfferController', () => {
   let controller: AssociationOfferController;
   let service: AssociationOfferService;
@@ -236,15 +238,16 @@ describe('AssociationOfferController', () => {
               return Promise.resolve(mappedOffers);
             }),
             findAllApplications: jest.fn((associationId: number): Promise<AssociationOfferApplicationReviewDto[]> => {
-              const mappedApplications: AssociationOfferApplicationReviewDto[] = mockedAssociationOfferApplications.map(
+              let mappedApplications: AssociationOfferApplicationReviewDto[] = mockedAssociationOfferApplications.map(
                 (application) => {
                   const offer = mockedAssociationOffers.find((offer) => offer.id === application.associationOfferId);
+                  if (offer.associationId !== associationId) return null;
                   const role = mockedRoles.find((role) => role.id === offer.roleId);
                   const user = mockedUsers.find((user) => user.id === application.userId);
 
                   return {
                     id: application.id,
-                    applicationDate: new Date('2022-12-24'),
+                    applicationDate: mockedApplicationDate,
                     motivation: application.motivation,
                     associationOfferId: application.associationOfferId,
                     roleId: role.id,
@@ -256,10 +259,14 @@ describe('AssociationOfferController', () => {
                   };
                 }
               );
+              mappedApplications = mappedApplications.filter((application) => application !== null);
               return Promise.resolve(mappedApplications);
             }),
             findStatsForOffers: jest.fn((associationId: number): Promise<AssociationOfferStatsDto[]> => {
-              const mappedStats: AssociationOfferStatsDto[] = mockedAssociationOffers.map((offer) => {
+              const filteredAssociationOffers = mockedAssociationOffers.filter(
+                (offer) => offer.associationId === associationId
+              );
+              const mappedStats: AssociationOfferStatsDto[] = filteredAssociationOffers.map((offer) => {
                 const role = mockedRoles.find((role) => role.id === offer.roleId);
                 const applications = mockedAssociationOfferApplications.filter(
                   (application) => application.associationOfferId === offer.id
@@ -383,6 +390,44 @@ describe('AssociationOfferController', () => {
       expect(await controller.findAllOffers()).toEqual(expected);
       expect(findAllOffers).toHaveBeenCalledTimes(1);
       expect(findAllOffers).toHaveBeenCalledWith();
+    });
+  });
+
+  describe('Find All Applications', () => {
+    it('should find all applications', async () => {
+      const findAllApplications = jest.spyOn(service, 'findAllApplications');
+      const associationId = 2;
+
+      const expected: AssociationOfferApplicationReviewDto[] = [
+        {
+          id: 2,
+          applicationDate: mockedApplicationDate,
+          motivation: 'motivation',
+          associationOfferId: 2,
+          roleId: mockedAssociationOffers[1].roleId,
+          roleName: mockedRoles[mockedAssociationOffers[1].roleId - 1].name,
+          userId: 4,
+          userFirstname: mockedUsers[3].firstname,
+          userLastname: mockedUsers[3].lastname,
+          userEmail: mockedUsers[3].email,
+        },
+        {
+          id: 3,
+          applicationDate: mockedApplicationDate,
+          motivation: 'motivation',
+          associationOfferId: 2,
+          roleId: mockedAssociationOffers[1].roleId,
+          roleName: mockedRoles[mockedAssociationOffers[1].roleId - 1].name,
+          userId: 5,
+          userFirstname: mockedUsers[4].firstname,
+          userLastname: mockedUsers[4].lastname,
+          userEmail: mockedUsers[4].email,
+        },
+      ];
+
+      expect(await controller.findAllApplications(associationId)).toEqual(expected);
+      expect(findAllApplications).toHaveBeenCalledTimes(1);
+      expect(findAllApplications).toHaveBeenCalledWith(associationId);
     });
   });
 });
