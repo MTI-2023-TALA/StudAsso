@@ -467,7 +467,6 @@ describe('AssociationOfferController', () => {
     });
 
     it('should fail to delete an application because an error has been raised', async () => {
-      const deleteApplication = jest.spyOn(service, 'deleteApplication');
       const applicationId = '-1';
       expect(controller.deleteApplication(applicationId)).rejects.toThrow(
         ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND
