@@ -2,7 +2,12 @@ import {
   AddRoleToUserModel,
   AssociationModel,
   AssociationOfferApplicationModel,
+  AssociationOfferApplicationReviewModel,
   AssociationOfferModel,
+  AssociationOfferStatsModel,
+  AssociationOfferWithAssoAndRoleModel,
+  CreateAssociationOfferApplicationModel,
+  CreateAssociationOfferModel,
   RoleModel,
   SimplifiedUserModel,
 } from '@stud-asso/backend/core/model';
@@ -13,8 +18,11 @@ import {
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
 
+import { AssociationOfferApplicationDto } from '@stud-asso/shared/dtos';
 import { AssociationOfferService } from './association-offer.service';
 import { Test } from '@nestjs/testing';
+
+const mockedApplicationDate: Date = new Date('2022-12-24');
 
 describe('AssociationOfferService', () => {
   let service: AssociationOfferService;
@@ -176,19 +184,138 @@ describe('AssociationOfferService', () => {
         AssociationOfferService,
         {
           provide: AssociationOfferRepository,
-          useValue: {},
+          useValue: {
+            create: jest.fn((createAssociationOffer: CreateAssociationOfferModel): Promise<AssociationOfferModel> => {
+              const id = mockedAssociationOffers.length + 1;
+              const newOffer: AssociationOfferModel = {
+                id,
+                ...createAssociationOffer,
+              };
+              mockedAssociationOffers.push(newOffer);
+              return Promise.resolve(newOffer);
+            }),
+            findAll: jest.fn((): Promise<AssociationOfferWithAssoAndRoleModel[]> => {
+              return Promise.resolve(
+                mockedAssociationOffers.map((offer) => {
+                  const association = mockedAssociations.find((association) => association.id === offer.associationId);
+                  const role = mockedRoles.find((role) => role.id === offer.roleId);
+                  return {
+                    id: offer.id,
+                    deadline: offer.deadline,
+                    association: {
+                      id: association.id,
+                      name: association.name,
+                    },
+                    role: {
+                      id: role.id,
+                      name: role.name,
+                    },
+                  };
+                })
+              );
+            }),
+            findStatsForOffers: jest.fn((associationId: number): Promise<AssociationOfferStatsModel[]> => {
+              const filteredOffers = mockedAssociationOffers.filter((offer) => offer.associationId === associationId);
+              const mappedStatsOffers = filteredOffers.map((offer) => {
+                const applications = mockedAssociationOfferApplications.filter(
+                  (application) => application.associationOfferId === offer.id
+                );
+                const role = mockedRoles.find((role) => role.id === offer.roleId);
+                return {
+                  id: offer.id,
+                  deadline: offer.deadline,
+                  numberOfApplications: applications.length,
+                  role: {
+                    id: offer.roleId,
+                    name: role.name,
+                  },
+                };
+              });
+              return Promise.resolve(mappedStatsOffers);
+            }),
+            findOne: jest.fn((id: number): Promise<AssociationOfferModel> => {
+              return Promise.resolve(mockedAssociationOffers.find((offer) => offer.id === id));
+            }),
+          },
         },
         {
           provide: AssociationOfferApplicationRepository,
-          useValue: {},
+          useValue: {
+            create: jest.fn(
+              (
+                createApplication: CreateAssociationOfferApplicationModel
+              ): Promise<AssociationOfferApplicationModel> => {
+                const id = mockedAssociationOfferApplications.length + 1;
+                const newApplication: AssociationOfferApplicationModel = {
+                  id,
+                  ...createApplication,
+                };
+                mockedAssociationOfferApplications.push(newApplication);
+                return Promise.resolve(newApplication);
+              }
+            ),
+            findAll: jest.fn((associationId: number): Promise<AssociationOfferApplicationReviewModel[]> => {
+              let applications = mockedAssociationOfferApplications.map((application) => {
+                const offer = mockedAssociationOffers.find((offer) => offer.id === application.associationOfferId);
+                if (offer.associationId !== associationId) return null;
+                const user = mockedUsers.find((user) => user.id === application.userId);
+                const role = mockedRoles.find((role) => role.id === offer.roleId);
+                return {
+                  id: application.id,
+                  createdAt: mockedApplicationDate,
+                  motivation: application.motivation,
+                  associationOffer: {
+                    id: offer.id,
+                    role: {
+                      id: role.id,
+                      name: role.name,
+                    },
+                  },
+                  user: {
+                    id: user.id,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    email: user.email,
+                  },
+                };
+              });
+              applications = applications.filter((application) => application !== null);
+              return Promise.resolve(applications);
+            }),
+            findOne: jest.fn((id: number): Promise<AssociationOfferApplicationModel> => {
+              return Promise.resolve(mockedAssociationOfferApplications.find((application) => application.id === id));
+            }),
+
+            delete: jest.fn((id: number): Promise<AssociationOfferApplicationDto> => {
+              const deletedApplication = mockedAssociationOfferApplications.find(
+                (application) => application.id === id
+              );
+              mockedAssociationOfferApplications = mockedAssociationOfferApplications.filter(
+                (application) => application.id !== id
+              );
+              return Promise.resolve(deletedApplication);
+            }),
+          },
         },
         {
           provide: AssociationsMemberRepository,
-          useValue: {},
+          useValue: {
+            isUserMemberOfAssociation: jest.fn((userId: number, associationId: number): Promise<boolean> => {
+              return Promise.resolve(
+                mockedAssociationsMembers.some(
+                  (member) => member.userId === userId && member.associationId === associationId
+                )
+              );
+            }),
+          },
         },
         {
           provide: RoleRepository,
-          useValue: {},
+          useValue: {
+            findOne: jest.fn((id: number): Promise<RoleModel> => {
+              return Promise.resolve(mockedRoles.find((role) => role.id === id));
+            }),
+          },
         },
       ],
     }).compile();
