@@ -65,6 +65,13 @@ describe('AssociationOfferController', () => {
         email: 'christiano.ronaldo@gmail.com',
         isSchoolEmployee: false,
       },
+      {
+        id: 6,
+        firstname: 'Yoann',
+        lastname: 'Gourcuff',
+        email: 'yoann.gourcuff@gmail.com',
+        isSchoolEmployee: false,
+      },
     ];
 
     mockedAssociations = [
@@ -103,6 +110,12 @@ describe('AssociationOfferController', () => {
         id: 4,
         name: 'Secrétaire',
         associationId: 2,
+        permissions: [],
+      },
+      {
+        id: 5,
+        name: 'Trésorier',
+        associationId: 1,
         permissions: [],
       },
     ];
@@ -279,7 +292,97 @@ describe('AssociationOfferController', () => {
     service = module.get(AssociationOfferService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeTruthy();
+  afterEach(() => jest.clearAllMocks());
+
+  describe('Create Association Offer', () => {
+    it('should create a new association offer', async () => {
+      const associationId = 1;
+      const createAssociationOfferPayload: CreateAssociationOfferDto = {
+        roleId: 5,
+        deadline: new Date('2025-7-14'),
+      };
+
+      const expected = {
+        id: 3,
+        associationId,
+        ...createAssociationOfferPayload,
+      };
+
+      expect(await controller.createAssociationOffer(associationId, createAssociationOfferPayload)).toEqual(expected);
+      expect(mockedAssociationOffers).toContainEqual(expected);
+    });
+
+    it('should fail to create a new association offer because an error has been raised', async () => {
+      const associationId = 1;
+      const createAssociationOfferPayload: CreateAssociationOfferDto = {
+        roleId: -1,
+        deadline: new Date('2025-7-14'),
+      };
+
+      expect(controller.createAssociationOffer(associationId, createAssociationOfferPayload)).rejects.toThrow(
+        ERROR.ROLE_NOT_FOUND
+      );
+    });
+  });
+
+  describe('Create Association Offer Application', () => {
+    it('should create a new application offer', async () => {
+      const userId = 6;
+      const createAssoOfferApplicationPayload: CreateAssociationOfferApplicationDto = {
+        associationOfferId: 1,
+        motivation: 'I want to be a member',
+      };
+
+      const expected = {
+        id: 4,
+        userId,
+        ...createAssoOfferApplicationPayload,
+      };
+      expect(await controller.createAssociationOfferApplication(userId, createAssoOfferApplicationPayload)).toEqual(
+        expected
+      );
+      expect(mockedAssociationOfferApplications).toContainEqual(expected);
+    });
+
+    it('should fail to create a new application offer because an error has been raised', async () => {
+      const userId = 6;
+      const createAssoOfferApplicationPayload: CreateAssociationOfferApplicationDto = {
+        associationOfferId: -1,
+        motivation: 'I want to be a member',
+      };
+
+      expect(controller.createAssociationOfferApplication(userId, createAssoOfferApplicationPayload)).rejects.toThrow(
+        ERROR.ASSOCIATION_OFFER_NOT_FOUND
+      );
+    });
+  });
+
+  describe('Find All Association Offers', () => {
+    it('should find all association offers', async () => {
+      const findAllOffers = jest.spyOn(service, 'findAllOffers');
+
+      const expected: AssociationOfferWithAssoAndRoleDto[] = [
+        {
+          id: 1,
+          deadline: new Date('2023-2-15'),
+          associationId: 1,
+          associationName: mockedAssociations[0].name,
+          roleId: 3,
+          roleName: mockedRoles[2].name,
+        },
+        {
+          id: 2,
+          deadline: new Date('2023-3-15'),
+          associationId: 2,
+          associationName: mockedAssociations[1].name,
+          roleId: 4,
+          roleName: mockedRoles[3].name,
+        },
+      ];
+
+      expect(await controller.findAllOffers()).toEqual(expected);
+      expect(findAllOffers).toHaveBeenCalledTimes(1);
+      expect(findAllOffers).toHaveBeenCalledWith();
+    });
   });
 });
