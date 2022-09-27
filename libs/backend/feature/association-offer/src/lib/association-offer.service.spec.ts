@@ -11,6 +11,7 @@ import {
   RoleModel,
   SimplifiedUserModel,
 } from '@stud-asso/backend/core/model';
+import { AssociationOfferApplicationDto, CreateAssociationOfferDto } from '@stud-asso/shared/dtos';
 import {
   AssociationOfferApplicationRepository,
   AssociationOfferRepository,
@@ -18,8 +19,8 @@ import {
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
 
-import { AssociationOfferApplicationDto } from '@stud-asso/shared/dtos';
 import { AssociationOfferService } from './association-offer.service';
+import { ERROR } from '@stud-asso/backend/core/error';
 import { Test } from '@nestjs/testing';
 
 const mockedApplicationDate: Date = new Date('2022-12-24');
@@ -331,7 +332,69 @@ describe('AssociationOfferService', () => {
 
   describe('Create Association Offer', () => {
     it('should create an association offer', async () => {
-      console.log('test');
+      const createAssociationOffer = jest.spyOn(service, 'createAssociationOffer');
+      const associationId = 1;
+
+      const createOfferPayload: CreateAssociationOfferDto = {
+        roleId: 5,
+        deadline: new Date('2025-7-14'),
+      };
+
+      const newOffer: AssociationOfferModel = {
+        id: mockedAssociationOffers.length + 1,
+        ...createOfferPayload,
+        associationId,
+      };
+
+      expect(await service.createAssociationOffer(associationId, createOfferPayload)).toEqual(newOffer);
+      expect(createAssociationOffer).toHaveBeenCalledTimes(1);
+      expect(createAssociationOffer).toHaveBeenCalledWith(associationId, createOfferPayload);
+    });
+
+    it('should throw an error if the role does not exist', async () => {
+      const associationId = 1;
+
+      const createOfferPayload: CreateAssociationOfferDto = {
+        roleId: -1,
+        deadline: new Date('2025-7-14'),
+      };
+
+      expect(service.createAssociationOffer(associationId, createOfferPayload)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
+    });
+
+    it('should throw an error if the role is not in association', async () => {
+      const associationId = 1;
+
+      const createOfferPayload: CreateAssociationOfferDto = {
+        roleId: 4,
+        deadline: new Date('2025-7-14'),
+      };
+
+      expect(service.createAssociationOffer(associationId, createOfferPayload)).rejects.toThrow(ERROR.ROLE_NOT_IN_ASSO);
+    });
+
+    it('should throw an error if the role is Président', async () => {
+      const associationId = 1;
+
+      const createOfferPayload: CreateAssociationOfferDto = {
+        roleId: 1,
+        deadline: new Date('2025-7-14'),
+      };
+
+      expect(service.createAssociationOffer(associationId, createOfferPayload)).rejects.toThrow(
+        ERROR.CANNOT_CREATE_OFFER_PRESIDENT
+      );
+    });
+
+    it('should throw an error if the deadline is prior to today', async () => {
+      const associationId = 1;
+
+      const createOfferPayload: CreateAssociationOfferDto = {
+        roleId: 5,
+        deadline: new Date('2020-7-14'),
+      };
+
+      expect(service.createAssociationOffer(associationId, createOfferPayload)).rejects.toThrow(ERROR.BAD_DEADLINE);
     });
   });
 });
