@@ -524,4 +524,22 @@ describe('AssociationOfferService', () => {
       expect(await service.findStatsForOffers(associationId)).toEqual(expected);
     });
   });
+
+  describe('Delete Application', () => {
+    it('should delete an application', async () => {
+      const applicationId = 1;
+
+      const deletedApplication = mockedAssociationOfferApplications.find((app) => app.id === applicationId);
+      const filteredMockedEvents = mockedAssociationOfferApplications.filter((app) => app.id !== applicationId);
+
+      expect(await service.deleteApplication(applicationId)).toEqual(deletedApplication);
+      expect(mockedAssociationOfferApplications).toEqual(filteredMockedEvents);
+    });
+
+    it('should fail to delete an application because app does not exist', async () => {
+      const applicationId = -1;
+
+      expect(service.deleteApplication(applicationId)).rejects.toThrow(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
+    });
+  });
 });
