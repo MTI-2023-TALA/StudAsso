@@ -98,8 +98,8 @@ export class AssociationOfferService {
   }
 
   public async findStatsForOffers(associationId: number): Promise<AssociationOfferStatsDto[]> {
-    const allAlssoOffersWithStats = await this.associationOfferRepository.findStatsForOffers(associationId);
-    return allAlssoOffersWithStats.map((offer) => ({
+    const allAssoOffersWithStats = await this.associationOfferRepository.findStatsForOffers(associationId);
+    return allAssoOffersWithStats.map((offer) => ({
       id: offer.id,
       deadline: offer.deadline,
       roleId: offer.role.id,

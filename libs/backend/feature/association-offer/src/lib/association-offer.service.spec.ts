@@ -11,7 +11,11 @@ import {
   RoleModel,
   SimplifiedUserModel,
 } from '@stud-asso/backend/core/model';
-import { AssociationOfferApplicationDto, CreateAssociationOfferDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationOfferApplicationDto,
+  CreateAssociationOfferApplicationDto,
+  CreateAssociationOfferDto,
+} from '@stud-asso/shared/dtos';
 import {
   AssociationOfferApplicationRepository,
   AssociationOfferRepository,
@@ -395,6 +399,129 @@ describe('AssociationOfferService', () => {
       };
 
       expect(service.createAssociationOffer(associationId, createOfferPayload)).rejects.toThrow(ERROR.BAD_DEADLINE);
+    });
+  });
+
+  describe('Create Offer Application', () => {
+    it('should create an application to an offer', async () => {
+      const createAssociationOfferApplication = jest.spyOn(service, 'createAssociationOfferApplication');
+      const userId = 6;
+
+      const createApplicationPayload: CreateAssociationOfferApplicationDto = {
+        associationOfferId: 1,
+        motivation: 'I want to be a member',
+      };
+
+      const newApplication: AssociationOfferApplicationModel = {
+        id: mockedAssociationOfferApplications.length + 1,
+        ...createApplicationPayload,
+        userId,
+      };
+
+      expect(await service.createAssociationOfferApplication(userId, createApplicationPayload)).toEqual(newApplication);
+      expect(createAssociationOfferApplication).toHaveBeenCalledTimes(1);
+      expect(createAssociationOfferApplication).toHaveBeenCalledWith(userId, createApplicationPayload);
+    });
+
+    it('should throw an error if offer does not exist', async () => {
+      const userId = 6;
+
+      const createApplicationPayload: CreateAssociationOfferApplicationDto = {
+        associationOfferId: -1,
+        motivation: 'I want to be a member',
+      };
+
+      expect(service.createAssociationOfferApplication(userId, createApplicationPayload)).rejects.toThrow(
+        ERROR.ASSOCIATION_OFFER_NOT_FOUND
+      );
+    });
+
+    it('should throw an error if user is already member of association', async () => {
+      const userId = 1;
+      const createApplicationPayload: CreateAssociationOfferApplicationDto = {
+        associationOfferId: 1,
+        motivation: 'I want to be a member',
+      };
+
+      expect(service.createAssociationOfferApplication(userId, createApplicationPayload)).rejects.toThrow(
+        ERROR.USER_ALREADY_MEMBER_OF_ASSO
+      );
+    });
+  });
+
+  describe('Find All Offers', () => {
+    it('should find all offers', async () => {
+      const expected = [
+        {
+          id: 1,
+          deadline: new Date('2023-2-15'),
+          associationId: 1,
+          associationName: 'Association 1',
+          roleId: 3,
+          roleName: 'Membre',
+        },
+        {
+          id: 2,
+          associationId: 2,
+          associationName: 'Association 2',
+          roleId: 4,
+          roleName: 'Secrétaire',
+          deadline: new Date('2023-3-15'),
+        },
+      ];
+
+      expect(await service.findAllOffers()).toEqual(expected);
+    });
+  });
+
+  describe('Find All Asso Applications', () => {
+    it('should find all applications', async () => {
+      const associationId = 2;
+      const expected = [
+        {
+          id: 2,
+          applicationDate: mockedApplicationDate,
+          motivation: 'motivation',
+          associationOfferId: 2,
+          roleId: 4,
+          roleName: 'Secrétaire',
+          userId: 4,
+          userFirstname: 'Lionel',
+          userLastname: 'Messi',
+          userEmail: 'lionel.messi@gmail.com',
+        },
+        {
+          id: 3,
+          applicationDate: mockedApplicationDate,
+          motivation: 'motivation',
+          associationOfferId: 2,
+          roleId: 4,
+          roleName: 'Secrétaire',
+          userId: 5,
+          userFirstname: 'Christiano',
+          userLastname: 'Ronaldo',
+          userEmail: 'christiano.ronaldo@gmail.com',
+        },
+      ];
+
+      expect(await service.findAllApplications(associationId)).toEqual(expected);
+    });
+  });
+
+  describe('Find Stats For Offers', () => {
+    it('should find stats for offers', async () => {
+      const associationId = 2;
+      const expected = [
+        {
+          id: 2,
+          deadline: new Date('2023-3-15'),
+          roleId: 4,
+          roleName: 'Secrétaire',
+          numberOfApplications: 2,
+        },
+      ];
+
+      expect(await service.findStatsForOffers(associationId)).toEqual(expected);
     });
   });
 });
