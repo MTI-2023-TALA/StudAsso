@@ -17,6 +17,7 @@ export class UpdateRoleModel {
 }
 
 export class RoleNameModel {
+  id: number;
   name: string;
 }
 

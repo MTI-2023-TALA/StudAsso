@@ -1,3 +1,5 @@
+export * from './lib/association-offer-application.model';
+export * from './lib/association-offer.model';
 export * from './lib/association.model';
 export * from './lib/associations-member.model';
 export * from './lib/event.model';

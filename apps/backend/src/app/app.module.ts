@@ -3,6 +3,7 @@ import { AccessGuard, AtGuard, BackendCoreAuthModule, SchoolEmployeeGuard } from
 import { APP_GUARD } from '@nestjs/core';
 import { BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
 import { BackendFeatureAssociationModule } from '@stud-asso/backend/feature/association';
+import { BackendFeatureAssociationOfferModule } from '@stud-asso/backend/feature/association-offer';
 import { BackendFeatureAuthModule } from '@stud-asso/backend/feature/auth';
 import { BackendFeatureEventModule } from '@stud-asso/backend/feature/event';
 import { BackendFeatureNewsModule } from '@stud-asso/backend-feature-news';
@@ -17,8 +18,9 @@ import { Module } from '@nestjs/common';
     ConfigModule.forRoot({ isGlobal: true }),
     BackendCoreAuthModule,
     BackendCoreRepositoryModule,
-    BackendFeatureAuthModule,
     BackendFeatureAssociationModule,
+    BackendFeatureAssociationOfferModule,
+    BackendFeatureAuthModule,
     BackendFeatureEventModule,
     BackendFeatureNewsModule,
     BackendFeatureRoleModule,
