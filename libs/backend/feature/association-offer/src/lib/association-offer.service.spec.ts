@@ -288,10 +288,34 @@ describe('AssociationOfferService', () => {
               applications = applications.filter((application) => application !== null);
               return Promise.resolve(applications);
             }),
+            findOneAssoReview: jest.fn((id: number): Promise<AssociationOfferApplicationReviewModel> => {
+              const application = mockedAssociationOfferApplications.find((application) => application.id === id);
+              if (!application) return undefined;
+              const offer = mockedAssociationOffers.find((offer) => offer.id === application.associationOfferId);
+              const user = mockedUsers.find((user) => user.id === application.userId);
+              const role = mockedRoles.find((role) => role.id === offer.roleId);
+              return Promise.resolve({
+                id: application.id,
+                createdAt: mockedApplicationDate,
+                motivation: application.motivation,
+                associationOffer: {
+                  id: offer.id,
+                  role: {
+                    id: role.id,
+                    name: role.name,
+                  },
+                },
+                user: {
+                  id: user.id,
+                  firstname: user.firstname,
+                  lastname: user.lastname,
+                  email: user.email,
+                },
+              });
+            }),
             findOne: jest.fn((id: number): Promise<AssociationOfferApplicationModel> => {
               return Promise.resolve(mockedAssociationOfferApplications.find((application) => application.id === id));
             }),
-
             delete: jest.fn((id: number): Promise<AssociationOfferApplicationDto> => {
               const deletedApplication = mockedAssociationOfferApplications.find(
                 (application) => application.id === id
@@ -502,6 +526,31 @@ describe('AssociationOfferService', () => {
       ];
 
       expect(await service.findAllApplications(associationId)).toEqual(expected);
+    });
+  });
+
+  describe('Find One Application', () => {
+    it('should find one application', async () => {
+      const appId = 2;
+
+      const expected: AssociationOfferApplicationReviewDto = {
+        id: 2,
+        applicationDate: mockedApplicationDate,
+        motivation: 'motivation',
+        associationOfferId: 2,
+        roleId: 4,
+        roleName: 'Secrétaire',
+        userId: 4,
+        userFullName: 'Lionel Messi',
+        userEmail: 'lionel.messi@gmail.com',
+      };
+
+      expect(await service.findOneApplication(appId)).toEqual(expected);
+    });
+
+    it('should throw an error if application does not exist', async () => {
+      const appId = -1;
+      expect(service.findOneApplication(appId)).rejects.toThrow(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
     });
   });
 
