@@ -1,5 +1,6 @@
 import {
   AssociationOfferApplicationDto,
+  AssociationOfferApplicationReviewDto,
   AssociationOfferWithAssoAndRoleDto,
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
@@ -28,8 +29,16 @@ export class ApiOfferService extends ApiBaseService {
     return this.apiService.get<AssociationOffer[]>(`${this.url}/stats`);
   }
 
-  public findAllApplication(): Observable<AssociationOfferWithAssoAndRoleDto[]> {
+  public findAllOffer(): Observable<AssociationOfferWithAssoAndRoleDto[]> {
     return this.apiService.get<AssociationOfferWithAssoAndRoleDto[]>(`${this.url}`);
+  }
+
+  public findAllApplication(): Observable<AssociationOfferApplicationReviewDto[]> {
+    return this.apiService.get<AssociationOfferApplicationReviewDto[]>(`${this.url}/application`);
+  }
+
+  public removeApplication(id: number): Observable<AssociationOfferApplicationReviewDto> {
+    return this.apiService.delete<AssociationOfferApplicationReviewDto>(`${this.url}/application/${id}`);
   }
 
   public postApplication(

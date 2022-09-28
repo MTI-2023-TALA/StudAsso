@@ -85,8 +85,6 @@ export class ApplicationPageComponent implements OnInit {
 
   postulate(id: number): ((model: any) => void) | undefined {
     return (model: CreateAssociationOfferApplicationDto) => {
-      console.log({ ...model, associationOfferId: id });
-      console.log(id);
       this.apiOffer.postApplication({ ...model, associationOfferId: id }).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Candidature envoyé`, type: ToastType.Success });
