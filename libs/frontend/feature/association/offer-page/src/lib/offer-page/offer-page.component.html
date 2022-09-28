@@ -1,1 +1,8 @@
-<p>offer-page works!</p>
+<stud-asso-generic-page
+  [title]="'Offres'"
+  [buttonText]="'Ajouter une offre'"
+  [tableConfiguration]="tableConfiguration"
+  (buttonFunction)="createModalOffer()"
+  [data]="offerList"
+  [isLoading]="isLoading"
+></stud-asso-generic-page>
