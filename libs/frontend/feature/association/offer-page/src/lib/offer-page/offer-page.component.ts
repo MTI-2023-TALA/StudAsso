@@ -68,7 +68,7 @@ export class OfferPageComponent {
     ]).finally(() => (this.isLoading = false));
   }
 
-  createApplication(): (data: ICreateOfferFormly) => void {
+  createOffer(): (data: ICreateOfferFormly) => void {
     return (data: ICreateOfferFormly) => {
       console.log(data);
       const payload: CreateAssociationOfferDto = { roleId: +data.roleId, deadline: new Date(data.deadline) };
@@ -84,7 +84,7 @@ export class OfferPageComponent {
       title: "Création d'une offre",
       fields: await createOfferFormly(this.rolesList),
       submitBtnText: 'Créer',
-      submit: this.createApplication(),
+      submit: this.createOffer(),
     });
   }
 }

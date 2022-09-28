@@ -1,7 +1,13 @@
+import {
+  AssociationOfferApplicationDto,
+  AssociationOfferWithAssoAndRoleDto,
+  CreateAssociationOfferApplicationDto,
+  CreateAssociationOfferDto,
+} from '@stud-asso/shared/dtos';
+
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
 import { AssociationOffer } from '@prisma/client';
-import { CreateAssociationOfferDto } from '@stud-asso/shared/dtos';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -20,5 +26,18 @@ export class ApiOfferService extends ApiBaseService {
 
   public findAll(): Observable<AssociationOffer[]> {
     return this.apiService.get<AssociationOffer[]>(`${this.url}/stats`);
+  }
+
+  public findAllApplication(): Observable<AssociationOfferWithAssoAndRoleDto[]> {
+    return this.apiService.get<AssociationOfferWithAssoAndRoleDto[]>(`${this.url}`);
+  }
+
+  public postApplication(
+    application: CreateAssociationOfferApplicationDto
+  ): Observable<AssociationOfferApplicationDto> {
+    return this.apiService.post<CreateAssociationOfferApplicationDto, AssociationOfferApplicationDto>(
+      `${this.url}/application`,
+      application
+    );
   }
 }
