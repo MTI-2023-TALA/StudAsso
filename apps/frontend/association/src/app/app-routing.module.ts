@@ -9,6 +9,7 @@ import { MyAccountPageComponent } from '@stud-asso/frontend/shared/my-account-pa
 import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NewsPageComponent } from '@stud-asso/frontend/feature/association/news-page';
 import { NgModule } from '@angular/core';
+import { OfferPageComponent } from '@stud-asso/frontend/feature/association/offer-page';
 import { RolePageComponent } from '@stud-asso/frontend/feature/association/role-page';
 import { SelectionAssoPageComponent } from '@stud-asso/frontend/feature/association/select-association-page';
 import { StockPageComponent } from '@stud-asso/frontend/feature/association/stock-page';
@@ -20,6 +21,7 @@ const mainRouteConfig: NavbarItem[] = [
   { title: 'Evénements', icon: 'calendar-event', url: '/events' },
   { title: 'Rôles', icon: 'person-plus', url: '/roles' },
   { title: 'Stocks', icon: 'cart', url: '/stock' },
+  { title: 'Offres', icon: 'clipboard-plus', url: '/offers' },
 ];
 
 const routes: Routes = [
@@ -59,6 +61,10 @@ const routes: Routes = [
       {
         path: 'events',
         component: EventPageComponent,
+      },
+      {
+        path: 'offers',
+        component: OfferPageComponent,
       },
       {
         path: 'my-account',
