@@ -57,6 +57,16 @@ export class AssociationOfferController {
     return this.associationOfferService.findAllApplications(assoId);
   }
 
+  // put acl
+  @Get('/application/:id')
+  public async findOneApplication(@Param('id') id: string): Promise<AssociationOfferApplicationReviewDto> {
+    try {
+      return await this.associationOfferService.findOneApplication(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @Get('/stats')
   public async findStatsForOffers(@GetCurrentAssoId() assoId: number): Promise<AssociationOfferStatsDto[]> {
     return this.associationOfferService.findStatsForOffers(assoId);

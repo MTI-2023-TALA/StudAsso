@@ -13,7 +13,11 @@ import {
   AssociationsMemberRepository,
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
-import { CreateAssociationOfferApplicationModel, CreateAssociationOfferModel } from '@stud-asso/backend/core/model';
+import {
+  AssociationOfferApplicationReviewModel,
+  CreateAssociationOfferApplicationModel,
+  CreateAssociationOfferModel,
+} from '@stud-asso/backend/core/model';
 
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
@@ -83,18 +87,14 @@ export class AssociationOfferService {
 
   public async findAllApplications(associationId: number): Promise<AssociationOfferApplicationReviewDto[]> {
     const allApplications = await this.associationOfferApplicationRepository.findAll(associationId);
-    return allApplications.map((application) => ({
-      id: application.id,
-      applicationDate: application.createdAt,
-      motivation: application.motivation,
-      associationOfferId: application.associationOffer.id,
-      roleId: application.associationOffer.role.id,
-      roleName: application.associationOffer.role.name,
-      userId: application.user.id,
-      userFirstname: application.user.firstname,
-      userLastname: application.user.lastname,
-      userEmail: application.user.email,
-    }));
+    return Promise.all(allApplications.map((application) => this.formatApplicationReview(application)));
+  }
+
+  public async findOneApplication(id: number): Promise<AssociationOfferApplicationReviewDto> {
+    const application = await this.associationOfferApplicationRepository.findOneAssoReview(id);
+    if (!application) throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
+
+    return this.formatApplicationReview(application);
   }
 
   public async findStatsForOffers(associationId: number): Promise<AssociationOfferStatsDto[]> {
@@ -113,5 +113,21 @@ export class AssociationOfferService {
     if (!application) throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
 
     return this.associationOfferApplicationRepository.delete(id);
+  }
+
+  private async formatApplicationReview(
+    assoOfferAppModel: AssociationOfferApplicationReviewModel
+  ): Promise<AssociationOfferApplicationReviewDto> {
+    return {
+      id: assoOfferAppModel.id,
+      applicationDate: assoOfferAppModel.createdAt,
+      motivation: assoOfferAppModel.motivation,
+      associationOfferId: assoOfferAppModel.associationOffer.id,
+      roleId: assoOfferAppModel.associationOffer.role.id,
+      roleName: assoOfferAppModel.associationOffer.role.name,
+      userId: assoOfferAppModel.user.id,
+      userFullName: `${assoOfferAppModel.user.firstname} ${assoOfferAppModel.user.lastname}`,
+      userEmail: assoOfferAppModel.user.email,
+    };
   }
 }
