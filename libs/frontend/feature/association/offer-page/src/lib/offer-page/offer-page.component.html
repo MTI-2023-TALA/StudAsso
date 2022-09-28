@@ -1,8 +1,16 @@
 <stud-asso-generic-page
   [title]="'Offres'"
   [buttonText]="'Ajouter une offre'"
-  [tableConfiguration]="tableConfiguration"
+  [tableConfiguration]="tableConfigurationOffer"
   (buttonFunction)="createModalOffer()"
   [data]="offerList"
+  [isLoading]="isLoading"
+></stud-asso-generic-page>
+<stud-asso-generic-page
+  [title]="'Candidatures'"
+  [buttonText]="'Bientot il est plus la'"
+  [tableConfiguration]="tableConfigurationApplication"
+  (buttonFunction)="empty()"
+  [data]="applicationList"
   [isLoading]="isLoading"
 ></stud-asso-generic-page>
