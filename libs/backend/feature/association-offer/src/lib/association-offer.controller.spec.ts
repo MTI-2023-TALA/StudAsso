@@ -261,6 +261,25 @@ describe('AssociationOfferController', () => {
               mappedApplications = mappedApplications.filter((application) => application !== null);
               return Promise.resolve(mappedApplications);
             }),
+            findOneApplication: jest.fn((id: string): Promise<AssociationOfferApplicationReviewDto> => {
+              const application = mockedAssociationOfferApplications.find((application) => application.id === +id);
+              if (!application) throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
+              const offer = mockedAssociationOffers.find((offer) => offer.id === application.associationOfferId);
+              const role = mockedRoles.find((role) => role.id === offer.roleId);
+              const user = mockedUsers.find((user) => user.id === application.userId);
+
+              return Promise.resolve({
+                id: application.id,
+                applicationDate: mockedApplicationDate,
+                motivation: application.motivation,
+                associationOfferId: application.associationOfferId,
+                roleId: role.id,
+                roleName: role.name,
+                userId: application.userId,
+                userFullName: `${user.firstname} ${user.lastname}`,
+                userEmail: user.email,
+              });
+            }),
             findStatsForOffers: jest.fn((associationId: number): Promise<AssociationOfferStatsDto[]> => {
               const filteredAssociationOffers = mockedAssociationOffers.filter(
                 (offer) => offer.associationId === associationId
@@ -425,6 +444,33 @@ describe('AssociationOfferController', () => {
       expect(await controller.findAllApplications(associationId)).toEqual(expected);
       expect(findAllApplications).toHaveBeenCalledTimes(1);
       expect(findAllApplications).toHaveBeenCalledWith(associationId);
+    });
+  });
+
+  describe('Find One Application', () => {
+    it('should find one application', async () => {
+      const applicationId = '2';
+
+      const expected: AssociationOfferApplicationReviewDto = {
+        id: 2,
+        applicationDate: mockedApplicationDate,
+        motivation: 'motivation',
+        associationOfferId: 2,
+        roleId: mockedAssociationOffers[1].roleId,
+        roleName: mockedRoles[mockedAssociationOffers[1].roleId - 1].name,
+        userId: 4,
+        userFullName: `${mockedUsers[3].firstname} ${mockedUsers[3].lastname}`,
+        userEmail: mockedUsers[3].email,
+      };
+
+      expect(await controller.findOneApplication(applicationId)).toEqual(expected);
+    });
+
+    it('should fail to find one application because an error has been raised', async () => {
+      const applicationId = '-1';
+      expect(controller.findOneApplication(applicationId)).rejects.toThrow(
+        ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND
+      );
     });
   });
 

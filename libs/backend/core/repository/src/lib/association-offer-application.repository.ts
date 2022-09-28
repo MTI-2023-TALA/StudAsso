@@ -14,6 +14,31 @@ const assoOfferApplicationSelect = {
   motivation: true,
 };
 
+const assoOfferApplicationReviewSelect = {
+  id: true,
+  createdAt: true,
+  motivation: true,
+  associationOffer: {
+    select: {
+      id: true,
+      role: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  },
+  user: {
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+    },
+  },
+};
+
 @Injectable()
 export class AssociationOfferApplicationRepository {
   constructor(private prisma: PrismaService) {}
@@ -30,30 +55,14 @@ export class AssociationOfferApplicationRepository {
   public async findAll(associationId: number): Promise<AssociationOfferApplicationReviewModel[]> {
     return this.prisma.associationOfferApplication.findMany({
       where: { associationOffer: { associationId } },
-      select: {
-        id: true,
-        createdAt: true,
-        motivation: true,
-        associationOffer: {
-          select: {
-            id: true,
-            role: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
-        },
-        user: {
-          select: {
-            id: true,
-            firstname: true,
-            lastname: true,
-            email: true,
-          },
-        },
-      },
+      select: assoOfferApplicationReviewSelect,
+    });
+  }
+
+  public async findOneAssoReview(id: number): Promise<AssociationOfferApplicationReviewModel> {
+    return this.prisma.associationOfferApplication.findUnique({
+      where: { id },
+      select: assoOfferApplicationReviewSelect,
     });
   }
 
