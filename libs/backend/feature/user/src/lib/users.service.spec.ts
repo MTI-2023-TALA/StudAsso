@@ -130,6 +130,7 @@ describe('UsersService', () => {
                 const role = mockedRoles.find((role) => role.id === associationMember.roleId);
                 associationsAndRoleName.push({
                   role: {
+                    id: role.id,
                     name: role.name,
                   },
                   association: {

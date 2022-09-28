@@ -24,10 +24,18 @@ export class AssociationsMemberRepository {
         },
         role: {
           select: {
+            id: true,
             name: true,
           },
         },
       },
     });
+  }
+
+  public async isUserMemberOfAssociation(userId: number, associationId: number): Promise<boolean> {
+    const isMemberOfAsso = await this.prisma.associationMember.findFirst({
+      where: { userId, associationId },
+    });
+    return isMemberOfAsso ? true : false;
   }
 }
