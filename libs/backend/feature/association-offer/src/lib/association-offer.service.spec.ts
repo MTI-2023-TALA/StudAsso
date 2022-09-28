@@ -13,6 +13,9 @@ import {
 } from '@stud-asso/backend/core/model';
 import {
   AssociationOfferApplicationDto,
+  AssociationOfferApplicationReviewDto,
+  AssociationOfferStatsDto,
+  AssociationOfferWithAssoAndRoleDto,
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
 } from '@stud-asso/shared/dtos';
@@ -447,7 +450,7 @@ describe('AssociationOfferService', () => {
 
   describe('Find All Offers', () => {
     it('should find all offers', async () => {
-      const expected = [
+      const expected: AssociationOfferWithAssoAndRoleDto[] = [
         {
           id: 1,
           deadline: new Date('2023-2-15'),
@@ -473,7 +476,7 @@ describe('AssociationOfferService', () => {
   describe('Find All Asso Applications', () => {
     it('should find all applications', async () => {
       const associationId = 2;
-      const expected = [
+      const expected: AssociationOfferApplicationReviewDto[] = [
         {
           id: 2,
           applicationDate: mockedApplicationDate,
@@ -482,8 +485,7 @@ describe('AssociationOfferService', () => {
           roleId: 4,
           roleName: 'Secrétaire',
           userId: 4,
-          userFirstname: 'Lionel',
-          userLastname: 'Messi',
+          userFullName: 'Lionel Messi',
           userEmail: 'lionel.messi@gmail.com',
         },
         {
@@ -494,8 +496,7 @@ describe('AssociationOfferService', () => {
           roleId: 4,
           roleName: 'Secrétaire',
           userId: 5,
-          userFirstname: 'Christiano',
-          userLastname: 'Ronaldo',
+          userFullName: 'Christiano Ronaldo',
           userEmail: 'christiano.ronaldo@gmail.com',
         },
       ];
@@ -507,7 +508,7 @@ describe('AssociationOfferService', () => {
   describe('Find Stats For Offers', () => {
     it('should find stats for offers', async () => {
       const associationId = 2;
-      const expected = [
+      const expected: AssociationOfferStatsDto[] = [
         {
           id: 2,
           deadline: new Date('2023-3-15'),

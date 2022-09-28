@@ -91,8 +91,7 @@ export class AssociationOfferService {
       roleId: application.associationOffer.role.id,
       roleName: application.associationOffer.role.name,
       userId: application.user.id,
-      userFirstname: application.user.firstname,
-      userLastname: application.user.lastname,
+      userFullName: `${application.user.firstname} ${application.user.lastname}`,
       userEmail: application.user.email,
     }));
   }

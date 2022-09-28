@@ -253,8 +253,7 @@ describe('AssociationOfferController', () => {
                     roleId: role.id,
                     roleName: role.name,
                     userId: application.userId,
-                    userFirstname: user.firstname,
-                    userLastname: user.lastname,
+                    userFullName: `${user.firstname} ${user.lastname}`,
                     userEmail: user.email,
                   };
                 }
@@ -407,8 +406,7 @@ describe('AssociationOfferController', () => {
           roleId: mockedAssociationOffers[1].roleId,
           roleName: mockedRoles[mockedAssociationOffers[1].roleId - 1].name,
           userId: 4,
-          userFirstname: mockedUsers[3].firstname,
-          userLastname: mockedUsers[3].lastname,
+          userFullName: `${mockedUsers[3].firstname} ${mockedUsers[3].lastname}`,
           userEmail: mockedUsers[3].email,
         },
         {
@@ -419,8 +417,7 @@ describe('AssociationOfferController', () => {
           roleId: mockedAssociationOffers[1].roleId,
           roleName: mockedRoles[mockedAssociationOffers[1].roleId - 1].name,
           userId: 5,
-          userFirstname: mockedUsers[4].firstname,
-          userLastname: mockedUsers[4].lastname,
+          userFullName: `${mockedUsers[4].firstname} ${mockedUsers[4].lastname}`,
           userEmail: mockedUsers[4].email,
         },
       ];

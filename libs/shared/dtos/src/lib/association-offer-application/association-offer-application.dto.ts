@@ -29,7 +29,6 @@ export class AssociationOfferApplicationReviewDto {
   roleId: number;
   roleName: string;
   userId: number;
-  userFirstname: string;
-  userLastname: string;
+  userFullName: string;
   userEmail: string;
 }
