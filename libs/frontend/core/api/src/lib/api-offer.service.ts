@@ -37,6 +37,10 @@ export class ApiOfferService extends ApiBaseService {
     return this.apiService.get<AssociationOfferApplicationReviewDto[]>(`${this.url}/application`);
   }
 
+  public findOneApplication(id: number): Observable<AssociationOfferApplicationReviewDto> {
+    return this.apiService.get<AssociationOfferApplicationReviewDto>(`${this.url}/application/${id}`);
+  }
+
   public removeApplication(id: number): Observable<AssociationOfferApplicationReviewDto> {
     return this.apiService.delete<AssociationOfferApplicationReviewDto>(`${this.url}/application/${id}`);
   }

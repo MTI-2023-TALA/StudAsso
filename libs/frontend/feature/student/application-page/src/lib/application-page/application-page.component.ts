@@ -1,13 +1,13 @@
-import { ApiOfferService, ApiRoleService } from '@stud-asso/frontend-core-api';
 import { AssociationOfferWithAssoAndRoleDto, CreateAssociationOfferApplicationDto } from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
+import { ApiOfferService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { postulateApplicationFormly } from './application-page.formly';
 
-export type ApplicationDto = Omit<AssociationOfferWithAssoAndRoleDto, 'deadline'> & { deadline: string };
+export type OfferDto = Omit<AssociationOfferWithAssoAndRoleDto, 'deadline'> & { deadline: string };
 
 @Component({
   selector: 'stud-asso-application-page',
@@ -44,7 +44,7 @@ export class ApplicationPageComponent implements OnInit {
     ],
   };
 
-  applicationList: ApplicationDto[] = [];
+  offerList: OfferDto[] = [];
   isLoading = true;
 
   constructor(private apiOffer: ApiOfferService, private modal: ModalService, private toast: ToastService) {}
@@ -56,8 +56,8 @@ export class ApplicationPageComponent implements OnInit {
   reloadData(): void {
     this.isLoading = true;
     Promise.all([
-      this.apiOffer.findAllApplication().subscribe((offerList: AssociationOfferWithAssoAndRoleDto[]) => {
-        this.applicationList = offerList.map((offer) => ({
+      this.apiOffer.findAllOffer().subscribe((offerList: AssociationOfferWithAssoAndRoleDto[]) => {
+        this.offerList = offerList.map((offer) => ({
           ...offer,
           deadline: new Date(offer.deadline).toLocaleDateString(),
         }));

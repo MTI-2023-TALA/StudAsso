@@ -39,8 +39,3 @@ export interface ICreateOfferFormly {
   roleId: number;
   deadline: Date;
 }
-
-export interface ICreateMemberFormly {
-  userId: number;
-  roleId: number;
-}

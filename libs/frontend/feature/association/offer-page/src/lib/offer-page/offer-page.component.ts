@@ -1,19 +1,11 @@
-import {
-  AddRoleToUserDto,
-  AssociationDto,
-  AssociationOfferApplicationDto,
-  AssociationOfferApplicationReviewDto,
-  AssociationOfferDto,
-  CreateAssociationOfferApplicationDto,
-  CreateAssociationOfferDto,
-} from '@stud-asso/shared/dtos';
 import { ApiOfferService, ApiRoleService } from '@stud-asso/frontend-core-api';
 import {
-  ICreateMemberFormly,
-  ICreateOfferFormly,
-  createOfferFormly,
-  examinateApplicationFormly,
-} from './offer-page.formly';
+  AssociationDto,
+  AssociationOfferApplicationReviewDto,
+  AssociationOfferDto,
+  CreateAssociationOfferDto,
+} from '@stud-asso/shared/dtos';
+import { ICreateOfferFormly, createOfferFormly } from './offer-page.formly';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { Component } from '@angular/core';
@@ -22,7 +14,9 @@ import { SelectOption } from '@stud-asso/frontend-shared-formly';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 export type OfferDto = Omit<AssociationOfferDto, 'deadline'> & { deadline: string };
-export type ApplicationDto = Omit<AssociationOfferApplicationDto, 'applicationDate'> & { applicationDate: string };
+export type ApplicationDto = Omit<AssociationOfferApplicationReviewDto, 'applicationDate'> & {
+  applicationDate: string;
+};
 
 @Component({
   selector: 'stud-asso-offer-page',
@@ -55,7 +49,7 @@ export class OfferPageComponent {
     columns: [
       {
         title: 'Candidat',
-        dataProperty: 'userEmail',
+        dataProperty: 'userFullName',
         size: 1,
       },
       {
@@ -72,10 +66,9 @@ export class OfferPageComponent {
     actions: [
       {
         label: 'Examiner',
-        action: (id: number) => {
-          this.createModalExaminateApplication(id);
+        action: (data: { id: number; userId: number; roleId: number; motivation: string }) => {
+          this.confirmModalMember(data.id, data.userId, data.roleId, data.motivation);
         },
-        dataProperty: 'id',
       },
     ],
   };
@@ -110,7 +103,6 @@ export class OfferPageComponent {
         }));
       }),
       this.apiOffer.findAllApplication().subscribe((applicationList: AssociationOfferApplicationReviewDto[]) => {
-        console.log(applicationList);
         this.applicationList = applicationList.map((application) => ({
           ...application,
           applicationDate: new Date(application.applicationDate).toLocaleDateString(),
@@ -129,18 +121,13 @@ export class OfferPageComponent {
     };
   }
 
-  createMember(): (data: ICreateMemberFormly) => void {
-    console.log('TOTOT');
-    return (data: ICreateMemberFormly) => {
-      /*
-      const payload: AddRoleToUserDto = { userId: +data.userId, roleId: +data.roleId };
-      this.apiRole.addRoleToUser(payload).subscribe(() => {
+  createMember(id: number, userId: number, roleId: number) {
+    this.apiRole.addRoleToUser({ userId: userId, roleId: roleId }).subscribe(() => {
+      this.apiOffer.removeApplication(id).subscribe(() => {
         this.toast.addAlert({ title: 'Membre ajouté', type: ToastType.Success });
         this.reloadData();
       });
-      */
-      console.log(data);
-    };
+    });
   }
 
   empty(): void {
@@ -156,14 +143,12 @@ export class OfferPageComponent {
     });
   }
 
-  createModalExaminateApplication(id: number): void {
-    //const application = this.getSpecificStock(id);
-    console.log(id);
-    this.modal.createForm({
-      title: 'Examiner la candidature',
-      fields: examinateApplicationFormly(/*application.motivation*/ 'TMP'),
-      submitBtnText: 'Accepter le membre',
-      submit: this.createMember(),
+  confirmModalMember(id: number, userId: number, roleId: number, motivation: string) {
+    this.modal.createConfirmModal({
+      message: `Motivation: ${motivation}`,
+      submit: () => {
+        this.createMember(id, userId, roleId);
+      },
     });
   }
 }
