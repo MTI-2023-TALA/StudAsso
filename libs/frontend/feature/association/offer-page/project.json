@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/frontend/feature/association/offer-page/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/feature/association/offer-page"],
+      "options": {
+        "jestConfig": "libs/frontend/feature/association/offer-page/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/feature/association/offer-page/**/*.ts",
+          "libs/frontend/feature/association/offer-page/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-feature"]
+}
