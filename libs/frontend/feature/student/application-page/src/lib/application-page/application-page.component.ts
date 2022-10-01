@@ -64,10 +64,6 @@ export class ApplicationPageComponent implements OnInit {
     ]).finally(() => (this.isLoading = false));
   }
 
-  empty(): void {
-    return;
-  }
-
   postulateApplication(id: number) {
     this.modal.createForm({
       title: 'Postuler',
