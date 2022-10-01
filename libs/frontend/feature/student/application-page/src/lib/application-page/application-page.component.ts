@@ -12,7 +12,6 @@ export type OfferDto = Omit<AssociationOfferWithAssoAndRoleDto, 'deadline'> & { 
 @Component({
   selector: 'stud-asso-application-page',
   templateUrl: './application-page.component.html',
-  styleUrls: ['./application-page.component.scss'],
 })
 export class ApplicationPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {

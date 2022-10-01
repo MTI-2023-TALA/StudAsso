@@ -21,7 +21,6 @@ export type ApplicationDto = Omit<AssociationOfferApplicationReviewDto, 'applica
 @Component({
   selector: 'stud-asso-offer-page',
   templateUrl: './offer-page.component.html',
-  styleUrls: ['./offer-page.component.scss'],
 })
 export class OfferPageComponent {
   tableConfigurationOffer: TableConfiguration = {
