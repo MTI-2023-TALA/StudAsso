@@ -17,7 +17,7 @@ export const createOfferFormly = async (rolesList: SelectOption[]) => [
     key: 'deadline',
     type: Form.Datepicker,
     templateOptions: {
-      label: `Date de l'événement`,
+      label: `Date limite`,
       required: true,
     },
   },
