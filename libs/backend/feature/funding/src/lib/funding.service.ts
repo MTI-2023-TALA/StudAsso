@@ -37,8 +37,6 @@ export class FundingService {
       : await this.associationRepository.getCreationDate(assoId);
     const endDate = optionStatFundingDto.endDate ? new Date(optionStatFundingDto.endDate) : new Date();
 
-    console.log('Dates ' + startDate + ' ' + endDate);
-
     if (optionStatFundingDto.startDate || optionStatFundingDto.endDate) {
       stats.sum = await this.getSumInInterval(assoId, { startDate, endDate });
     }

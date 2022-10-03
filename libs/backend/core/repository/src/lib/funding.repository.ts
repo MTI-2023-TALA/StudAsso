@@ -22,14 +22,13 @@ export class FundingRepository {
       associationId,
       userId,
     };
-    console.log(mydata);
     return this.prisma.funding.create({
       data: mydata,
       select: selectFundingModel,
     });
   }
 
-  findAll(associationId: number) {
+  findAll(associationId: number): Promise<FundingModel[]> {
     return this.prisma.funding.findMany({
       orderBy: {
         createdAt: 'desc',
@@ -60,7 +59,7 @@ export class FundingRepository {
     });
   }
 
-  getNbAccepted(associationId: number) {
+  getNbAccepted(associationId: number): Promise<number> {
     return this.prisma.funding.count({
       where: {
         associationId,
@@ -69,7 +68,7 @@ export class FundingRepository {
     });
   }
 
-  getNbRejected(associationId: number) {
+  getNbRejected(associationId: number): Promise<number> {
     return this.prisma.funding.count({
       where: {
         associationId,

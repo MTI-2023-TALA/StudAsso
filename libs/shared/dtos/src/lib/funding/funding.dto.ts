@@ -1,4 +1,4 @@
-import { IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export enum FUNDING_STATUS {
   PENDING = 'PENDING',
@@ -10,7 +10,7 @@ export enum FUNDING_STATUS {
 
 export class CreateFundingDto {
   @IsNotEmpty()
-  @IsString()
+  @IsInt()
   amount: number;
 
   @IsNotEmpty()
