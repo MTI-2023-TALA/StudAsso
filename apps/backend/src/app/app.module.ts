@@ -6,6 +6,7 @@ import { BackendFeatureAssociationModule } from '@stud-asso/backend/feature/asso
 import { BackendFeatureAssociationOfferModule } from '@stud-asso/backend/feature/association-offer';
 import { BackendFeatureAuthModule } from '@stud-asso/backend/feature/auth';
 import { BackendFeatureEventModule } from '@stud-asso/backend/feature/event';
+import { BackendFeatureFundingModule } from '@stud-asso/backend/feature/funding';
 import { BackendFeatureNewsModule } from '@stud-asso/backend-feature-news';
 import { BackendFeatureRoleModule } from '@stud-asso/backend/feature/role';
 import { BackendFeatureStockModule } from '@stud-asso/backend/feature/stock';
@@ -22,6 +23,7 @@ import { Module } from '@nestjs/common';
     BackendFeatureAssociationOfferModule,
     BackendFeatureAuthModule,
     BackendFeatureEventModule,
+    BackendFeatureFundingModule,
     BackendFeatureNewsModule,
     BackendFeatureRoleModule,
     BackendFeatureStockModule,

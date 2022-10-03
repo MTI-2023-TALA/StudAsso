@@ -4,6 +4,7 @@ import { AssociationRepository } from './association.repository';
 import { AssociationsMemberRepository } from './associations-member.repository';
 import { BackendCoreOrmModule } from '@stud-asso/backend/core/orm';
 import { EventRepository } from './event.repository';
+import { FundingRepository } from './funding.repository';
 import { Module } from '@nestjs/common';
 import { NewsRepository } from './news.repository';
 import { RoleRepository } from './role.repository';
@@ -20,6 +21,7 @@ import { UserRepository } from './user.repository';
     AssociationOfferRepository,
     AssociationOfferApplicationRepository,
     EventRepository,
+    FundingRepository,
     NewsRepository,
     RoleRepository,
     StockRepository,
@@ -32,6 +34,7 @@ import { UserRepository } from './user.repository';
     AssociationOfferRepository,
     AssociationOfferApplicationRepository,
     EventRepository,
+    FundingRepository,
     NewsRepository,
     RoleRepository,
     StockRepository,

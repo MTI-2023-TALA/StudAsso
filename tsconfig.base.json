@@ -29,6 +29,7 @@
       "@stud-asso/backend/feature/association-offer": ["libs/backend/feature/association-offer/src/index.ts"],
       "@stud-asso/backend/feature/auth": ["libs/backend/feature/auth/src/index.ts"],
       "@stud-asso/backend/feature/event": ["libs/backend/feature/event/src/index.ts"],
+      "@stud-asso/backend/feature/funding": ["libs/backend/feature/funding/src/index.ts"],
       "@stud-asso/backend/feature/role": ["libs/backend/feature/role/src/index.ts"],
       "@stud-asso/backend/feature/stock": ["libs/backend/feature/stock/src/index.ts"],
       "@stud-asso/backend/feature/user": ["libs/backend/feature/user/src/index.ts"],

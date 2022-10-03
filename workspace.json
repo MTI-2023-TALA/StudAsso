@@ -13,6 +13,7 @@
     "backend-feature-association-offer": "libs/backend/feature/association-offer",
     "backend-feature-auth": "libs/backend/feature/auth",
     "backend-feature-event": "libs/backend/feature/event",
+    "backend-feature-funding": "libs/backend/feature/funding",
     "backend-feature-news": "libs/backend/feature/news",
     "backend-feature-role": "libs/backend/feature/role",
     "backend-feature-stock": "libs/backend/feature/stock",
