@@ -13,14 +13,14 @@ import { FormlyMultipleSelectListComponent } from './formly-multiple-select-list
 import { FormlyRadioComponent } from './formly-radio/formly-radio.component';
 import { FormlySelectComponent } from './formly-select/formly-select.component';
 import { FormlyTextareaComponent } from './formly-textarea/formly-textarea.component';
-import { FrontendSharedTagsModule } from '@stud-asso/frontend/shared/tags';
+import { FrontendSharedTagModule } from '@stud-asso/frontend-shared-tag';
 import { NgModule } from '@angular/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    FrontendSharedTagsModule,
+    FrontendSharedTagModule,
     ReactiveFormsModule,
     FormlyModule.forRoot({
       wrappers: [{ name: Form.Field, component: FormlyFormFieldComponent }],
