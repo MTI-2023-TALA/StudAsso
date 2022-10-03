@@ -6,7 +6,7 @@ CREATE TABLE "Funding" (
     "deleted_at" TIMESTAMP(6),
     "motivation" VARCHAR NOT NULL,
     "amount" INTEGER NOT NULL,
-    "status" VARCHAR NOT NULL DEFAULT 'pending',
+    "status" VARCHAR NOT NULL DEFAULT 'PENDING',
     "association_id" INTEGER NOT NULL,
     "user_id" INTEGER NOT NULL,
     "school_comment" VARCHAR,

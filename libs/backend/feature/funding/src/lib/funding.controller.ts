@@ -1,6 +1,12 @@
 import { Access, GetCurrentAssoId, GetCurrentUserId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
-import { CreateFundingDto, FundingDto, UpdateFundingDto } from '@stud-asso/shared/dtos';
+import {
+  CreateFundingDto,
+  FundingDto,
+  OptionStatFundingDto,
+  StatFundingDto,
+  UpdateFundingDto,
+} from '@stud-asso/shared/dtos';
 import { FundingService } from './funding.service';
 import { PermissionId } from '@stud-asso/shared/permission';
 
@@ -19,8 +25,16 @@ export class FundingController {
   }
 
   @Get()
-  findAll(@GetCurrentAssoId() assoId: number) {
+  findAll(@GetCurrentAssoId() assoId: number): Promise<FundingDto[]> {
     return this.backendFeatureFundingService.findAll(assoId);
+  }
+
+  @Put('stats')
+  getStats(
+    @GetCurrentAssoId() assoId: number,
+    @Body() optionStatFundingDto: OptionStatFundingDto
+  ): Promise<StatFundingDto> {
+    return this.backendFeatureFundingService.getStats(assoId, optionStatFundingDto);
   }
 
   @IsSchoolEmployee()

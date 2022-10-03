@@ -44,4 +44,37 @@ export class FundingRepository {
   update(id: number, updateFundingModel: UpdateFundingModel): Promise<FundingModel> {
     return this.prisma.funding.update({ where: { id }, data: updateFundingModel, select: selectFundingModel });
   }
+
+  getSumInInterval(associationId: number, { startDate, endDate }: { startDate: Date; endDate: Date }) {
+    return this.prisma.funding.aggregate({
+      where: {
+        associationId,
+        createdAt: {
+          gte: startDate,
+          lte: endDate,
+        },
+      },
+      _sum: {
+        amount: true,
+      },
+    });
+  }
+
+  getNbAccepted(associationId: number) {
+    return this.prisma.funding.count({
+      where: {
+        associationId,
+        status: 'ACCEPTED',
+      },
+    });
+  }
+
+  getNbRejected(associationId: number) {
+    return this.prisma.funding.count({
+      where: {
+        associationId,
+        status: 'REJECTED',
+      },
+    });
+  }
 }

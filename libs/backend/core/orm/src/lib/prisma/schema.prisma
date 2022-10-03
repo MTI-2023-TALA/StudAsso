@@ -156,7 +156,7 @@ model Funding {
   deletedAt     DateTime?   @map("deleted_at") @db.Timestamp(6)
   amount        Int
   motivation    String      @db.VarChar
-  status        String      @default("pending") @db.VarChar
+  status        String      @default("PENDING") @db.VarChar
   associationId Int         @map("association_id")
   userId        Int         @map("user_id")
   schoolComment String?     @map("school_comment") @db.VarChar

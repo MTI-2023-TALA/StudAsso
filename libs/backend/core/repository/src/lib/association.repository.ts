@@ -111,4 +111,16 @@ export class AssociationRepository {
       },
     });
   }
+
+  public async getCreationDate(associationId: number): Promise<Date> {
+    const creationDate = await this.prisma.association.findFirst({
+      where: {
+        id: associationId,
+      },
+      select: {
+        createdAt: true,
+      },
+    });
+    return creationDate.createdAt;
+  }
 }
