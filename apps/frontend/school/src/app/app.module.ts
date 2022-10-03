@@ -7,7 +7,7 @@ import { FrontendSharedFormlyModule } from '@stud-asso/frontend-shared-formly';
 import { FrontendSharedGenericPageModule } from '@stud-asso/frontend/shared/generic-page';
 import { FrontendSharedModalModule } from '@stud-asso/frontend-shared-modal';
 import { FrontendSharedTableModule } from '@stud-asso/frontend-shared-table';
-import { FrontendSharedTagsModule } from '@stud-asso/frontend-shared-tag';
+import { FrontendSharedTagModule } from '@stud-asso/frontend-shared-tag';
 import { FrontendSharedTooltipModule } from '@stud-asso/frontend/shared/tooltip';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -22,7 +22,7 @@ import { RouterModule } from '@angular/router';
     FrontendSharedTableModule,
     FrontendSharedFormlyModule,
     FrontendSharedTooltipModule,
-    FrontendSharedTagsModule,
+    FrontendSharedTagModule,
     FrontendSharedGenericPageModule,
     FrontendSharedModalModule,
     FrontendCoreI18nModule,

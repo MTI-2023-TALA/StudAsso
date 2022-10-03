@@ -6,26 +6,26 @@
     <li *ngFor="let log of logs">
       <div *ngIf="log.user">
         <div *ngIf="log.action === 'create'">
-          <stud-asso-tags [message]="'Création'" [type]="'success'"></stud-asso-tags>
+          <stud-asso-tag [message]="'Création'" [type]="'success'"></stud-asso-tag>
           de "{{ log.stock.name }}" par {{ log.user.email }} le {{ log.createdAt | date: 'short' }}
         </div>
         <div *ngIf="log.action === 'update'">
-          <stud-asso-tags [message]="'Mise à jour'" [type]="'information'"></stud-asso-tags>
+          <stud-asso-tag [message]="'Mise à jour'" [type]="'information'"></stud-asso-tag>
           de "{{ log.stock.name }}" par {{ log.user.email }} le {{ log.createdAt | date: 'short' }} : Ancien stock
           {{ log.oldCount }} -> Nouveau stock {{ log.newCount }}
         </div>
         <div *ngIf="log.action === 'delete'">
-          <stud-asso-tags [message]="'Suppression'" [type]="'error'"></stud-asso-tags>
+          <stud-asso-tag [message]="'Suppression'" [type]="'error'"></stud-asso-tag>
           de "{{ log.stock.name }}" par {{ log.user.email }} le {{ log.createdAt | date: 'short' }}
         </div>
       </div>
       <div *ngIf="!log.user">
         <div *ngIf="log.action === 'create'">
-          <stud-asso-tags [message]="'Création'" [type]="'success'"></stud-asso-tags>
+          <stud-asso-tag [message]="'Création'" [type]="'success'"></stud-asso-tag>
           le {{ log.createdAt | date: 'short' }}
         </div>
         <div *ngIf="log.action === 'update'">
-          <stud-asso-tags [message]="'Mise à jour'" [type]="'information'"></stud-asso-tags>
+          <stud-asso-tag [message]="'Mise à jour'" [type]="'information'"></stud-asso-tag>
           le {{ log.createdAt | date: 'short' }} : Ancien stock {{ log.oldCount }} -> Nouveau stock {{ log.newCount }}
         </div>
       </div>
