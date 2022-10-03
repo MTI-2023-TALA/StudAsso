@@ -3,6 +3,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { FrontendCoreApiModule } from '@stud-asso/frontend-core-api';
 import { FrontendCoreI18nModule } from '@stud-asso/frontend/core/i18n';
+import { FrontendCoreMainChangeableDataModule } from '@stud-asso/frontend/core/main-changeable-data';
 import { FrontendSharedModalModule } from '@stud-asso/frontend-shared-modal';
 import { FrontendSharedTooltipModule } from '@stud-asso/frontend/shared/tooltip';
 import { NgModule } from '@angular/core';
@@ -26,6 +27,7 @@ import { environment } from '../environments/environment';
       registrationStrategy: 'registerWhenStable:30000',
     }),
     FrontendCoreI18nModule,
+    FrontendCoreMainChangeableDataModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

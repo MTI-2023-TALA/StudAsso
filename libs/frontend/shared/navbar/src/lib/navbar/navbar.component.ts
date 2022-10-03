@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 
+import { MainChangeableDataService } from '@stud-asso/frontend/core/main-changeable-data';
 import { NavbarItem } from './navbar.model';
 
 @Component({
@@ -19,9 +20,11 @@ export class NavbarComponent {
   assoName: string | null;
   isNavbarCollapsed = true;
 
-  constructor() {
+  constructor(private mainChangeableDataService: MainChangeableDataService) {
     if (LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_NAME)) {
-      this.assoName = LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_NAME);
+      this.mainChangeableDataService.associationName$.subscribe((assoName) => {
+        this.assoName = assoName;
+      });
     }
   }
 
