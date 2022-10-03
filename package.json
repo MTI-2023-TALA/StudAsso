@@ -15,7 +15,8 @@
     "docker": "docker-compose -f docker-compose.yml up",
     "dev:all": "npx ts-node tools/scripts/run-app.ts --run-db=true --migrate-db=true --projects=backend,frontend-association,frontend-student,frontend-school --parallel=4",
     "dev:app": "npx ts-node tools/scripts/run-app.ts --run-db=true --projects=backend,frontend-association,frontend-student,frontend-school --parallel=4",
-    "dev:fast": "npx ts-node tools/scripts/run-app.ts --run-db=true --projects=backend,frontend-association --parallel=4"
+    "dev:fast": "npx ts-node tools/scripts/run-app.ts --run-db=true --projects=backend,frontend-association --parallel=4",
+    "dev:backend": "npx ts-node tools/scripts/run-app.ts --run-db=true --projects=backend --parallel=4"
   },
   "prisma": {
     "schema": "./libs/backend/core/orm/src/lib/prisma/schema.prisma"
