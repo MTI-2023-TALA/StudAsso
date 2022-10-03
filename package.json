@@ -7,7 +7,7 @@
     "build": "nx run backend:build:production",
     "test": "nx test",
     "cd": "node dist/apps/backend/main.js",
-    "prepare": "husky install",
+    "prepare": "husky install && npx ts-node ./tools/scripts/env-generator.ts",
     "postinstall": "ngcc --properties es2020 browser module main",
     "migration:create": "npx typeorm migration:create -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
     "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
@@ -19,7 +19,7 @@
   },
   "private": true,
   "volta": {
-    "node": "17.9.0",
+    "node": "18.9.1",
     "npm": "8.19.2"
   },
   "devDependencies": {
@@ -45,6 +45,7 @@
     "@types/node": "^18.7.18",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
+    "chalk": "^4.1.2",
     "cypress": "^9.1.0",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
