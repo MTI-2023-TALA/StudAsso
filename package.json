@@ -12,7 +12,10 @@
     "migration:create": "npx typeorm migration:create -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
     "migration:run": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:run -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
     "migration:revert": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:revert -f libs/backend/core/migrations/src/lib/ormconfig.local.ts",
-    "docker": "docker-compose -f docker-compose.yml up"
+    "docker": "docker-compose -f docker-compose.yml up",
+    "dev:all": "npx ts-node tools/scripts/run-app.ts --run-db=true --migrate-db=true --projects=backend,frontend-association,frontend-student,frontend-school --parallel=4",
+    "dev:app": "npx ts-node tools/scripts/run-app.ts --run-db=true --projects=backend,frontend-association,frontend-student,frontend-school --parallel=4",
+    "dev:fast": "npx ts-node tools/scripts/run-app.ts --run-db=true --projects=backend,frontend-association --parallel=4"
   },
   "prisma": {
     "schema": "./libs/backend/core/orm/src/lib/prisma/schema.prisma"
@@ -43,6 +46,7 @@
     "@nrwl/workspace": "14.7.5",
     "@types/jest": "28.1.8",
     "@types/node": "^18.7.18",
+    "@types/yargs": "^17.0.13",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@typescript-eslint/parser": "^5.37.0",
     "chalk": "^4.1.2",
@@ -65,7 +69,8 @@
     "stylelint-config-standard-scss": "^5.0.0",
     "ts-jest": "28.0.8",
     "ts-node": "10.9.1",
-    "typescript": "^4.8.3"
+    "typescript": "^4.8.3",
+    "yargs": "^17.6.0"
   },
   "dependencies": {
     "@angular/animations": "14.2.1",
