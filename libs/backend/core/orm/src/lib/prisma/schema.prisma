@@ -20,6 +20,7 @@ model Association {
   roles               Role[]
   stocks              Stock[]
   AssociationOffer    AssociationOffer[]
+  Funding             Funding[]
 }
 
 model AssociationMember {
@@ -145,4 +146,20 @@ model User {
   news                        News[]
   stocksLogs                  StockLog[]
   AssociationOfferApplication AssociationOfferApplication[]
+  Funding                     Funding[]
+}
+
+model Funding {
+  id            Int         @id() @default(autoincrement())
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt     DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt     DateTime?   @map("deleted_at") @db.Timestamp(6)
+  amount        Int
+  motivation    String      @db.VarChar
+  status        String      @default("pending") @db.VarChar
+  associationId Int         @map("association_id")
+  userId        Int         @map("user_id")
+  schoolComment String?     @map("school_comment") @db.VarChar
+  association   Association @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "association")
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade, map: "user")
 }

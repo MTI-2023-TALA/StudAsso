@@ -1,13 +1,14 @@
 import { PermissionColor } from './color';
 
 export enum PermissionId {
-  STOCK_MANAGEMENT = 'STOCK_MANAGEMENT',
-  STOCK_READ = 'STOCK_READ',
+  EVENT_MANAGEMENT = 'EVENT_MANAGEMENT',
+  FUNDING_MANAGEMENT = 'FUNDING_MANAGEMENT',
   MEMBER_ADD = 'MEMBER_ADD',
   MEMBER_REMOVE = 'MEMBER_REMOVE',
   NEWS_MANAGEMENT = 'NEWS_MANAGEMENT',
-  EVENT_MANAGEMENT = 'EVENT_MANAGEMENT',
   ROLE_MANAGEMENT = 'ROLE_MANAGEMENT',
+  STOCK_MANAGEMENT = 'STOCK_MANAGEMENT',
+  STOCK_READ = 'STOCK_READ',
 }
 
 export interface IPermission {
@@ -22,17 +23,17 @@ export interface Permissions {
 }
 
 export const permissions: Permissions = {
-  STOCK_MANAGEMENT: {
-    id: PermissionId.STOCK_MANAGEMENT,
-    name: 'Stock Management',
+  EVENT_MANAGEMENT: {
+    id: PermissionId.EVENT_MANAGEMENT,
+    name: 'Event Management',
     color: PermissionColor.PRIMARY,
-    description: 'Stock Management',
+    description: 'Event Management',
   },
-  STOCK_READ: {
-    id: PermissionId.STOCK_READ,
-    name: 'Stock Read',
-    color: PermissionColor.SECONDARY,
-    description: 'Stock Read',
+  FUNDING_MANAGEMENT: {
+    id: PermissionId.FUNDING_MANAGEMENT,
+    name: 'Funding Management',
+    color: PermissionColor.PRIMARY,
+    description: 'Funding Management',
   },
   MEMBER_ADD: {
     id: PermissionId.MEMBER_ADD,
@@ -52,17 +53,23 @@ export const permissions: Permissions = {
     color: PermissionColor.PRIMARY,
     description: 'News Management',
   },
-  EVENT_MANAGEMENT: {
-    id: PermissionId.EVENT_MANAGEMENT,
-    name: 'Event Management',
-    color: PermissionColor.PRIMARY,
-    description: 'Event Management',
-  },
   ROLE_MANAGEMENT: {
     id: PermissionId.ROLE_MANAGEMENT,
     name: 'Role Management',
     color: PermissionColor.PRIMARY,
     description: 'Role Management',
+  },
+  STOCK_MANAGEMENT: {
+    id: PermissionId.STOCK_MANAGEMENT,
+    name: 'Stock Management',
+    color: PermissionColor.PRIMARY,
+    description: 'Stock Management',
+  },
+  STOCK_READ: {
+    id: PermissionId.STOCK_READ,
+    name: 'Stock Read',
+    color: PermissionColor.SECONDARY,
+    description: 'Stock Read',
   },
 };
 
