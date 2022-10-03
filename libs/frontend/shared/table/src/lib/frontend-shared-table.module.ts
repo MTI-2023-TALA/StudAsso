@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { FrontendSharedTagsModule } from '@stud-asso/frontend/shared/tags';
+import { FrontendSharedTagModule } from '@stud-asso/frontend-shared-tag';
 import { NgModule } from '@angular/core';
 import { TableComponent } from './table/table.component';
 import { TableDataViewComponent } from './table-item/table-data-view/table-data-view.component';
@@ -11,7 +11,7 @@ import { TableTagListComponent } from './table-tag-list/table-tag-list.component
 import { TableTextComponent } from './table-text/table-text.component';
 
 @NgModule({
-  imports: [CommonModule, FrontendSharedTagsModule],
+  imports: [CommonModule, FrontendSharedTagModule],
   declarations: [
     TableHeaderComponent,
     TableComponent,

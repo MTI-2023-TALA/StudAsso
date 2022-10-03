@@ -2,22 +2,22 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-import { TagsComponent } from './tags.component';
-import { TagsType } from './tags.model';
+import { TagComponent } from './tag.component';
+import { TagType } from './tag.model';
 
-describe('TagsComponent', () => {
-  let component: TagsComponent;
-  let fixture: ComponentFixture<TagsComponent>;
+describe('TagComponent', () => {
+  let component: TagComponent;
+  let fixture: ComponentFixture<TagComponent>;
   let de: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TagsComponent],
+      declarations: [TagComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TagsComponent);
+    fixture = TestBed.createComponent(TagComponent);
     component = fixture.componentInstance;
     de = fixture.debugElement;
     fixture.detectChanges();
@@ -28,26 +28,26 @@ describe('TagsComponent', () => {
   });
 
   describe('Html elements', () => {
-    it('should have a class tags-error when creating a toast with TagsType.Error', () => {
-      component.type = TagsType.Error;
+    it('should have a class tags-error when creating a toast with TagType.Error', () => {
+      component.type = TagType.Error;
       fixture.detectChanges();
       expect(de.query(By.css('.tags-error'))).toBeTruthy();
     });
 
-    it('should have a class tags-success when creating a toast with TagsType.Success', () => {
-      component.type = TagsType.Success;
+    it('should have a class tags-success when creating a toast with TagType.Success', () => {
+      component.type = TagType.Success;
       fixture.detectChanges();
       expect(de.query(By.css('.tags-success'))).toBeTruthy();
     });
 
-    it('should have a class tags-warning when creating a toast with TagsType.Warning', () => {
-      component.type = TagsType.Warning;
+    it('should have a class tags-warning when creating a toast with TagType.Warning', () => {
+      component.type = TagType.Warning;
       fixture.detectChanges();
       expect(de.query(By.css('.tags-warning'))).toBeTruthy();
     });
 
-    it('should have a class tags-information when creating a toast with TagsType.Information', () => {
-      component.type = TagsType.Information;
+    it('should have a class tags-information when creating a toast with TagType.Information', () => {
+      component.type = TagType.Information;
       fixture.detectChanges();
       expect(de.query(By.css('.tags-information'))).toBeTruthy();
     });

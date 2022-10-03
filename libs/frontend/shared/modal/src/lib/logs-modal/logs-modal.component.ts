@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BaseModalComponent } from '../base-modal/base-modal.component';
-import { TagsType } from '@stud-asso/frontend/shared/tags';
+import { TagType } from '@stud-asso/frontend-shared-tag';
 
 @Component({
   selector: 'stud-asso-logs-modal',
@@ -11,7 +11,7 @@ import { TagsType } from '@stud-asso/frontend/shared/tags';
 export class LogsModalComponent extends BaseModalComponent implements OnInit {
   message = '';
   logs: any[];
-  tagsType: TagsType;
+  tagType: TagType;
 
   constructor() {
     super();

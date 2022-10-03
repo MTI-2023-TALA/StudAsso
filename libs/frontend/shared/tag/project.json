@@ -1,21 +1,21 @@
 {
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "libs/frontend/shared/tags/src",
+  "sourceRoot": "libs/frontend/shared/tag/src",
   "prefix": "stud-asso",
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/shared/tags"],
+      "outputs": ["coverage/libs/frontend/shared/tag"],
       "options": {
-        "jestConfig": "libs/frontend/shared/tags/jest.config.ts",
+        "jestConfig": "libs/frontend/shared/tag/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["libs/frontend/shared/tags/src/**/*.ts", "libs/frontend/shared/tags/src/**/*.html"]
+        "lintFilePatterns": ["libs/frontend/shared/tag/src/**/*.ts", "libs/frontend/shared/tag/src/**/*.html"]
       }
     }
   },

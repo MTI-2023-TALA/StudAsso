@@ -25,13 +25,13 @@ export const permissions: Permissions = {
   STOCK_MANAGEMENT: {
     id: PermissionId.STOCK_MANAGEMENT,
     name: 'Stock Management',
-    color: PermissionColor.PRIMARY,
+    color: PermissionColor.INFORMATION,
     description: 'Stock Management',
   },
   STOCK_READ: {
     id: PermissionId.STOCK_READ,
     name: 'Stock Read',
-    color: PermissionColor.SECONDARY,
+    color: PermissionColor.WARNING,
     description: 'Stock Read',
   },
   MEMBER_ADD: {
@@ -43,25 +43,25 @@ export const permissions: Permissions = {
   MEMBER_REMOVE: {
     id: PermissionId.MEMBER_REMOVE,
     name: 'Member Remove',
-    color: PermissionColor.DANGER,
+    color: PermissionColor.ERROR,
     description: 'Member Remove',
   },
   NEWS_MANAGEMENT: {
     id: PermissionId.NEWS_MANAGEMENT,
     name: 'News Management',
-    color: PermissionColor.PRIMARY,
+    color: PermissionColor.INFORMATION,
     description: 'News Management',
   },
   EVENT_MANAGEMENT: {
     id: PermissionId.EVENT_MANAGEMENT,
     name: 'Event Management',
-    color: PermissionColor.PRIMARY,
+    color: PermissionColor.INFORMATION,
     description: 'Event Management',
   },
   ROLE_MANAGEMENT: {
     id: PermissionId.ROLE_MANAGEMENT,
     name: 'Role Management',
-    color: PermissionColor.PRIMARY,
+    color: PermissionColor.INFORMATION,
     description: 'Role Management',
   },
 };
