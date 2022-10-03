@@ -1,6 +1,6 @@
 <div class="multiple-select-list">
   <div class="left multiple-input">
-    <stud-asso-tags
+    <stud-asso-tag
       *ngFor="let item of selectedOptions"
       [message]="item.label"
       [value]="item.value"
@@ -8,7 +8,7 @@
       [icon]="'x'"
       (iconClicked)="onCrossClicked($event)"
     >
-    </stud-asso-tags>
+    </stud-asso-tag>
   </div>
   <div class="right" (click)="onClickSubMenu()">
     <i *ngIf="!subMenuIsOpen" class="bi bi-caret-down"></i>
@@ -18,13 +18,13 @@
 <div class="sub-menu" *ngIf="subMenuIsOpen">
   <h4>Sélectionnez les options</h4>
   <div class="options">
-    <stud-asso-tags
+    <stud-asso-tag
       *ngFor="let item of avalaibleOptions"
       [message]="item.label"
       [value]="item.value"
       [shouldDisplayIcon]="true"
       [icon]="'plus'"
       (iconClicked)="onPlusClicked($event)"
-    ></stud-asso-tags>
+    ></stud-asso-tag>
   </div>
 </div>

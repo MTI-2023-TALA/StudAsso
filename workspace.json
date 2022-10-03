@@ -47,7 +47,7 @@
     "frontend-shared-my-account-page": "libs/frontend/shared/my-account-page",
     "frontend-shared-navbar": "libs/frontend/shared/navbar",
     "frontend-shared-table": "libs/frontend/shared/table",
-    "frontend-shared-tags": "libs/frontend/shared/tags",
+    "frontend-shared-tag": "libs/frontend/shared/tag",
     "frontend-shared-toast": "libs/frontend/shared/toast",
     "frontend-shared-tooltip": "libs/frontend/shared/tooltip",
     "frontend-student": "apps/frontend/student",

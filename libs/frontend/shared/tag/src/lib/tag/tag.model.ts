@@ -1,4 +1,4 @@
-export enum TagsType {
+export enum TagType {
   Error = 'error',
   Success = 'success',
   Warning = 'warning',
