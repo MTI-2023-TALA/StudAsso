@@ -28,6 +28,11 @@ export class FundingService {
     return fundings.map((funding) => this.mapFundingModelToDto(funding));
   }
 
+  public async findOne(id: number): Promise<FundingDto> {
+    const funding = await this.fundingRepository.findOne(id);
+    return this.mapFundingModelToDto(funding);
+  }
+
   public async update(id: number, updateFundingDto: UpdateFundingDto): Promise<FundingDto> {
     const funding = await this.fundingRepository.update(id, updateFundingDto as UpdateFundingModel);
     return this.mapFundingModelToDto(funding);
@@ -70,5 +75,13 @@ export class FundingService {
 
   private async getNbRejected(assoId: number): Promise<number> {
     return this.fundingRepository.getNbRejected(assoId);
+  }
+
+  private mapFundingModelToDto(funding: FundingModel): FundingDto {
+    return {
+      ...funding,
+      status: funding.status as FUNDING_STATUS,
+      association: funding.association.name,
+    };
   }
 }

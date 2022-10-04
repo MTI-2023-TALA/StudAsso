@@ -29,6 +29,11 @@ export class FundingController {
     return this.backendFeatureFundingService.findAll(assoId);
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.backendFeatureFundingService.findOne(+id);
+  }
+
   @Put('stats')
   getStats(
     @GetCurrentAssoId() assoId: number,
