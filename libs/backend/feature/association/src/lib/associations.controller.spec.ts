@@ -8,7 +8,6 @@ import {
   UpdateAssociationDto,
   UserDto,
 } from '@stud-asso/shared/dtos';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AssociationsController } from './associations.controller';
@@ -22,7 +21,6 @@ describe('AssociationsController', () => {
   let mockedUsers: UserDto[];
 
   let controller: AssociationsController;
-  let service: AssociationsService;
 
   beforeEach(async () => {
     mockedAssociations = [
@@ -222,7 +220,6 @@ describe('AssociationsController', () => {
     }).compile();
 
     controller = await module.get<AssociationsController>(AssociationsController);
-    service = await module.get<AssociationsService>(AssociationsService);
   });
 
   afterEach(() => jest.clearAllMocks());
