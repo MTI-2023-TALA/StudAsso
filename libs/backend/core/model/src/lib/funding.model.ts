@@ -3,6 +3,7 @@ import { FUNDING_STATUS } from '@stud-asso/shared/dtos';
 // Request Models
 
 export class CreateFundingModel {
+  name: string;
   amount: number;
   motivation: string;
 }
@@ -17,6 +18,7 @@ export class UpdateFundingModel {
 export class FundingModel {
   id: number;
   createdAt: Date;
+  name: string;
   amount: number;
   motivation: string;
   status: string;

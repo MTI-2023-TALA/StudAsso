@@ -6,6 +6,7 @@ import { PrismaService } from '@stud-asso/backend/core/orm';
 const selectFundingModel = {
   id: true,
   createdAt: true,
+  name: true,
   amount: true,
   motivation: true,
   status: true,
@@ -44,7 +45,10 @@ export class FundingRepository {
     return this.prisma.funding.update({ where: { id }, data: updateFundingModel, select: selectFundingModel });
   }
 
-  getSumInInterval(associationId: number, { startDate, endDate }: { startDate: Date; endDate: Date }) {
+  getSumInInterval(
+    associationId: number,
+    { startDate, endDate }: { startDate: Date; endDate: Date }
+  ): Promise<{ _sum: { amount: number } }> {
     return this.prisma.funding.aggregate({
       where: {
         associationId,
