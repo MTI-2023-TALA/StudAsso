@@ -11,6 +11,7 @@ export const enum ERROR {
   CANNOT_UPDATE_ROLE = 'Cannot Update Role',
   EMAIL_ALREADY_USED = 'Email Already Used',
   EVENT_NOT_FOUND = 'Event Not Found',
+  FUNDING_NOT_FOUND = 'Funding Not Found',
   INVALID_GOOGLE_TOKEN = 'Invalid Google Token',
   NEWS_NOT_FOUND = 'News Not Found',
   PRESIDENT_NOT_FOUND = 'President Not Found',

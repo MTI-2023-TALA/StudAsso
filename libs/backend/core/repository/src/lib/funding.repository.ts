@@ -6,10 +6,16 @@ import { PrismaService } from '@stud-asso/backend/core/orm';
 const selectFundingModel = {
   id: true,
   createdAt: true,
+  name: true,
   amount: true,
   motivation: true,
   status: true,
   schoolComment: true,
+  association: {
+    select: {
+      name: true,
+    },
+  },
 };
 
 @Injectable()
@@ -40,11 +46,23 @@ export class FundingRepository {
     });
   }
 
+  findOne(id: number): Promise<FundingModel> {
+    return this.prisma.funding.findUnique({
+      where: {
+        id,
+      },
+      select: selectFundingModel,
+    });
+  }
+
   update(id: number, updateFundingModel: UpdateFundingModel): Promise<FundingModel> {
     return this.prisma.funding.update({ where: { id }, data: updateFundingModel, select: selectFundingModel });
   }
 
-  getSumInInterval(associationId: number, { startDate, endDate }: { startDate: Date; endDate: Date }) {
+  getSumInInterval(
+    associationId: number,
+    { startDate, endDate }: { startDate: Date; endDate: Date }
+  ): Promise<{ _sum: { amount: number } }> {
     return this.prisma.funding.aggregate({
       where: {
         associationId,

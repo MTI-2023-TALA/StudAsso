@@ -154,6 +154,7 @@ model Funding {
   createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamp(6)
   updatedAt     DateTime    @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
   deletedAt     DateTime?   @map("deleted_at") @db.Timestamp(6)
+  name          String      @db.VarChar
   amount        Int
   motivation    String      @db.VarChar
   status        String      @default("PENDING") @db.VarChar

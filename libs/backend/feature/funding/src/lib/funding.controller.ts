@@ -1,5 +1,5 @@
 import { Access, GetCurrentAssoId, GetCurrentUserId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
 import {
   CreateFundingDto,
   FundingDto,
@@ -27,6 +27,15 @@ export class FundingController {
   @Get()
   findAll(@GetCurrentAssoId() assoId: number): Promise<FundingDto[]> {
     return this.backendFeatureFundingService.findAll(assoId);
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    try {
+      return await this.backendFeatureFundingService.findOne(+id);
+    } catch (error) {
+      throw new NotFoundException(error);
+    }
   }
 
   @Put('stats')

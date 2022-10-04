@@ -10,6 +10,10 @@ export enum FUNDING_STATUS {
 
 export class CreateFundingDto {
   @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @IsNotEmpty()
   @IsInt()
   amount: number;
 
@@ -51,10 +55,12 @@ export class OptionStatFundingDto {
 export class FundingDto {
   id: number;
   createdAt: Date;
+  name: string;
   amount: number;
   motivation: string;
   status: FUNDING_STATUS;
   schoolComment?: string;
+  association: string;
 }
 
 export class StatFundingDto {
