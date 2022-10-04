@@ -1,22 +1,24 @@
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
+import { ApiFundingService } from '@stud-asso/frontend-core-api';
 import { Component } from '@angular/core';
+import { FundingDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { studyFinanceFormly } from './financement-page.formly';
 
+export type Funding = Omit<FundingDto, 'createdAt'> & { createdAt: string };
 @Component({
   selector: 'stud-asso-financement-page',
   templateUrl: './financement-page.component.html',
-  styleUrls: ['./financement-page.component.scss'],
 })
 export class FinancementPageComponent {
   tableConfiguration: TableConfiguration = {
     columns: [
       {
         title: 'Demandeur',
-        size: 2,
-        dataProperty: 'asso',
+        size: 1,
+        dataProperty: 'id',
       },
       {
         title: 'Somme demandé',
@@ -24,9 +26,9 @@ export class FinancementPageComponent {
         dataProperty: 'amount',
       },
       {
-        title: 'Motif',
-        size: 2,
-        dataProperty: 'name',
+        title: 'Date de la demande',
+        size: 1,
+        dataProperty: 'createdAt',
       },
     ],
     actions: [
@@ -38,11 +40,11 @@ export class FinancementPageComponent {
       },
     ],
   };
-  financeList = [];
+  financeList: Funding[] = [];
 
   isLoading = true;
 
-  constructor(private modal: ModalService, private toast: ToastService) {}
+  constructor(private modal: ModalService, private toast: ToastService, private api: ApiFundingService) {}
 
   ngOnInit() {
     this.reloadData();
@@ -50,14 +52,13 @@ export class FinancementPageComponent {
 
   reloadData() {
     this.isLoading = true;
-
-    /*
-  this.api.findAll().subscribe((events: EventDto[]) => {
-    this.eventList = events.map((event) => ({ ...event, date: new Date(event.date).toLocaleDateString() }));
-    this.isLoading = false;
-  });
-  */
-    this.isLoading = false;
+    this.api.findAll().subscribe((fundings: FundingDto[]) => {
+      this.financeList = fundings.map((funding) => ({
+        ...funding,
+        createdAt: new Date(funding.createdAt).toLocaleDateString(),
+      }));
+      this.isLoading = false;
+    });
   }
 
   handleError() {
