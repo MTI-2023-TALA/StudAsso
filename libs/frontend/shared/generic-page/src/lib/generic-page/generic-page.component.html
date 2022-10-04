@@ -2,10 +2,8 @@
   <div *ngIf="!isLoading">
     <div class="top">
       <div class="left title">{{ title }}</div>
-      <div *ngIf="withButton">
-        <div class="right">
-          <button class="button" (click)="onButtonClick()">{{ buttonText }}</button>
-        </div>
+      <div class="right" *ngIf="withButton">
+        <button class="button" (click)="onButtonClick()">{{ buttonText }}</button>
       </div>
     </div>
     <stud-asso-table [tableConfiguration]="tableConfiguration" [data]="data"> </stud-asso-table>
