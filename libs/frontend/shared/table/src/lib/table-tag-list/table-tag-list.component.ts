@@ -9,9 +9,14 @@ import { permissions } from '@stud-asso/shared/permission';
 })
 export class TableTagListComponent extends TableTextComponent {
   tagList: string[] = [];
+  tag = '';
   permissions = permissions;
 
-  override setData(data: string[]): void {
-    this.tagList = data;
+  override setData(data: string[] | string): void {
+    if (typeof data === 'string') {
+      this.tag = data;
+    } else {
+      this.tagList = data;
+    }
   }
 }

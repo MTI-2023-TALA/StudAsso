@@ -2,6 +2,7 @@ import { IsNotSignGuard, IsSignGuard } from '@stud-asso/frontend-core-auth';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AssociationPageComponent } from '@stud-asso/frontend/feature/school/association-page';
+import { FinancementPageComponent } from '@stud-asso/frontend/feature/school/financement-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
 import { MyAccountPageComponent } from '@stud-asso/frontend/shared/my-account-page';
@@ -11,6 +12,7 @@ import { NgModule } from '@angular/core';
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
   { title: 'Associations', icon: 'person-lines-fill', url: '/associations' },
+  { title: 'Financement', icon: 'currency-dollar', url: '/financement' },
 ];
 
 const routes: Routes = [
@@ -29,6 +31,10 @@ const routes: Routes = [
       {
         path: 'associations',
         component: AssociationPageComponent,
+      },
+      {
+        path: 'financement',
+        component: FinancementPageComponent,
       },
       {
         path: 'my-account',

@@ -8,9 +8,8 @@
 ></stud-asso-generic-page>
 <stud-asso-generic-page
   [title]="'Candidatures'"
-  [buttonText]="'Bientot il est plus la'"
   [tableConfiguration]="tableConfigurationApplication"
-  (buttonFunction)="empty()"
+  [withButton]="false"
   [data]="applicationList"
   [isLoading]="isLoading"
 ></stud-asso-generic-page>

@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/frontend/feature/school/financement-page/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/feature/school/financement-page"],
+      "options": {
+        "jestConfig": "libs/frontend/feature/school/financement-page/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/feature/school/financement-page/**/*.ts",
+          "libs/frontend/feature/school/financement-page/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-feature"]
+}

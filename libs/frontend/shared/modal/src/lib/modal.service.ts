@@ -9,7 +9,7 @@ import { LogsModalComponent } from './logs-modal/logs-modal.component';
 export interface ModalFormData {
   title: string;
   fields: FormlyFieldConfig[];
-  submitBtnText: string;
+  submitBtnText?: string;
   submit?: (model: any) => void;
   cancel?: () => void;
   onLoad?: () => void;

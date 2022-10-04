@@ -11,6 +11,7 @@ export class GenericPageComponent {
   @Input() title: string;
   @Input() buttonText: string;
   @Input() tableConfiguration: TableConfiguration;
+  @Input() withButton = true;
   @Input() data: any[];
 
   @Output() buttonFunction = new EventEmitter<void>();

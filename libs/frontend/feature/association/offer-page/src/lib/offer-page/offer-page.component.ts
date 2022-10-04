@@ -129,10 +129,6 @@ export class OfferPageComponent {
     });
   }
 
-  empty(): void {
-    return;
-  }
-
   async createModalOffer(): Promise<void> {
     this.modal.createForm({
       title: "Création d'une offre",
