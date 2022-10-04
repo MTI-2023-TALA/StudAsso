@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/frontend/core/main-changeable-data/src",
+  "prefix": "stud-asso",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/core/main-changeable-data"],
+      "options": {
+        "jestConfig": "libs/frontend/core/main-changeable-data/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/frontend/core/main-changeable-data/**/*.ts",
+          "libs/frontend/core/main-changeable-data/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": ["type:frontend", "type:frontend-core"]
+}

@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
+import { MainChangeableDataService } from '@stud-asso/frontend/core/main-changeable-data';
 import { Router } from '@angular/router';
 
 @Component({
@@ -19,7 +20,8 @@ export class SelectionAssoPageComponent implements OnInit {
     private router: Router,
     private api: ApiUserService,
     private authService: AuthService,
-    private apiAuthService: ApiAuthService
+    private apiAuthService: ApiAuthService,
+    private mainChangeableDataService: MainChangeableDataService
   ) {}
 
   ngOnInit() {
@@ -32,6 +34,7 @@ export class SelectionAssoPageComponent implements OnInit {
   onClickAsso(id: number, name: string) {
     LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_ID, id);
     LocalStorageHelper.setData(LocalStorageKey.ASSOCIATION_NAME, name);
+    this.mainChangeableDataService.associationName$.next(name);
     this.isLoading = true;
     this.apiAuthService.refreshTokenWithAssoId({ assoId: id }).subscribe((token: TokenDto) => {
       this.authService.setToken(token);
