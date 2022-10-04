@@ -13,17 +13,17 @@ export class CreateAssociationDto {
 
   @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
 }
 
 export class UpdateAssociationDto {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
 }
 
 // Response DTOs
@@ -37,7 +37,7 @@ export class AssociationDto {
 export class AssociationWithPresidentDto {
   id: number;
   name: string;
-  description: string;
+  description?: string;
   presidentId: number;
   firstname: string;
   lastname: string;
