@@ -1,12 +1,13 @@
 import { AssociationRepository, FundingRepository } from '@stud-asso/backend/core/repository';
 import {
   CreateFundingDto,
+  FUNDING_STATUS,
   FundingDto,
   OptionStatFundingDto,
   StatFundingDto,
   UpdateFundingDto,
 } from '@stud-asso/shared/dtos';
-import { CreateFundingModel, UpdateFundingModel } from '@stud-asso/backend/core/model';
+import { CreateFundingModel, FundingModel, UpdateFundingModel } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 
@@ -18,15 +19,18 @@ export class FundingService {
   ) {}
 
   public async create(assoId: number, userId: number, createFundingDto: CreateFundingDto): Promise<FundingDto> {
-    return (await this.fundingRepository.create(assoId, userId, createFundingDto as CreateFundingModel)) as FundingDto;
+    const funding = await this.fundingRepository.create(assoId, userId, createFundingDto as CreateFundingModel);
+    return this.mapFundingModelToDto(funding);
   }
 
   public async findAll(assoId: number): Promise<FundingDto[]> {
-    return (await this.fundingRepository.findAll(assoId)) as FundingDto[];
+    const fundings = await this.fundingRepository.findAll(assoId);
+    return fundings.map((funding) => this.mapFundingModelToDto(funding));
   }
 
   public async update(id: number, updateFundingDto: UpdateFundingDto): Promise<FundingDto> {
-    return (await this.fundingRepository.update(id, updateFundingDto as UpdateFundingModel)) as FundingDto;
+    const funding = await this.fundingRepository.update(id, updateFundingDto as UpdateFundingModel);
+    return this.mapFundingModelToDto(funding);
   }
 
   public async getStats(assoId: number, optionStatFundingDto: OptionStatFundingDto): Promise<StatFundingDto> {

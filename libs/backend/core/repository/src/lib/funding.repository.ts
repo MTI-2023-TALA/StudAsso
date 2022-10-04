@@ -11,13 +11,18 @@ const selectFundingModel = {
   motivation: true,
   status: true,
   schoolComment: true,
+  association: {
+    select: {
+      name: true,
+    },
+  },
 };
 
 @Injectable()
 export class FundingRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(associationId: number, userId: number, createFundingModel: CreateFundingModel): Promise<FundingModel> {
+  create(associationId: number, userId: number, createFundingModel: CreateFundingModel) {
     const mydata = {
       ...createFundingModel,
       associationId,
@@ -36,6 +41,15 @@ export class FundingRepository {
       },
       where: {
         associationId,
+      },
+      select: selectFundingModel,
+    });
+  }
+
+  findOne(id: number): Promise<FundingModel> {
+    return this.prisma.funding.findUnique({
+      where: {
+        id,
       },
       select: selectFundingModel,
     });

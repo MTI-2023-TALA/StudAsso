@@ -23,4 +23,7 @@ export class FundingModel {
   motivation: string;
   status: string;
   schoolComment?: string;
+  association: {
+    name: string;
+  };
 }

@@ -60,6 +60,7 @@ export class FundingDto {
   motivation: string;
   status: FUNDING_STATUS;
   schoolComment?: string;
+  association: string;
 }
 
 export class StatFundingDto {
