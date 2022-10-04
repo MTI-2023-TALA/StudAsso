@@ -1,10 +1,11 @@
+import { MainChangeableDataService } from '@stud-asso/frontend/core/main-changeable-data';
 import { NavbarComponent } from './navbar.component';
 
 describe('NavbarComponent', () => {
   let fixture: NavbarComponent;
 
   beforeEach(() => {
-    fixture = new NavbarComponent();
+    fixture = new NavbarComponent(new MainChangeableDataService());
   });
 
   describe('Setup component', () => {
