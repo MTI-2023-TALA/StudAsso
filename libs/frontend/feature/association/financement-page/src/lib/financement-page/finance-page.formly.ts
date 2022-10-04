@@ -3,20 +3,9 @@ import { Form, InputType } from '@stud-asso/frontend-shared-formly';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
 export const createFinanceFormly = (
-  name: string | null = null,
   amount: number | null = null,
-  content: string | null = null
+  motivation: string | null = null
 ): FormlyFieldConfig[] => [
-  {
-    key: 'name',
-    type: Form.Input,
-    defaultValue: name,
-    templateOptions: {
-      label: `Nom de la demande de financement`,
-      placeholder: `Nom de la demande de financement`,
-      required: true,
-    },
-  },
   {
     key: 'amount',
     type: Form.Input,
@@ -35,9 +24,9 @@ export const createFinanceFormly = (
     },
   },
   {
-    key: 'content',
+    key: 'motivation',
     type: Form.TextArea,
-    defaultValue: content,
+    defaultValue: motivation,
     templateOptions: {
       label: `Description de la demande`,
       required: true,
@@ -46,7 +35,6 @@ export const createFinanceFormly = (
 ];
 
 export interface ICreateFinanceFormly {
-  name: string;
   amount: number;
-  content: string;
+  motivation: string;
 }

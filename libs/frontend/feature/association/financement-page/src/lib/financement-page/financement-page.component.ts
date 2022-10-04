@@ -1,7 +1,9 @@
 import { ICreateFinanceFormly, createFinanceFormly } from './finance-page.formly';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
+import { ApiFundingService } from '@stud-asso/frontend-core-api';
 import { Component } from '@angular/core';
+import { FundingDto } from '@stud-asso/shared/dtos';
 import { LocalStorageHelper } from '@stud-asso/frontend-core-storage';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
@@ -9,16 +11,10 @@ import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 @Component({
   selector: 'stud-asso-financement-page',
   templateUrl: './financement-page.component.html',
-  styleUrls: ['./financement-page.component.scss'],
 })
 export class FinancementPageComponent {
   tableConfiguration: TableConfiguration = {
     columns: [
-      {
-        title: 'Demande de financement',
-        size: 2,
-        dataProperty: 'name',
-      },
       {
         title: 'Somme demandé',
         size: 2,
@@ -27,23 +23,16 @@ export class FinancementPageComponent {
       {
         title: 'Status',
         size: 2,
-        dataProperty: 'amount',
+        dataProperty: 'status',
       },
     ],
-    actions: [
-      {
-        label: 'Supprimer',
-        action: (data: { id: number; name: string }) => {
-          this.deleteModalFinance(data.id, data.name);
-        },
-      },
-    ],
+    actions: [],
   };
-  financeList = [];
+  financeList: FundingDto[] = [];
 
   isLoading = true;
 
-  constructor(private modal: ModalService, private toast: ToastService) {}
+  constructor(private modal: ModalService, private toast: ToastService, private api: ApiFundingService) {}
 
   ngOnInit() {
     this.reloadData();
@@ -51,14 +40,10 @@ export class FinancementPageComponent {
 
   reloadData() {
     this.isLoading = true;
-
-    /*
-    this.api.findAll().subscribe((events: EventDto[]) => {
-      this.eventList = events.map((event) => ({ ...event, date: new Date(event.date).toLocaleDateString() }));
+    this.api.findAll().subscribe((fundings: FundingDto[]) => {
+      this.financeList = fundings;
       this.isLoading = false;
     });
-    */
-    this.isLoading = false;
   }
 
   handleError() {
@@ -86,36 +71,14 @@ export class FinancementPageComponent {
         return;
       }
 
-      /*
-      const payload = { ...model, date: new Date(model.date), associationId: assoId };
-      this.api.create(payload).subscribe({
+      const payload = { ...model };
+      this.api.createFunding(payload).subscribe({
         complete: () => {
-          this.toast.addAlert({ title: 'Evénement créé', type: ToastType.Success });
+          this.toast.addAlert({ title: 'Demande de financement créé', type: ToastType.Success });
           this.reloadData();
         },
         error: this.handleError(),
       });
-      */
     };
-  }
-
-  deleteModalFinance(id: number, name: string) {
-    this.modal.createConfirmModal({
-      message: `Voulez-vous vraiment supprimer la demande de financement ${name} ?`,
-      submit: () => {
-        this.deleteFinance(id);
-      },
-    });
-  }
-
-  deleteFinance(id: number) {
-    /*
-    this.api.remove(id).subscribe({
-      complete: () => {
-        this.toast.addAlert({ title: 'Evénement supprimé', type: ToastType.Success });
-        this.reloadData();
-      },
-    });
-    */
   }
 }

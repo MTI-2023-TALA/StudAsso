@@ -9,3 +9,4 @@ export * from './lib/api-news-feed.service';
 export * from './lib/api-google-auth.service';
 export * from './lib/api-event.service';
 export * from './lib/api-offer.service';
+export * from './lib/api-funding.service';
