@@ -1,4 +1,4 @@
-import { CreateFundingDto, FundingDto } from '@stud-asso/shared/dtos';
+import { CreateFundingDto, FundingDto, UpdateFundingDto } from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -21,5 +21,13 @@ export class ApiFundingService extends ApiBaseService {
 
   public findAll(): Observable<FundingDto[]> {
     return this.apiService.get<FundingDto[]>(`${this.url}`);
+  }
+
+  public find(id: number): Observable<FundingDto> {
+    return this.apiService.get<FundingDto>(`${this.url}/${id}`);
+  }
+
+  public update(id: number, funding: UpdateFundingDto): Observable<FundingDto> {
+    return this.apiService.put<UpdateFundingDto, FundingDto>(`${this.url}/${id}`, funding);
   }
 }

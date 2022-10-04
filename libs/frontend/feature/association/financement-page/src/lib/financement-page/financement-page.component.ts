@@ -1,4 +1,5 @@
-import { ICreateFinanceFormly, createFinanceFormly } from './finance-page.formly';
+import { ICreateFinanceFormly, createFinanceFormly, studyFinanceFormly } from './finance-page.formly';
+import { TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiFundingService } from '@stud-asso/frontend-core-api';
@@ -6,7 +7,6 @@ import { Component } from '@angular/core';
 import { FundingDto } from '@stud-asso/shared/dtos';
 import { LocalStorageHelper } from '@stud-asso/frontend-core-storage';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 @Component({
   selector: 'stud-asso-financement-page',
@@ -16,6 +16,11 @@ export class FinancementPageComponent {
   tableConfiguration: TableConfiguration = {
     columns: [
       {
+        title: 'Intitulé',
+        size: 2,
+        dataProperty: 'name',
+      },
+      {
         title: 'Somme demandé',
         size: 2,
         dataProperty: 'amount',
@@ -24,9 +29,18 @@ export class FinancementPageComponent {
         title: 'Status',
         size: 2,
         dataProperty: 'status',
+        dataViewComponent: TableTagListComponent,
       },
     ],
-    actions: [],
+    actions: [
+      {
+        label: 'Etudier',
+        action: (data: number) => {
+          this.studyModalFinance(data);
+        },
+        dataProperty: 'id',
+      },
+    ],
   };
   financeList: FundingDto[] = [];
 
@@ -80,5 +94,14 @@ export class FinancementPageComponent {
         error: this.handleError(),
       });
     };
+  }
+
+  studyModalFinance(id: number) {
+    this.api.find(id).subscribe((funding) => {
+      this.modal.createForm({
+        title: `Etude de la demande de financement ${funding.name}`,
+        fields: studyFinanceFormly(funding.name, funding.amount, funding.motivation, funding.schoolComment),
+      });
+    });
   }
 }

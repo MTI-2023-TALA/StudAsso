@@ -14,7 +14,7 @@ export class FormModalComponent extends BaseModalComponent implements OnInit {
   form = new UntypedFormGroup({});
   model = {};
   fields: FormlyFieldConfig[] = [];
-  submitBtnText: string;
+  submitBtnText?: string;
 
   constructor() {
     super();

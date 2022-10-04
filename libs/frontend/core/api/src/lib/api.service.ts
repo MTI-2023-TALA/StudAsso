@@ -22,6 +22,10 @@ export class ApiService {
     return this.http.patch<TypeResult>(`/api/${url}`, payload);
   }
 
+  public put<TypePayload, TypeResult>(url: string, payload: TypePayload): Observable<TypeResult> {
+    return this.http.put<TypeResult>(`/api/${url}`, payload);
+  }
+
   public delete<TypeResult>(url: string) {
     return this.http.delete<TypeResult>(`/api/${url}`);
   }

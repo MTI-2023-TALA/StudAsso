@@ -1,11 +1,11 @@
+import { IUpdateFinanceFormly, studyFinanceFormly } from './financement-page.formly';
+import { TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiFundingService } from '@stud-asso/frontend-core-api';
 import { Component } from '@angular/core';
 import { FundingDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
-import { studyFinanceFormly } from './financement-page.formly';
 
 export type Funding = Omit<FundingDto, 'createdAt'> & { createdAt: string };
 @Component({
@@ -18,7 +18,12 @@ export class FinancementPageComponent {
       {
         title: 'Demandeur',
         size: 1,
-        dataProperty: 'id',
+        dataProperty: 'association',
+      },
+      {
+        title: 'Intitulé de la demande',
+        size: 1,
+        dataProperty: 'name',
       },
       {
         title: 'Somme demandé',
@@ -30,13 +35,20 @@ export class FinancementPageComponent {
         size: 1,
         dataProperty: 'createdAt',
       },
+      {
+        title: 'Statut',
+        size: 1,
+        dataProperty: 'status',
+        dataViewComponent: TableTagListComponent,
+      },
     ],
     actions: [
       {
         label: 'Etudier',
-        action: (data: { id: number; name: string }) => {
-          this.studyModalFinance(data.id, data.name);
+        action: (data: number) => {
+          this.studyModalFinance(data);
         },
+        dataProperty: 'id',
       },
     ],
   };
@@ -69,22 +81,28 @@ export class FinancementPageComponent {
       });
   }
 
-  studyModalFinance(id: number, name: string) {
-    this.modal.createForm({
-      title: 'Etude de la demande de financement ${name}',
-      fields: studyFinanceFormly(),
-      submitBtnText: 'Accepter',
-      submit: () => {
-        this.acceptFinance(id);
-      },
+  studyModalFinance(id: number) {
+    this.api.find(id).subscribe((funding) => {
+      this.modal.createForm({
+        title: `Etude de la demande de financement ${funding.name}`,
+        fields: studyFinanceFormly(funding.name, funding.amount, funding.motivation),
+        submitBtnText: 'Envoyer',
+        submit: this.acceptFinance(id),
+      });
     });
   }
 
   acceptFinance(id: number) {
-    /*
-  Change status to accepted
-    },
-  });
-  */
+    return (model: IUpdateFinanceFormly) => {
+      const payload = { status: model.status, schoolComment: model.schoolComment };
+      this.api.update(id, payload).subscribe({
+        complete: () => {
+          console.log('yoyoyo');
+          this.toast.addAlert({ title: `Modification effectuée`, type: ToastType.Success });
+          this.reloadData();
+        },
+        error: this.handleError(),
+      });
+    };
   }
 }

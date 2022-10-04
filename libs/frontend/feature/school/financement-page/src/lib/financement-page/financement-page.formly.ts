@@ -1,11 +1,13 @@
 import { Form, InputType } from '@stud-asso/frontend-shared-formly';
 
+import { FUNDING_STATUS } from '@stud-asso/shared/dtos';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
 export const studyFinanceFormly = (
   name: string | null = null,
   amount: number | null = null,
-  content: string | null = null
+  content: string | null = null,
+  schoolComment: string | null = null
 ): FormlyFieldConfig[] => [
   {
     key: 'name',
@@ -46,10 +48,30 @@ export const studyFinanceFormly = (
       disabled: true,
     },
   },
+  {
+    key: 'schoolComment',
+    type: Form.TextArea,
+    defaultValue: schoolComment,
+    templateOptions: {
+      label: `Commentaire sur la demande`,
+      required: false,
+    },
+  },
+  {
+    key: 'status',
+    type: Form.Select,
+    templateOptions: {
+      label: `Statut de la demande`,
+      //TODO: Rendre ça automatique
+      options: [
+        { label: 'Approuver', value: FUNDING_STATUS.APPROVED },
+        { label: 'Rejeter', value: FUNDING_STATUS.REJECTED },
+        { label: 'En attente', value: FUNDING_STATUS.PENDING },
+      ],
+    },
+  },
 ];
-
-export interface ICreateFinanceFormly {
-  name: string;
-  amount: number;
-  content: string;
+export interface IUpdateFinanceFormly {
+  status: FUNDING_STATUS;
+  schoolComment: string | undefined;
 }

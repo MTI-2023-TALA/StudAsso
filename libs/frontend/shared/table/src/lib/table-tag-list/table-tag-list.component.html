@@ -3,3 +3,6 @@
   [message]="permissions[key].name"
   [type]="permissions[key].color"
 ></stud-asso-tag>
+<stud-asso-tag *ngIf="tag === 'APPROVED'" message="Approuvée" type="success"></stud-asso-tag>
+<stud-asso-tag *ngIf="tag === 'PENDING'" message="En attente" type="warning"></stud-asso-tag>
+<stud-asso-tag *ngIf="tag === 'REJECTED'" message="Rejetée" type="error"></stud-asso-tag>
