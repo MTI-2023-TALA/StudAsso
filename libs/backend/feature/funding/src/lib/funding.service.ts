@@ -9,6 +9,7 @@ import {
 } from '@stud-asso/shared/dtos';
 import { CreateFundingModel, FundingModel, UpdateFundingModel } from '@stud-asso/backend/core/model';
 
+import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -30,6 +31,7 @@ export class FundingService {
 
   public async findOne(id: number): Promise<FundingDto> {
     const funding = await this.fundingRepository.findOne(id);
+    if (!funding) throw new Error(ERROR.FUNDING_NOT_FOUND);
     return this.mapFundingModelToDto(funding);
   }
 

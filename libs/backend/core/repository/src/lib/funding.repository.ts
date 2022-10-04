@@ -22,7 +22,7 @@ const selectFundingModel = {
 export class FundingRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  create(associationId: number, userId: number, createFundingModel: CreateFundingModel) {
+  create(associationId: number, userId: number, createFundingModel: CreateFundingModel): Promise<FundingModel> {
     const mydata = {
       ...createFundingModel,
       associationId,
