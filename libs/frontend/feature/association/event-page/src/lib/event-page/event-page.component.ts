@@ -60,14 +60,6 @@ export class EventPageComponent implements OnInit {
 
   reloadData() {
     this.isLoading = true;
-
-    // const assoIdData = LocalStorageHelper.getData('asso-id');
-    // if (!assoIdData) {
-    //   this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-    //   return;
-    // }
-
-    //TODO ask backend for a route to get association events
     this.api.findAll().subscribe((events: EventDto[]) => {
       this.eventList = events.map((event) => ({ ...event, date: new Date(event.date).toLocaleDateString() }));
       this.isLoading = false;
