@@ -1,18 +1,17 @@
-import { ICreateFinanceFormly, createFinanceFormly, studyFinanceFormly } from './finance-page.formly';
+import { Component, OnInit } from '@angular/core';
+import { ICreateFinanceFormly, createFinanceFormly, studyFinanceFormly } from './financement-page.formly';
 import { TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiFundingService } from '@stud-asso/frontend-core-api';
-import { Component } from '@angular/core';
 import { FundingDto } from '@stud-asso/shared/dtos';
-import { LocalStorageHelper } from '@stud-asso/frontend-core-storage';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 
 @Component({
   selector: 'stud-asso-financement-page',
   templateUrl: './financement-page.component.html',
 })
-export class FinancementPageComponent {
+export class FinancementPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -79,12 +78,6 @@ export class FinancementPageComponent {
 
   createFinance() {
     return (model: ICreateFinanceFormly) => {
-      const assoId = LocalStorageHelper.getData<number>('asso-id');
-      if (!assoId) {
-        this.toast.addAlert({ title: 'Association non trouvée', type: ToastType.Error });
-        return;
-      }
-
       const payload = { ...model };
       this.api.createFunding(payload).subscribe({
         complete: () => {
