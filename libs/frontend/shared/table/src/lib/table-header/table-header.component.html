@@ -2,4 +2,5 @@
   <div *ngFor="let item of tableConfiguration.columns" class="table-header-item flex-size-{{ item.size }}">
     {{ item.title }}
   </div>
+  <div *ngIf="tableConfiguration.actions.length !== 0" class="has-action"></div>
 </div>
