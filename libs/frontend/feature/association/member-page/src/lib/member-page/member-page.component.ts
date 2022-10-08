@@ -14,6 +14,7 @@ import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
+export type Member = AssociationMemberWithRoleDto & { fullStringName: string };
 @Component({
   selector: 'stud-asso-member-page',
   templateUrl: './member-page.component.html',
@@ -22,8 +23,8 @@ export class MemberPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {
     columns: [
       {
-        title: 'Mail',
-        dataProperty: 'firstname',
+        title: 'Etudiant',
+        dataProperty: 'fullStringName',
         size: 1,
       },
       {
@@ -38,7 +39,7 @@ export class MemberPageComponent implements OnInit {
   isLoading = true;
   usersList: SelectOption[] = [];
   rolesList: SelectOption[] = [];
-  membersList: AssociationMemberWithRoleDto[] = [];
+  membersList: Member[] = [];
 
   constructor(
     private modal: ModalService,
@@ -63,7 +64,11 @@ export class MemberPageComponent implements OnInit {
         this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
       }),
       this.apiAssociation.findMembers().subscribe((members: AssociationMemberWithRoleDto[]) => {
-        this.membersList = members;
+        this.membersList = members.map((member: AssociationMemberWithRoleDto) => ({
+          ...member,
+          //TODO: demander le mail dans le dto et l'ajouter ici
+          fullStringName: `${member.firstname} ${member.lastname}`,
+        }));
       }),
     ]).finally(() => (this.isLoading = false));
   }
