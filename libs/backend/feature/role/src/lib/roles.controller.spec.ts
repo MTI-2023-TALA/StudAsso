@@ -240,52 +240,39 @@ describe('RolesController', () => {
 
   describe('Find all roles of an asso', () => {
     it('should find all roles', async () => {
-      const findAll = jest.spyOn(service, 'findAll');
       const associationId = 1;
 
       expect(await controller.findAll(associationId)).toEqual(
         mockedRoles.filter((role) => role.associationId === +associationId)
       );
-      expect(findAll).toHaveBeenCalledTimes(1);
-      expect(findAll).toHaveBeenCalledWith(+associationId);
     });
   });
 
   describe('Find one role', () => {
     it('should fail to find a role', async () => {
-      const findOne = jest.spyOn(service, 'findOne');
       const id = '-1';
 
       expect(() => controller.findOne(id)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(+id);
     });
 
     it('should find one role', async () => {
-      const findOne = jest.spyOn(service, 'findOne');
       const id = '1';
 
       expect(await controller.findOne(id)).toEqual(mockedRoles.find((role) => role.id === +id));
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(+id);
     });
   });
 
   describe('Update role', () => {
     it('should fail to update a role because an error has occured', async () => {
-      const update = jest.spyOn(service, 'update');
       const id = '-1';
       const updateRolePayload = {
         name: 'Membre',
       };
 
       expect(controller.update(id, updateRolePayload)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(+id, updateRolePayload);
     });
 
     it('should update a role', async () => {
-      const update = jest.spyOn(service, 'update');
       const id = '3';
       const updateRolePayload = {
         name: 'Vice-Pres',
@@ -295,23 +282,17 @@ describe('RolesController', () => {
 
       expect(await controller.update(id, updateRolePayload)).toEqual(updatedRole);
       expect(mockedRoles).toContainEqual(updatedRole);
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(+id, updateRolePayload);
     });
   });
 
   describe('Delete role', () => {
     it('should fail to delete a non-existing role because an error occured', async () => {
-      const deleteOne = jest.spyOn(service, 'delete');
       const id = '-1';
 
       expect(() => controller.delete(id)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(+id);
     });
 
     it('should delete a role', async () => {
-      const deleteOne = jest.spyOn(service, 'delete');
       const id = '3';
 
       const deletedRole = mockedRoles.find((role) => role.id === +id);
@@ -319,8 +300,6 @@ describe('RolesController', () => {
 
       expect(await controller.delete(id)).toEqual(deletedRole);
       expect(mockedRoles).toEqual(filteredMockedRoles);
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(+id);
     });
   });
 });
