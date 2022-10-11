@@ -197,36 +197,25 @@ describe('UsersController', () => {
 
   describe('Find All Users', () => {
     it('should find all users', async () => {
-      const findAll = jest.spyOn(service, 'findAll');
-
       expect(await controller.findAll()).toEqual(mockedUsers);
-      expect(findAll).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('Find All Users Id And Email', () => {
     it('should find all users with id and email', async () => {
-      const findAllIdAndEmail = jest.spyOn(service, 'findAllIdAndEmail');
-
       expect(await controller.findAllIdAndEmail()).toEqual(
         mockedUsers.map((user) => ({ id: user.id, email: user.email }))
       );
-      expect(findAllIdAndEmail).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('Find Asso Of User', () => {
     it('should find no asso of user', async () => {
-      const findAssoOfUser = jest.spyOn(service, 'findAssoOfUser');
       const userId = 3;
-
       expect(await controller.findAssoOfUser(userId)).toEqual({ id: userId, associationsId: [] });
-      expect(findAssoOfUser).toHaveBeenCalledTimes(1);
-      expect(findAssoOfUser).toHaveBeenCalledWith(userId);
     });
 
     it('should find asso of user', async () => {
-      const findAssoOfUser = jest.spyOn(service, 'findAssoOfUser');
       const userId = 1;
 
       const expected = {
@@ -240,43 +229,29 @@ describe('UsersController', () => {
       };
 
       expect(await controller.findAssoOfUser(userId)).toEqual(expected);
-      expect(findAssoOfUser).toHaveBeenCalledTimes(1);
-      expect(findAssoOfUser).toHaveBeenCalledWith(userId);
     });
   });
 
   describe('Find Users By Name', () => {
     it('should find no users by name', async () => {
-      const findUsersByName = jest.spyOn(service, 'findAllByName');
       const name = 'Toto';
-
       expect(await controller.findAllByName(name)).toEqual([]);
-      expect(findUsersByName).toHaveBeenCalledTimes(1);
-      expect(findUsersByName).toHaveBeenCalledWith(name);
     });
 
     it('should find 1 user by name', async () => {
-      const findUsersByName = jest.spyOn(service, 'findAllByName');
       const name = 'Sky';
-
       expect(await controller.findAllByName(name)).toEqual([mockedUsers[0]]);
-      expect(findUsersByName).toHaveBeenCalledTimes(1);
-      expect(findUsersByName).toHaveBeenCalledWith(name);
     });
   });
 
   describe('Find Current User Info', () => {
     it('should fail to find current user', async () => {
-      const findCurrentUserInfo = jest.spyOn(service, 'findCurrentUserInfo');
       const id = -1;
 
       expect(controller.findCurrentUserInfo(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
-      expect(findCurrentUserInfo).toHaveBeenCalledTimes(1);
-      expect(findCurrentUserInfo).toHaveBeenCalledWith(+id);
     });
 
     it('should find current user', async () => {
-      const findCurrentUserInfo = jest.spyOn(service, 'findCurrentUserInfo');
       const id = 1;
 
       const expected = {
@@ -286,22 +261,16 @@ describe('UsersController', () => {
         isSchoolEmployee: mockedUsers[0].isSchoolEmployee,
       };
       expect(await controller.findCurrentUserInfo(id)).toEqual(expected);
-      expect(findCurrentUserInfo).toHaveBeenCalledTimes(1);
-      expect(findCurrentUserInfo).toHaveBeenCalledWith(+id);
     });
   });
 
   describe('Find Current User Asso', () => {
     it('should fail to find current user asso', async () => {
-      const findCurrentUserAsso = jest.spyOn(service, 'findCurrentUserAsso');
       const id = -1;
-
       expect(controller.findCurrentUserAsso(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
-      expect(findCurrentUserAsso).toHaveBeenCalledWith(+id);
     });
 
     it('should find current user', async () => {
-      const findCurrentUserAsso = jest.spyOn(service, 'findCurrentUserAsso');
       const id = 1;
 
       const expected = [
@@ -311,50 +280,34 @@ describe('UsersController', () => {
           associationId: 1,
         },
       ];
-
       expect(await controller.findCurrentUserAsso(id)).toEqual(expected);
-      expect(findCurrentUserAsso).toHaveBeenCalledTimes(1);
-      expect(findCurrentUserAsso).toHaveBeenCalledWith(+id);
     });
   });
 
   describe('Find One User', () => {
     it('should fail to find one user', async () => {
-      const findOne = jest.spyOn(service, 'findOne');
       const id = '-1';
-
       expect(controller.findOne(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(+id);
     });
 
     it('should find one user', async () => {
-      const findOne = jest.spyOn(service, 'findOne');
       const id = '1';
-
       expect(await controller.findOne(id)).toEqual(mockedUsers[0]);
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(+id);
     });
   });
 
   describe('Update User', () => {
     it('should fail to update user', async () => {
-      const update = jest.spyOn(service, 'update');
       const id = '-1';
       const updateUserPayload = {
         firstname: 'Qui-Gon',
         lastname: 'Jinn',
         email: 'qui-gon.jinn@test.test',
       };
-
       expect(controller.update(id, updateUserPayload)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
 
     it('should update user', async () => {
-      const update = jest.spyOn(service, 'update');
       const id = '2';
       const updateUserPayload: UpdateUserDto = {
         firstname: 'Darth',
@@ -369,27 +322,20 @@ describe('UsersController', () => {
 
       expect(await controller.update(id, updateUserPayload)).toEqual(updatedUser);
       expect(mockedUsers).toContainEqual(updatedUser);
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(+id, updateUserPayload);
     });
   });
 
   describe('Update Current User Info', () => {
     it('should fail to update current user info', async () => {
-      const updateCurrentUserInfo = jest.spyOn(service, 'updateCurrentUserInfo');
       const id = -1;
       const updateUserPayload = {
         firstname: 'new firstname',
         lastname: 'new lastname',
       };
-
       expect(controller.updateCurrentUserInfo(id, updateUserPayload)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
-      expect(updateCurrentUserInfo).toHaveBeenCalledTimes(1);
-      expect(updateCurrentUserInfo).toHaveBeenCalledWith(id, updateUserPayload);
     });
 
     it('should update current user info', async () => {
-      const updateCurrentUserInfo = jest.spyOn(service, 'updateCurrentUserInfo');
       const id = 2;
       const updateUserPayload: UpdateUserDto = {
         firstname: 'new firstname',
@@ -403,23 +349,16 @@ describe('UsersController', () => {
 
       expect(await controller.updateCurrentUserInfo(id, updateUserPayload)).toEqual(updatedUser);
       expect(mockedUsers).toContainEqual(updatedUser);
-      expect(updateCurrentUserInfo).toHaveBeenCalledTimes(1);
-      expect(updateCurrentUserInfo).toHaveBeenCalledWith(id, updateUserPayload);
     });
   });
 
   describe('Delete User', () => {
     it('should fail to delete a non-existing user', async () => {
-      const deleteOne = jest.spyOn(service, 'delete');
       const id = '-1';
-
       expect(controller.delete(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(+id);
     });
 
     it('should delete an user', async () => {
-      const deleteOne = jest.spyOn(service, 'delete');
       const id = '1';
 
       const deletedUser = mockedUsers.find((user) => user.id === +id);
@@ -427,8 +366,6 @@ describe('UsersController', () => {
 
       expect(await controller.delete(id)).toEqual(deletedUser);
       expect(mockedUsers).toEqual(filteredMockedUsers);
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(+id);
     });
   });
 });
