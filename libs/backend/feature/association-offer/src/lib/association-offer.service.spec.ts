@@ -34,8 +34,6 @@ const mockedApplicationDate: Date = new Date('2022-12-24');
 
 describe('AssociationOfferService', () => {
   let service: AssociationOfferService;
-  let applicationRepository: AssociationOfferApplicationRepository;
-  let offerRepository: AssociationOfferRepository;
 
   let mockedAssociationOfferApplications: AssociationOfferApplicationModel[];
   let mockedAssociationOffers: AssociationOfferModel[];
@@ -351,8 +349,6 @@ describe('AssociationOfferService', () => {
     }).compile();
 
     service = module.get(AssociationOfferService);
-    applicationRepository = module.get(AssociationOfferApplicationRepository);
-    offerRepository = module.get(AssociationOfferRepository);
   });
 
   afterEach(() => jest.clearAllMocks());

@@ -8,7 +8,6 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 describe('NewsService', () => {
   let service: NewsService;
-  let associationRepository: AssociationRepository;
   let repository: NewsRepository;
 
   let mockedNews: NewsDto[];
@@ -153,7 +152,6 @@ describe('NewsService', () => {
 
     service = module.get<NewsService>(NewsService);
     repository = module.get<NewsRepository>(NewsRepository);
-    associationRepository = module.get<AssociationRepository>(AssociationRepository);
   });
 
   afterEach(() => jest.clearAllMocks());

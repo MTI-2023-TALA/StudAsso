@@ -15,7 +15,6 @@ import { RolesService } from './roles.service';
 
 describe('RolesController', () => {
   let controller: RolesController;
-  let service: RolesService;
   let mockedAssociations: AssociationDto[];
   let mockedAssociationsMember: AssociationsMemberDto[];
   let mockedRoles: RoleDto[];
@@ -183,7 +182,6 @@ describe('RolesController', () => {
     }).compile();
 
     controller = module.get<RolesController>(RolesController);
-    service = module.get<RolesService>(RolesService);
   });
 
   afterEach(() => jest.clearAllMocks());

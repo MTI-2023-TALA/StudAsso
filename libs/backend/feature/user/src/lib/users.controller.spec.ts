@@ -14,7 +14,6 @@ import { UsersService } from './users.service';
 
 describe('UsersController', () => {
   let controller: UsersController;
-  let service: UsersService;
 
   let mockedAssociations: AssociationDto[];
   let mockedAssociationsMember: AssociationsMemberDto[];
@@ -190,7 +189,6 @@ describe('UsersController', () => {
     }).compile();
 
     controller = module.get<UsersController>(UsersController);
-    service = module.get<UsersService>(UsersService);
   });
 
   afterEach(() => jest.clearAllMocks());

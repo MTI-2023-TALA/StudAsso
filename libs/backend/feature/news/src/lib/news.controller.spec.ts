@@ -7,7 +7,6 @@ import { NewsService } from './news.service';
 
 describe('NewsController', () => {
   let controller: NewsController;
-  let service: NewsService;
 
   let mockedNews: NewsDto[];
   let mockedUsers: UserDto[];
@@ -141,7 +140,6 @@ describe('NewsController', () => {
     }).compile();
 
     controller = module.get<NewsController>(NewsController);
-    service = await module.get<NewsService>(NewsService);
   });
 
   afterEach(() => jest.clearAllMocks());
