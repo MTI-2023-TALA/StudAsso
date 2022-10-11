@@ -21,7 +21,6 @@ const mockedApplicationDate: Date = new Date('2022-12-24');
 
 describe('AssociationOfferController', () => {
   let controller: AssociationOfferController;
-  let service: AssociationOfferService;
 
   let mockedAssociationOfferApplications: AssociationOfferApplicationDto[];
   let mockedAssociationOffers: AssociationOfferDto[];
@@ -314,7 +313,6 @@ describe('AssociationOfferController', () => {
     }).compile();
 
     controller = module.get(AssociationOfferController);
-    service = module.get(AssociationOfferService);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -384,8 +382,6 @@ describe('AssociationOfferController', () => {
 
   describe('Find All Association Offers', () => {
     it('should find all association offers', async () => {
-      const findAllOffers = jest.spyOn(service, 'findAllOffers');
-
       const expected: AssociationOfferWithAssoAndRoleDto[] = [
         {
           id: 1,
@@ -406,14 +402,11 @@ describe('AssociationOfferController', () => {
       ];
 
       expect(await controller.findAllOffers()).toEqual(expected);
-      expect(findAllOffers).toHaveBeenCalledTimes(1);
-      expect(findAllOffers).toHaveBeenCalledWith();
     });
   });
 
   describe('Find All Applications', () => {
     it('should find all applications', async () => {
-      const findAllApplications = jest.spyOn(service, 'findAllApplications');
       const associationId = 2;
 
       const expected: AssociationOfferApplicationReviewDto[] = [
@@ -442,8 +435,6 @@ describe('AssociationOfferController', () => {
       ];
 
       expect(await controller.findAllApplications(associationId)).toEqual(expected);
-      expect(findAllApplications).toHaveBeenCalledTimes(1);
-      expect(findAllApplications).toHaveBeenCalledWith(associationId);
     });
   });
 
@@ -476,7 +467,6 @@ describe('AssociationOfferController', () => {
 
   describe('Find Stats For Offers', () => {
     it('should find stats for offers', async () => {
-      const findStatsForOffers = jest.spyOn(service, 'findStatsForOffers');
       const associationId = 2;
 
       const expected: AssociationOfferStatsDto[] = [
@@ -490,14 +480,11 @@ describe('AssociationOfferController', () => {
       ];
 
       expect(await controller.findStatsForOffers(associationId)).toEqual(expected);
-      expect(findStatsForOffers).toHaveBeenCalledTimes(1);
-      expect(findStatsForOffers).toHaveBeenCalledWith(associationId);
     });
   });
 
   describe('Delete An Application', () => {
     it('should delete an application', async () => {
-      const deleteApplication = jest.spyOn(service, 'deleteApplication');
       const applicationId = '2';
 
       const expected = mockedAssociationOfferApplications.find((event) => event.id === +applicationId);
@@ -505,8 +492,6 @@ describe('AssociationOfferController', () => {
 
       expect(await controller.deleteApplication(applicationId)).toEqual(expected);
       expect(mockedAssociationOfferApplications).toEqual(filteredMockedApplications);
-      expect(deleteApplication).toHaveBeenCalledTimes(1);
-      expect(deleteApplication).toHaveBeenCalledWith(+applicationId);
     });
 
     it('should fail to delete an application because an error has been raised', async () => {

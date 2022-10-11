@@ -140,14 +140,11 @@ describe('EventsService', () => {
 
     describe("Find All Association's events", () => {
       it('should return all association events', async () => {
-        const findAllByAssociationId = jest.spyOn(repository, 'findAllByAssociationId');
         const associationId = 1;
 
         expect(await service.findAllByAssociationId(associationId)).toEqual(
           mockedEvents.filter((event) => event.associationId === associationId)
         );
-        expect(findAllByAssociationId).toHaveBeenCalledTimes(1);
-        expect(findAllByAssociationId).toHaveBeenCalledWith(associationId);
       });
 
       it("should fail to return all association's events because association does not exist", async () => {
@@ -161,27 +158,18 @@ describe('EventsService', () => {
 
     describe('Find One Event', () => {
       it('should return one event', async () => {
-        const findOne = jest.spyOn(repository, 'findOne');
         const id = 1;
-
         expect(await service.findOne(id)).toEqual(mockedEvents.find((event) => event.id === id));
-        expect(findOne).toHaveBeenCalledTimes(1);
-        expect(findOne).toHaveBeenCalledWith(id);
       });
 
       it('should fail to return one event because event does not exist', async () => {
-        const findOne = jest.spyOn(repository, 'findOne');
         const id = -1;
-
         expect(service.findOne(id)).rejects.toThrow(ERROR.EVENT_NOT_FOUND);
-        expect(findOne).toHaveBeenCalledTimes(1);
-        expect(findOne).toHaveBeenCalledWith(id);
       });
     });
 
     describe('Update Event', () => {
       it('should update one event', async () => {
-        const update = jest.spyOn(repository, 'update');
         const id = 1;
         const updateEventPayload: UpdateEventDto = {
           name: 'updated event name',
@@ -195,8 +183,6 @@ describe('EventsService', () => {
         };
 
         expect(await service.update(id, updateEventPayload)).toEqual(updateEvent);
-        expect(update).toHaveBeenCalledTimes(1);
-        expect(update).toHaveBeenCalledWith(id, updateEventPayload);
       });
 
       it('should fail to update event because event does not exist', async () => {
@@ -215,7 +201,6 @@ describe('EventsService', () => {
 
     describe('Delete Event', () => {
       it('should delete an event', async () => {
-        const deleteCall = jest.spyOn(repository, 'delete');
         const eventId = 1;
 
         const deletedEvent = mockedEvents.find((event) => event.id === eventId);
@@ -223,17 +208,11 @@ describe('EventsService', () => {
 
         expect(await service.delete(eventId)).toEqual(deletedEvent);
         expect(mockedEvents).toEqual(filteredMockedEvents);
-        expect(deleteCall).toHaveBeenCalledTimes(1);
-        expect(deleteCall).toHaveBeenCalledWith(eventId);
       });
 
       it('should fail to delete an event that does not exist', async () => {
-        const deleteCall = jest.spyOn(repository, 'delete');
         const eventId = -1;
-
         expect(service.delete(eventId)).rejects.toThrow(ERROR.EVENT_NOT_FOUND);
-        expect(deleteCall).toHaveBeenCalledTimes(1);
-        expect(deleteCall).toHaveBeenCalledWith(eventId);
       });
     });
   });

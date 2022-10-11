@@ -7,7 +7,6 @@ import { NewsService } from './news.service';
 
 describe('NewsController', () => {
   let controller: NewsController;
-  let service: NewsService;
 
   let mockedNews: NewsDto[];
   let mockedUsers: UserDto[];
@@ -141,7 +140,6 @@ describe('NewsController', () => {
     }).compile();
 
     controller = module.get<NewsController>(NewsController);
-    service = await module.get<NewsService>(NewsService);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -178,36 +176,27 @@ describe('NewsController', () => {
 
       const userId = -1;
 
-      expect(() => controller.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(controller.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
     });
   });
 
   describe('Find all news of an association', () => {
     it('should find all news of an association', async () => {
-      const findAllAssociationNews = jest.spyOn(service, 'findAllAssociationNews');
       const associationId = 1;
 
       expect(await controller.findAllAssociationNews(associationId)).toEqual(
         mockedNews.filter((news) => news.associationId === +associationId)
       );
-      expect(findAllAssociationNews).toHaveBeenCalledTimes(1);
-      expect(findAllAssociationNews).toHaveBeenCalledWith(+associationId);
     });
 
     it('should fail because an error has been raised', async () => {
-      const findAllAssociationNews = jest.spyOn(service, 'findAllAssociationNews');
       const associationId = -1;
-
-      expect(() => controller.findAllAssociationNews(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
-      expect(findAllAssociationNews).toHaveBeenCalledTimes(1);
-      expect(findAllAssociationNews).toHaveBeenCalledWith(+associationId);
+      expect(controller.findAllAssociationNews(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
   describe('Find all news with association name', () => {
     it('should find all news with association name specified', async () => {
-      const findAllNewsWithAssoName = jest.spyOn(service, 'findAllNewsWithAssoName');
-
       expect(await controller.findAllNewsWithAssoName()).toEqual(
         mockedNews.map((news) => {
           const association = mockedAssociations.find((association) => association.id === news.associationId);
@@ -217,33 +206,23 @@ describe('NewsController', () => {
           };
         })
       );
-      expect(findAllNewsWithAssoName).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('Find one news', () => {
     it('should find one news', async () => {
-      const findOne = jest.spyOn(service, 'findOne');
       const newsId = '1';
-
       expect(await controller.findOne(newsId)).toEqual(mockedNews.find((news) => news.id === +newsId));
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(+newsId);
     });
 
     it('should fail because an error has been raised', () => {
-      const findOne = jest.spyOn(service, 'findOne');
       const newsId = '-1';
-
-      expect(() => controller.findOne(newsId)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(+newsId);
+      expect(controller.findOne(newsId)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
     });
   });
 
   describe('Update news', () => {
     it('should update a news', async () => {
-      const update = jest.spyOn(service, 'update');
       const newsId = '2';
       const updateNewsPayload: UpdateNewsDto = {
         title: 'title updated',
@@ -257,27 +236,21 @@ describe('NewsController', () => {
 
       expect(await controller.update(newsId, updateNewsPayload)).toEqual(updatedNews);
       expect(mockedNews).toContainEqual(updatedNews);
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(+newsId, updateNewsPayload);
     });
 
     it('should fail to update because an error occured', async () => {
-      const update = jest.spyOn(service, 'update');
       const newsId = '-1';
       const updateNewsPayload: UpdateNewsDto = {
         title: 'title updated',
         content: 'content updated',
       };
 
-      expect(() => controller.update(newsId, updateNewsPayload)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(+newsId, updateNewsPayload);
+      expect(controller.update(newsId, updateNewsPayload)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
     });
   });
 
   describe('Delete news', () => {
     it('should delete a news', async () => {
-      const deleteOne = jest.spyOn(service, 'delete');
       const newsId = '2';
 
       const deletedNews = mockedNews.find((news) => news.id === +newsId);
@@ -285,17 +258,11 @@ describe('NewsController', () => {
 
       expect(await controller.delete(newsId)).toEqual(deletedNews);
       expect(mockedNews).toEqual(filteredMockedNews);
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(+newsId);
     });
 
     it('should fail to delete a news because an error occured', async () => {
-      const deleteOne = jest.spyOn(service, 'delete');
       const newsId = '-1';
-
-      expect(() => controller.delete(newsId)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(+newsId);
+      expect(controller.delete(newsId)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
     });
   });
 });

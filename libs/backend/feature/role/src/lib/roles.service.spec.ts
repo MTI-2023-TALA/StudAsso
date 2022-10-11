@@ -311,21 +311,15 @@ describe('RolesService', () => {
 
   describe('Find one role', () => {
     it('should fail to return one role', async () => {
-      const findOne = jest.spyOn(roleRepository, 'findOne');
       const id = -1;
 
       expect(service.findOne(id)).rejects.toThrow(ERROR.ROLE_NOT_FOUND);
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(id);
     });
 
     it('should return one role', async () => {
-      const findOne = jest.spyOn(roleRepository, 'findOne');
       const id = 1;
 
       expect(await service.findOne(id)).toEqual(mockedRoles.find((role) => role.id === id));
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(id);
     });
   });
 
@@ -364,7 +358,6 @@ describe('RolesService', () => {
     });
 
     it('should update a role', async () => {
-      const update = jest.spyOn(roleRepository, 'update');
       const id = 3;
       const updateRolePayload: UpdateRoleDto = {
         name: 'Vice-pres',
@@ -377,8 +370,6 @@ describe('RolesService', () => {
 
       expect(await service.update(id, updateRolePayload)).toEqual(updatedRole);
       expect(mockedRoles).toContainEqual(updatedRole);
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(id, updateRolePayload);
     });
   });
 
@@ -400,7 +391,6 @@ describe('RolesService', () => {
     });
 
     it('should delete a role', async () => {
-      const deleteOne = jest.spyOn(roleRepository, 'delete');
       const id = 3;
 
       const deletedRole = mockedRoles.find((role) => role.id === id);
@@ -408,8 +398,6 @@ describe('RolesService', () => {
 
       expect(await service.delete(id)).toEqual(deletedRole);
       expect(mockedRoles).toEqual(filteredMockedRoles);
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(id);
     });
   });
 });

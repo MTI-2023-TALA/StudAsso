@@ -8,7 +8,6 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 describe('NewsService', () => {
   let service: NewsService;
-  let associationRepository: AssociationRepository;
   let repository: NewsRepository;
 
   let mockedNews: NewsDto[];
@@ -153,7 +152,6 @@ describe('NewsService', () => {
 
     service = module.get<NewsService>(NewsService);
     repository = module.get<NewsRepository>(NewsRepository);
-    associationRepository = module.get<AssociationRepository>(AssociationRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
@@ -183,7 +181,7 @@ describe('NewsService', () => {
 
       const userId = -1;
 
-      expect(() => service.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.USER_NOT_FOUND);
     });
 
     it('should fail to create a news because the given association does not exist', async () => {
@@ -192,38 +190,30 @@ describe('NewsService', () => {
       const createNewsPayload: CreateNewsDto = { content: 'content', title: 'title' };
       const userId = 1;
 
-      expect(() => service.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(service.create(userId, associationId, createNewsPayload)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
   describe('Find all news of an association', () => {
     it('should return all news of an association', async () => {
-      const findAllAssociationNews = jest.spyOn(repository, 'findAllAssociationNews');
       const associationId = 1;
 
       expect(await service.findAllAssociationNews(associationId)).toEqual(
         mockedNews.filter((news) => news.associationId === associationId)
       );
-      expect(findAllAssociationNews).toHaveBeenCalledTimes(1);
-      expect(findAllAssociationNews).toHaveBeenCalledWith(associationId);
     });
 
     it('should fail to return news of non existing association', async () => {
       const findAllAssociationNews = jest.spyOn(repository, 'findAllAssociationNews');
-      const findOne = jest.spyOn(associationRepository, 'findOne');
       const associationId = -1;
 
       expect(service.findAllAssociationNews(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(associationId);
       expect(findAllAssociationNews).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('Find all news with their association name', () => {
     it('should return all news with their association name', async () => {
-      const findAllNewsWithAssoName = jest.spyOn(repository, 'findAllNewsWithAssoName');
-
       expect(await service.findAllNewsWithAssoName()).toEqual(
         mockedNews.map((news) => {
           const association = mockedAssociations.find((association) => association.id === news.associationId);
@@ -233,35 +223,23 @@ describe('NewsService', () => {
           };
         })
       );
-
-      expect(findAllNewsWithAssoName).toHaveBeenCalledTimes(1);
-      expect(findAllNewsWithAssoName).toHaveBeenCalledWith();
     });
   });
 
   describe('Find one news', () => {
     it('should return one news', async () => {
-      const findOne = jest.spyOn(repository, 'findOne');
       const id = 1;
-
       expect(await service.findOne(id)).toEqual(mockedNews.find((news) => news.id === id));
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(id);
     });
 
     it('should fail to return a news because the news id does not exist', async () => {
-      const findOne = jest.spyOn(repository, 'findOne');
       const id = -1;
-
       expect(service.findOne(id)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
-      expect(findOne).toHaveBeenCalledTimes(1);
-      expect(findOne).toHaveBeenCalledWith(id);
     });
   });
 
   describe('Update a news', () => {
     it('should update a news ', async () => {
-      const update = jest.spyOn(repository, 'update');
       const newsId = 2;
       const updateNewsPayload: UpdateNewsDto = { content: 'content renamed', title: 'title renamed' };
 
@@ -272,8 +250,6 @@ describe('NewsService', () => {
 
       expect(await service.update(newsId, updateNewsPayload)).toEqual(updatedNews);
       expect(mockedNews).toContainEqual(updatedNews);
-      expect(update).toHaveBeenCalledTimes(1);
-      expect(update).toHaveBeenCalledWith(newsId, updateNewsPayload);
     });
 
     it('should fail to update news because it does not exist', async () => {
@@ -288,7 +264,6 @@ describe('NewsService', () => {
 
   describe('Delete a news', () => {
     it('should delete a news', async () => {
-      const deleteOne = jest.spyOn(repository, 'delete');
       const newsId = 1;
 
       const deletedNews = mockedNews.find((news) => news.id === +newsId);
@@ -296,17 +271,12 @@ describe('NewsService', () => {
 
       expect(await service.delete(newsId)).toEqual(deletedNews);
       expect(mockedNews).toEqual(filteredMockedNews);
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(+newsId);
     });
 
     it('should fail to delete a news because it does not exist', async () => {
-      const deleteOne = jest.spyOn(repository, 'delete');
       const newsId = -1;
 
-      expect(() => service.delete(newsId)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
-      expect(deleteOne).toHaveBeenCalledTimes(1);
-      expect(deleteOne).toHaveBeenCalledWith(+newsId);
+      expect(service.delete(newsId)).rejects.toThrow(ERROR.NEWS_NOT_FOUND);
     });
   });
 });

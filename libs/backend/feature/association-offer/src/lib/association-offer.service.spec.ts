@@ -34,8 +34,6 @@ const mockedApplicationDate: Date = new Date('2022-12-24');
 
 describe('AssociationOfferService', () => {
   let service: AssociationOfferService;
-  let applicationRepository: AssociationOfferApplicationRepository;
-  let offerRepository: AssociationOfferRepository;
 
   let mockedAssociationOfferApplications: AssociationOfferApplicationModel[];
   let mockedAssociationOffers: AssociationOfferModel[];
@@ -351,15 +349,12 @@ describe('AssociationOfferService', () => {
     }).compile();
 
     service = module.get(AssociationOfferService);
-    applicationRepository = module.get(AssociationOfferApplicationRepository);
-    offerRepository = module.get(AssociationOfferRepository);
   });
 
   afterEach(() => jest.clearAllMocks());
 
   describe('Create Association Offer', () => {
     it('should create an association offer', async () => {
-      const createAssociationOffer = jest.spyOn(offerRepository, 'create');
       const associationId = 1;
 
       const createOfferPayload: CreateAssociationOfferDto = {
@@ -374,13 +369,10 @@ describe('AssociationOfferService', () => {
       };
 
       expect(await service.createAssociationOffer(associationId, createOfferPayload)).toEqual(newOffer);
-      expect(createAssociationOffer).toHaveBeenCalledTimes(1);
-      expect(createAssociationOffer).toHaveBeenCalledWith({ associationId, ...createOfferPayload });
     });
 
     it('should throw an error if the role does not exist', async () => {
       const associationId = 1;
-
       const createOfferPayload: CreateAssociationOfferDto = {
         roleId: -1,
         deadline: new Date('2025-7-14'),
@@ -391,7 +383,6 @@ describe('AssociationOfferService', () => {
 
     it('should throw an error if the role is not in association', async () => {
       const associationId = 1;
-
       const createOfferPayload: CreateAssociationOfferDto = {
         roleId: 4,
         deadline: new Date('2025-7-14'),
@@ -402,7 +393,6 @@ describe('AssociationOfferService', () => {
 
     it('should throw an error if the role is Président', async () => {
       const associationId = 1;
-
       const createOfferPayload: CreateAssociationOfferDto = {
         roleId: 1,
         deadline: new Date('2025-7-14'),
@@ -415,7 +405,6 @@ describe('AssociationOfferService', () => {
 
     it('should throw an error if the deadline is prior to today', async () => {
       const associationId = 1;
-
       const createOfferPayload: CreateAssociationOfferDto = {
         roleId: 5,
         deadline: new Date('2020-7-14'),
@@ -427,9 +416,7 @@ describe('AssociationOfferService', () => {
 
   describe('Create Offer Application', () => {
     it('should create an application to an offer', async () => {
-      const createAssociationOfferApplication = jest.spyOn(applicationRepository, 'create');
       const userId = 6;
-
       const createApplicationPayload: CreateAssociationOfferApplicationDto = {
         associationOfferId: 1,
         motivation: 'I want to be a member',
@@ -442,13 +429,10 @@ describe('AssociationOfferService', () => {
       };
 
       expect(await service.createAssociationOfferApplication(userId, createApplicationPayload)).toEqual(newApplication);
-      expect(createAssociationOfferApplication).toHaveBeenCalledTimes(1);
-      expect(createAssociationOfferApplication).toHaveBeenCalledWith({ userId, ...createApplicationPayload });
     });
 
     it('should throw an error if offer does not exist', async () => {
       const userId = 6;
-
       const createApplicationPayload: CreateAssociationOfferApplicationDto = {
         associationOfferId: -1,
         motivation: 'I want to be a member',
