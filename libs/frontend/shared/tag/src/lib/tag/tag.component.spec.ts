@@ -28,28 +28,28 @@ describe('TagComponent', () => {
   });
 
   describe('Html elements', () => {
-    it('should have a class tags-error when creating a toast with TagType.Error', () => {
+    it('should have a class tag-error when creating a toast with TagType.Error', () => {
       component.type = TagType.Error;
       fixture.detectChanges();
-      expect(de.query(By.css('.tags-error'))).toBeTruthy();
+      expect(de.query(By.css('.tag-error'))).toBeTruthy();
     });
 
-    it('should have a class tags-success when creating a toast with TagType.Success', () => {
+    it('should have a class tag-success when creating a toast with TagType.Success', () => {
       component.type = TagType.Success;
       fixture.detectChanges();
-      expect(de.query(By.css('.tags-success'))).toBeTruthy();
+      expect(de.query(By.css('.tag-success'))).toBeTruthy();
     });
 
-    it('should have a class tags-warning when creating a toast with TagType.Warning', () => {
+    it('should have a class tag-warning when creating a toast with TagType.Warning', () => {
       component.type = TagType.Warning;
       fixture.detectChanges();
-      expect(de.query(By.css('.tags-warning'))).toBeTruthy();
+      expect(de.query(By.css('.tag-warning'))).toBeTruthy();
     });
 
-    it('should have a class tags-information when creating a toast with TagType.Information', () => {
+    it('should have a class tag-information when creating a toast with TagType.Information', () => {
       component.type = TagType.Information;
       fixture.detectChanges();
-      expect(de.query(By.css('.tags-information'))).toBeTruthy();
+      expect(de.query(By.css('.tag-information'))).toBeTruthy();
     });
   });
 });
