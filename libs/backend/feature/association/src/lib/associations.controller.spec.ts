@@ -184,8 +184,8 @@ describe('AssociationsController', () => {
                   const user = mockedUsers.find((user) => user.id === member.userId);
                   const role = mockedRoles.find((role) => role.id === member.roleId);
                   return {
-                    firstname: user.firstname,
-                    lastname: user.lastname,
+                    userFullName: `${user.firstname} ${user.lastname}`,
+                    userEmail: user.email,
                     roleName: role.name,
                   };
                 });
@@ -320,8 +320,8 @@ describe('AssociationsController', () => {
     it('should call associationService.findAssociationMembersWithRoles', async () => {
       const expected: AssociationMemberWithRoleDto[] = [
         {
-          firstname: 'Anakin',
-          lastname: 'Skywalker',
+          userFullName: 'Anakin Skywalker',
+          userEmail: 'anakin.skywalker@test.test',
           roleName: 'Président',
         },
       ];

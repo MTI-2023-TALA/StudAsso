@@ -87,8 +87,8 @@ export class AssociationsService {
 
     const membersWithRoles = await this.associationsMemberRepository.findAssociationMembersWithRoles(associationId);
     return membersWithRoles.map((member) => ({
-      firstname: member.user.firstname,
-      lastname: member.user.lastname,
+      userFullName: `${member.user.firstname} ${member.user.lastname}`,
+      userEmail: member.user.email,
       roleName: member.role.name,
     }));
   }

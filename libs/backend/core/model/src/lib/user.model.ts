@@ -45,8 +45,3 @@ export class UserWithoutIdModel {
   email: string;
   isSchoolEmployee: boolean;
 }
-
-export class UserFirstnameAndLastnameModel {
-  firstname: string;
-  lastname: string;
-}

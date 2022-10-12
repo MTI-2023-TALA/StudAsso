@@ -169,20 +169,24 @@ describe('AssociationsService', () => {
             findAssociationMembersWithRoles: jest.fn(
               (associationId: number): Promise<AssociationMemberWithRoleWithoutIdsModel[]> => {
                 const filteredAssoMembers = mockedAssociationsMember.filter((a) => a.associationId === associationId);
-                const mappedAssoMembers = filteredAssoMembers.map((assoMember) => {
-                  const user = mockedUsers.find((user) => user.id === assoMember.userId);
-                  const role = mockedRoles.find((role) => role.id === assoMember.roleId);
-                  return {
-                    user: {
-                      firstname: user.firstname,
-                      lastname: user.lastname,
-                    },
-                    role: {
-                      id: role.id,
-                      name: role.name,
-                    },
-                  };
-                });
+                const mappedAssoMembers: AssociationMemberWithRoleWithoutIdsModel[] = filteredAssoMembers.map(
+                  (assoMember) => {
+                    const user = mockedUsers.find((user) => user.id === assoMember.userId);
+                    const role = mockedRoles.find((role) => role.id === assoMember.roleId);
+                    return {
+                      user: {
+                        id: user.id,
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        email: user.email,
+                      },
+                      role: {
+                        id: role.id,
+                        name: role.name,
+                      },
+                    };
+                  }
+                );
                 return Promise.resolve(mappedAssoMembers);
               }
             ),
@@ -251,8 +255,8 @@ describe('AssociationsService', () => {
       const associationId = 1;
       const expected: AssociationMemberWithRoleDto[] = [
         {
-          firstname: 'Anakin',
-          lastname: 'Skywalker',
+          userFullName: 'Anakin Skywalker',
+          userEmail: 'anakin.skywalker@test.test',
           roleName: 'Président',
         },
       ];
