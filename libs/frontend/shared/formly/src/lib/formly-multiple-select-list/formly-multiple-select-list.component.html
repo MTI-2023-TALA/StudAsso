@@ -5,8 +5,9 @@
       [message]="item.label"
       [value]="item.value"
       [shouldDisplayIcon]="true"
+      [shouldBeClickable]="true"
       [icon]="'x'"
-      (iconClicked)="onCrossClicked($event)"
+      (clickTag)="onCrossClicked($event)"
     >
     </stud-asso-tag>
   </div>
@@ -23,8 +24,9 @@
       [message]="item.label"
       [value]="item.value"
       [shouldDisplayIcon]="true"
+      [shouldBeClickable]="true"
       [icon]="'plus'"
-      (iconClicked)="onPlusClicked($event)"
+      (clickTag)="onPlusClicked($event)"
     ></stud-asso-tag>
   </div>
 </div>

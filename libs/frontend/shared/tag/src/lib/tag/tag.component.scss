@@ -1,49 +1,33 @@
 @import 'base/variables';
 
-.tags {
-  display: inline-block;
-  align-items: center;
-  padding: 0.25em 0.4em;
-  font-size: 75%;
-  line-height: 1.5;
-  text-align: center;
-  white-space: nowrap;
-  border-radius: 0.25rem;
-  background-color: $light-grey-100;
-  border: 1px solid $dark-grey-200;
-  color: $dark-grey-300;
-
-  .inside-tag {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+.tag {
+  display: flex;
 }
 
-.tags-error {
+.tag-error {
   background-color: $error-100;
   border: 1px solid $error-500;
   color: $error-600;
 }
 
-.tags-warning {
+.tag-warning {
   background-color: $warning-100;
   border: 1px solid $warning-500;
   color: $warning-600;
 }
 
-.tags-success {
+.tag-success {
   background-color: $success-100;
   border: 1px solid $success-500;
   color: $success-600;
 }
 
-.tags-information {
+.tag-information {
   background-color: $information-100;
   border: 1px solid $information-500;
   color: $information-600;
 }
 
-.right {
+.clickable {
   cursor: pointer;
 }

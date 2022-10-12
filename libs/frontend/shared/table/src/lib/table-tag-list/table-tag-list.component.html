@@ -1,8 +1,2 @@
-<stud-asso-tag
-  *ngFor="let key of tagList"
-  [message]="permissions[key].name"
-  [type]="permissions[key].color"
-></stud-asso-tag>
-<stud-asso-tag *ngIf="tag === 'APPROVED'" message="Approuvée" type="success"></stud-asso-tag>
-<stud-asso-tag *ngIf="tag === 'PENDING'" message="En attente" type="warning"></stud-asso-tag>
-<stud-asso-tag *ngIf="tag === 'REJECTED'" message="Rejetée" type="error"></stud-asso-tag>
+<stud-asso-tag *ngFor="let item of tagList" [message]="item.message" [type]="item.type"> </stud-asso-tag>
+<stud-asso-tag *ngIf="tag" [message]="tag.message" [type]="tag.type"></stud-asso-tag>

@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateFinanceFormly, createFinanceFormly, studyFinanceFormly } from './financement-page.formly';
 import { TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
+import { Tag, TagType } from '@stud-asso/frontend-shared-tag';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiFundingService } from '@stud-asso/frontend-core-api';
 import { FundingDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+
+type Funding = Omit<FundingDto, 'status'> & { status: Tag };
 
 @Component({
   selector: 'stud-asso-financement-page',
@@ -41,7 +44,7 @@ export class FinancementPageComponent implements OnInit {
       },
     ],
   };
-  financeList: FundingDto[] = [];
+  financeList: Funding[] = [];
 
   isLoading = true;
 
@@ -54,7 +57,10 @@ export class FinancementPageComponent implements OnInit {
   reloadData() {
     this.isLoading = true;
     this.api.findAll().subscribe((fundings: FundingDto[]) => {
-      this.financeList = fundings;
+      this.financeList = fundings.map((funding) => ({
+        ...funding,
+        status: this._getTagFromString(funding.status),
+      }));
       this.isLoading = false;
     });
   }
@@ -96,5 +102,18 @@ export class FinancementPageComponent implements OnInit {
         fields: studyFinanceFormly(funding.name, funding.amount, funding.motivation, funding.schoolComment),
       });
     });
+  }
+
+  private _getTagFromString(status: string): Tag {
+    switch (status) {
+      case 'PENDING':
+        return { type: TagType.Warning, message: 'En attente' };
+      case 'ACCEPTED':
+        return { type: TagType.Success, message: 'Approuvée' };
+      case 'REFUSED':
+        return { type: TagType.Error, message: 'Rejetée' };
+      default:
+        return { type: TagType.Default, message: status };
+    }
   }
 }

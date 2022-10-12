@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TableTextComponent } from '../table-text/table-text.component';
-import { permissions } from '@stud-asso/shared/permission';
+import { Tag } from '@stud-asso/frontend-shared-tag';
 
 @Component({
   selector: 'stud-asso-table-tag-list',
@@ -8,12 +8,15 @@ import { permissions } from '@stud-asso/shared/permission';
   styleUrls: ['./table-tag-list.component.scss'],
 })
 export class TableTagListComponent extends TableTextComponent {
-  tagList: string[] = [];
-  tag = '';
-  permissions = permissions;
+  tagList: Tag[] = [];
+  tag: Tag;
 
-  override setData(data: string[] | string): void {
-    if (typeof data === 'string') {
+  isTag(object: any): object is Tag {
+    return 'type' in object;
+  }
+
+  override setData(data: Tag[] | Tag): void {
+    if (this.isTag(data)) {
       this.tag = data;
     } else {
       this.tagList = data;

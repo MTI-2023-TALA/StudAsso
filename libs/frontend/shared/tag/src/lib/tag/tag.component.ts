@@ -11,12 +11,17 @@ export class TagComponent {
   TagType: typeof TagType = TagType;
   @Input() type: string = TagType.Default;
   @Input() message = 'Ceci est un tag';
-  @Input() value = '';
+
   @Input() icon = 'x';
   @Input() shouldDisplayIcon = false;
-  @Output() iconClicked = new EventEmitter<string>();
+
+  @Input() shouldBeClickable = false;
+  @Input() value = '';
+  @Output() clickTag = new EventEmitter<string>();
 
   public onClickCross() {
-    this.iconClicked.emit(this.value);
+    if (this.shouldBeClickable) {
+      this.clickTag.emit(this.value);
+    }
   }
 }
