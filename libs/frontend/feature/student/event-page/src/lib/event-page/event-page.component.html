@@ -1,0 +1,13 @@
+<div class="host">
+  <div class="title">Evénements</div>
+
+  <div class="s-card-list" *ngFor="let item of eventList">
+    <div class="s-card">
+      <div class="s-card-header">
+        <div class="s-card-title">{{ item.name }}</div>
+        <div class="s-card-asso">Le {{ item.date | date: 'd/M/yy' }} - {{ item.associationId }}</div>
+      </div>
+      <div class="s-card-body">{{ item.content }}</div>
+    </div>
+  </div>
+</div>

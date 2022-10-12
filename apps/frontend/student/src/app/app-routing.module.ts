@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ApplicationPageComponent } from '@stud-asso/frontend/feature/student/application-page';
 import { AssociationListPageComponent } from '@stud-asso/frontend/feature/student/association-list-page';
+import { EventPageComponent } from '@stud-asso/frontend/feature/student/event-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
 import { MyAccountPageComponent } from '@stud-asso/frontend/shared/my-account-page';
@@ -12,6 +13,7 @@ import { NgModule } from '@angular/core';
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'News', icon: 'newspaper', url: '/news' },
+  { title: 'Evénement', icon: 'calendar-date', url: '/event' },
   { title: 'Associations', icon: 'house-door', url: '/associations' },
   { title: 'Postuler', icon: 'clipboard-plus', url: '/applications' },
 ];
@@ -32,6 +34,10 @@ const routes: Routes = [
       {
         path: 'associations',
         component: AssociationListPageComponent,
+      },
+      {
+        path: 'event',
+        component: EventPageComponent,
       },
       {
         path: 'news',

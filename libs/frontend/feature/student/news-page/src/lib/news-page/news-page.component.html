@@ -8,8 +8,7 @@
         <div class="s-card-asso">{{ item.associationName }}</div>
       </div>
       <div class="s-card-body">{{ item.content }}</div>
-      <!-- TODO: Use pipe instead of function -->
-      <div class="s-card-footer">{{ getDate(item.createdAt) }}</div>
+      <div class="s-card-footer">{{ item.createdAt | date: 'd/M/yy' }}</div>
     </div>
   </div>
 </div>
