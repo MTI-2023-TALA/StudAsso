@@ -1,6 +1,6 @@
 @import 'base/variables';
 
-:host {
+.host {
   padding: 1rem 2rem;
 }
 
@@ -8,8 +8,10 @@
   padding: 1rem;
   background-color: $light-grey-200;
   border-radius: 4px;
-  box-shadow: 5px 2px 16px 0px #53484D;
+  box-shadow: 5px 2px 16px 0px #53484d;
   margin: 1rem;
+
+  color: $dark-grey-600;
 
   display: flex;
   flex-direction: column;

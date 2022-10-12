@@ -37,6 +37,10 @@ export class ApiAssociationService extends ApiBaseService {
     return this.apiService.get<AssociationWithPresidentDto[]>(this.url);
   }
 
+  public findOneWithPresident(id: number): Observable<AssociationWithPresidentDto> {
+    return this.apiService.get<AssociationWithPresidentDto>(`${this.url}/${id}`);
+  }
+
   public findMembers(): Observable<AssociationMemberWithRoleDto[]> {
     return this.apiService.get<AssociationMemberWithRoleDto[]>(`${this.url}/members`);
   }

@@ -1,0 +1,13 @@
+@import 'base/variables';
+
+.host {
+  padding: 1rem 2rem;
+}
+
+a {
+  color: $information-400;
+}
+
+a:hover {
+  color: $information-600;
+}

@@ -1,13 +1,16 @@
+import {
+  AssociationListPageComponent,
+  AssociationPageComponent,
+} from '@stud-asso/frontend/feature/student/association-list-page';
 import { IsNotSignGuard, IsSignGuard } from '@stud-asso/frontend-core-auth';
+import { NavbarItem, SimpleRouterOutletComponent } from '@stud-asso/frontend-shared-navbar';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ApplicationPageComponent } from '@stud-asso/frontend/feature/student/application-page';
-import { AssociationListPageComponent } from '@stud-asso/frontend/feature/student/association-list-page';
 import { EventPageComponent } from '@stud-asso/frontend/feature/student/event-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
 import { MyAccountPageComponent } from '@stud-asso/frontend/shared/my-account-page';
-import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NewsPageComponent } from '@stud-asso/frontend/feature/student/news-page';
 import { NgModule } from '@angular/core';
 
@@ -33,8 +36,26 @@ const routes: Routes = [
     children: [
       {
         path: 'associations',
-        component: AssociationListPageComponent,
+        component: SimpleRouterOutletComponent,
+        children: [
+          {
+            path: '',
+            component: AssociationListPageComponent,
+          },
+          {
+            path: ':id',
+            component: AssociationPageComponent,
+          },
+        ],
       },
+      // {
+      //   path: 'associations/:id',
+      //   component: AssociationPageComponent,
+      // },
+      // {
+      //   path: 'associations',
+      //   component: AssociationListPageComponent,
+      // },
       {
         path: 'event',
         component: EventPageComponent,

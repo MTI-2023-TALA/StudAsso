@@ -1,7 +1,7 @@
-import { AssociationDto, AssociationWithPresidentDto } from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
 
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
+import { AssociationWithPresidentDto } from '@stud-asso/shared/dtos';
 
 @Component({
   selector: 'stud-asso-association-list-page',
