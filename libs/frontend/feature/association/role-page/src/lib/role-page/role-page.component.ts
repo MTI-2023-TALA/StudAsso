@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateRoleFormly, createRoleFormly } from './role-page.formly';
+import { PermissionId, permissions } from '@stud-asso/shared/permission';
 import { TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { PermissionId } from '@stud-asso/shared/permission';
 import { RoleDto } from '@stud-asso/shared/dtos';
+import { Tag } from '@stud-asso/frontend-shared-tag';
+
+type Role = Omit<RoleDto, 'permissions'> & { permissions: Tag[] };
 
 @Component({
   selector: 'stud-asso-role-page',
@@ -44,7 +47,7 @@ export class RolePageComponent implements OnInit {
     ],
   };
 
-  roleList: RoleDto[] = [];
+  roleList: Role[] = [];
 
   isLoading = true;
 
@@ -58,12 +61,17 @@ export class RolePageComponent implements OnInit {
     this.isLoading = true;
 
     this.api.findAllRoleWithAsso().subscribe((roles: RoleDto[]) => {
-      this.roleList = roles;
+      this.roleList = roles.map((role) => ({
+        ...role,
+        permissions: role.permissions.map((permission) => {
+          return { type: permissions[permission].color, message: permissions[permission].name };
+        }),
+      }));
       this.isLoading = false;
     });
   }
 
-  getSpecificRole(id: number): RoleDto | null {
+  getSpecificRole(id: number): Role | null {
     for (const role of this.roleList) {
       if (role.id == id) {
         return role;
