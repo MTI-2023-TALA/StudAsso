@@ -3,6 +3,7 @@ export const enum ERROR {
   ASSO_NAME_ALREADY_EXISTS = 'Association Name Is Already In Use',
   ASSO_NOT_FOUND = 'Association Not Found',
   ASSOCIATION_OFFER_APPLICATION_NOT_FOUND = 'Association Offer Application Not Found',
+  ASSOCIATION_OFFER_APPLICATION_ALREADY_EXISTS = 'Application To Offer Already Exists',
   ASSOCIATION_OFFER_NOT_FOUND = 'Association Offer Not Found',
   BAD_DEADLINE = 'Dead Line Cannot Be Before Today',
   BAD_STOCK_ACTION = 'Provided action has to be either: create, update or delete when creating a stock logs',
