@@ -13,7 +13,7 @@ import { NgModule } from '@angular/core';
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'News', icon: 'newspaper', url: '/news' },
-  { title: 'Evénement', icon: 'calendar-date', url: '/event' },
+  { title: 'Evénements', icon: 'calendar-date', url: '/event' },
   { title: 'Associations', icon: 'house-door', url: '/associations' },
   { title: 'Postuler', icon: 'clipboard-plus', url: '/applications' },
 ];
