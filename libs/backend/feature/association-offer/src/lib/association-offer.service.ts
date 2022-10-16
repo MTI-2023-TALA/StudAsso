@@ -6,6 +6,7 @@ import {
   AssociationOfferWithAssoAndRoleDto,
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
+  QueryPaginationDto,
 } from '@stud-asso/shared/dtos';
 import {
   AssociationOfferApplicationRepository,
@@ -86,8 +87,8 @@ export class AssociationOfferService {
     }
   }
 
-  public async findAllOffers(): Promise<AssociationOfferWithAssoAndRoleDto[]> {
-    const allOffers = await this.associationOfferRepository.findAll();
+  public async findAllOffers(query: QueryPaginationDto): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+    const allOffers = await this.associationOfferRepository.findAll(query);
     return allOffers.map((offer) => ({
       id: offer.id,
       deadline: offer.deadline,
@@ -98,8 +99,11 @@ export class AssociationOfferService {
     }));
   }
 
-  public async findAllApplications(associationId: number): Promise<AssociationOfferApplicationReviewDto[]> {
-    const allApplications = await this.associationOfferApplicationRepository.findAll(associationId);
+  public async findAllApplications(
+    associationId: number,
+    query: QueryPaginationDto
+  ): Promise<AssociationOfferApplicationReviewDto[]> {
+    const allApplications = await this.associationOfferApplicationRepository.findAll(associationId, query);
     return Promise.all(allApplications.map((application) => this.formatApplicationReview(application)));
   }
 
@@ -110,8 +114,11 @@ export class AssociationOfferService {
     return this.formatApplicationReview(application);
   }
 
-  public async findStatsForOffers(associationId: number): Promise<AssociationOfferStatsDto[]> {
-    const allAssoOffersWithStats = await this.associationOfferRepository.findStatsForOffers(associationId);
+  public async findStatsForOffers(
+    associationId: number,
+    query: QueryPaginationDto
+  ): Promise<AssociationOfferStatsDto[]> {
+    const allAssoOffersWithStats = await this.associationOfferRepository.findStatsForOffers(associationId, query);
     return allAssoOffersWithStats.map((offer) => ({
       id: offer.id,
       deadline: offer.deadline,

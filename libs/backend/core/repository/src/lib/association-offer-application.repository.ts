@@ -2,7 +2,9 @@ import {
   AssociationOfferApplicationModel,
   AssociationOfferApplicationReviewModel,
   CreateAssociationOfferApplicationModel,
+  QueryPaginationModel,
 } from '@stud-asso/backend/core/model';
+import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -52,8 +54,16 @@ export class AssociationOfferApplicationRepository {
     });
   }
 
-  public async findAll(associationId: number): Promise<AssociationOfferApplicationReviewModel[]> {
+  public async findAll(
+    associationId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationOfferApplicationReviewModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.associationOfferApplication.findMany({
+      skip: offset,
+      take: limit,
       where: { associationOffer: { associationId } },
       select: assoOfferApplicationReviewSelect,
     });
