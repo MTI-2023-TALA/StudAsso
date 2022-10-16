@@ -29,10 +29,11 @@ export class AssociationsController {
 
   @Get('members')
   public async findAssociationMembersWithRoles(
-    @GetCurrentAssoId() id: number
+    @GetCurrentAssoId() id: number,
+    @Query() query: QueryPaginationDto
   ): Promise<AssociationMemberWithRoleDto[]> {
     try {
-      return await this.associationsService.findAssociationMembersWithRoles(id);
+      return await this.associationsService.findAssociationMembersWithRoles(id, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
