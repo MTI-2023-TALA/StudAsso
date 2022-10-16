@@ -1,5 +1,5 @@
 import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/repository';
-import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
+import { CreateEventDto, EventDto, QueryPaginationDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
@@ -24,16 +24,16 @@ export class EventsService {
     }
   }
 
-  public async findAll(): Promise<EventDto[]> {
-    return this.eventRepository.findAll();
+  public async findAll(query: QueryPaginationDto): Promise<EventDto[]> {
+    return this.eventRepository.findAll(query);
   }
 
-  public async findAllByAssociationId(associationId: number): Promise<EventDto[]> {
+  public async findAllByAssociationId(associationId: number, query: QueryPaginationDto): Promise<EventDto[]> {
     const asso = await this.associationRepository.findOne(associationId);
     if (!asso) {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
-    return await this.eventRepository.findAllByAssociationId(associationId);
+    return await this.eventRepository.findAllByAssociationId(associationId, query);
   }
 
   public async findOne(id: number): Promise<EventDto> {

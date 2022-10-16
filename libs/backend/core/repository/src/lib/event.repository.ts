@@ -1,4 +1,5 @@
-import { CreateEventModel, EventModel, UpdateEventModel } from '@stud-asso/backend/core/model';
+import { CreateEventModel, EventModel, QueryPaginationModel, UpdateEventModel } from '@stud-asso/backend/core/model';
+import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -13,8 +14,13 @@ export class EventRepository {
     return this.prisma.event.create({ data: createEvent, select: eventSelect });
   }
 
-  public async findAll(): Promise<EventModel[]> {
+  public async findAll(queryPaginationModel: QueryPaginationModel): Promise<EventModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.event.findMany({
+      skip: offset,
+      take: limit,
       orderBy: {
         date: 'asc',
       },
@@ -22,8 +28,16 @@ export class EventRepository {
     });
   }
 
-  public async findAllByAssociationId(associationId: number): Promise<EventModel[]> {
+  public async findAllByAssociationId(
+    associationId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<EventModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return await this.prisma.event.findMany({
+      skip: offset,
+      take: limit,
       orderBy: {
         date: 'asc',
       },
