@@ -79,7 +79,6 @@ export class AssociationRepository {
     return this.prisma.association.findFirst({
       where: {
         id: associationId,
-        deletedAt: null, // TODO: soft delete middleware (see if still necessary)
         roles: {
           some: {
             name: 'Président',
@@ -94,7 +93,6 @@ export class AssociationRepository {
     return this.prisma.association.findFirst({
       where: {
         id: associationId,
-        deletedAt: null, // TODO: soft delete middleware (see if still necessary)
         roles: {
           some: {
             name: 'Président',
