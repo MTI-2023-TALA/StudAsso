@@ -14,5 +14,5 @@ export class QueryPaginationDto {
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  limit: number;
+  limit?: number;
 }
