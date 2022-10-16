@@ -401,7 +401,7 @@ describe('AssociationOfferController', () => {
         },
       ];
 
-      expect(await controller.findAllOffers()).toEqual(expected);
+      expect(await controller.findAllOffers({})).toEqual(expected);
     });
   });
 
@@ -434,7 +434,7 @@ describe('AssociationOfferController', () => {
         },
       ];
 
-      expect(await controller.findAllApplications(associationId)).toEqual(expected);
+      expect(await controller.findAllApplications(associationId, {})).toEqual(expected);
     });
   });
 
@@ -479,7 +479,7 @@ describe('AssociationOfferController', () => {
         },
       ];
 
-      expect(await controller.findStatsForOffers(associationId)).toEqual(expected);
+      expect(await controller.findStatsForOffers(associationId, {})).toEqual(expected);
     });
   });
 

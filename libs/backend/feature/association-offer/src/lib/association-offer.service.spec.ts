@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import {
   AddRoleToUserModel,
   AssociationModel,
@@ -477,7 +479,7 @@ describe('AssociationOfferService', () => {
         },
       ];
 
-      expect(await service.findAllOffers()).toEqual(expected);
+      expect(await service.findAllOffers({})).toEqual(expected);
     });
   });
 
@@ -509,7 +511,7 @@ describe('AssociationOfferService', () => {
         },
       ];
 
-      expect(await service.findAllApplications(associationId)).toEqual(expected);
+      expect(await service.findAllApplications(associationId, {})).toEqual(expected);
     });
   });
 
@@ -551,7 +553,7 @@ describe('AssociationOfferService', () => {
         },
       ];
 
-      expect(await service.findStatsForOffers(associationId)).toEqual(expected);
+      expect(await service.findStatsForOffers(associationId, {})).toEqual(expected);
     });
   });
 

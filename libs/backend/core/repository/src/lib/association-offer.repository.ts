@@ -3,7 +3,9 @@ import {
   AssociationOfferStatsModel,
   AssociationOfferWithAssoAndRoleModel,
   CreateAssociationOfferModel,
+  QueryPaginationModel,
 } from '@stud-asso/backend/core/model';
+import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -26,8 +28,13 @@ export class AssociationOfferRepository {
     });
   }
 
-  public async findAll(): Promise<AssociationOfferWithAssoAndRoleModel[]> {
+  public async findAll(queryPaginationModel: QueryPaginationModel): Promise<AssociationOfferWithAssoAndRoleModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.associationOffer.findMany({
+      skip: offset,
+      take: limit,
       select: {
         id: true,
         deadline: true,
@@ -47,9 +54,17 @@ export class AssociationOfferRepository {
     });
   }
 
-  public async findStatsForOffers(associationId: number): Promise<AssociationOfferStatsModel[]> {
+  public async findStatsForOffers(
+    associationId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationOfferStatsModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     // Get all offers from association
     const allOffers = await this.prisma.associationOffer.findMany({
+      skip: offset,
+      take: limit,
       where: { associationId },
       select: {
         id: true,

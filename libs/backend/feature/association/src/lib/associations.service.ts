@@ -89,7 +89,10 @@ export class AssociationsService {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
 
-    const membersWithRoles = await this.associationsMemberRepository.findAssociationMembersWithRoles(associationId, query);
+    const membersWithRoles = await this.associationsMemberRepository.findAssociationMembersWithRoles(
+      associationId,
+      query
+    );
     return membersWithRoles.map((member) => ({
       firstname: member.user.firstname,
       lastname: member.user.lastname,
