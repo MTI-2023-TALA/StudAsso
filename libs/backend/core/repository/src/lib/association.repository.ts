@@ -8,6 +8,7 @@ import {
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
+import { UpdateAssociationDto } from '@stud-asso/shared/dtos';
 
 const assoSelect = { id: true, name: true, description: true };
 
