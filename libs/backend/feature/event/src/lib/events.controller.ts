@@ -9,8 +9,9 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
+import { CreateEventDto, EventDto, QueryPaginationDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { EventsService } from './events.service';
 import { PermissionId } from '@stud-asso/shared/permission';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -31,14 +32,17 @@ export class EventsController {
   }
 
   @Get()
-  public async findAll(): Promise<EventDto[]> {
-    return this.eventsService.findAll();
+  public async findAll(@Query() query: QueryPaginationDto): Promise<EventDto[]> {
+    return this.eventsService.findAll(query);
   }
 
   @Get('asso/:id')
-  public async findAllByAssociationId(@Param('id') id: string): Promise<EventDto[]> {
+  public async findAllByAssociationId(
+    @Param('id') id: string,
+    @Query() query: QueryPaginationDto
+  ): Promise<EventDto[]> {
     try {
-      return await this.eventsService.findAllByAssociationId(+id);
+      return await this.eventsService.findAllByAssociationId(+id, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
