@@ -3,11 +3,12 @@ import {
   AssociationPresidentModel,
   AssociationWithPresidentModel,
   CreateAssociationModel,
+  QueryPaginationModel,
 } from '@stud-asso/backend/core/model';
+import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET, UpdateAssociationDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
-import { UpdateAssociationDto } from '@stud-asso/shared/dtos';
 
 const assoSelect = { id: true, name: true, description: true };
 
@@ -54,10 +55,16 @@ export class AssociationRepository {
     return this.prisma.association.delete({ where: { id }, select: assoSelect });
   }
 
-  public async findAllWithPresident(): Promise<AssociationWithPresidentModel[]> {
+  public async findAllWithPresident(
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationWithPresidentModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.association.findMany({
+      skip: offset,
+      take: limit,
       where: {
-        deletedAt: null, // TODO: soft delete middleware (see if still necessary)
         roles: {
           some: {
             name: 'Président',
