@@ -1,9 +1,10 @@
 import { Access, GetCurrentAssoId, GetCurrentUserId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
-import { Body, Controller, Get, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
 import {
   CreateFundingDto,
   FundingDto,
   OptionStatFundingDto,
+  QueryPaginationDto,
   StatFundingDto,
   UpdateFundingDto,
 } from '@stud-asso/shared/dtos';
@@ -25,12 +26,12 @@ export class FundingController {
   }
 
   @Get()
-  findAll(@GetCurrentAssoId() assoId: number): Promise<FundingDto[]> {
-    return this.backendFeatureFundingService.findAll(assoId);
+  findAll(@GetCurrentAssoId() assoId: number, @Query() query: QueryPaginationDto): Promise<FundingDto[]> {
+    return this.backendFeatureFundingService.findAll(assoId, query);
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string): Promise<FundingDto> {
     try {
       return await this.backendFeatureFundingService.findOne(+id);
     } catch (error) {
@@ -48,7 +49,7 @@ export class FundingController {
 
   @IsSchoolEmployee()
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateFundingDto: UpdateFundingDto) {
+  update(@Param('id') id: string, @Body() updateFundingDto: UpdateFundingDto): Promise<FundingDto> {
     return this.backendFeatureFundingService.update(+id, updateFundingDto);
   }
 }
