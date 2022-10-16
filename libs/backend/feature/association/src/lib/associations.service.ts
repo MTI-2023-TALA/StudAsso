@@ -3,6 +3,7 @@ import {
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   CreateAssociationDto,
+  QueryPaginationDto,
   UpdateAssociationDto,
   UserDto,
 } from '@stud-asso/shared/dtos';
@@ -52,8 +53,8 @@ export class AssociationsService {
     }
   }
 
-  public async findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
-    const assos = await this.associationRepository.findAllWithPresident();
+  public async findAllWithPresident(query: QueryPaginationDto): Promise<AssociationWithPresidentDto[]> {
+    const assos = await this.associationRepository.findAllWithPresident(query);
     return assos.map((a) => this.formatAsso(a));
   }
 
