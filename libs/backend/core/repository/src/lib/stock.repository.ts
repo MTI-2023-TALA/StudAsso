@@ -1,8 +1,8 @@
 import { CreateStockModel, QueryPaginationModel, StockModel } from '@stud-asso/backend/core/model';
-import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET, UpdateStockDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
+import { UpdateStockDto } from '@stud-asso/shared/dtos';
 
 const stockSelect = { id: true, name: true, count: true, associationId: true };
 
@@ -14,10 +14,11 @@ export class StockRepository {
   }
 
   public async findAll(queryPaginationModel: QueryPaginationModel): Promise<StockModel[]> {
-    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
-    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
-
-    return this.prisma.stock.findMany({ skip: offset, take: limit, select: stockSelect });
+    return this.prisma.stock.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
+      select: stockSelect,
+    });
   }
 
   public async findOne(id: number): Promise<StockModel> {
@@ -33,12 +34,9 @@ export class StockRepository {
   }
 
   public findAllAsso(id: number, queryPaginationModel: QueryPaginationModel): Promise<StockModel[]> {
-    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
-    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
-
     return this.prisma.stock.findMany({
-      skip: offset,
-      take: limit,
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: { associationId: id },
       select: stockSelect,
     });
