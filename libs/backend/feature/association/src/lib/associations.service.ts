@@ -80,13 +80,16 @@ export class AssociationsService {
     };
   }
 
-  public async findAssociationMembersWithRoles(associationId: number): Promise<AssociationMemberWithRoleDto[]> {
+  public async findAssociationMembersWithRoles(
+    associationId: number,
+    query: QueryPaginationDto
+  ): Promise<AssociationMemberWithRoleDto[]> {
     const association = await this.associationRepository.findOne(associationId);
     if (!association) {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
 
-    const membersWithRoles = await this.associationsMemberRepository.findAssociationMembersWithRoles(associationId);
+    const membersWithRoles = await this.associationsMemberRepository.findAssociationMembersWithRoles(associationId, query);
     return membersWithRoles.map((member) => ({
       userFullName: `${member.user.firstname} ${member.user.lastname}`,
       userEmail: member.user.email,
