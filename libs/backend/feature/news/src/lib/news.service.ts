@@ -1,5 +1,5 @@
 import { AssociationRepository, NewsRepository } from '@stud-asso/backend/core/repository';
-import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, QueryPaginationDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
@@ -29,16 +29,16 @@ export class NewsService {
     }
   }
 
-  public async findAllAssociationNews(associationId: number): Promise<NewsDto[]> {
+  public async findAllAssociationNews(associationId: number, query: QueryPaginationDto): Promise<NewsDto[]> {
     const association = await this.associationRepository.findOne(associationId);
     if (!association) {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
-    return await this.newsRepository.findAllAssociationNews(associationId);
+    return await this.newsRepository.findAllAssociationNews(associationId, query);
   }
 
-  public async findAllNewsWithAssoName(): Promise<NewsWithAssoNameDto[]> {
-    const newsWithAssoName = await this.newsRepository.findAllNewsWithAssoName();
+  public async findAllNewsWithAssoName(query: QueryPaginationDto): Promise<NewsWithAssoNameDto[]> {
+    const newsWithAssoName = await this.newsRepository.findAllNewsWithAssoName(query);
     return newsWithAssoName.map((news) => ({
       id: news.id,
       createdAt: news.createdAt,

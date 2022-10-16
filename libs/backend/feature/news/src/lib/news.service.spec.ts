@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { AssociationDto, CreateNewsDto, NewsDto, UpdateNewsDto, UserDto } from '@stud-asso/shared/dtos';
 import { AssociationRepository, NewsRepository } from '@stud-asso/backend/core/repository';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -198,7 +200,7 @@ describe('NewsService', () => {
     it('should return all news of an association', async () => {
       const associationId = 1;
 
-      expect(await service.findAllAssociationNews(associationId)).toEqual(
+      expect(await service.findAllAssociationNews(associationId, {})).toEqual(
         mockedNews.filter((news) => news.associationId === associationId)
       );
     });
@@ -207,14 +209,14 @@ describe('NewsService', () => {
       const findAllAssociationNews = jest.spyOn(repository, 'findAllAssociationNews');
       const associationId = -1;
 
-      expect(service.findAllAssociationNews(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(service.findAllAssociationNews(associationId, {})).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
       expect(findAllAssociationNews).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('Find all news with their association name', () => {
     it('should return all news with their association name', async () => {
-      expect(await service.findAllNewsWithAssoName()).toEqual(
+      expect(await service.findAllNewsWithAssoName({})).toEqual(
         mockedNews.map((news) => {
           const association = mockedAssociations.find((association) => association.id === news.associationId);
           return {
