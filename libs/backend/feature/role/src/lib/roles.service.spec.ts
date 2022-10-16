@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { AddRoleToUserModel, CreateRoleModel } from '@stud-asso/backend/core/model';
 import {
   AssociationDto,
@@ -292,19 +294,15 @@ describe('RolesService', () => {
 
   describe('Find all roles of an asso', () => {
     it('should return all roles of an asso', async () => {
-      const findAll = jest.spyOn(roleRepository, 'findAll');
       const id = 1;
-
-      expect(await service.findAll(id)).toEqual(mockedRoles.filter((role) => role.associationId === id));
-      expect(findAll).toHaveBeenCalledTimes(1);
-      expect(findAll).toHaveBeenCalledWith(id);
+      expect(await service.findAll(id, {})).toEqual(mockedRoles.filter((role) => role.associationId === id));
     });
 
     it('should fail to return all roles of an asso because asso does not exist', async () => {
       const findAll = jest.spyOn(roleRepository, 'findAll');
       const id = -1;
 
-      expect(service.findAll(id)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(service.findAll(id, {})).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
       expect(findAll).toHaveBeenCalledTimes(0);
     });
   });
