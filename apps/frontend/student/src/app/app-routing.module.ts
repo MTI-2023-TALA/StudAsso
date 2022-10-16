@@ -48,14 +48,6 @@ const routes: Routes = [
           },
         ],
       },
-      // {
-      //   path: 'associations/:id',
-      //   component: AssociationPageComponent,
-      // },
-      // {
-      //   path: 'associations',
-      //   component: AssociationListPageComponent,
-      // },
       {
         path: 'event',
         component: EventPageComponent,
