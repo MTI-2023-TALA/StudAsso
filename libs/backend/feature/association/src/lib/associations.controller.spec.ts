@@ -274,7 +274,7 @@ describe('AssociationsController', () => {
           isSchoolEmployee: true,
         },
       ];
-      expect(await controller.findAllWithPresident()).toEqual(expected);
+      expect(await controller.findAllWithPresident({})).toEqual(expected);
     });
   });
 
@@ -325,11 +325,11 @@ describe('AssociationsController', () => {
           roleName: 'Président',
         },
       ];
-      expect(await controller.findAssociationMembersWithRoles(1)).toEqual(expected);
+      expect(await controller.findAssociationMembersWithRoles(1, {})).toEqual(expected);
     });
 
     it('should call associationService.findAssociationMembersWithRoles and fail', async () => {
-      expect(controller.findAssociationMembersWithRoles(-1)).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
+      expect(controller.findAssociationMembersWithRoles(-1, {})).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
     });
   });
 
