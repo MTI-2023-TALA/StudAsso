@@ -4,6 +4,7 @@ import {
   FUNDING_STATUS,
   FundingDto,
   OptionStatFundingDto,
+  QueryPaginationDto,
   StatFundingDto,
   UpdateFundingDto,
 } from '@stud-asso/shared/dtos';
@@ -24,8 +25,8 @@ export class FundingService {
     return this.mapFundingModelToDto(funding);
   }
 
-  public async findAll(assoId: number): Promise<FundingDto[]> {
-    const fundings = await this.fundingRepository.findAll(assoId);
+  public async findAll(assoId: number, query: QueryPaginationDto): Promise<FundingDto[]> {
+    const fundings = await this.fundingRepository.findAll(assoId, query);
     return fundings.map((funding) => this.mapFundingModelToDto(funding));
   }
 

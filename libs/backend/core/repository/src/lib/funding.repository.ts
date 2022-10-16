@@ -1,4 +1,10 @@
-import { CreateFundingModel, FundingModel, UpdateFundingModel } from '@stud-asso/backend/core/model';
+import {
+  CreateFundingModel,
+  FundingModel,
+  QueryPaginationModel,
+  UpdateFundingModel,
+} from '@stud-asso/backend/core/model';
+import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -34,8 +40,13 @@ export class FundingRepository {
     });
   }
 
-  findAll(associationId: number): Promise<FundingModel[]> {
+  findAll(associationId: number, queryPaginationModel: QueryPaginationModel): Promise<FundingModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.funding.findMany({
+      skip: offset,
+      take: limit,
       orderBy: {
         createdAt: 'desc',
       },
