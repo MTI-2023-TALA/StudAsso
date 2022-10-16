@@ -1,6 +1,6 @@
-import { StockLogModel, StockLogWithUserModel } from '@stud-asso/backend/core/model';
+import { CreateStockLogDto, PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
+import { QueryPaginationModel, StockLogModel, StockLogWithUserModel } from '@stud-asso/backend/core/model';
 
-import { CreateStockLogDto } from '@stud-asso/shared/dtos';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
@@ -12,8 +12,16 @@ export class StockLogsRepository {
     return this.prisma.stockLog.create({ data: createStockLog });
   }
 
-  public async findAllAssoStockLogs(associationId: number): Promise<StockLogWithUserModel[]> {
+  public async findAllAssoStockLogs(
+    associationId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<StockLogWithUserModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.stockLog.findMany({
+      skip: offset,
+      take: limit,
       where: {
         stock: {
           associationId,
@@ -44,8 +52,16 @@ export class StockLogsRepository {
     });
   }
 
-  public async findSpecificStockLogs(stockId: number): Promise<StockLogModel[]> {
+  public async findSpecificStockLogs(
+    stockId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<StockLogModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.stockLog.findMany({
+      skip: offset,
+      take: limit,
       where: {
         stockId,
       },
