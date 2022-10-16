@@ -1,4 +1,4 @@
-import { CreateNewsDto, PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET, UpdateNewsDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 import { NewsModel, NewsWithAssoNameModel, QueryPaginationModel } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
@@ -26,11 +26,9 @@ export class NewsRepository {
     associationId: number,
     queryPaginationModel: QueryPaginationModel
   ): Promise<NewsModel[]> {
-    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
-    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
     return await this.prisma.news.findMany({
-      skip: offset,
-      take: limit,
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       orderBy: {
         createdAt: 'desc',
       },
@@ -42,12 +40,9 @@ export class NewsRepository {
   }
 
   public async findAllNewsWithAssoName(queryPaginationModel: QueryPaginationModel): Promise<NewsWithAssoNameModel[]> {
-    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
-    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
-
     return await this.prisma.news.findMany({
-      skip: offset,
-      take: limit,
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       orderBy: {
         createdAt: 'desc',
       },

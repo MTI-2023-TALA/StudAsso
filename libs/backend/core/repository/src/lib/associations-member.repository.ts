@@ -3,7 +3,6 @@ import {
   AssociationMemberWithRoleWithoutIdsModel,
   QueryPaginationModel,
 } from '@stud-asso/backend/core/model';
-import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 
 import { AssociationMember } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
@@ -21,12 +20,9 @@ export class AssociationsMemberRepository {
     associationId: number,
     queryPaginationModel: QueryPaginationModel
   ): Promise<AssociationMemberWithRoleWithoutIdsModel[]> {
-    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
-    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
-
     return this.prisma.associationMember.findMany({
-      skip: offset,
-      take: limit,
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: { associationId },
       select: {
         user: {

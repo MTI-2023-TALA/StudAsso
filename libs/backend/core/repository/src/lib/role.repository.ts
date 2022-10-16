@@ -5,7 +5,6 @@ import {
   RolePermissionModel,
   UpdateRoleModel,
 } from '@stud-asso/backend/core/model';
-import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -28,12 +27,9 @@ export class RoleRepository {
   }
 
   public async findAll(id: number, queryPaginationModel: QueryPaginationModel): Promise<RoleModel[]> {
-    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
-    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
-
     return this.prisma.role.findMany({
-      skip: offset,
-      take: limit,
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: { associationId: id },
       select: simpleUserSelect,
     });

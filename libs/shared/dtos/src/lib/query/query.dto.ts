@@ -9,10 +9,10 @@ export class QueryPaginationDto {
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  offset?: number;
+  offset?: number = PAGINATION_BASE_OFFSET;
 
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  limit?: number;
+  limit?: number = PAGINATION_BASE_LIMIT;
 }
