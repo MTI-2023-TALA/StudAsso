@@ -1,4 +1,11 @@
-import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import {
+  AddRoleToUserDto,
+  AssociationsMemberDto,
+  CreateRoleDto,
+  QueryPaginationDto,
+  RoleDto,
+  UpdateRoleDto,
+} from '@stud-asso/shared/dtos';
 import {
   AssociationRepository,
   AssociationsMemberRepository,
@@ -56,10 +63,10 @@ export class RolesService {
     return await this.associationsMemberRepository.linkUserToRole({ ...addRoleToUserDto, associationId });
   }
 
-  public async findAll(id: number): Promise<RoleDto[]> {
+  public async findAll(id: number, query: QueryPaginationDto): Promise<RoleDto[]> {
     const association = await this.associationRepository.findOne(id);
     if (!association) throw new Error(ERROR.ASSO_NOT_FOUND);
-    return (await this.roleRepository.findAll(id)).map((role) => ({
+    return (await this.roleRepository.findAll(id, query)).map((role) => ({
       ...role,
       permissions: role.permissions as PermissionId[],
     }));

@@ -240,7 +240,7 @@ describe('RolesController', () => {
     it('should find all roles', async () => {
       const associationId = 1;
 
-      expect(await controller.findAll(associationId)).toEqual(
+      expect(await controller.findAll(associationId, {})).toEqual(
         mockedRoles.filter((role) => role.associationId === +associationId)
       );
     });
