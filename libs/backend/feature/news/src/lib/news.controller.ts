@@ -1,6 +1,6 @@
 import { Access, GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
-import { Body, ConflictException, Delete, Get, NotFoundException, Param, Patch, Post } from '@nestjs/common';
-import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
+import { Body, ConflictException, Delete, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
+import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, QueryPaginationDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 
 import { NewsService } from './news.service';
 import { PermissionId } from '@stud-asso/shared/permission';
@@ -25,17 +25,20 @@ export class NewsController {
   }
 
   @Get('asso')
-  public async findAllAssociationNews(@GetCurrentAssoId() id: number): Promise<NewsDto[]> {
+  public async findAllAssociationNews(
+    @GetCurrentAssoId() id: number,
+    @Query() query: QueryPaginationDto
+  ): Promise<NewsDto[]> {
     try {
-      return await this.newsFeedService.findAllAssociationNews(id);
+      return await this.newsFeedService.findAllAssociationNews(id, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
   }
 
   @Get('assoWithAssoName')
-  public async findAllNewsWithAssoName(): Promise<NewsWithAssoNameDto[]> {
-    return await this.newsFeedService.findAllNewsWithAssoName();
+  public async findAllNewsWithAssoName(@Query() query: QueryPaginationDto): Promise<NewsWithAssoNameDto[]> {
+    return await this.newsFeedService.findAllNewsWithAssoName(query);
   }
 
   @Get(':id')

@@ -184,20 +184,20 @@ describe('NewsController', () => {
     it('should find all news of an association', async () => {
       const associationId = 1;
 
-      expect(await controller.findAllAssociationNews(associationId)).toEqual(
+      expect(await controller.findAllAssociationNews(associationId, {})).toEqual(
         mockedNews.filter((news) => news.associationId === +associationId)
       );
     });
 
     it('should fail because an error has been raised', async () => {
       const associationId = -1;
-      expect(controller.findAllAssociationNews(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(controller.findAllAssociationNews(associationId, {})).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
   describe('Find all news with association name', () => {
     it('should find all news with association name specified', async () => {
-      expect(await controller.findAllNewsWithAssoName()).toEqual(
+      expect(await controller.findAllNewsWithAssoName({})).toEqual(
         mockedNews.map((news) => {
           const association = mockedAssociations.find((association) => association.id === news.associationId);
           return {
