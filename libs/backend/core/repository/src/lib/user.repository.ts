@@ -1,11 +1,12 @@
 import {
   AssociationAndRoleNameModel,
   AssociationOfUserModel,
+  QueryPaginationModel,
   SimplifiedUserModel,
   UserIdAndEmailModel,
   UserModel,
 } from '@stud-asso/backend/core/model';
-import { CreateUserDto, UpdateUserDto } from '@stud-asso/shared/dtos';
+import { CreateUserDto, PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET, UpdateUserDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -15,14 +16,24 @@ const simplifiedUserSelect = { id: true, firstname: true, lastname: true, email:
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async findAll(): Promise<SimplifiedUserModel[]> {
+  public async findAll(queryPaginationModel: QueryPaginationModel): Promise<SimplifiedUserModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.user.findMany({
+      skip: offset,
+      take: limit,
       select: simplifiedUserSelect,
     });
   }
 
-  public async findAllIdAndEmail(): Promise<UserIdAndEmailModel[]> {
+  public async findAllIdAndEmail(queryPaginationModel: QueryPaginationModel): Promise<UserIdAndEmailModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.user.findMany({
+      skip: offset,
+      take: limit,
       select: {
         id: true,
         email: true,
@@ -50,8 +61,13 @@ export class UserRepository {
     });
   }
 
-  public async findAllByName(name: string): Promise<SimplifiedUserModel[]> {
+  public async findAllByName(name: string, queryPaginationModel: QueryPaginationModel): Promise<SimplifiedUserModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.user.findMany({
+      skip: offset,
+      take: limit,
       where: {
         OR: [{ firstname: { contains: name } }, { lastname: { contains: name } }],
       },
@@ -65,8 +81,16 @@ export class UserRepository {
     });
   }
 
-  public async findCurrentUserAsso(userId: number): Promise<AssociationAndRoleNameModel[]> {
+  public async findCurrentUserAsso(
+    userId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationAndRoleNameModel[]> {
+    const offset = queryPaginationModel.offset ? queryPaginationModel.offset : PAGINATION_BASE_OFFSET;
+    const limit = queryPaginationModel.limit ? queryPaginationModel.limit : PAGINATION_BASE_LIMIT;
+
     return this.prisma.associationMember.findMany({
+      skip: offset,
+      take: limit,
       where: { userId },
       select: {
         role: {

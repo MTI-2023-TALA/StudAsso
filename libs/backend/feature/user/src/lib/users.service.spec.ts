@@ -172,13 +172,13 @@ describe('UsersService', () => {
 
   describe('Find All Users', () => {
     it('should find all users', async () => {
-      expect(await service.findAll()).toEqual(mockedUsers);
+      expect(await service.findAll({})).toEqual(mockedUsers);
     });
   });
 
   describe('Find All Users Id And Email', () => {
     it('should find all users with id and email', async () => {
-      expect(await service.findAllIdAndEmail()).toEqual(
+      expect(await service.findAllIdAndEmail({})).toEqual(
         mockedUsers.map((user) => ({ id: user.id, email: user.email }))
       );
     });
@@ -211,16 +211,13 @@ describe('UsersService', () => {
     it('should find no users by name', async () => {
       const name = 'Toto';
 
-      expect(await service.findAllByName(name)).toEqual([]);
+      expect(await service.findAllByName(name, {})).toEqual([]);
     });
 
     it('should find 1 user by name', async () => {
-      const findUsersByName = jest.spyOn(userRepository, 'findAllByName');
       const name = 'Sky';
 
-      expect(await service.findAllByName(name)).toEqual([mockedUsers[0]]);
-      expect(findUsersByName).toBeCalledTimes(1);
-      expect(findUsersByName).toBeCalledWith(name);
+      expect(await service.findAllByName(name, {})).toEqual([mockedUsers[0]]);
     });
   });
 
@@ -250,7 +247,7 @@ describe('UsersService', () => {
       const findCurrentUserAsso = jest.spyOn(userRepository, 'findCurrentUserAsso');
       const userId = -1;
 
-      expect(service.findCurrentUserAsso(userId)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+      expect(service.findCurrentUserAsso(userId, {})).rejects.toThrow(ERROR.USER_NOT_FOUND);
       expect(findCurrentUserAsso).toBeCalledTimes(0);
     });
 
@@ -265,7 +262,7 @@ describe('UsersService', () => {
         },
       ];
 
-      expect(await service.findCurrentUserAsso(userId)).toEqual(expected);
+      expect(await service.findCurrentUserAsso(userId, {})).toEqual(expected);
     });
   });
 
