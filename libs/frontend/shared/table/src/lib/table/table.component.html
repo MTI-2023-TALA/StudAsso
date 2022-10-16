@@ -1,8 +1,16 @@
 <div class="table">
+  <ng-container *ngTemplateOutlet="headers || defaultHeaderTemplate; context: { $implicit: data }"></ng-container>
+  <ng-container *ngTemplateOutlet="rows || defaultRowTemplate"></ng-container>
+</div>
+
+<ng-template #defaultHeaderTemplate>
   <stud-asso-table-header [tableConfiguration]="tableConfiguration"></stud-asso-table-header>
+</ng-template>
+
+<ng-template #defaultRowTemplate>
   <stud-asso-table-item
     *ngFor="let item of data"
     [tableConfiguration]="tableConfiguration"
     [data]="item"
   ></stud-asso-table-item>
-</div>
+</ng-template>
