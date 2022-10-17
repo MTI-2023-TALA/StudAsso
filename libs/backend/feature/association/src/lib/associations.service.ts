@@ -3,6 +3,7 @@ import {
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   CreateAssociationDto,
+  QueryAssociationMembersDto,
   QueryPaginationDto,
   UpdateAssociationDto,
   UserDto,
@@ -82,7 +83,7 @@ export class AssociationsService {
 
   public async findAssociationMembersWithRoles(
     associationId: number,
-    query: QueryPaginationDto
+    query: QueryAssociationMembersDto
   ): Promise<AssociationMemberWithRoleDto[]> {
     const association = await this.associationRepository.findOne(associationId);
     if (!association) {

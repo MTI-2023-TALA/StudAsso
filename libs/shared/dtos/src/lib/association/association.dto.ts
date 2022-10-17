@@ -1,4 +1,8 @@
-import { IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsOptional, IsString, Validate } from 'class-validator';
+import { QueryPaginationDto, SORT_ORDER } from '../query/query.dto';
+
+import { AssoMembersSortValidator } from './association-validator';
+import { SortOrderValidator } from '../query/sort-validator';
 
 // Request DTOs
 
@@ -24,6 +28,25 @@ export class UpdateAssociationDto {
   @IsOptional()
   @IsString()
   description?: string;
+}
+
+// Query Request DTOs
+
+export enum SORT_ASSO_MEMBERS {
+  BY_ROLE_NAME = 'role_name',
+  BY_EMAIL = 'user_email',
+}
+
+export class QueryAssociationMembersDto extends QueryPaginationDto {
+  @IsOptional()
+  @IsString()
+  @Validate(AssoMembersSortValidator)
+  sort?: SORT_ASSO_MEMBERS = SORT_ASSO_MEMBERS.BY_ROLE_NAME;
+
+  @IsOptional()
+  @IsString()
+  @Validate(SortOrderValidator)
+  order?: SORT_ORDER = SORT_ORDER.ASC;
 }
 
 // Response DTOs

@@ -1,13 +1,27 @@
+import { SORT_ASSO_MEMBERS, SORT_ORDER } from '@stud-asso/shared/dtos';
+
+import { QueryPaginationModel } from './query.model';
 import { RoleNameModel } from './role.model';
 import { UserIdAndUserModel } from './associations-member.model';
 
-export class AssociationModel {
-  id: number;
+// Request Models
+
+export class CreateAssociationModel {
   name: string;
   description?: string;
 }
 
-export class CreateAssociationModel {
+// Query Request Models
+
+export class QueryAssociationMembersModel extends QueryPaginationModel {
+  sort?: SORT_ASSO_MEMBERS = SORT_ASSO_MEMBERS.BY_ROLE_NAME;
+  order?: SORT_ORDER = SORT_ORDER.ASC;
+}
+
+// Response Models
+
+export class AssociationModel {
+  id: number;
   name: string;
   description?: string;
 }
