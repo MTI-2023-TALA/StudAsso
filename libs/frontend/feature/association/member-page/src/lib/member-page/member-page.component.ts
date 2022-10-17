@@ -14,6 +14,8 @@ import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
+export type AssociationMember = AssociationMemberWithRoleDto & { identity: string };
+
 @Component({
   selector: 'stud-asso-member-page',
   templateUrl: './member-page.component.html',
@@ -22,8 +24,8 @@ export class MemberPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {
     columns: [
       {
-        title: 'Mail',
-        dataProperty: 'firstname',
+        title: 'Nom',
+        dataProperty: 'identity',
         size: 1,
       },
       {
@@ -38,7 +40,7 @@ export class MemberPageComponent implements OnInit {
   isLoading = true;
   usersList: SelectOption[] = [];
   rolesList: SelectOption[] = [];
-  membersList: AssociationMemberWithRoleDto[] = [];
+  membersList: AssociationMember[] = [];
 
   constructor(
     private modal: ModalService,
@@ -63,7 +65,10 @@ export class MemberPageComponent implements OnInit {
         this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
       }),
       this.apiAssociation.findMembers().subscribe((members: AssociationMemberWithRoleDto[]) => {
-        this.membersList = members;
+        this.membersList = members.map((member) => ({
+          ...member,
+          identity: `${member.userFullName} <${member.userEmail}>`,
+        }));
       }),
     ]).finally(() => (this.isLoading = false));
   }

@@ -1,4 +1,4 @@
-import { UserFirstnameAndLastnameModel, UserWithoutIdModel } from './user.model';
+import { SimpleUserNoSchoolEmployeeModel, UserWithoutIdModel } from './user.model';
 
 import { AssociationNameModel } from './association.model';
 import { RoleNameModel } from './role.model';
@@ -18,7 +18,7 @@ export class AssociationIdAndNameModel {
 }
 
 export class AssociationMemberWithRoleWithoutIdsModel {
-  user: UserFirstnameAndLastnameModel;
+  user: SimpleUserNoSchoolEmployeeModel;
   role: RoleNameModel;
 }
 

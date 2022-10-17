@@ -18,8 +18,10 @@ export class AssociationsMemberRepository {
       select: {
         user: {
           select: {
+            id: true,
             firstname: true,
             lastname: true,
+            email: true,
           },
         },
         role: {
