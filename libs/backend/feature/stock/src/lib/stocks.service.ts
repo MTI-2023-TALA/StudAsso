@@ -3,6 +3,7 @@ import {
   CreateStockDto,
   CreateStockLogDto,
   QueryPaginationDto,
+  QueryStockDto,
   StockDto,
   StockLogDto,
   StockLogWithUserDto,
@@ -35,7 +36,7 @@ export class StocksService {
     }
   }
 
-  public async findAll(query: QueryPaginationDto): Promise<StockDto[]> {
+  public async findAll(query: QueryStockDto): Promise<StockDto[]> {
     return this.stockRepository.findAll(query);
   }
 
