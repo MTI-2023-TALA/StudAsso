@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, ContentChild, Input, TemplateRef } from '@angular/core';
 
 import { TableConfiguration } from './table.model';
 
@@ -8,7 +8,9 @@ import { TableConfiguration } from './table.model';
 })
 export class TableComponent {
   @Input() tableConfiguration: TableConfiguration;
-  @Input() data: any;
+  @Input() data: any[];
+  @ContentChild('headers') headers: TemplateRef<any> | undefined;
+  @ContentChild('rows') rows: TemplateRef<any> | undefined;
 
   isActionActive = false;
 
