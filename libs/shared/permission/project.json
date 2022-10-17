@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/shared/permission"],
+      "outputs": ["{workspaceRoot}/coverage/libs/shared/permission"],
       "options": {
         "jestConfig": "libs/shared/permission/jest.config.ts",
         "passWithNoTests": true

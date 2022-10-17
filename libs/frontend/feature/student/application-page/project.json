@@ -5,7 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/feature/student/application-page"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/feature/student/application-page"],
       "options": {
         "jestConfig": "libs/frontend/feature/student/application-page/jest.config.ts",
         "passWithNoTests": true

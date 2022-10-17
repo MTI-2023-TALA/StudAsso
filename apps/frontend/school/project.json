@@ -83,7 +83,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/frontend/school"],
+      "outputs": ["{workspaceRoot}/coverage/apps/frontend/school"],
       "options": {
         "jestConfig": "apps/frontend/school/jest.config.ts",
         "passWithNoTests": true

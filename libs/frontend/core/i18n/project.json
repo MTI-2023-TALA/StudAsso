@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/core/i18n"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/core/i18n"],
       "options": {
         "jestConfig": "libs/frontend/core/i18n/jest.config.ts",
         "passWithNoTests": true

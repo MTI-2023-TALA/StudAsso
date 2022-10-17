@@ -11,7 +11,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/backend/core/auth"],
+      "outputs": ["{workspaceRoot}/coverage/libs/backend/core/auth"],
       "options": {
         "jestConfig": "libs/backend/core/auth/jest.config.ts",
         "passWithNoTests": true

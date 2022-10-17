@@ -5,7 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/feature/association/financement-page"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/feature/association/financement-page"],
       "options": {
         "jestConfig": "libs/frontend/feature/association/financement-page/jest.config.ts",
         "passWithNoTests": true

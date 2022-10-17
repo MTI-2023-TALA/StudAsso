@@ -84,7 +84,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/frontend/association"],
+      "outputs": ["{workspaceRoot}/coverage/apps/frontend/association"],
       "options": {
         "jestConfig": "apps/frontend/association/jest.config.ts",
         "passWithNoTests": true

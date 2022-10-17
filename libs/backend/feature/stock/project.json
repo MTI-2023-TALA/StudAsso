@@ -11,7 +11,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/backend/feature/stock"],
+      "outputs": ["{workspaceRoot}/coverage/libs/backend/feature/stock"],
       "options": {
         "jestConfig": "libs/backend/feature/stock/jest.config.ts",
         "passWithNoTests": true

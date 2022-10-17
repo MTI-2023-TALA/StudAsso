@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/shared/modal"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/shared/modal"],
       "options": {
         "jestConfig": "libs/frontend/shared/modal/jest.config.ts",
         "passWithNoTests": true

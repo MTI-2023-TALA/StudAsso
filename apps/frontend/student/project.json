@@ -90,7 +90,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/frontend/student"],
+      "outputs": ["{workspaceRoot}/coverage/apps/frontend/student"],
       "options": {
         "jestConfig": "apps/frontend/student/jest.config.ts",
         "passWithNoTests": true

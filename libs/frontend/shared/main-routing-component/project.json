@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/shared/main-routing-component"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/shared/main-routing-component"],
       "options": {
         "jestConfig": "libs/frontend/shared/main-routing-component/jest.config.ts",
         "passWithNoTests": true

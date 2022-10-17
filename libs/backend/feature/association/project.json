@@ -11,7 +11,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/backend/feature/association"],
+      "outputs": ["{workspaceRoot}/coverage/libs/backend/feature/association"],
       "options": {
         "jestConfig": "libs/backend/feature/association/jest.config.ts",
         "passWithNoTests": true

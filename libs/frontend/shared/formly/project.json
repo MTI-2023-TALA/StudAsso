@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/shared/formly"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/shared/formly"],
       "options": {
         "jestConfig": "libs/frontend/shared/formly/jest.config.ts",
         "passWithNoTests": true

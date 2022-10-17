@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/shared/tooltip"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/shared/tooltip"],
       "options": {
         "jestConfig": "libs/frontend/shared/tooltip/jest.config.ts",
         "passWithNoTests": true
