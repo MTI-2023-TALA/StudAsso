@@ -28,6 +28,7 @@ import {
 
 import { AssociationOfferService } from './association-offer.service';
 import { ERROR } from '@stud-asso/backend/core/error';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { Test } from '@nestjs/testing';
 
 const mockedApplicationDate: Date = new Date('2022-12-24');
@@ -249,6 +250,18 @@ describe('AssociationOfferService', () => {
               (
                 createApplication: CreateAssociationOfferApplicationModel
               ): Promise<AssociationOfferApplicationModel> => {
+                if (
+                  mockedAssociationOfferApplications.find(
+                    (app) =>
+                      app.userId === createApplication.userId &&
+                      app.associationOfferId === createApplication.associationOfferId
+                  )
+                ) {
+                  throw new PrismaClientKnownRequestError('mock', 'P2002', 'mock', {
+                    target: ['user_id', 'association_offer_id'],
+                  });
+                }
+
                 const id = mockedAssociationOfferApplications.length + 1;
                 const newApplication: AssociationOfferApplicationModel = {
                   id,
@@ -440,6 +453,18 @@ describe('AssociationOfferService', () => {
 
       expect(service.createAssociationOfferApplication(userId, createApplicationPayload)).rejects.toThrow(
         ERROR.ASSOCIATION_OFFER_NOT_FOUND
+      );
+    });
+
+    it('should throw an error if application already exists', async () => {
+      const userId = 3;
+      const createApplicationPayload: CreateAssociationOfferApplicationDto = {
+        associationOfferId: 1,
+        motivation: 'I want to be a member',
+      };
+
+      expect(service.createAssociationOfferApplication(userId, createApplicationPayload)).rejects.toThrow(
+        ERROR.ASSOCIATION_OFFER_APPLICATION_ALREADY_EXISTS
       );
     });
 

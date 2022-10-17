@@ -60,6 +60,8 @@ model AssociationOfferApplication {
   motivation         String           @db.VarChar
   associationOffer   AssociationOffer @relation(fields: [associationOfferId], references: [id], onDelete: Cascade, map: "association_offer")
   user               User             @relation(fields: [userId], references: [id], onDelete: Cascade, map: "users")
+
+  @@unique([userId, associationOfferId], map: "unique_application_to_offer_per_user")
 }
 
 model Event {

@@ -21,6 +21,7 @@ import {
 
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class AssociationOfferService {
@@ -70,7 +71,19 @@ export class AssociationOfferService {
       userId,
       ...createAssociationOfferApplicationPayload,
     };
-    return this.associationOfferApplicationRepository.create(createAssoOfferApplicationModel);
+    try {
+      return await this.associationOfferApplicationRepository.create(createAssoOfferApplicationModel);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        if (
+          error.code === 'P2002' &&
+          error.meta.target[0] === 'user_id' &&
+          error.meta.target[1] === 'association_offer_id'
+        ) {
+          throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_ALREADY_EXISTS);
+        }
+      }
+    }
   }
 
   public async findAllOffers(): Promise<AssociationOfferWithAssoAndRoleDto[]> {
