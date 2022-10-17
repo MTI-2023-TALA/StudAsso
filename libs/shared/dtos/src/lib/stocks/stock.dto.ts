@@ -1,5 +1,8 @@
-import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min } from 'class-validator';
+import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min, Validate } from 'class-validator';
+import { QueryPaginationDto, SORT_ORDER } from '../query/query.dto';
 
+import { SortOrderValidator } from '../query/sort-validator';
+import { StockSortValidator } from './stock-validator';
 import { UserDto } from '../user/user.dto';
 
 // Request DTOs
@@ -49,6 +52,25 @@ export class CreateStockLogDto {
   @IsString()
   @IsIn(['create', 'update', 'delete'])
   action: string;
+}
+
+// Query Request Dto
+
+export enum SORT_STOCK {
+  BY_COUNT = 'count',
+  BY_NAME = 'name',
+}
+
+export class QueryStockDto extends QueryPaginationDto {
+  @IsOptional()
+  @IsString()
+  @Validate(StockSortValidator)
+  sort: SORT_STOCK = SORT_STOCK.BY_NAME;
+
+  @IsOptional()
+  @IsString()
+  @Validate(SortOrderValidator)
+  order: SORT_ORDER = SORT_ORDER.ASC;
 }
 
 // Response DTOs

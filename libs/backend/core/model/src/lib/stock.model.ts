@@ -1,4 +1,23 @@
+import { SORT_ORDER, SORT_STOCK } from '@stud-asso/shared/dtos';
+
+import { QueryPaginationModel } from './query.model';
 import { SimplifiedUserModel } from './user.model';
+
+// Request Models
+
+export class CreateStockModel {
+  name: string;
+  count: number;
+  associationId: number;
+}
+
+// Query Request Models
+export class QueryStockModel extends QueryPaginationModel {
+  sort: SORT_STOCK;
+  order: SORT_ORDER;
+}
+
+// Response Models
 
 export class StockModel {
   id: number;
@@ -30,10 +49,4 @@ export class StockLogWithUserModel {
   createdAt: Date;
   user: SimplifiedUserModel;
   stock: StockNameModel;
-}
-
-export class CreateStockModel {
-  name: string;
-  count: number;
-  associationId: number;
 }

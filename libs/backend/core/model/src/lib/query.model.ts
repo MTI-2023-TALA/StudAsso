@@ -1,4 +1,4 @@
 export class QueryPaginationModel {
-  offset?: number;
-  limit?: number;
+  offset: number;
+  limit: number;
 }
