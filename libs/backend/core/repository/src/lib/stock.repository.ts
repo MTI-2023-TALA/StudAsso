@@ -1,4 +1,4 @@
-import { CreateStockModel, QueryPaginationModel, QueryStockModel, StockModel } from '@stud-asso/backend/core/model';
+import { CreateStockModel, QueryStockModel, StockModel } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
