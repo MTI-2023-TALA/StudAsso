@@ -15,6 +15,7 @@ export class CreateStockModel {
 export class QueryStockModel extends QueryPaginationModel {
   sort?: SORT_STOCK = SORT_STOCK.BY_NAME;
   order?: SORT_ORDER = SORT_ORDER.ASC;
+  filter?: string;
 }
 
 // Response Models

@@ -1,4 +1,4 @@
-import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min, Validate } from 'class-validator';
+import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min, Validate, isString } from 'class-validator';
 import { QueryPaginationDto, SORT_ORDER } from '../query/query.dto';
 
 import { SortOrderValidator } from '../query/sort-validator';
@@ -71,6 +71,10 @@ export class QueryStockDto extends QueryPaginationDto {
   @IsString()
   @Validate(SortOrderValidator)
   order?: SORT_ORDER = SORT_ORDER.ASC;
+
+  @IsOptional()
+  @IsString()
+  filter?: string;
 }
 
 // Response DTOs

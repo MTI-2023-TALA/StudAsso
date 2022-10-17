@@ -18,11 +18,17 @@ export class StockRepository {
     const query = {
       skip: queryStockModel.offset,
       take: queryStockModel.limit,
-      where: { associationId: id },
+      where: {
+        associationId: id,
+        name: {
+          contains: queryStockModel.filter,
+        },
+      },
       select: stockSelect,
       orderBy: {},
     };
     query.orderBy[queryStockModel.sort] = queryStockModel.order;
+    query.where['name']['mode'] = 'insensitive';
     return this.prisma.stock.findMany(query);
   }
 
