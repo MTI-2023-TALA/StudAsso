@@ -15,7 +15,6 @@ export class StockRepository {
   }
 
   public findAllAsso(id: number, queryStockModel: QueryStockModel): Promise<StockModel[]> {
-    console.log(queryStockModel);
     const query = {
       skip: queryStockModel.offset,
       take: queryStockModel.limit,
