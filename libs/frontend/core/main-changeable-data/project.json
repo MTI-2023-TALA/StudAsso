@@ -5,7 +5,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/core/main-changeable-data"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/core/main-changeable-data"],
       "options": {
         "jestConfig": "libs/frontend/core/main-changeable-data/jest.config.ts",
         "passWithNoTests": true

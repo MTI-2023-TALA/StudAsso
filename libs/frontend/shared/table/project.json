@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/shared/table"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/shared/table"],
       "options": {
         "jestConfig": "libs/frontend/shared/table/jest.config.ts",
         "passWithNoTests": true

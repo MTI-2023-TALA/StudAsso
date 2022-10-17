@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/feature/association/select-association-page"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/feature/association/select-association-page"],
       "options": {
         "jestConfig": "libs/frontend/feature/association/select-association-page/jest.config.ts",
         "passWithNoTests": true

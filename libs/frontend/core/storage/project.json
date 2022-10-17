@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/core/storage"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/core/storage"],
       "options": {
         "jestConfig": "libs/frontend/core/storage/jest.config.ts",
         "passWithNoTests": true

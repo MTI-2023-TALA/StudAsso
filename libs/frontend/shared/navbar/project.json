@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/shared/navbar"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/shared/navbar"],
       "options": {
         "jestConfig": "libs/frontend/shared/navbar/jest.config.ts",
         "passWithNoTests": true

@@ -11,7 +11,7 @@
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/backend/feature/news"],
+      "outputs": ["{workspaceRoot}/coverage/libs/backend/feature/news"],
       "options": {
         "jestConfig": "libs/backend/feature/news/jest.config.ts",
         "passWithNoTests": true

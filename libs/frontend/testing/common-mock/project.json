@@ -6,7 +6,7 @@
   "targets": {
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/frontend/testing/common-mock"],
+      "outputs": ["{workspaceRoot}/coverage/libs/frontend/testing/common-mock"],
       "options": {
         "jestConfig": "libs/frontend/testing/common-mock/jest.config.ts",
         "passWithNoTests": true
