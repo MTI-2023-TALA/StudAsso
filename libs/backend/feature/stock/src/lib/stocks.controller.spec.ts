@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { CreateStockDto, StockDto, StockLogDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
 
@@ -85,7 +87,6 @@ describe('StocksController', () => {
           provide: StocksService,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockCreatedStockDto)),
-            findAll: jest.fn(() => Promise.resolve(mockFindAllStocks)),
             findAllAsso: jest.fn(() => Promise.resolve(mockFindAllStocks)),
             findAllAssoStockLogs: jest.fn(() => Promise.resolve(mockFindAllAssoLogs)),
             findSpecificStockLogs: jest.fn(() => Promise.resolve(mockFindSpecificStockLogs)),
@@ -111,27 +112,21 @@ describe('StocksController', () => {
     });
   });
 
-  describe('findAllStocks', () => {
-    it('should call stockService.findAll', async () => {
-      expect(await controller.findAll()).toEqual(mockFindAllStocks);
-    });
-  });
-
   describe('findAllAsso', () => {
     it('should call stockService.findAllAsso', async () => {
-      expect(await controller.findAllAsso(1)).toEqual(mockFindAllStocks);
+      expect(await controller.findAllAsso(1, {})).toEqual(mockFindAllStocks);
     });
   });
 
   describe('findAllAssoStockLogs', () => {
     it('should call stockService.findAllAssoStockLogs', async () => {
-      expect(await controller.findAllAssoStockLogs(1)).toEqual(mockFindAllAssoLogs);
+      expect(await controller.findAllAssoStockLogs(1, {})).toEqual(mockFindAllAssoLogs);
     });
   });
 
   describe('findSpecificStockLogs', () => {
     it('shoud call stockService.findSpecificStockLogs', async () => {
-      expect(await controller.findSpecificStockLogs('1')).toEqual(mockFindSpecificStockLogs);
+      expect(await controller.findSpecificStockLogs('1', {})).toEqual(mockFindSpecificStockLogs);
     });
   });
 

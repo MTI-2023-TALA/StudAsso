@@ -195,13 +195,13 @@ describe('UsersController', () => {
 
   describe('Find All Users', () => {
     it('should find all users', async () => {
-      expect(await controller.findAll()).toEqual(mockedUsers);
+      expect(await controller.findAll({})).toEqual(mockedUsers);
     });
   });
 
   describe('Find All Users Id And Email', () => {
     it('should find all users with id and email', async () => {
-      expect(await controller.findAllIdAndEmail()).toEqual(
+      expect(await controller.findAllIdAndEmail({})).toEqual(
         mockedUsers.map((user) => ({ id: user.id, email: user.email }))
       );
     });
@@ -233,12 +233,12 @@ describe('UsersController', () => {
   describe('Find Users By Name', () => {
     it('should find no users by name', async () => {
       const name = 'Toto';
-      expect(await controller.findAllByName(name)).toEqual([]);
+      expect(await controller.findAllByName(name, {})).toEqual([]);
     });
 
     it('should find 1 user by name', async () => {
       const name = 'Sky';
-      expect(await controller.findAllByName(name)).toEqual([mockedUsers[0]]);
+      expect(await controller.findAllByName(name, {})).toEqual([mockedUsers[0]]);
     });
   });
 
@@ -265,7 +265,7 @@ describe('UsersController', () => {
   describe('Find Current User Asso', () => {
     it('should fail to find current user asso', async () => {
       const id = -1;
-      expect(controller.findCurrentUserAsso(id)).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
+      expect(controller.findCurrentUserAsso(id, {})).rejects.toThrow(new Error(ERROR.USER_NOT_FOUND));
     });
 
     it('should find current user', async () => {
@@ -278,7 +278,7 @@ describe('UsersController', () => {
           associationId: 1,
         },
       ];
-      expect(await controller.findCurrentUserAsso(id)).toEqual(expected);
+      expect(await controller.findCurrentUserAsso(id, {})).toEqual(expected);
     });
   });
 

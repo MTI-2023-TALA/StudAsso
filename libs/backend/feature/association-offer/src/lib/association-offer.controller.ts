@@ -6,8 +6,9 @@ import {
   AssociationOfferWithAssoAndRoleDto,
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
+  QueryPaginationDto,
 } from '@stud-asso/shared/dtos';
-import { Body, ConflictException, Delete, Get, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, ConflictException, Delete, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { AssociationOfferService } from './association-offer.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -45,16 +46,17 @@ export class AssociationOfferController {
   }
 
   @Get()
-  public async findAllOffers(): Promise<AssociationOfferWithAssoAndRoleDto[]> {
-    return this.associationOfferService.findAllOffers();
+  public async findAllOffers(@Query() query: QueryPaginationDto): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+    return this.associationOfferService.findAllOffers(query);
   }
 
   // put acl
   @Get('/application')
   public async findAllApplications(
-    @GetCurrentAssoId() assoId: number
+    @GetCurrentAssoId() assoId: number,
+    @Query() query: QueryPaginationDto
   ): Promise<AssociationOfferApplicationReviewDto[]> {
-    return this.associationOfferService.findAllApplications(assoId);
+    return this.associationOfferService.findAllApplications(assoId, query);
   }
 
   // put acl
@@ -68,8 +70,11 @@ export class AssociationOfferController {
   }
 
   @Get('/stats')
-  public async findStatsForOffers(@GetCurrentAssoId() assoId: number): Promise<AssociationOfferStatsDto[]> {
-    return this.associationOfferService.findStatsForOffers(assoId);
+  public async findStatsForOffers(
+    @GetCurrentAssoId() assoId: number,
+    @Query() query: QueryPaginationDto
+  ): Promise<AssociationOfferStatsDto[]> {
+    return this.associationOfferService.findStatsForOffers(assoId, query);
   }
 
   // put acl

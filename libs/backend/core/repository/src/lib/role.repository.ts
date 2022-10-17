@@ -1,4 +1,10 @@
-import { CreateRoleModel, RoleModel, RolePermissionModel, UpdateRoleModel } from '@stud-asso/backend/core/model';
+import {
+  CreateRoleModel,
+  QueryPaginationModel,
+  RoleModel,
+  RolePermissionModel,
+  UpdateRoleModel,
+} from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -20,8 +26,13 @@ export class RoleRepository {
     return this.prisma.role.create({ data: { name: 'Président', associationId }, select: simpleUserSelect });
   }
 
-  public async findAll(id: number): Promise<RoleModel[]> {
-    return this.prisma.role.findMany({ where: { associationId: id }, select: simpleUserSelect });
+  public async findAll(id: number, queryPaginationModel: QueryPaginationModel): Promise<RoleModel[]> {
+    return this.prisma.role.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
+      where: { associationId: id },
+      select: simpleUserSelect,
+    });
   }
 
   public async findPermissionsOfUserInAsso(userId: number, assoId: number): Promise<RolePermissionModel> {

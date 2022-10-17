@@ -2,6 +2,8 @@ import { AssociationRepository, StockLogsRepository, StockRepository } from '@st
 import {
   CreateStockDto,
   CreateStockLogDto,
+  QueryPaginationDto,
+  QueryStockDto,
   StockDto,
   StockLogDto,
   StockLogWithUserDto,
@@ -34,32 +36,28 @@ export class StocksService {
     }
   }
 
-  public async findAll(): Promise<StockDto[]> {
-    return this.stockRepository.findAll();
-  }
-
-  public async findAllAsso(id: number): Promise<StockDto[]> {
+  public async findAllAsso(id: number, query: QueryStockDto): Promise<StockDto[]> {
     const asso = await this.associationRepository.findOne(id);
     if (!asso) {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
-    return this.stockRepository.findAllAsso(id);
+    return this.stockRepository.findAllAsso(id, query);
   }
 
-  public async findAllAssoStockLogs(associationId: number): Promise<StockLogWithUserDto[]> {
+  public async findAllAssoStockLogs(associationId: number, query: QueryPaginationDto): Promise<StockLogWithUserDto[]> {
     const asso = await this.associationRepository.findOne(associationId);
     if (!asso) {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
-    return this.stockLogsRepository.findAllAssoStockLogs(associationId);
+    return this.stockLogsRepository.findAllAssoStockLogs(associationId, query);
   }
 
-  public async findSpecificStockLogs(stockId: number): Promise<StockLogDto[]> {
+  public async findSpecificStockLogs(stockId: number, query: QueryPaginationDto): Promise<StockLogDto[]> {
     const stock = await this.stockRepository.findOne(stockId);
     if (!stock) {
       throw new Error(ERROR.STOCK_NOT_FOUND);
     }
-    return this.stockLogsRepository.findSpecificStockLogs(stockId);
+    return this.stockLogsRepository.findSpecificStockLogs(stockId, query);
   }
 
   public async findOne(id: number): Promise<StockDto> {

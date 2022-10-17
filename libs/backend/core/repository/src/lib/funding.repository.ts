@@ -1,4 +1,9 @@
-import { CreateFundingModel, FundingModel, UpdateFundingModel } from '@stud-asso/backend/core/model';
+import {
+  CreateFundingModel,
+  FundingModel,
+  QueryPaginationModel,
+  UpdateFundingModel,
+} from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -34,8 +39,10 @@ export class FundingRepository {
     });
   }
 
-  findAll(associationId: number): Promise<FundingModel[]> {
+  findAll(associationId: number, queryPaginationModel: QueryPaginationModel): Promise<FundingModel[]> {
     return this.prisma.funding.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       orderBy: {
         createdAt: 'desc',
       },

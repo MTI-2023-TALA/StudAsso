@@ -1,6 +1,7 @@
 import {
   AssociationAndRoleNameModel,
   AssociationOfUserModel,
+  QueryPaginationModel,
   SimplifiedUserModel,
   UserIdAndEmailModel,
   UserModel,
@@ -15,14 +16,18 @@ const simplifiedUserSelect = { id: true, firstname: true, lastname: true, email:
 export class UserRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async findAll(): Promise<SimplifiedUserModel[]> {
+  public async findAll(queryPaginationModel: QueryPaginationModel): Promise<SimplifiedUserModel[]> {
     return this.prisma.user.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       select: simplifiedUserSelect,
     });
   }
 
-  public async findAllIdAndEmail(): Promise<UserIdAndEmailModel[]> {
+  public async findAllIdAndEmail(queryPaginationModel: QueryPaginationModel): Promise<UserIdAndEmailModel[]> {
     return this.prisma.user.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       select: {
         id: true,
         email: true,
@@ -50,8 +55,10 @@ export class UserRepository {
     });
   }
 
-  public async findAllByName(name: string): Promise<SimplifiedUserModel[]> {
+  public async findAllByName(name: string, queryPaginationModel: QueryPaginationModel): Promise<SimplifiedUserModel[]> {
     return this.prisma.user.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: {
         OR: [{ firstname: { contains: name } }, { lastname: { contains: name } }],
       },
@@ -65,8 +72,13 @@ export class UserRepository {
     });
   }
 
-  public async findCurrentUserAsso(userId: number): Promise<AssociationAndRoleNameModel[]> {
+  public async findCurrentUserAsso(
+    userId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationAndRoleNameModel[]> {
     return this.prisma.associationMember.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: { userId },
       select: {
         role: {

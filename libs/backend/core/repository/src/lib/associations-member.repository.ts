@@ -1,4 +1,8 @@
-import { AddRoleToUserModel, AssociationMemberWithRoleWithoutIdsModel } from '@stud-asso/backend/core/model';
+import {
+  AddRoleToUserModel,
+  AssociationMemberWithRoleWithoutIdsModel,
+  QueryPaginationModel,
+} from '@stud-asso/backend/core/model';
 
 import { AssociationMember } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
@@ -12,8 +16,13 @@ export class AssociationsMemberRepository {
     return this.prisma.associationMember.create({ data: addRoleToUserDto });
   }
 
-  public findAssociationMembersWithRoles(associationId: number): Promise<AssociationMemberWithRoleWithoutIdsModel[]> {
+  public findAssociationMembersWithRoles(
+    associationId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationMemberWithRoleWithoutIdsModel[]> {
     return this.prisma.associationMember.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: { associationId },
       select: {
         user: {

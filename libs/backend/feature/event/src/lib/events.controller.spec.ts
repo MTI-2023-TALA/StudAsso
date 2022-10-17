@@ -122,21 +122,21 @@ describe('EventsController', () => {
 
   describe('Find All Events', () => {
     it('should return all events', async () => {
-      expect(await controller.findAll()).toEqual(mockedEvents);
+      expect(await controller.findAll({})).toEqual(mockedEvents);
     });
   });
 
   describe("Find All Association's events", () => {
     it('should return all events of an association', async () => {
       const associationId = '1';
-      expect(await controller.findAllByAssociationId(associationId)).toEqual(
+      expect(await controller.findAllByAssociationId(associationId, {})).toEqual(
         mockedEvents.filter((event) => event.associationId === +associationId)
       );
     });
 
     it('should fail to return events of non existing association', async () => {
       const associationId = '-1';
-      expect(controller.findAllByAssociationId(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(controller.findAllByAssociationId(associationId, {})).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 

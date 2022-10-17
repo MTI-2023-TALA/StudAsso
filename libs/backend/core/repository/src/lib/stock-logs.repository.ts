@@ -1,4 +1,4 @@
-import { StockLogModel, StockLogWithUserModel } from '@stud-asso/backend/core/model';
+import { QueryPaginationModel, StockLogModel, StockLogWithUserModel } from '@stud-asso/backend/core/model';
 
 import { CreateStockLogDto } from '@stud-asso/shared/dtos';
 import { Injectable } from '@nestjs/common';
@@ -12,8 +12,13 @@ export class StockLogsRepository {
     return this.prisma.stockLog.create({ data: createStockLog });
   }
 
-  public async findAllAssoStockLogs(associationId: number): Promise<StockLogWithUserModel[]> {
+  public async findAllAssoStockLogs(
+    associationId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<StockLogWithUserModel[]> {
     return this.prisma.stockLog.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: {
         stock: {
           associationId,
@@ -44,8 +49,13 @@ export class StockLogsRepository {
     });
   }
 
-  public async findSpecificStockLogs(stockId: number): Promise<StockLogModel[]> {
+  public async findSpecificStockLogs(
+    stockId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<StockLogModel[]> {
     return this.prisma.stockLog.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: {
         stockId,
       },

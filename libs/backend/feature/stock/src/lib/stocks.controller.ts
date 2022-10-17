@@ -9,8 +9,17 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
-import { CreateStockDto, StockDto, StockLogDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
+import {
+  CreateStockDto,
+  QueryPaginationDto,
+  QueryStockDto,
+  StockDto,
+  StockLogDto,
+  StockLogWithUserDto,
+  UpdateStockDto,
+} from '@stud-asso/shared/dtos';
 import { PermissionId } from '@stud-asso/shared/permission';
 import { StocksService } from './stocks.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -34,16 +43,10 @@ export class StocksController {
   }
 
   @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
-  @Get()
-  public async findAll(): Promise<StockDto[]> {
-    return this.stocksService.findAll();
-  }
-
-  @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get('asso')
-  public async findAllAsso(@GetCurrentAssoId() id: number): Promise<StockDto[]> {
+  public async findAllAsso(@GetCurrentAssoId() id: number, @Query() query: QueryStockDto): Promise<StockDto[]> {
     try {
-      return await this.stocksService.findAllAsso(id);
+      return await this.stocksService.findAllAsso(id, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
@@ -51,9 +54,12 @@ export class StocksController {
 
   @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get('assologs')
-  public async findAllAssoStockLogs(@GetCurrentAssoId() assoId: number): Promise<StockLogWithUserDto[]> {
+  public async findAllAssoStockLogs(
+    @GetCurrentAssoId() assoId: number,
+    @Query() query: QueryPaginationDto
+  ): Promise<StockLogWithUserDto[]> {
     try {
-      return await this.stocksService.findAllAssoStockLogs(assoId);
+      return await this.stocksService.findAllAssoStockLogs(assoId, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
@@ -61,9 +67,12 @@ export class StocksController {
 
   @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get('logs/:id')
-  public async findSpecificStockLogs(@Param('id') stockId: string): Promise<StockLogDto[]> {
+  public async findSpecificStockLogs(
+    @Param('id') stockId: string,
+    @Query() query: QueryPaginationDto
+  ): Promise<StockLogDto[]> {
     try {
-      return await this.stocksService.findSpecificStockLogs(+stockId);
+      return await this.stocksService.findSpecificStockLogs(+stockId, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

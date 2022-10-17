@@ -3,6 +3,7 @@ import {
   AssociationPresidentModel,
   AssociationWithPresidentModel,
   CreateAssociationModel,
+  QueryPaginationModel,
 } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
@@ -54,10 +55,13 @@ export class AssociationRepository {
     return this.prisma.association.delete({ where: { id }, select: assoSelect });
   }
 
-  public async findAllWithPresident(): Promise<AssociationWithPresidentModel[]> {
+  public async findAllWithPresident(
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationWithPresidentModel[]> {
     return this.prisma.association.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: {
-        deletedAt: null, // TODO: soft delete middleware (see if still necessary)
         roles: {
           some: {
             name: 'Président',
@@ -72,7 +76,6 @@ export class AssociationRepository {
     return this.prisma.association.findFirst({
       where: {
         id: associationId,
-        deletedAt: null, // TODO: soft delete middleware (see if still necessary)
         roles: {
           some: {
             name: 'Président',
@@ -87,7 +90,6 @@ export class AssociationRepository {
     return this.prisma.association.findFirst({
       where: {
         id: associationId,
-        deletedAt: null, // TODO: soft delete middleware (see if still necessary)
         roles: {
           some: {
             name: 'Président',

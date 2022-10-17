@@ -1,5 +1,12 @@
 import { Access, GetCurrentAssoId } from '@stud-asso/backend-core-auth';
-import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import {
+  AddRoleToUserDto,
+  AssociationsMemberDto,
+  CreateRoleDto,
+  QueryPaginationDto,
+  RoleDto,
+  UpdateRoleDto,
+} from '@stud-asso/shared/dtos';
 import {
   BadRequestException,
   Body,
@@ -10,6 +17,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { PermissionId } from '@stud-asso/shared/permission';
 import { RolesService } from './roles.service';
@@ -43,8 +51,8 @@ export class RolesController {
   }
 
   @Get('/asso')
-  public findAll(@GetCurrentAssoId() id: number): Promise<RoleDto[]> {
-    return this.rolesService.findAll(id);
+  public findAll(@GetCurrentAssoId() id: number, @Query() query: QueryPaginationDto): Promise<RoleDto[]> {
+    return this.rolesService.findAll(id, query);
   }
 
   @Get(':id')

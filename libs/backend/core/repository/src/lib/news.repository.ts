@@ -1,5 +1,5 @@
 import { CreateNewsDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
-import { NewsModel, NewsWithAssoNameModel } from '@stud-asso/backend/core/model';
+import { NewsModel, NewsWithAssoNameModel, QueryPaginationModel } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -22,8 +22,13 @@ export class NewsRepository {
     return this.prisma.news.create({ data: { userId, associationId, ...createNews }, select: newsSelect });
   }
 
-  public async findAllAssociationNews(associationId: number): Promise<NewsModel[]> {
+  public async findAllAssociationNews(
+    associationId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<NewsModel[]> {
     return await this.prisma.news.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       orderBy: {
         createdAt: 'desc',
       },
@@ -34,8 +39,10 @@ export class NewsRepository {
     });
   }
 
-  public async findAllNewsWithAssoName(): Promise<NewsWithAssoNameModel[]> {
+  public async findAllNewsWithAssoName(queryPaginationModel: QueryPaginationModel): Promise<NewsWithAssoNameModel[]> {
     return await this.prisma.news.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       orderBy: {
         createdAt: 'desc',
       },

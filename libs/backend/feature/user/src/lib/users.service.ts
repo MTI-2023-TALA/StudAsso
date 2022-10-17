@@ -1,6 +1,7 @@
 import {
   AssociationAndRoleNameDto,
   AssociationOfUserDto,
+  QueryPaginationDto,
   SimpleUserDto,
   UpdateUserDto,
   UpdateUserFirstLastNameDto,
@@ -17,12 +18,12 @@ import { UserRepository } from '@stud-asso/backend/core/repository';
 export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  public async findAll(): Promise<UserDto[]> {
-    return this.userRepository.findAll();
+  public async findAll(query: QueryPaginationDto): Promise<UserDto[]> {
+    return this.userRepository.findAll(query);
   }
 
-  public async findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
-    return this.userRepository.findAllIdAndEmail();
+  public async findAllIdAndEmail(query: QueryPaginationDto): Promise<UserIdAndEmailDto[]> {
+    return this.userRepository.findAllIdAndEmail(query);
   }
 
   public async findAssoOfUser(id: number): Promise<AssociationOfUserDto> {
@@ -36,8 +37,8 @@ export class UsersService {
     };
   }
 
-  public async findAllByName(name: string): Promise<UserDto[]> {
-    return this.userRepository.findAllByName(name);
+  public async findAllByName(name: string, query: QueryPaginationDto): Promise<UserDto[]> {
+    return this.userRepository.findAllByName(name, query);
   }
 
   public async findCurrentUserInfo(userId: number): Promise<SimpleUserDto> {
@@ -53,12 +54,12 @@ export class UsersService {
     };
   }
 
-  public async findCurrentUserAsso(userId: number): Promise<AssociationAndRoleNameDto[]> {
+  public async findCurrentUserAsso(userId: number, query: QueryPaginationDto): Promise<AssociationAndRoleNameDto[]> {
     const user = await this.userRepository.findOne(userId);
     if (!user) {
       throw new Error(ERROR.USER_NOT_FOUND);
     }
-    const associationsWithRoles = await this.userRepository.findCurrentUserAsso(userId);
+    const associationsWithRoles = await this.userRepository.findCurrentUserAsso(userId, query);
     return associationsWithRoles.map((associationWithRole) => ({
       associationName: associationWithRole.association.name,
       roleName: associationWithRole.role.name,

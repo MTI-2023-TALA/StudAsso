@@ -3,6 +3,7 @@ import {
   AssociationOfferStatsModel,
   AssociationOfferWithAssoAndRoleModel,
   CreateAssociationOfferModel,
+  QueryPaginationModel,
 } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
@@ -26,8 +27,10 @@ export class AssociationOfferRepository {
     });
   }
 
-  public async findAll(): Promise<AssociationOfferWithAssoAndRoleModel[]> {
+  public async findAll(queryPaginationModel: QueryPaginationModel): Promise<AssociationOfferWithAssoAndRoleModel[]> {
     return this.prisma.associationOffer.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       select: {
         id: true,
         deadline: true,
@@ -47,9 +50,14 @@ export class AssociationOfferRepository {
     });
   }
 
-  public async findStatsForOffers(associationId: number): Promise<AssociationOfferStatsModel[]> {
+  public async findStatsForOffers(
+    associationId: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationOfferStatsModel[]> {
     // Get all offers from association
     const allOffers = await this.prisma.associationOffer.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: { associationId },
       select: {
         id: true,

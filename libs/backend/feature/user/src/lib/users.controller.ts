@@ -1,13 +1,14 @@
 import {
   AssociationAndRoleNameDto,
   AssociationOfUserDto,
+  QueryPaginationDto,
   SimpleUserDto,
   UpdateUserDto,
   UpdateUserFirstLastNameDto,
   UserDto,
   UserIdAndEmailDto,
 } from '@stud-asso/shared/dtos';
-import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch } from '@nestjs/common';
+import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch, Query } from '@nestjs/common';
 
 import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -19,13 +20,13 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  public async findAll(): Promise<UserDto[]> {
-    return this.usersService.findAll();
+  public async findAll(@Query() query: QueryPaginationDto): Promise<UserDto[]> {
+    return this.usersService.findAll(query);
   }
 
   @Get('IdAndEmail')
-  findAllIdAndEmail(): Promise<UserIdAndEmailDto[]> {
-    return this.usersService.findAllIdAndEmail();
+  findAllIdAndEmail(@Query() query: QueryPaginationDto): Promise<UserIdAndEmailDto[]> {
+    return this.usersService.findAllIdAndEmail(query);
   }
 
   @Get('asso')
@@ -34,8 +35,8 @@ export class UsersController {
   }
 
   @Get('name/:name')
-  public async findAllByName(@Param('name') name: string): Promise<UserDto[]> {
-    return this.usersService.findAllByName(name);
+  public async findAllByName(@Param('name') name: string, @Query() query: QueryPaginationDto): Promise<UserDto[]> {
+    return this.usersService.findAllByName(name, query);
   }
 
   @Get('me')
@@ -48,9 +49,12 @@ export class UsersController {
   }
 
   @Get('me/asso')
-  public async findCurrentUserAsso(@GetCurrentUserId() userId: number): Promise<AssociationAndRoleNameDto[]> {
+  public async findCurrentUserAsso(
+    @GetCurrentUserId() userId: number,
+    @Query() query: QueryPaginationDto
+  ): Promise<AssociationAndRoleNameDto[]> {
     try {
-      return await this.usersService.findCurrentUserAsso(userId);
+      return await this.usersService.findCurrentUserAsso(userId, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

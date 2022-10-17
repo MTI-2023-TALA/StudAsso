@@ -3,6 +3,7 @@ import {
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   CreateAssociationDto,
+  QueryPaginationDto,
   UpdateAssociationDto,
   UserDto,
 } from '@stud-asso/shared/dtos';
@@ -16,6 +17,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { AssociationsService } from './associations.service';
@@ -27,10 +29,11 @@ export class AssociationsController {
 
   @Get('members')
   public async findAssociationMembersWithRoles(
-    @GetCurrentAssoId() id: number
+    @GetCurrentAssoId() id: number,
+    @Query() query: QueryPaginationDto
   ): Promise<AssociationMemberWithRoleDto[]> {
     try {
-      return await this.associationsService.findAssociationMembersWithRoles(id);
+      return await this.associationsService.findAssociationMembersWithRoles(id, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }
@@ -47,8 +50,8 @@ export class AssociationsController {
   }
 
   @Get()
-  public async findAllWithPresident(): Promise<AssociationWithPresidentDto[]> {
-    return this.associationsService.findAllWithPresident();
+  public async findAllWithPresident(@Query() query: QueryPaginationDto): Promise<AssociationWithPresidentDto[]> {
+    return this.associationsService.findAllWithPresident(query);
   }
 
   @Get(':id')

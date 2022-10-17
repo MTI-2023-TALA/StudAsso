@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { AssociationRepository, StockLogsRepository, StockRepository } from '@stud-asso/backend/core/repository';
 import { CreateStockDto, StockLogWithUserDto, UpdateStockDto } from '@stud-asso/shared/dtos';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -97,7 +99,6 @@ describe('StocksService', () => {
           provide: StockRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedStocks[0])),
-            findAll: jest.fn(() => Promise.resolve(mockedStocks)),
             findAllAsso: jest.fn(() => Promise.resolve([mockedStocks[0]])),
             findOne: jest.fn(() => Promise.resolve(mockedStocks[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -144,51 +145,24 @@ describe('StocksService', () => {
     });
   });
 
-  describe('findAllStock', () => {
-    it('should call stockRepository.findAll', async () => {
-      const findAll = jest.spyOn(stockRepository, 'findAll');
-
-      const stocksRetrieved = await service.findAll();
-      expect(stocksRetrieved).toEqual(mockedStocks);
-
-      expect(findAll).toHaveBeenCalledTimes(1);
-      expect(findAll).toHaveBeenCalledWith();
-    });
-  });
-
   describe('findAllAsso', () => {
     it('should call stockRepository.findAllAsso', async () => {
-      const findAllAsso = jest.spyOn(stockRepository, 'findAllAsso');
-
-      const stocksOfAssoRetrieved = await service.findAllAsso(1);
+      const stocksOfAssoRetrieved = await service.findAllAsso(1, {});
       expect(stocksOfAssoRetrieved).toEqual([mockedStocks[0]]);
-
-      expect(findAllAsso).toHaveBeenCalledTimes(1);
-      expect(findAllAsso).toHaveBeenCalledWith(1);
     });
   });
 
   describe('findAllAssoLogs', () => {
     it('should call stockRepository.findAllAssoLogs', async () => {
-      const findAllAssoStockLogs = jest.spyOn(stockLogsRepository, 'findAllAssoStockLogs');
-
-      const assoStocksLogsRetrieved = await service.findAllAssoStockLogs(1);
+      const assoStocksLogsRetrieved = await service.findAllAssoStockLogs(1, {});
       expect(assoStocksLogsRetrieved).toEqual(mockedStocksLogsWithUser);
-
-      expect(findAllAssoStockLogs).toHaveBeenCalledTimes(1);
-      expect(findAllAssoStockLogs).toHaveBeenCalledWith(1);
     });
   });
 
   describe('findSpecificStockLogs', () => {
     it('should call stockRepository.findSpecificStockLogs', async () => {
-      const findOneStockLogs = jest.spyOn(stockLogsRepository, 'findSpecificStockLogs');
-
-      const stockLogsRetrieved = await service.findSpecificStockLogs(1);
+      const stockLogsRetrieved = await service.findSpecificStockLogs(1, {});
       expect(stockLogsRetrieved).toEqual(mockedStocksLogs);
-
-      expect(findOneStockLogs).toHaveBeenCalledTimes(1);
-      expect(findOneStockLogs).toHaveBeenCalledWith(1);
     });
   });
 

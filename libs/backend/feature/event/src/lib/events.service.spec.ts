@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { AssociationDto, CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { AssociationRepository, EventRepository } from '@stud-asso/backend/core/repository';
 import { CreateEventModel, UpdateEventModel } from '@stud-asso/backend/core/model';
@@ -134,7 +136,7 @@ describe('EventsService', () => {
 
     describe('Find All Events', () => {
       it('should return all events', async () => {
-        expect(await service.findAll()).toEqual(mockedEvents);
+        expect(await service.findAll({})).toEqual(mockedEvents);
       });
     });
 
@@ -142,7 +144,7 @@ describe('EventsService', () => {
       it('should return all association events', async () => {
         const associationId = 1;
 
-        expect(await service.findAllByAssociationId(associationId)).toEqual(
+        expect(await service.findAllByAssociationId(associationId, {})).toEqual(
           mockedEvents.filter((event) => event.associationId === associationId)
         );
       });
@@ -151,7 +153,7 @@ describe('EventsService', () => {
         const findAllByAssociationId = jest.spyOn(repository, 'findAllByAssociationId');
         const associationId = -1;
 
-        expect(service.findAllByAssociationId(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+        expect(service.findAllByAssociationId(associationId, {})).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
         expect(findAllByAssociationId).toHaveBeenCalledTimes(0);
       });
     });

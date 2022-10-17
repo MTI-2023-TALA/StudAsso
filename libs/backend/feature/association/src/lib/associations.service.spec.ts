@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import {
   AddRoleToUserModel,
   AssociationMemberWithRoleWithoutIdsModel,
@@ -261,12 +263,12 @@ describe('AssociationsService', () => {
         },
       ];
 
-      expect(await service.findAssociationMembersWithRoles(associationId)).toEqual(expected);
+      expect(await service.findAssociationMembersWithRoles(associationId, {})).toEqual(expected);
     });
 
     it('should call associationsMemberRepository.findAssociationMembersWithRoles and fail', async () => {
       const associationId = -1;
-      expect(service.findAssociationMembersWithRoles(associationId)).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
+      expect(service.findAssociationMembersWithRoles(associationId, {})).rejects.toThrow(ERROR.ASSO_NOT_FOUND);
     });
   });
 
