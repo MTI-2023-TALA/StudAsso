@@ -1,4 +1,4 @@
-import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min, Validate, isString } from 'class-validator';
+import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min, Validate } from 'class-validator';
 import { QueryPaginationDto, SORT_ORDER } from '../query/query.dto';
 
 import { SortOrderValidator } from '../query/sort-validator';
