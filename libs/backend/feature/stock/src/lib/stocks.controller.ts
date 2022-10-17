@@ -14,6 +14,7 @@ import {
 import {
   CreateStockDto,
   QueryPaginationDto,
+  QueryStockDto,
   StockDto,
   StockLogDto,
   StockLogWithUserDto,
@@ -42,14 +43,8 @@ export class StocksController {
   }
 
   @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
-  @Get()
-  public async findAll(@Query() query: QueryPaginationDto): Promise<StockDto[]> {
-    return this.stocksService.findAll(query);
-  }
-
-  @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)
   @Get('asso')
-  public async findAllAsso(@GetCurrentAssoId() id: number, @Query() query: QueryPaginationDto): Promise<StockDto[]> {
+  public async findAllAsso(@GetCurrentAssoId() id: number, @Query() query: QueryStockDto): Promise<StockDto[]> {
     try {
       return await this.stocksService.findAllAsso(id, query);
     } catch (error) {

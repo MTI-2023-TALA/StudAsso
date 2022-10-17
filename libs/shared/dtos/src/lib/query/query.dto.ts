@@ -5,6 +5,11 @@ import { Type } from 'class-transformer';
 export const PAGINATION_BASE_OFFSET = 0;
 export const PAGINATION_BASE_LIMIT = 25;
 
+export enum SORT_ORDER {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+
 export class QueryPaginationDto {
   @IsOptional()
   @IsNumber()
