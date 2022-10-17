@@ -14,10 +14,10 @@ export class QueryPaginationDto {
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  offset: number = PAGINATION_BASE_OFFSET;
+  offset?: number = PAGINATION_BASE_OFFSET;
 
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
-  limit: number = PAGINATION_BASE_LIMIT;
+  limit?: number = PAGINATION_BASE_LIMIT;
 }

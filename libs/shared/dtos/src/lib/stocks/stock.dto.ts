@@ -65,12 +65,12 @@ export class QueryStockDto extends QueryPaginationDto {
   @IsOptional()
   @IsString()
   @Validate(StockSortValidator)
-  sort: SORT_STOCK = SORT_STOCK.BY_NAME;
+  sort?: SORT_STOCK = SORT_STOCK.BY_NAME;
 
   @IsOptional()
   @IsString()
   @Validate(SortOrderValidator)
-  order: SORT_ORDER = SORT_ORDER.ASC;
+  order?: SORT_ORDER = SORT_ORDER.ASC;
 }
 
 // Response DTOs
