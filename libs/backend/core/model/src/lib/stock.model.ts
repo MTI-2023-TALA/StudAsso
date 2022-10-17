@@ -13,8 +13,8 @@ export class CreateStockModel {
 
 // Query Request Models
 export class QueryStockModel extends QueryPaginationModel {
-  sort: SORT_STOCK;
-  order: SORT_ORDER;
+  sort: SORT_STOCK = SORT_STOCK.BY_NAME;
+  order: SORT_ORDER = SORT_ORDER.ASC;
 }
 
 // Response Models

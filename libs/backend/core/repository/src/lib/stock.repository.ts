@@ -9,14 +9,17 @@ const stockSelect = { id: true, name: true, count: true, associationId: true };
 @Injectable()
 export class StockRepository {
   constructor(private prisma: PrismaService) {}
+
   public async create(createStock: CreateStockModel): Promise<StockModel> {
     return this.prisma.stock.create({ data: createStock, select: stockSelect });
   }
 
-  public async findAll(queryStockModel: QueryStockModel): Promise<StockModel[]> {
+  public findAllAsso(id: number, queryStockModel: QueryStockModel): Promise<StockModel[]> {
+    console.log(queryStockModel);
     const query = {
       skip: queryStockModel.offset,
       take: queryStockModel.limit,
+      where: { associationId: id },
       select: stockSelect,
       orderBy: {},
     };
@@ -34,14 +37,5 @@ export class StockRepository {
 
   public async delete(id: number): Promise<StockModel> {
     return this.prisma.stock.delete({ where: { id }, select: stockSelect });
-  }
-
-  public findAllAsso(id: number, queryPaginationModel: QueryPaginationModel): Promise<StockModel[]> {
-    return this.prisma.stock.findMany({
-      skip: queryPaginationModel.offset,
-      take: queryPaginationModel.limit,
-      where: { associationId: id },
-      select: stockSelect,
-    });
   }
 }

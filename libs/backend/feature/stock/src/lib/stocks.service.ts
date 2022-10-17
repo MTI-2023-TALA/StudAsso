@@ -36,11 +36,7 @@ export class StocksService {
     }
   }
 
-  public async findAll(query: QueryStockDto): Promise<StockDto[]> {
-    return this.stockRepository.findAll(query);
-  }
-
-  public async findAllAsso(id: number, query: QueryPaginationDto): Promise<StockDto[]> {
+  public async findAllAsso(id: number, query: QueryStockDto): Promise<StockDto[]> {
     const asso = await this.associationRepository.findOne(id);
     if (!asso) {
       throw new Error(ERROR.ASSO_NOT_FOUND);

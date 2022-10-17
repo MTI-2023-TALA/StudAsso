@@ -87,7 +87,6 @@ describe('StocksController', () => {
           provide: StocksService,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockCreatedStockDto)),
-            findAll: jest.fn(() => Promise.resolve(mockFindAllStocks)),
             findAllAsso: jest.fn(() => Promise.resolve(mockFindAllStocks)),
             findAllAssoStockLogs: jest.fn(() => Promise.resolve(mockFindAllAssoLogs)),
             findSpecificStockLogs: jest.fn(() => Promise.resolve(mockFindSpecificStockLogs)),
@@ -110,12 +109,6 @@ describe('StocksController', () => {
       const createStockParams: CreateStockDto = { name: 'Coca', count: 10 };
       const createdStock = await controller.create(1, associationId, createStockParams);
       expect(createdStock).toEqual(mockCreatedStockDto);
-    });
-  });
-
-  describe('findAllStocks', () => {
-    it('should call stockService.findAll', async () => {
-      expect(await controller.findAll({})).toEqual(mockFindAllStocks);
     });
   });
 

@@ -99,7 +99,6 @@ describe('StocksService', () => {
           provide: StockRepository,
           useValue: {
             create: jest.fn(() => Promise.resolve(mockedStocks[0])),
-            findAll: jest.fn(() => Promise.resolve(mockedStocks)),
             findAllAsso: jest.fn(() => Promise.resolve([mockedStocks[0]])),
             findOne: jest.fn(() => Promise.resolve(mockedStocks[0])),
             update: jest.fn(() => Promise.resolve(mockedUpdateResult)),
@@ -143,13 +142,6 @@ describe('StocksService', () => {
 
       expect(createLogs).toHaveBeenCalledTimes(1);
       expect(createLogs).toHaveBeenCalledWith({ stockId: 1, userId: 1, oldCount: 10, newCount: 10, action: 'create' });
-    });
-  });
-
-  describe('findAllStock', () => {
-    it('should call stockRepository.findAll', async () => {
-      const stocksRetrieved = await service.findAll({});
-      expect(stocksRetrieved).toEqual(mockedStocks);
     });
   });
 
