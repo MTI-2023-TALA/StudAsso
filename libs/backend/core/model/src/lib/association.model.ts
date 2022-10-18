@@ -16,6 +16,7 @@ export class CreateAssociationModel {
 export class QueryAssociationMembersModel extends QueryPaginationModel {
   sort?: SORT_ASSO_MEMBERS = SORT_ASSO_MEMBERS.BY_ROLE_NAME;
   order?: SORT_ORDER = SORT_ORDER.ASC;
+  filter?: string;
 }
 
 // Response Models

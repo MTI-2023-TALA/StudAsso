@@ -2,7 +2,6 @@ import {
   AddRoleToUserModel,
   AssociationMemberWithRoleWithoutIdsModel,
   QueryAssociationMembersModel,
-  QueryPaginationModel,
 } from '@stud-asso/backend/core/model';
 
 import { AssociationMember } from '@prisma/client';
@@ -25,7 +24,14 @@ export class AssociationsMemberRepository {
     const query = {
       skip: queryAssociationMembersModel.offset,
       take: queryAssociationMembersModel.limit,
-      where: { associationId },
+      where: {
+        associationId,
+        role: {
+          name: {
+            contains: queryAssociationMembersModel.filter,
+          },
+        },
+      },
       select: {
         user: {
           select: {
@@ -44,6 +50,7 @@ export class AssociationsMemberRepository {
       },
       orderBy: {},
     };
+    query.where['role']['name']['mode'] = 'insensitive';
 
     if (queryAssociationMembersModel.sort == SORT_ASSO_MEMBERS.BY_ROLE_NAME) {
       query.orderBy['role'] = { name: queryAssociationMembersModel.order };
