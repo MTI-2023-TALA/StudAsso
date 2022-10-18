@@ -46,7 +46,21 @@ export class LoginPageComponent implements OnInit {
   public async onClickGoogleButton() {
     const accessToken = this.signInService.signIn();
     if (accessToken) {
-      this.authService.tryToSignInWithGoogle(accessToken);
+      const request = this.authService.tryToSignInWithGoogle(accessToken);
+      request
+        .pipe(
+          map((res) => {
+            return res;
+          }),
+          catchError(() => {
+            this.toast.addAlert({ title: 'Erreur lors de la connexion Google', type: ToastType.Error });
+            return EMPTY;
+          })
+        )
+        .subscribe((res: TokenDto) => {
+          this.authService.setToken(res);
+          this.authService.redirectAfterSucessfullLogin();
+        });
     }
   }
 

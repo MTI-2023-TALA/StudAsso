@@ -73,10 +73,7 @@ export class AuthService {
 
   public tryToSignInWithGoogle(accessToken: string) {
     const payload = { token: accessToken };
-    this.apiAuthService.signinWithGoogle(payload).subscribe((res: TokenDto) => {
-      this.setToken(res);
-      this.redirectAfterSucessfullLogin();
-    });
+    return this.apiAuthService.signinWithGoogle(payload);
   }
 
   public isSign(): boolean {
