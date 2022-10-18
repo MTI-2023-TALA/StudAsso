@@ -33,7 +33,7 @@ export class LoginPageComponent implements OnInit {
     this.activatedRoute.data.subscribe((data: Data) => {
       this.title = data['title'];
     });
-    console.log(this.toastDirective);
+
     this.toast.setRootViewContainerRef(this.toastDirective.viewContainerRef);
 
     this.signInService.accessToken$.subscribe((accessToken) => {
@@ -69,7 +69,6 @@ export class LoginPageComponent implements OnInit {
           }),
           catchError(() => {
             this.toast.addAlert({ title: 'Email ou mot de passe incorrect', type: ToastType.Error });
-            console.log('TOTO');
             return EMPTY;
           })
         )
