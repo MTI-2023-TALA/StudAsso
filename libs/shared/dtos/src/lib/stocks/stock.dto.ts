@@ -54,7 +54,7 @@ export class CreateStockLogDto {
   action: string;
 }
 
-// Query Request Dto
+// Query Request DTOs
 
 export enum SORT_STOCK {
   BY_COUNT = 'count',

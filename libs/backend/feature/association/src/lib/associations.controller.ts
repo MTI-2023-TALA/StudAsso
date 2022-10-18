@@ -3,6 +3,7 @@ import {
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   CreateAssociationDto,
+  QueryAssociationMembersDto,
   QueryPaginationDto,
   UpdateAssociationDto,
   UserDto,
@@ -30,7 +31,7 @@ export class AssociationsController {
   @Get('members')
   public async findAssociationMembersWithRoles(
     @GetCurrentAssoId() id: number,
-    @Query() query: QueryPaginationDto
+    @Query() query: QueryAssociationMembersDto
   ): Promise<AssociationMemberWithRoleDto[]> {
     try {
       return await this.associationsService.findAssociationMembersWithRoles(id, query);
