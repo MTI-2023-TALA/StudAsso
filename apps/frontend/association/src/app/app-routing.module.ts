@@ -1,5 +1,6 @@
 import { IsNotSignGuard, IsSignGuard } from '@stud-asso/frontend-core-auth';
 import { RouterModule, Routes } from '@angular/router';
+import { StockLogsComponent, StockPageComponent } from '@stud-asso/frontend/feature/association/stock-page';
 import { TabBarComponent, TabBarItem } from '@stud-asso/frontend-shared-tab-bar';
 
 import { EventPageComponent } from '@stud-asso/frontend/feature/association/event-page';
@@ -14,7 +15,6 @@ import { NgModule } from '@angular/core';
 import { OfferPageComponent } from '@stud-asso/frontend/feature/association/offer-page';
 import { RolePageComponent } from '@stud-asso/frontend/feature/association/role-page';
 import { SelectionAssoPageComponent } from '@stud-asso/frontend/feature/association/select-association-page';
-import { StockPageComponent } from '@stud-asso/frontend/feature/association/stock-page';
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
@@ -69,7 +69,7 @@ const routes: Routes = [
           },
           {
             path: 'logs',
-            component: StockPageComponent,
+            component: StockLogsComponent,
           },
         ],
       },

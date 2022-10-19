@@ -8,15 +8,17 @@
   grid-gap: 0;
 }
 
+nav {
+  background-color: $light-grey-100;
+}
+
 li {
   display: flex;
   padding: 0rem 1rem 0.5rem 1rem;
-  margin-bottom: 1.5rem;
   color: $light-grey-900;
 }
 
 ul {
-  padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   width: 100%;
   a {
