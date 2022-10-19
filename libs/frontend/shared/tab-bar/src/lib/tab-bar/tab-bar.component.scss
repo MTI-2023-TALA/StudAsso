@@ -1,0 +1,48 @@
+@import 'base/variables';
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  grid-template-columns: 80px 5fr;
+  grid-template-rows: 1fr;
+  grid-gap: 0;
+}
+
+li {
+  display: flex;
+  padding: 0rem 1rem 0.5rem 1rem;
+  margin-bottom: 1.5rem;
+  color: $light-grey-900;
+}
+
+ul {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  width: 100%;
+  a {
+    width: 100%;
+
+    li {
+      transition: 100ms ease-in-out;
+
+      display: flex;
+      float: inline-start;
+
+      &:hover:not(.router-link-active) {
+        color: $dark-grey-300;
+        border-bottom: 2px solid $dark-grey-300;
+        background-color: $light-grey-200;
+      }
+    }
+  }
+}
+
+.router-link-active {
+  background-color: $light-grey-200;
+  color: $primary-600;
+  border-bottom: 2px solid $primary-600;
+
+  &.button {
+    border-bottom: 2px solid $primary-600;
+  }
+}

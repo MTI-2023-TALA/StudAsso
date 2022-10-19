@@ -1,0 +1,14 @@
+<div class="grid">
+  <nav>
+    <ul>
+      <a *ngFor="let item of tabBarItems" class="is-size-3 has-text-weight-bold" [routerLink]="[item.url]">
+        <li routerLinkActive="router-link-active" [routerLinkActiveOptions]="{ exact: true }">
+          <p>
+            <span>{{ item.title }}</span>
+          </p>
+        </li>
+      </a>
+    </ul>
+  </nav>
+</div>
+<router-outlet></router-outlet>

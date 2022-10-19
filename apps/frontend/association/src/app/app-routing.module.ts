@@ -1,5 +1,6 @@
 import { IsNotSignGuard, IsSignGuard } from '@stud-asso/frontend-core-auth';
 import { RouterModule, Routes } from '@angular/router';
+import { TabBarComponent, TabBarItem } from '@stud-asso/frontend-shared-tab-bar';
 
 import { EventPageComponent } from '@stud-asso/frontend/feature/association/event-page';
 import { FinancementPageComponent } from '@stud-asso/frontend/feature/association/financement-page';
@@ -24,6 +25,11 @@ const mainRouteConfig: NavbarItem[] = [
   { title: 'Stocks', icon: 'cart', url: '/stock' },
   { title: 'Offres', icon: 'clipboard-plus', url: '/offers' },
   { title: 'Financements', icon: 'currency-dollar', url: '/financements' },
+];
+
+const stockRoutes: TabBarItem[] = [
+  { title: 'Stocks', url: '.' },
+  { title: 'Logs', url: 'logs' },
 ];
 
 const routes: Routes = [
@@ -54,7 +60,18 @@ const routes: Routes = [
       },
       {
         path: 'stock',
-        component: StockPageComponent,
+        component: TabBarComponent,
+        data: { tabBarItems: stockRoutes },
+        children: [
+          {
+            path: '',
+            component: StockPageComponent,
+          },
+          {
+            path: 'logs',
+            component: StockPageComponent,
+          },
+        ],
       },
       {
         path: 'news',
