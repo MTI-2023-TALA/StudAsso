@@ -102,7 +102,6 @@ export class FinancementPageComponent implements OnInit {
       const payload = { status: model.status, schoolComment: model.schoolComment };
       this.api.update(id, payload).subscribe({
         complete: () => {
-          console.log('yoyoyo');
           this.toast.addAlert({ title: `Modification effectuée`, type: ToastType.Success });
           this.reloadData();
         },

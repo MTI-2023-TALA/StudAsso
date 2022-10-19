@@ -68,19 +68,12 @@ export class AuthService {
 
   public tryToSign(email: string, password: string) {
     const payload: AuthDto = { email, password };
-    this.apiAuthService.signinLocal(payload).subscribe((res: TokenDto) => {
-      this.setToken(res);
-      this.refreshTokenPeriodically();
-      this.redirectAfterSucessfullLogin();
-    });
+    return this.apiAuthService.signinLocal(payload);
   }
 
   public tryToSignInWithGoogle(accessToken: string) {
     const payload = { token: accessToken };
-    this.apiAuthService.signinWithGoogle(payload).subscribe((res: TokenDto) => {
-      this.setToken(res);
-      this.redirectAfterSucessfullLogin();
-    });
+    return this.apiAuthService.signinWithGoogle(payload);
   }
 
   public isSign(): boolean {
@@ -102,7 +95,7 @@ export class AuthService {
     this.isConnected = true;
   }
 
-  private redirectAfterSucessfullLogin() {
+  public redirectAfterSucessfullLogin() {
     const appName = LocalStorageHelper.getData(LocalStorageKey.APP_NAME);
     if (appName === AppName.ASSOCIATION) this.router.navigateByUrl('/select-asso');
     else this.router.navigateByUrl('/');
