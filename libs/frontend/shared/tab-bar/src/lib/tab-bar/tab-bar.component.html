@@ -1,8 +1,8 @@
 <nav class="flex">
   <a *ngFor="let item of tabBarItems" class="is-size-4 has-text-weight-bold" [routerLink]="[item.url]">
-    <li routerLinkActive="router-link-active" [routerLinkActiveOptions]="{ exact: true }">
+    <div class="tab-bar-item" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{ exact: true }">
       {{ item.title }}
-    </li>
+    </div>
   </a>
 </nav>
 <router-outlet></router-outlet>
