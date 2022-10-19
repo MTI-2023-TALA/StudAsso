@@ -46,6 +46,10 @@
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js'; // Included with Angular CLI.
+/***************************************************************************************************
+ * reflect-metadata is required by class-transformer.
+ */
+import 'reflect-metadata';
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
