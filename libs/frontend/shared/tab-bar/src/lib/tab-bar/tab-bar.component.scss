@@ -1,0 +1,25 @@
+@import 'base/variables';
+
+.flex {
+  display: flex;
+  background-color: $light-grey-100;
+}
+
+.tab-bar-item {
+  list-style: none;
+  padding: 0rem 1rem 0.5rem 1rem;
+  color: $light-grey-900;
+  transition: 100ms ease-in-out;
+
+  &:hover:not(.router-link-active) {
+    color: $dark-grey-300;
+    border-bottom: 2px solid $dark-grey-300;
+    background-color: $light-grey-200;
+  }
+}
+
+.router-link-active {
+  background-color: $light-grey-200;
+  color: $primary-600;
+  border-bottom: 2px solid $primary-600;
+}

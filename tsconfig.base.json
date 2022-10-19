@@ -44,6 +44,7 @@
       "@stud-asso/frontend-shared-main-routing-component": ["libs/frontend/shared/main-routing-component/src/index.ts"],
       "@stud-asso/frontend-shared-modal": ["libs/frontend/shared/modal/src/index.ts"],
       "@stud-asso/frontend-shared-navbar": ["libs/frontend/shared/navbar/src/index.ts"],
+      "@stud-asso/frontend-shared-tab-bar": ["libs/frontend/shared/tab-bar/src/index.ts"],
       "@stud-asso/frontend-shared-table": ["libs/frontend/shared/table/src/index.ts"],
       "@stud-asso/frontend-shared-tag": ["libs/frontend/shared/tag/src/index.ts"],
       "@stud-asso/frontend-shared-toast": ["libs/frontend/shared/toast/src/index.ts"],
