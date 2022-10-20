@@ -1,1 +1,33 @@
-<p>stock-logs works!</p>
+<div class="title">Logs</div>
+<div *ngFor="let log of logs">
+  <ng-container
+    [ngTemplateOutlet]="log.action === 'create' ? create : log.action === 'update' ? update : delete"
+    [ngTemplateOutletContext]="{ log: log }"
+  ></ng-container>
+</div>
+
+<ng-template #update let-log="log">
+  <div class="log">
+    <stud-asso-tag [message]="'Mise à jour'" [type]="'information'" class="right-pad-tag"></stud-asso-tag>
+    [{{ log.createdAt | date: 'd/M/y H:m' }}] {{ log.user.firstname }} {{ log.user.lastname }} a modifié
+    &NonBreakingSpace; <span class="bold"> {{ log.stock.name }} </span> &NonBreakingSpace;: {{ log.oldCount }}
+    <i class="bi bi-arrow-right"></i>{{ log.newCount }}
+  </div>
+</ng-template>
+
+<ng-template #create let-log="log">
+  <div class="log">
+    <stud-asso-tag [message]="'Création'" [type]="'success'" class="right-pad-tag"></stud-asso-tag>
+    [{{ log.createdAt | date: 'd/M/y H:m' }}] {{ log.user.firstname }} {{ log.user.lastname }} a créé &NonBreakingSpace;
+    <span class="bold"> {{ log.stock.name }} </span> &NonBreakingSpace;: {{ log.oldCount }}
+  </div>
+</ng-template>
+
+<ng-template #delete let-log="log">
+  <div class="log">
+    <stud-asso-tag [message]="'Suppression'" [type]="'error'" class="right-pad-tag"></stud-asso-tag>
+    [{{ log.createdAt | date: 'd/M/y H:m' }}] {{ log.user.firstname }} {{ log.user.lastname }}
+    a supprimé &NonBreakingSpace;
+    <span class="bold"> {{ log.stock.name }}</span>
+  </div>
+</ng-template>
