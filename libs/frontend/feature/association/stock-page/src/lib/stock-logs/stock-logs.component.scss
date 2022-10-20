@@ -1,0 +1,21 @@
+.title {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 3rem;
+}
+
+.log {
+  display: flex;
+  padding: 0.5rem 3rem;
+  font-size: larger;
+  align-items: center;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.right-pad-tag {
+  width: 6rem;
+  padding-right: 0.5rem;
+}
