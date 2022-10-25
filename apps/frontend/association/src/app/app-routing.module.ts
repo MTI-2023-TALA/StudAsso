@@ -35,7 +35,7 @@ const newsEventRoutes: TabBarItem[] = [
   { title: 'Evénements', url: 'events' },
 ];
 
-const membreRoutes: TabBarItem[] = [
+const memberRoutes: TabBarItem[] = [
   { title: 'Membres', url: '.' },
   { title: 'Rôles', url: 'roles' },
 ];
@@ -61,7 +61,7 @@ const routes: Routes = [
       {
         path: 'members',
         component: TabBarComponent,
-        data: { tabBarItems: membreRoutes },
+        data: { tabBarItems: memberRoutes },
         children: [
           {
             path: '',
