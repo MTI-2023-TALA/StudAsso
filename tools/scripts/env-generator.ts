@@ -35,6 +35,10 @@ function generateEnvFile() {
 
 function main() {
   console.log(chalk.green('Starting script...'));
+  if (process.env.NODE_ENV === 'production') {
+    console.log(chalk.yellow('⚠️ This script should not be run in production, skipping...'));
+    return;
+  }
   if (doesEnvFileExist()) {
     console.log(chalk.red('File already exists, skipping...'));
     return;
