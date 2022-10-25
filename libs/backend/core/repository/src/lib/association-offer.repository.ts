@@ -16,6 +16,23 @@ const assoOfferSelect = {
   deadline: true,
 };
 
+const fancyAssoOfferSelect = {
+  id: true,
+  deadline: true,
+  association: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+  role: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+};
+
 @Injectable()
 export class AssociationOfferRepository {
   constructor(private prisma: PrismaService) {}
@@ -31,22 +48,18 @@ export class AssociationOfferRepository {
     return this.prisma.associationOffer.findMany({
       skip: queryPaginationModel.offset,
       take: queryPaginationModel.limit,
-      select: {
-        id: true,
-        deadline: true,
+      select: fancyAssoOfferSelect,
+    });
+  }
+
+  public async findAllAsso(id: number): Promise<AssociationOfferWithAssoAndRoleModel[]> {
+    return this.prisma.associationOffer.findMany({
+      where: {
         association: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        role: {
-          select: {
-            id: true,
-            name: true,
-          },
+          id,
         },
       },
+      select: fancyAssoOfferSelect,
     });
   }
 

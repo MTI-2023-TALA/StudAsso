@@ -50,6 +50,15 @@ export class AssociationOfferController {
     return this.associationOfferService.findAllOffers(query);
   }
 
+  @Get('offers/:id')
+  public async findAllAssoOffers(@Param('id') id: string): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+    try {
+      return await this.associationOfferService.findAllAssoOffers(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   // put acl
   @Get('/application')
   public async findAllApplications(
