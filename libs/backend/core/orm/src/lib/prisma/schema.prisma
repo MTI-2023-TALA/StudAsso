@@ -19,8 +19,8 @@ model Association {
   news                News[]
   roles               Role[]
   stocks              Stock[]
-  AssociationOffer    AssociationOffer[]
-  Funding             Funding[]
+  associationOffers   AssociationOffer[]
+  fundings            Funding[]
 }
 
 model AssociationMember {
@@ -38,16 +38,16 @@ model AssociationMember {
 }
 
 model AssociationOffer {
-  id                          Int                           @id() @default(autoincrement())
-  createdAt                   DateTime                      @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt                   DateTime                      @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
-  deletedAt                   DateTime?                     @map("deleted_at") @db.Timestamp(6)
-  associationId               Int                           @map("association_id")
-  roleId                      Int                           @map("role_id")
-  deadline                    DateTime                      @db.Timestamp(6)
-  association                 Association                   @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "associations")
-  role                        Role                          @relation(fields: [roleId], references: [id], onDelete: Cascade, map: "role")
-  AssociationOfferApplication AssociationOfferApplication[]
+  id                           Int                           @id() @default(autoincrement())
+  createdAt                    DateTime                      @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt                    DateTime                      @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt                    DateTime?                     @map("deleted_at") @db.Timestamp(6)
+  associationId                Int                           @map("association_id")
+  roleId                       Int                           @map("role_id")
+  deadline                     DateTime                      @db.Timestamp(6)
+  association                  Association                   @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "associations")
+  role                         Role                          @relation(fields: [roleId], references: [id], onDelete: Cascade, map: "role")
+  associationOfferApplications AssociationOfferApplication[]
 }
 
 model AssociationOfferApplication {
@@ -99,7 +99,7 @@ model Role {
   permissions         String[]
   association         Association         @relation(fields: [associationId], references: [id], onDelete: Cascade, map: "association")
   associationsMembers AssociationMember[]
-  AssociationOffer    AssociationOffer[]
+  associationOffers   AssociationOffer[]
 
   @@unique([name, associationId], map: "unique_role_name_per_association")
 }
@@ -133,22 +133,22 @@ model StockLog {
 }
 
 model User {
-  id                          Int                           @id() @default(autoincrement())
-  createdAt                   DateTime                      @default(now()) @map("created_at") @db.Timestamp(6)
-  updatedAt                   DateTime                      @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
-  deletedAt                   DateTime?                     @map("deleted_at") @db.Timestamp(6)
-  firstname                   String                        @db.VarChar
-  lastname                    String                        @db.VarChar
-  email                       String                        @unique(map: "user_email_unique") @db.VarChar
-  passwordHash                String?                       @map("password_hash") @db.VarChar
-  rtHash                      String?                       @map("rt_hash") @db.VarChar
-  googleId                    String?                       @map("google_id") @db.VarChar
-  isSchoolEmployee            Boolean                       @default(false) @map("is_school_employee")
-  associationsMembers         AssociationMember[]
-  news                        News[]
-  stocksLogs                  StockLog[]
-  AssociationOfferApplication AssociationOfferApplication[]
-  Funding                     Funding[]
+  id                           Int                           @id() @default(autoincrement())
+  createdAt                    DateTime                      @default(now()) @map("created_at") @db.Timestamp(6)
+  updatedAt                    DateTime                      @default(now()) @updatedAt @map("updated_at") @db.Timestamp(6)
+  deletedAt                    DateTime?                     @map("deleted_at") @db.Timestamp(6)
+  firstname                    String                        @db.VarChar
+  lastname                     String                        @db.VarChar
+  email                        String                        @unique(map: "user_email_unique") @db.VarChar
+  passwordHash                 String?                       @map("password_hash") @db.VarChar
+  rtHash                       String?                       @map("rt_hash") @db.VarChar
+  googleId                     String?                       @map("google_id") @db.VarChar
+  isSchoolEmployee             Boolean                       @default(false) @map("is_school_employee")
+  associationsMembers          AssociationMember[]
+  news                         News[]
+  stocksLogs                   StockLog[]
+  associationOfferApplications AssociationOfferApplication[]
+  fundings                     Funding[]
 }
 
 model Funding {
