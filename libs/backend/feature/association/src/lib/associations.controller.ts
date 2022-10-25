@@ -28,6 +28,16 @@ import { SwaggerController } from '@stud-asso/backend/core/swagger';
 export class AssociationsController {
   constructor(private readonly associationsService: AssociationsService) {}
 
+  @IsSchoolEmployee()
+  @Post()
+  public async create(@Body() createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
+    try {
+      return await this.associationsService.create(createAssociationDto);
+    } catch (error) {
+      throw new ConflictException(error?.message);
+    }
+  }
+
   @Get('members')
   public async findAssociationMembersWithRoles(
     @GetCurrentAssoId() id: number,
@@ -40,19 +50,20 @@ export class AssociationsController {
     }
   }
 
-  @IsSchoolEmployee()
-  @Post()
-  public async create(@Body() createAssociationDto: CreateAssociationDto): Promise<AssociationDto> {
-    try {
-      return await this.associationsService.create(createAssociationDto);
-    } catch (error) {
-      throw new ConflictException(error?.message);
-    }
-  }
-
   @Get()
   public async findAllWithPresident(@Query() query: QueryPaginationDto): Promise<AssociationWithPresidentDto[]> {
     return this.associationsService.findAllWithPresident(query);
+  }
+
+  @Get('current')
+  public async findCurrentAssociationWithPresident(
+    @GetCurrentAssoId() assoId: number
+  ): Promise<AssociationWithPresidentDto> {
+    try {
+      return await this.associationsService.findOneWithPresident(assoId);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
   }
 
   @Get(':id')
