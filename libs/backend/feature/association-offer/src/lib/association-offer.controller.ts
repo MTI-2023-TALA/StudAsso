@@ -51,9 +51,12 @@ export class AssociationOfferController {
   }
 
   @Get('offers/:id')
-  public async findAllAssoOffers(@Param('id') id: string): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+  public async findAllAssoOffers(
+    @Param('id') id: string,
+    @Query() query: QueryPaginationDto
+  ): Promise<AssociationOfferWithAssoAndRoleDto[]> {
     try {
-      return await this.associationOfferService.findAllAssoOffers(+id);
+      return await this.associationOfferService.findAllAssoOffers(+id, query);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

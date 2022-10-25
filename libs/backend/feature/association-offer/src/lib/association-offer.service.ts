@@ -95,11 +95,11 @@ export class AssociationOfferService {
     return Promise.all(allOffers.map((offer) => this.formatOffer(offer)));
   }
 
-  public async findAllAssoOffers(id: number): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+  public async findAllAssoOffers(id: number, query: QueryPaginationDto): Promise<AssociationOfferWithAssoAndRoleDto[]> {
     const association = await this.associationRepository.findOne(id);
     if (!association) throw new Error(ERROR.ASSO_NOT_FOUND);
 
-    const assoOffers = await this.associationOfferRepository.findAllAsso(id);
+    const assoOffers = await this.associationOfferRepository.findAllAsso(id, query);
     return Promise.all(assoOffers.map((offer) => this.formatOffer(offer)));
   }
 

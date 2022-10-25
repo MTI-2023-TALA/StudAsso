@@ -52,8 +52,13 @@ export class AssociationOfferRepository {
     });
   }
 
-  public async findAllAsso(id: number): Promise<AssociationOfferWithAssoAndRoleModel[]> {
+  public async findAllAsso(
+    id: number,
+    queryPaginationModel: QueryPaginationModel
+  ): Promise<AssociationOfferWithAssoAndRoleModel[]> {
     return this.prisma.associationOffer.findMany({
+      skip: queryPaginationModel.offset,
+      take: queryPaginationModel.limit,
       where: {
         association: {
           id,
