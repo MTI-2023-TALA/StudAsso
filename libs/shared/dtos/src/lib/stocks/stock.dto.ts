@@ -1,8 +1,7 @@
 import { IsIn, IsInt, IsNotEmpty, IsOptional, IsString, Min, Validate } from 'class-validator';
 import { QueryPaginationDto, SORT_ORDER } from '../query/query.dto';
 
-import { SortOrderValidator } from '../query/sort-validator';
-import { StockSortValidator } from './stock-validator';
+import { IsValueInEnumValidator } from '../validators/enum-validator';
 import { UserDto } from '../user/user.dto';
 
 // Request DTOs
@@ -64,12 +63,12 @@ export enum SORT_STOCK {
 export class QueryStockDto extends QueryPaginationDto {
   @IsOptional()
   @IsString()
-  @Validate(StockSortValidator)
+  @Validate(IsValueInEnumValidator, [SORT_STOCK])
   sort?: SORT_STOCK = SORT_STOCK.BY_NAME;
 
   @IsOptional()
   @IsString()
-  @Validate(SortOrderValidator)
+  @Validate(IsValueInEnumValidator, [SORT_ORDER])
   order?: SORT_ORDER = SORT_ORDER.ASC;
 
   @IsOptional()

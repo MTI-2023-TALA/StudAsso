@@ -11,3 +11,4 @@ export * from './lib/query/query.dto';
 export * from './lib/roles/role.dto';
 export * from './lib/stocks/stock.dto';
 export * from './lib/user/user.dto';
+export * from './lib/validators/enum-validator';
