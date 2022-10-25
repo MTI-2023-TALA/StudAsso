@@ -4,6 +4,7 @@ import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryPagination } from './api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,11 @@ export class ApiRoleService extends ApiBaseService {
   }
 
   public create(role: CreateRoleDto): Observable<CreateRoleDto> {
-    return this.apiService.post<CreateRoleDto, RoleDto>(this.url, role);
+    return this.apiService.post<CreateRoleDto, RoleDto, undefined>(this.url, role);
   }
 
   public update(id: number, role: UpdateRoleDto): Observable<RoleDto> {
-    return this.apiService.patch<UpdateRoleDto, RoleDto>(`${this.url}/${id}`, role);
+    return this.apiService.patch<UpdateRoleDto, RoleDto, undefined>(`${this.url}/${id}`, role);
   }
 
   // TODO: Rework return type
@@ -27,11 +28,11 @@ export class ApiRoleService extends ApiBaseService {
     return this.apiService.delete<RoleDto>(`${this.url}/${id}`);
   }
 
-  public findAllRoleWithAsso(): Observable<RoleDto[]> {
-    return this.apiService.get<RoleDto[]>(`${this.url}/asso`);
+  public findAllRoleWithAsso(query: QueryPagination = undefined): Observable<RoleDto[]> {
+    return this.apiService.get<RoleDto[], QueryPagination>(`${this.url}/asso`, query);
   }
 
   public addRoleToUser(user: AddRoleToUserDto): Observable<AssociationsMemberDto> {
-    return this.apiService.post<AddRoleToUserDto, AssociationsMemberDto>(`${this.url}/user`, user);
+    return this.apiService.post<AddRoleToUserDto, AssociationsMemberDto, undefined>(`${this.url}/user`, user);
   }
 }

@@ -10,6 +10,7 @@ import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryPagination } from './api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,11 +22,11 @@ export class ApiAssociationService extends ApiBaseService {
   }
 
   public create(association: CreateAssociationDto): Observable<AssociationDto> {
-    return this.apiService.post<CreateAssociationDto, AssociationDto>(this.url, association);
+    return this.apiService.post<CreateAssociationDto, AssociationDto, undefined>(this.url, association);
   }
 
   public update(id: number, association: UpdateAssociationDto): Observable<AssociationDto> {
-    return this.apiService.patch<UpdateAssociationDto, AssociationDto>(`${this.url}/${id}`, association);
+    return this.apiService.patch<UpdateAssociationDto, AssociationDto, undefined>(`${this.url}/${id}`, association);
   }
 
   // TODO: Rework return type
@@ -33,15 +34,15 @@ export class ApiAssociationService extends ApiBaseService {
     return this.apiService.delete<AssociationDto>(`${this.url}/${id}`);
   }
 
-  public findAll(): Observable<AssociationWithPresidentDto[]> {
-    return this.apiService.get<AssociationWithPresidentDto[]>(this.url);
+  public findAll(query: QueryPagination = undefined): Observable<AssociationWithPresidentDto[]> {
+    return this.apiService.get<AssociationWithPresidentDto[], QueryPagination>(this.url, query);
   }
 
   public findOneWithPresident(id: number): Observable<AssociationWithPresidentDto> {
-    return this.apiService.get<AssociationWithPresidentDto>(`${this.url}/${id}`);
+    return this.apiService.get<AssociationWithPresidentDto, undefined>(`${this.url}/${id}`);
   }
 
   public findMembers(): Observable<AssociationMemberWithRoleDto[]> {
-    return this.apiService.get<AssociationMemberWithRoleDto[]>(`${this.url}/members`);
+    return this.apiService.get<AssociationMemberWithRoleDto[], undefined>(`${this.url}/members`);
   }
 }
