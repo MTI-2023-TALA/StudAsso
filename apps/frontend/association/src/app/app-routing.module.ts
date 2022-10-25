@@ -20,8 +20,6 @@ const mainRouteConfig: NavbarItem[] = [
   { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
   { title: 'Membres', icon: 'people', url: '/members' },
   { title: 'News', icon: 'newspaper', url: '/news' },
-  { title: 'Evénements', icon: 'calendar-event', url: '/events' },
-  { title: 'Rôles', icon: 'person-plus', url: '/roles' },
   { title: 'Stocks', icon: 'cart', url: '/stock' },
   { title: 'Offres', icon: 'clipboard-plus', url: '/offers' },
   { title: 'Financements', icon: 'currency-dollar', url: '/financements' },
@@ -30,6 +28,16 @@ const mainRouteConfig: NavbarItem[] = [
 const stockRoutes: TabBarItem[] = [
   { title: 'Stocks', url: '.' },
   { title: 'Logs', url: 'logs' },
+];
+
+const newsEventRoutes: TabBarItem[] = [
+  { title: 'News', url: '.' },
+  { title: 'Evénements', url: 'events' },
+];
+
+const memberRoutes: TabBarItem[] = [
+  { title: 'Membres', url: '.' },
+  { title: 'Rôles', url: 'roles' },
 ];
 
 const routes: Routes = [
@@ -51,12 +59,19 @@ const routes: Routes = [
     canActivate: [IsSignGuard],
     children: [
       {
-        path: 'roles',
-        component: RolePageComponent,
-      },
-      {
         path: 'members',
-        component: MemberPageComponent,
+        component: TabBarComponent,
+        data: { tabBarItems: memberRoutes },
+        children: [
+          {
+            path: '',
+            component: MemberPageComponent,
+          },
+          {
+            path: 'roles',
+            component: RolePageComponent,
+          },
+        ],
       },
       {
         path: 'stock',
@@ -75,11 +90,18 @@ const routes: Routes = [
       },
       {
         path: 'news',
-        component: NewsPageComponent,
-      },
-      {
-        path: 'events',
-        component: EventPageComponent,
+        component: TabBarComponent,
+        data: { tabBarItems: newsEventRoutes },
+        children: [
+          {
+            path: '',
+            component: NewsPageComponent,
+          },
+          {
+            path: 'events',
+            component: EventPageComponent,
+          },
+        ],
       },
       {
         path: 'offers',
