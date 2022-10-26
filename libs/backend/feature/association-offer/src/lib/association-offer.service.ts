@@ -92,7 +92,7 @@ export class AssociationOfferService {
 
   public async findAllOffers(query: QueryPaginationDto): Promise<AssociationOfferWithAssoAndRoleDto[]> {
     const allOffers = await this.associationOfferRepository.findAll(query);
-    return Promise.all(allOffers.map((offer) => this.formatOffer(offer)));
+    return allOffers.map((offer) => this.formatOffer(offer));
   }
 
   public async findAllAssoOffers(id: number, query: QueryPaginationDto): Promise<AssociationOfferWithAssoAndRoleDto[]> {
@@ -100,7 +100,7 @@ export class AssociationOfferService {
     if (!association) throw new Error(ERROR.ASSO_NOT_FOUND);
 
     const assoOffers = await this.associationOfferRepository.findAllAsso(id, query);
-    return Promise.all(assoOffers.map((offer) => this.formatOffer(offer)));
+    return assoOffers.map((offer) => this.formatOffer(offer));
   }
 
   public async findAllApplications(
@@ -108,7 +108,7 @@ export class AssociationOfferService {
     query: QueryPaginationDto
   ): Promise<AssociationOfferApplicationReviewDto[]> {
     const allApplications = await this.associationOfferApplicationRepository.findAll(associationId, query);
-    return Promise.all(allApplications.map((application) => this.formatApplicationReview(application)));
+    return allApplications.map((application) => this.formatApplicationReview(application));
   }
 
   public async findOneApplication(id: number): Promise<AssociationOfferApplicationReviewDto> {
@@ -139,9 +139,9 @@ export class AssociationOfferService {
     return this.associationOfferApplicationRepository.delete(id);
   }
 
-  private async formatApplicationReview(
+  private formatApplicationReview(
     assoOfferAppModel: AssociationOfferApplicationReviewModel
-  ): Promise<AssociationOfferApplicationReviewDto> {
+  ): AssociationOfferApplicationReviewDto {
     return {
       id: assoOfferAppModel.id,
       applicationDate: assoOfferAppModel.createdAt,
@@ -155,7 +155,7 @@ export class AssociationOfferService {
     };
   }
 
-  private async formatOffer(offer: AssociationOfferWithAssoAndRoleModel): Promise<AssociationOfferWithAssoAndRoleDto> {
+  private formatOffer(offer: AssociationOfferWithAssoAndRoleModel): AssociationOfferWithAssoAndRoleDto {
     return {
       id: offer.id,
       deadline: offer.deadline,
