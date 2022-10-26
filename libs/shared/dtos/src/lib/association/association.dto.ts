@@ -1,8 +1,7 @@
 import { IsInt, IsNotEmpty, IsOptional, IsString, Validate } from 'class-validator';
 import { QueryPaginationDto, SORT_ORDER } from '../query/query.dto';
 
-import { AssoMembersSortValidator } from './association-validator';
-import { SortOrderValidator } from '../query/sort-validator';
+import { IsValueInEnumValidator } from '../validators/enum-validator';
 
 // Request DTOs
 
@@ -40,12 +39,12 @@ export enum SORT_ASSO_MEMBERS {
 export class QueryAssociationMembersDto extends QueryPaginationDto {
   @IsOptional()
   @IsString()
-  @Validate(AssoMembersSortValidator)
+  @Validate(IsValueInEnumValidator, [SORT_ASSO_MEMBERS])
   sort?: SORT_ASSO_MEMBERS = SORT_ASSO_MEMBERS.BY_ROLE_NAME;
 
   @IsOptional()
   @IsString()
-  @Validate(SortOrderValidator)
+  @Validate(IsValueInEnumValidator, [SORT_ORDER])
   order?: SORT_ORDER = SORT_ORDER.ASC;
 
   @IsOptional()

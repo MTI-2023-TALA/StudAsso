@@ -24,6 +24,7 @@ import {
 import {
   AssociationOfferApplicationRepository,
   AssociationOfferRepository,
+  AssociationRepository,
   AssociationsMemberRepository,
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
@@ -359,6 +360,10 @@ describe('AssociationOfferService', () => {
               return Promise.resolve(mockedRoles.find((role) => role.id === id));
             }),
           },
+        },
+        {
+          provide: AssociationRepository,
+          useValue: {},
         },
       ],
     }).compile();

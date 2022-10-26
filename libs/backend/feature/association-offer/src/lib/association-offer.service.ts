@@ -11,11 +11,13 @@ import {
 import {
   AssociationOfferApplicationRepository,
   AssociationOfferRepository,
+  AssociationRepository,
   AssociationsMemberRepository,
   RoleRepository,
 } from '@stud-asso/backend/core/repository';
 import {
   AssociationOfferApplicationReviewModel,
+  AssociationOfferWithAssoAndRoleModel,
   CreateAssociationOfferApplicationModel,
   CreateAssociationOfferModel,
 } from '@stud-asso/backend/core/model';
@@ -29,6 +31,7 @@ export class AssociationOfferService {
   constructor(
     private readonly associationOfferApplicationRepository: AssociationOfferApplicationRepository,
     private readonly associationOfferRepository: AssociationOfferRepository,
+    private readonly associationRepository: AssociationRepository,
     private readonly associationsMemberRepository: AssociationsMemberRepository,
     private readonly roleRepository: RoleRepository
   ) {}
@@ -89,14 +92,15 @@ export class AssociationOfferService {
 
   public async findAllOffers(query: QueryPaginationDto): Promise<AssociationOfferWithAssoAndRoleDto[]> {
     const allOffers = await this.associationOfferRepository.findAll(query);
-    return allOffers.map((offer) => ({
-      id: offer.id,
-      deadline: offer.deadline,
-      associationId: offer.association.id,
-      associationName: offer.association.name,
-      roleId: offer.role.id,
-      roleName: offer.role.name,
-    }));
+    return allOffers.map((offer) => this.formatOffer(offer));
+  }
+
+  public async findAllAssoOffers(id: number, query: QueryPaginationDto): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+    const association = await this.associationRepository.findOne(id);
+    if (!association) throw new Error(ERROR.ASSO_NOT_FOUND);
+
+    const assoOffers = await this.associationOfferRepository.findAllAsso(id, query);
+    return assoOffers.map((offer) => this.formatOffer(offer));
   }
 
   public async findAllApplications(
@@ -104,7 +108,7 @@ export class AssociationOfferService {
     query: QueryPaginationDto
   ): Promise<AssociationOfferApplicationReviewDto[]> {
     const allApplications = await this.associationOfferApplicationRepository.findAll(associationId, query);
-    return Promise.all(allApplications.map((application) => this.formatApplicationReview(application)));
+    return allApplications.map((application) => this.formatApplicationReview(application));
   }
 
   public async findOneApplication(id: number): Promise<AssociationOfferApplicationReviewDto> {
@@ -135,9 +139,9 @@ export class AssociationOfferService {
     return this.associationOfferApplicationRepository.delete(id);
   }
 
-  private async formatApplicationReview(
+  private formatApplicationReview(
     assoOfferAppModel: AssociationOfferApplicationReviewModel
-  ): Promise<AssociationOfferApplicationReviewDto> {
+  ): AssociationOfferApplicationReviewDto {
     return {
       id: assoOfferAppModel.id,
       applicationDate: assoOfferAppModel.createdAt,
@@ -148,6 +152,17 @@ export class AssociationOfferService {
       userId: assoOfferAppModel.user.id,
       userFullName: `${assoOfferAppModel.user.firstname} ${assoOfferAppModel.user.lastname}`,
       userEmail: assoOfferAppModel.user.email,
+    };
+  }
+
+  private formatOffer(offer: AssociationOfferWithAssoAndRoleModel): AssociationOfferWithAssoAndRoleDto {
+    return {
+      id: offer.id,
+      deadline: offer.deadline,
+      associationId: offer.association.id,
+      associationName: offer.association.name,
+      roleId: offer.role.id,
+      roleName: offer.role.name,
     };
   }
 }

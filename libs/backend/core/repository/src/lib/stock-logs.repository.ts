@@ -46,6 +46,9 @@ export class StockLogsRepository {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }
 
@@ -67,6 +70,9 @@ export class StockLogsRepository {
         oldCount: true,
         newCount: true,
         action: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
       },
     });
   }
