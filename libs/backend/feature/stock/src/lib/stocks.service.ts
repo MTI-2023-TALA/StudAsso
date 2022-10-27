@@ -13,6 +13,7 @@ import {
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { StockModel } from '@stud-asso/backend/core/model';
 
 @Injectable()
 export class StocksService {
@@ -26,10 +27,14 @@ export class StocksService {
     try {
       const stock = await this.stockRepository.findOneByName(createBaseDto.name);
       if (stock) {
-        return this.stockRepository.update(stock.id, { count: stock.count + createBaseDto.count });
+        const createdStock: StockModel = await this.stockRepository.update(stock.id, {
+          count: stock.count + createBaseDto.count,
+        });
+        await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count, 'create');
+        return createdStock;
       }
-
-      const createdStock: StockDto = await this.stockRepository.create({ ...createBaseDto, associationId });
+      // TODO: refacto
+      const createdStock: StockModel = await this.stockRepository.create({ ...createBaseDto, associationId });
       await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count, 'create');
       return createdStock;
     } catch (error) {
