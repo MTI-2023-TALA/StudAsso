@@ -10,17 +10,27 @@ import { EventDto } from '@stud-asso/shared/dtos';
 })
 export class EventPageComponent implements OnInit {
   eventList: EventDto[];
+  pastEventList: EventDto[];
   constructor(private apiEventService: ApiEventService) {}
 
   ngOnInit(): void {
     this.apiEventService
       .findAllActive({
         isActive: true,
-        limit: 0,
+        limit: 10000,
         offset: 0,
       })
       .subscribe((eventList) => {
         this.eventList = eventList;
+      });
+    this.apiEventService
+      .findAllActive({
+        isActive: false,
+        limit: 10000,
+        offset: 0,
+      })
+      .subscribe((eventList) => {
+        this.pastEventList = eventList;
       });
   }
 

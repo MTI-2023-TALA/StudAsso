@@ -13,9 +13,30 @@ describe('EventsController', () => {
 
   beforeEach(async () => {
     mockedEvents = [
-      { id: 1, name: 'Event 1', date: new Date('15-02-2022'), content: 'content', associationId: 1 },
-      { id: 2, name: 'Event 2', date: new Date('28-02-2022'), content: 'content', associationId: 2 },
-      { id: 3, name: 'Event 3', date: new Date('13-03-2022'), content: 'content', associationId: 1 },
+      {
+        id: 1,
+        name: 'Event 1',
+        date: new Date('15-02-2022'),
+        content: 'content',
+        associationId: 1,
+        associationName: 'Association 1',
+      },
+      {
+        id: 2,
+        name: 'Event 2',
+        date: new Date('28-02-2022'),
+        content: 'content',
+        associationId: 2,
+        associationName: 'Association 2',
+      },
+      {
+        id: 3,
+        name: 'Event 3',
+        date: new Date('13-03-2022'),
+        content: 'content',
+        associationId: 1,
+        associationName: 'Association 1',
+      },
     ];
 
     mockedAssociations = [
@@ -46,6 +67,7 @@ describe('EventsController', () => {
                 id,
                 ...createEventPayload,
                 associationId,
+                associationName: 'Association 1',
               };
               mockedEvents.push(newEvent);
               return Promise.resolve(newEvent);
@@ -102,6 +124,7 @@ describe('EventsController', () => {
         id: mockedEvents.length + 1,
         ...createEventPayload,
         associationId,
+        associationName: 'Association 1',
       };
 
       expect(await controller.create(associationId, createEventPayload)).toEqual(newEvent);

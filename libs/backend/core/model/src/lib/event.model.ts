@@ -6,6 +6,9 @@ export class EventModel {
   date: Date;
   content: string;
   associationId: number;
+  association: {
+    name: string;
+  };
 }
 
 export class CreateEventModel {
