@@ -35,9 +35,10 @@ export class StockRepository {
     return this.prisma.stock.findUnique({ where: { id }, select: stockSelect });
   }
 
-  public findOneByName(name: string): Promise<StockModel> {
+  public findOneAssoStockByName(name: string, associationId: number): Promise<StockModel> {
     return this.prisma.stock.findFirst({
       where: {
+        associationId,
         name: {
           equals: name,
         },
