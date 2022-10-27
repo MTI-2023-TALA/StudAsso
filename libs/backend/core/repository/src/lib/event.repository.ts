@@ -1,4 +1,10 @@
-import { CreateEventModel, EventModel, QueryPaginationModel, UpdateEventModel } from '@stud-asso/backend/core/model';
+import {
+  CreateEventModel,
+  EventModel,
+  QueryEventModel,
+  QueryPaginationModel,
+  UpdateEventModel,
+} from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -19,6 +25,27 @@ export class EventRepository {
       take: queryPaginationModel.limit,
       orderBy: {
         date: 'asc',
+      },
+      select: eventSelect,
+    });
+  }
+
+  public async findAllActive(query: QueryEventModel): Promise<EventModel[]> {
+    console.log(query.isActive);
+    return this.prisma.event.findMany({
+      skip: query.offset,
+      take: query.limit,
+      orderBy: {
+        date: 'asc',
+      },
+      where: {
+        date: query.isActive
+          ? {
+              gte: new Date(),
+            }
+          : {
+              lt: new Date(),
+            },
       },
       select: eventSelect,
     });

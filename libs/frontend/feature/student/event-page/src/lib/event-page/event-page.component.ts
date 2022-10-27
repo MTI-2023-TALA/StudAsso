@@ -13,9 +13,15 @@ export class EventPageComponent implements OnInit {
   constructor(private apiEventService: ApiEventService) {}
 
   ngOnInit(): void {
-    this.apiEventService.findAll().subscribe((eventList) => {
-      this.eventList = eventList;
-    });
+    this.apiEventService
+      .findAllActive({
+        isActive: true,
+        limit: 10000,
+        offset: 0,
+      })
+      .subscribe((eventList) => {
+        this.eventList = eventList;
+      });
   }
 
   getDate(date: Date) {

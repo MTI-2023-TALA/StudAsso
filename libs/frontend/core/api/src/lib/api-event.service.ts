@@ -1,4 +1,4 @@
-import { CreateEventDto, EventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
+import { CreateEventDto, EventDto, QueryEventDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -29,6 +29,10 @@ export class ApiEventService extends ApiBaseService {
 
   public findAll(query: QueryPagination = undefined): Observable<EventDto[]> {
     return this.apiService.get<EventDto[], QueryPagination>(this.url, query);
+  }
+
+  public findAllActive(query: QueryEventDto): Observable<EventDto[]> {
+    return this.apiService.get<EventDto[], QueryEventDto>(`${this.url}/active`, query);
   }
 
   public findAllByAssociationId(query: QueryPagination = undefined): Observable<EventDto[]> {
