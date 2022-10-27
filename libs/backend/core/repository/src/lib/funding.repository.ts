@@ -48,6 +48,15 @@ export class FundingRepository {
     });
   }
 
+  getNbAssoStatus(associationId: number, status: FUNDING_STATUS): Promise<number> {
+    return this.prisma.funding.count({
+      where: {
+        associationId,
+        status: status,
+      },
+    });
+  }
+
   findAll(associationId: number, queryPaginationModel: QueryPaginationModel): Promise<FundingModel[]> {
     return this.prisma.funding.findMany({
       skip: queryPaginationModel.offset,
@@ -89,15 +98,6 @@ export class FundingRepository {
       },
       _sum: {
         amount: true,
-      },
-    });
-  }
-
-  getNbAssoStatus(associationId: number, status: FUNDING_STATUS): Promise<number> {
-    return this.prisma.funding.count({
-      where: {
-        associationId,
-        status: status,
       },
     });
   }
