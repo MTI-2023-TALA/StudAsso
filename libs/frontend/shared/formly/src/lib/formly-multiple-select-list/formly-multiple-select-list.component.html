@@ -1,5 +1,5 @@
 <div class="multiple-select-list">
-  <div class="left multiple-input">
+  <div class="left multiple-input" (click)="onClickSubMenu()">
     <stud-asso-tag
       *ngFor="let item of selectedOptions"
       [message]="item.label"
@@ -12,8 +12,8 @@
     </stud-asso-tag>
   </div>
   <div class="right" (click)="onClickSubMenu()">
-    <i *ngIf="!subMenuIsOpen" class="bi bi-caret-down"></i>
-    <i *ngIf="subMenuIsOpen" class="bi bi-caret-up"></i>
+    <i *ngIf="!subMenuIsOpen" class="bi bi-chevron-compact-down"></i>
+    <i *ngIf="subMenuIsOpen" class="bi bi-chevron-compact-up"></i>
   </div>
 </div>
 <div class="sub-menu" *ngIf="subMenuIsOpen">
