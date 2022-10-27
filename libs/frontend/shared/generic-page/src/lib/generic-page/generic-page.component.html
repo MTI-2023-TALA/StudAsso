@@ -6,7 +6,14 @@
         <button class="button" (click)="onButtonClick()">{{ buttonText }}</button>
       </div>
     </div>
-    <stud-asso-table [tableConfiguration]="tableConfiguration" [data]="data"> </stud-asso-table>
+    <stud-asso-table
+      [tableConfiguration]="tableConfiguration"
+      [data]="data"
+      [shouldShowPagination]="shouldShowPagination"
+      [currentPagination]="currentPagination"
+      (pagination)="pagination.emit($event)"
+    >
+    </stud-asso-table>
   </div>
   <div *ngIf="isLoading">
     <stud-asso-spinner></stud-asso-spinner>

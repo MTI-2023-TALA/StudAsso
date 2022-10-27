@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateRoleFormly, createRoleFormly } from './role-page.formly';
+import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET, RoleDto } from '@stud-asso/shared/dtos';
+import { Pagination, TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
 import { PermissionId, permissions } from '@stud-asso/shared/permission';
-import { TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { RoleDto } from '@stud-asso/shared/dtos';
 import { Tag } from '@stud-asso/frontend-shared-tag';
 
 type Role = Omit<RoleDto, 'permissions'> & { permissions: Tag[] };
@@ -48,19 +48,23 @@ export class RolePageComponent implements OnInit {
   };
 
   roleList: Role[] = [];
+  pagination: Pagination = {
+    limit: PAGINATION_BASE_LIMIT,
+    offset: PAGINATION_BASE_OFFSET,
+  };
 
   isLoading = true;
 
   constructor(private api: ApiRoleService, private modal: ModalService, private toast: ToastService) {}
 
   ngOnInit() {
-    this.reloadData();
+    this.reloadData(this.pagination);
   }
 
-  reloadData() {
+  reloadData(pagination: Pagination) {
     this.isLoading = true;
 
-    this.api.findAllRoleWithAsso().subscribe((roles: RoleDto[]) => {
+    this.api.findAllRoleWithAsso(pagination).subscribe((roles: RoleDto[]) => {
       this.roleList = roles.map((role) => ({
         ...role,
         permissions: role.permissions.map((permission) => {
@@ -69,6 +73,11 @@ export class RolePageComponent implements OnInit {
       }));
       this.isLoading = false;
     });
+  }
+
+  onUpdatePagination(newPagination: Pagination) {
+    this.pagination = newPagination;
+    this.reloadData(this.pagination);
   }
 
   getSpecificRole(id: number): Role | null {
@@ -114,7 +123,7 @@ export class RolePageComponent implements OnInit {
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Rôle créé', type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });
@@ -134,7 +143,7 @@ export class RolePageComponent implements OnInit {
     this.api.remove(id).subscribe({
       complete: () => {
         this.toast.addAlert({ title: 'Rôle supprimé', type: ToastType.Success });
-        this.reloadData();
+        this.reloadData(this.pagination);
       },
     });
   }
@@ -150,7 +159,7 @@ export class RolePageComponent implements OnInit {
       this.api.update(id, payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Nom du rôle modifié`, type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });

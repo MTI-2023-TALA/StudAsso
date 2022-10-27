@@ -1,6 +1,11 @@
 <div class="table">
   <ng-container *ngTemplateOutlet="headers || defaultHeaderTemplate; context: { $implicit: data }"></ng-container>
   <ng-container *ngTemplateOutlet="rows || defaultRowTemplate"></ng-container>
+  <stud-asso-pagination
+    *ngIf="shouldShowPagination"
+    [currentPagination]="currentPagination"
+    (pagination)="onUpdatePagination($event)"
+  ></stud-asso-pagination>
 </div>
 
 <ng-template #defaultHeaderTemplate>

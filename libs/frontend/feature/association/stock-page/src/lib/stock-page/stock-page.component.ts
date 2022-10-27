@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ICreateStockFormly, createStockFormly } from './stock-page.formly';
+import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET, StockDto } from '@stud-asso/shared/dtos';
+import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { StockDto } from '@stud-asso/shared/dtos';
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 @Component({
   selector: 'stud-asso-stock-page',
@@ -44,7 +44,6 @@ export class StockPageComponent implements OnInit {
   };
 
   stockList: StockDto[] = [];
-
   isLoading = false;
 
   constructor(private api: ApiStockService, private modal: ModalService, private toast: ToastService) {}
@@ -55,6 +54,10 @@ export class StockPageComponent implements OnInit {
 
   handleError() {
     return () => this.toast.addAlert({ title: 'Erreur lors de la récupération des stocks', type: ToastType.Error });
+  }
+
+  onUpdatePagination() {
+    this.reloadData();
   }
 
   reloadData() {
