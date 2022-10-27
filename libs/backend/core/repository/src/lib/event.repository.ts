@@ -31,7 +31,6 @@ export class EventRepository {
   }
 
   public async findAllActive(query: QueryEventModel): Promise<EventModel[]> {
-    console.log(query.isActive);
     return this.prisma.event.findMany({
       skip: query.offset,
       take: query.limit,

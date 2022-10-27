@@ -21,8 +21,8 @@ export class PaginationComponent implements OnInit {
   currentPage = 1;
   maxPage = 10;
   minPage = 1;
+
   ngOnInit(): void {
-    console.log(this.currentPagination);
     this.currentPage = Math.floor(this.currentPagination.offset / PAGINATION_BASE_LIMIT) + 1;
     this.paginationAvailablePages = this._generateNewUiPagination(this.currentPage);
   }
