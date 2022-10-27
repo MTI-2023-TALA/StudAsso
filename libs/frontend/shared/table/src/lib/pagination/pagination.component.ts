@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 
+import { PAGINATION_BASE_LIMIT } from '@stud-asso/shared/dtos';
 import { Pagination } from '../table/table.model';
 
 export interface PaginationUI {

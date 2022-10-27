@@ -4,14 +4,16 @@ import {
   AssociationOfferApplicationReviewDto,
   AssociationOfferDto,
   CreateAssociationOfferDto,
+  PAGINATION_BASE_LIMIT,
+  PAGINATION_BASE_OFFSET,
 } from '@stud-asso/shared/dtos';
 import { ICreateOfferFormly, createOfferFormly } from './offer-page.formly';
+import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { Component } from '@angular/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 export type OfferDto = Omit<AssociationOfferDto, 'deadline'> & { deadline: string };
 export type ApplicationDto = Omit<AssociationOfferApplicationReviewDto, 'applicationDate'> & {
@@ -75,7 +77,9 @@ export class OfferPageComponent {
   rolesList: SelectOption[] = [];
 
   offerList: OfferDto[] = [];
+  paginationOffer: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   applicationList: ApplicationDto[] = [];
+  paginationApplication: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
 
   constructor(
@@ -86,27 +90,39 @@ export class OfferPageComponent {
   ) {}
 
   ngOnInit(): void {
-    this.reloadData();
+    this.reloadData(this.paginationOffer, this.paginationApplication);
   }
 
-  reloadData(): void {
+  onUpdatePaginationOffer(pagination: Pagination): void {
+    this.paginationOffer = pagination;
+    this.reloadData(this.paginationOffer, this.paginationApplication);
+  }
+
+  onUpdatePaginationApplication(pagination: Pagination): void {
+    this.paginationApplication = pagination;
+    this.reloadData(this.paginationOffer, this.paginationApplication);
+  }
+
+  reloadData(paginationOffer: Pagination, paginationApplication: Pagination): void {
     this.isLoading = true;
     Promise.all([
       this.apiRole.findAllRoleWithAsso().subscribe((roles: AssociationDto[]) => {
         this.rolesList = roles.map((role) => ({ label: role.name, value: role.id.toString() }));
       }),
-      this.apiOffer.findAll().subscribe((offerList: AssociationOfferDto[]) => {
+      this.apiOffer.findAll(paginationOffer).subscribe((offerList: AssociationOfferDto[]) => {
         this.offerList = offerList.map((offer) => ({
           ...offer,
           deadline: new Date(offer.deadline).toLocaleDateString(),
         }));
       }),
-      this.apiOffer.findAllApplication().subscribe((applicationList: AssociationOfferApplicationReviewDto[]) => {
-        this.applicationList = applicationList.map((application) => ({
-          ...application,
-          applicationDate: new Date(application.applicationDate).toLocaleDateString(),
-        }));
-      }),
+      this.apiOffer
+        .findAllApplication(paginationApplication)
+        .subscribe((applicationList: AssociationOfferApplicationReviewDto[]) => {
+          this.applicationList = applicationList.map((application) => ({
+            ...application,
+            applicationDate: new Date(application.applicationDate).toLocaleDateString(),
+          }));
+        }),
     ]).finally(() => (this.isLoading = false));
   }
 
@@ -115,7 +131,7 @@ export class OfferPageComponent {
       const payload: CreateAssociationOfferDto = { roleId: +data.roleId, deadline: new Date(data.deadline) };
       this.apiOffer.createApplication(payload).subscribe(() => {
         this.toast.addAlert({ title: 'Offre créée', type: ToastType.Success });
-        this.reloadData();
+        this.reloadData(this.paginationOffer, this.paginationApplication);
       });
     };
   }
@@ -124,7 +140,7 @@ export class OfferPageComponent {
     this.apiRole.addRoleToUser({ userId: userId, roleId: roleId }).subscribe(() => {
       this.apiOffer.removeApplication(id).subscribe(() => {
         this.toast.addAlert({ title: 'Membre ajouté', type: ToastType.Success });
-        this.reloadData();
+        this.reloadData(this.paginationOffer, this.paginationApplication);
       });
     });
   }

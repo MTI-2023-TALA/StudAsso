@@ -2,17 +2,19 @@ import {
   AddRoleToUserDto,
   AssociationDto,
   AssociationMemberWithRoleDto,
+  PAGINATION_BASE_LIMIT,
+  PAGINATION_BASE_OFFSET,
   UserIdAndEmailDto,
 } from '@stud-asso/shared/dtos';
 import { ApiAssociationService, ApiRoleService, ApiUserService } from '@stud-asso/frontend-core-api';
 import { Component, OnInit } from '@angular/core';
 import { ICreateMemberFormly, createMemberFormly } from './member-page.formly';
+import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 export type AssociationMember = AssociationMemberWithRoleDto & { identity: string };
 
@@ -41,6 +43,7 @@ export class MemberPageComponent implements OnInit {
   usersList: SelectOption[] = [];
   rolesList: SelectOption[] = [];
   membersList: AssociationMember[] = [];
+  pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
 
   constructor(
     private modal: ModalService,
@@ -51,10 +54,15 @@ export class MemberPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.reloadData();
+    this.reloadData(this.pagination);
   }
 
-  reloadData(): void {
+  onUpdatePagination(pagination: Pagination): void {
+    this.pagination = pagination;
+    this.reloadData(pagination);
+  }
+
+  reloadData(pagination: Pagination): void {
     this.isLoading = true;
 
     Promise.all([
@@ -64,7 +72,7 @@ export class MemberPageComponent implements OnInit {
       this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
         this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
       }),
-      this.apiAssociation.findMembers().subscribe((members: AssociationMemberWithRoleDto[]) => {
+      this.apiAssociation.findMembers(pagination).subscribe((members: AssociationMemberWithRoleDto[]) => {
         this.membersList = members.map((member) => ({
           ...member,
           identity: `${member.userFullName} <${member.userEmail}>`,
@@ -78,7 +86,7 @@ export class MemberPageComponent implements OnInit {
       const payload: AddRoleToUserDto = { userId: +data.userId, roleId: +data.roleId };
       this.apiRole.addRoleToUser(payload).subscribe(() => {
         this.toast.addAlert({ title: 'Membre ajouté', type: ToastType.Success });
-        this.reloadData();
+        this.reloadData(this.pagination);
       });
     };
   }

@@ -42,7 +42,7 @@ export class ApiAssociationService extends ApiBaseService {
     return this.apiService.get<AssociationWithPresidentDto, undefined>(`${this.url}/${id}`);
   }
 
-  public findMembers(): Observable<AssociationMemberWithRoleDto[]> {
-    return this.apiService.get<AssociationMemberWithRoleDto[], undefined>(`${this.url}/members`);
+  public findMembers(query: QueryPagination = undefined): Observable<AssociationMemberWithRoleDto[]> {
+    return this.apiService.get<AssociationMemberWithRoleDto[], QueryPagination>(`${this.url}/members`, query);
   }
 }

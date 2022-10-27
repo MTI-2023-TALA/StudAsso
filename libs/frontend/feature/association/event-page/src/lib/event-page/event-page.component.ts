@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { EventDto, PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 import { ICreateEventFormly, createEventFormly } from './event-page.formly';
+import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
-import { EventDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 interface Event {
   id: number;
@@ -50,17 +50,23 @@ export class EventPageComponent implements OnInit {
     ],
   };
   eventList: Event[] = [];
+  pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
 
   constructor(private api: ApiEventService, private modal: ModalService, private toast: ToastService) {}
 
   ngOnInit() {
-    this.reloadData();
+    this.reloadData(this.pagination);
   }
 
-  reloadData() {
+  onUpdatePagination(pagination: Pagination) {
+    this.pagination = pagination;
+    this.reloadData(pagination);
+  }
+
+  reloadData(pagination: Pagination) {
     this.isLoading = true;
-    this.api.findAll().subscribe((events: EventDto[]) => {
+    this.api.findAll(pagination).subscribe((events: EventDto[]) => {
       this.eventList = events.map((event) => ({ ...event, date: new Date(event.date).toLocaleDateString() }));
       this.isLoading = false;
     });
@@ -108,7 +114,7 @@ export class EventPageComponent implements OnInit {
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Evénement créé', type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });
@@ -128,7 +134,7 @@ export class EventPageComponent implements OnInit {
     this.api.remove(id).subscribe({
       complete: () => {
         this.toast.addAlert({ title: 'Evénement supprimé', type: ToastType.Success });
-        this.reloadData();
+        this.reloadData(this.pagination);
       },
     });
   }
@@ -138,7 +144,7 @@ export class EventPageComponent implements OnInit {
       this.api.update(id, { ...model, date: new Date(model.date) }).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Evénement modifié`, type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });
