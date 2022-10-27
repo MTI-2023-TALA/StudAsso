@@ -4,4 +4,7 @@
   [withButton]="false"
   [data]="financeList"
   [isLoading]="isLoading"
+  [shouldShowPagination]="true"
+  [currentPagination]="pagination"
+  (pagination)="onUpdatePagination($event)"
 ></stud-asso-generic-page>

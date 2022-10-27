@@ -44,25 +44,27 @@ export class StockPageComponent implements OnInit {
   };
 
   stockList: StockDto[] = [];
+  pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = false;
 
   constructor(private api: ApiStockService, private modal: ModalService, private toast: ToastService) {}
 
   ngOnInit(): void {
-    this.reloadData();
+    this.reloadData(this.pagination);
   }
 
   handleError() {
     return () => this.toast.addAlert({ title: 'Erreur lors de la récupération des stocks', type: ToastType.Error });
   }
 
-  onUpdatePagination() {
-    this.reloadData();
+  onUpdatePagination(pagination: Pagination) {
+    this.pagination = pagination;
+    this.reloadData(this.pagination);
   }
 
-  reloadData() {
+  reloadData(pagination: Pagination) {
     this.isLoading = true;
-    this.api.findAllStockWithAssoId().subscribe((stocks: StockDto[]) => {
+    this.api.findAllStockWithAssoId(pagination).subscribe((stocks: StockDto[]) => {
       this.stockList = stocks;
       this.isLoading = false;
     });
@@ -100,7 +102,7 @@ export class StockPageComponent implements OnInit {
       this.api.create(payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Stock créé', type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });
@@ -120,7 +122,7 @@ export class StockPageComponent implements OnInit {
     this.api.remove(id).subscribe({
       complete: () => {
         this.toast.addAlert({ title: 'Stock supprimé', type: ToastType.Success });
-        this.reloadData();
+        this.reloadData(this.pagination);
       },
     });
   }
@@ -130,7 +132,7 @@ export class StockPageComponent implements OnInit {
       this.api.update(id, model).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Stock modifié`, type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });

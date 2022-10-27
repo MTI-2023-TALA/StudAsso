@@ -5,4 +5,7 @@
   (buttonFunction)="createModalEvent()"
   [data]="eventList"
   [isLoading]="isLoading"
+  [shouldShowPagination]="true"
+  [currentPagination]="pagination"
+  (pagination)="onUpdatePagination($event)"
 ></stud-asso-generic-page>

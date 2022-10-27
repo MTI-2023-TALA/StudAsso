@@ -17,7 +17,6 @@ import { RolePageComponent } from '@stud-asso/frontend/feature/association/role-
 import { SelectionAssoPageComponent } from '@stud-asso/frontend/feature/association/select-association-page';
 
 const mainRouteConfig: NavbarItem[] = [
-  { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
   { title: 'Membres', icon: 'people', url: '/members' },
   { title: 'News', icon: 'newspaper', url: '/news' },
   { title: 'Stocks', icon: 'cart', url: '/stock' },

@@ -28,8 +28,8 @@ export class ApiStockService extends ApiBaseService {
     return this.apiService.delete<StockDto>(`${this.url}/${id}`);
   }
 
-  public findAllStockWithAssoId(): Observable<StockDto[]> {
-    return this.apiService.get<StockDto[], undefined>(`${this.url}/asso`);
+  public findAllStockWithAssoId(query: QueryPagination): Observable<StockDto[]> {
+    return this.apiService.get<StockDto[], QueryPagination>(`${this.url}/asso`, query);
   }
 
   public findAllAssoStockLog(query: QueryPagination = undefined): Observable<StockLogWithUserDto[]> {

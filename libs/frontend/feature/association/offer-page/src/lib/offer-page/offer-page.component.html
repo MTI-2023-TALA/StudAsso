@@ -5,6 +5,9 @@
   (buttonFunction)="createModalOffer()"
   [data]="offerList"
   [isLoading]="isLoading"
+  [shouldShowPagination]="true"
+  [currentPagination]="paginationOffer"
+  (pagination)="onUpdatePaginationOffer($event)"
 ></stud-asso-generic-page>
 <stud-asso-generic-page
   [title]="'Candidatures'"
@@ -12,4 +15,7 @@
   [withButton]="false"
   [data]="applicationList"
   [isLoading]="isLoading"
+  [shouldShowPagination]="true"
+  [currentPagination]="paginationApplication"
+  (pagination)="onUpdatePaginationApplication($event)"
 ></stud-asso-generic-page>

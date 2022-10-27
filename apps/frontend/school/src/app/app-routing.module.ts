@@ -10,7 +10,6 @@ import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NgModule } from '@angular/core';
 
 const mainRouteConfig: NavbarItem[] = [
-  { title: 'Tableau de bord', icon: 'columns-gap', url: '/' },
   { title: 'Associations', icon: 'person-lines-fill', url: '/associations' },
   { title: 'Financement', icon: 'currency-dollar', url: '/financement' },
 ];

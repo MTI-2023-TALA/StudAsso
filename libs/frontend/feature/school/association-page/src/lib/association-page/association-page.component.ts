@@ -1,5 +1,10 @@
 import { ApiAssociationService, ApiUserService } from '@stud-asso/frontend-core-api';
-import { AssociationWithPresidentDto, UserIdAndEmailDto } from '@stud-asso/shared/dtos';
+import {
+  AssociationWithPresidentDto,
+  PAGINATION_BASE_LIMIT,
+  PAGINATION_BASE_OFFSET,
+  UserIdAndEmailDto,
+} from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmModalComponent, ModalService } from '@stud-asso/frontend-shared-modal';
 import {
@@ -8,11 +13,11 @@ import {
   createAssociationFormly,
   modifyAssociationFormly,
 } from './association-page.formly';
+import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 @Component({
   selector: 'stud-asso-association-page',
@@ -48,7 +53,7 @@ export class AssociationPageComponent implements OnInit {
   associationList: AssociationWithPresidentDto[] = [];
 
   usersList: SelectOption[] = [];
-
+  pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
 
   constructor(
@@ -59,13 +64,18 @@ export class AssociationPageComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.reloadData();
+    this.reloadData(this.pagination);
   }
 
-  reloadData() {
+  onUpdatePagination(pagination: Pagination) {
+    this.pagination = pagination;
+    this.reloadData(pagination);
+  }
+
+  reloadData(pagination: Pagination) {
     this.isLoading = true;
     Promise.all([
-      this.apiAssociation.findAll().subscribe((associations: AssociationWithPresidentDto[]) => {
+      this.apiAssociation.findAll(pagination).subscribe((associations: AssociationWithPresidentDto[]) => {
         this.associationList = associations;
       }),
       this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
@@ -103,7 +113,7 @@ export class AssociationPageComponent implements OnInit {
       this.apiAssociation.create(dto).subscribe({
         complete: () => {
           this.toast.addAlert({ title: 'Association créée', type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });
@@ -120,7 +130,7 @@ export class AssociationPageComponent implements OnInit {
   }
 
   deleteAssociation(id: number) {
-    this.apiAssociation.remove(id).subscribe({ complete: () => this.reloadData() });
+    this.apiAssociation.remove(id).subscribe({ complete: () => this.reloadData(this.pagination) });
   }
 
   modifyAssociation(id: number) {
@@ -128,7 +138,7 @@ export class AssociationPageComponent implements OnInit {
       this.apiAssociation.update(id, model).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Nom de l'association modifiée`, type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });

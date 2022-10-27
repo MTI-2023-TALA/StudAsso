@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FundingDto, PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
 import { IUpdateFinanceFormly, studyFinanceFormly } from './financement-page.formly';
-import { TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
+import { Pagination, TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
 import { Tag, TagType } from '@stud-asso/frontend-shared-tag';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiFundingService } from '@stud-asso/frontend-core-api';
-import { FundingDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 
 type Funding = Omit<FundingDto, 'status' | 'createdAt'> & {
@@ -57,18 +57,24 @@ export class FinancementPageComponent implements OnInit {
     ],
   };
   financeList: Funding[] = [];
+  pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
 
   isLoading = true;
 
   constructor(private modal: ModalService, private toast: ToastService, private api: ApiFundingService) {}
 
   ngOnInit() {
-    this.reloadData();
+    this.reloadData(this.pagination);
   }
 
-  reloadData() {
+  onUpdatePagination(pagination: Pagination) {
+    this.pagination = pagination;
+    this.reloadData(this.pagination);
+  }
+
+  reloadData(pagination: Pagination) {
     this.isLoading = true;
-    this.api.findAll().subscribe((fundings: FundingDto[]) => {
+    this.api.findAll(pagination).subscribe((fundings: FundingDto[]) => {
       this.financeList = fundings.map((funding) => ({
         ...funding,
         createdAt: new Date(funding.createdAt).toLocaleDateString(),
@@ -103,7 +109,7 @@ export class FinancementPageComponent implements OnInit {
       this.api.update(id, payload).subscribe({
         complete: () => {
           this.toast.addAlert({ title: `Modification effectuée`, type: ToastType.Success });
-          this.reloadData();
+          this.reloadData(this.pagination);
         },
         error: this.handleError(),
       });
