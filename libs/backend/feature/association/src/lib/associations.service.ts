@@ -138,10 +138,16 @@ export class AssociationsService {
     const asso = await this.associationRepository.findOne(assoId);
     if (!asso) throw new Error(ERROR.ASSO_NOT_FOUND);
 
-    const isInAsso = await this.associationsMemberRepository.isUserMemberOfAssociation(userId, assoId);
+    const isInAsso = await this.associationsMemberRepository.isUserMemberOfAssociation({
+      userId,
+      assoId: assoId,
+    });
     if (!isInAsso) throw new Error(ERROR.USER_NOT_MEMBER_OF_ASSO);
 
-    const isPresident = await this.associationsMemberRepository.isUserPresidentOfAssociation(userId, assoId);
+    const isPresident = await this.associationsMemberRepository.isUserPresidentOfAssociation({
+      userId,
+      assoId: assoId,
+    });
     if (isPresident) throw new Error(ERROR.CANNOT_KICK_PRESIDENT);
 
     return this.associationsMemberRepository.delete({ userId, assoId });

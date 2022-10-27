@@ -70,7 +70,7 @@ export class FundingDto {
   name: string;
   amount: number;
   motivation: string;
-  status: string;
+  status: FUNDING_STATUS;
   schoolComment?: string;
   association: string;
 }

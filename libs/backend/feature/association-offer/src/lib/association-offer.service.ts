@@ -65,10 +65,10 @@ export class AssociationOfferService {
     );
     if (!applicationOffer) throw new Error(ERROR.ASSOCIATION_OFFER_NOT_FOUND);
 
-    const isMemberOfAsso = await this.associationsMemberRepository.isUserMemberOfAssociation(
+    const isMemberOfAsso = await this.associationsMemberRepository.isUserMemberOfAssociation({
       userId,
-      applicationOffer.associationId
-    );
+      assoId: applicationOffer.associationId,
+    });
     if (isMemberOfAsso) throw new Error(ERROR.USER_ALREADY_MEMBER_OF_ASSO);
 
     const createAssoOfferApplicationModel: CreateAssociationOfferApplicationModel = {

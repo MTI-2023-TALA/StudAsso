@@ -63,18 +63,21 @@ export class AssociationsMemberRepository {
     return this.prisma.associationMember.findMany(query);
   }
 
-  public async isUserMemberOfAssociation(userId: number, associationId: number): Promise<boolean> {
+  public async isUserMemberOfAssociation(userIdAndUserPayload: UserIdAssoIdModel): Promise<boolean> {
     const isMemberOfAsso = await this.prisma.associationMember.findFirst({
-      where: { userId, associationId },
+      where: {
+        userId: userIdAndUserPayload.userId,
+        associationId: userIdAndUserPayload.assoId,
+      },
     });
     return isMemberOfAsso ? true : false;
   }
 
-  public async isUserPresidentOfAssociation(userId: number, associationId: number): Promise<boolean> {
+  public async isUserPresidentOfAssociation(userIdAndUserPayload: UserIdAssoIdModel): Promise<boolean> {
     const isPresidentOfAsso = await this.prisma.associationMember.findFirst({
       where: {
-        userId,
-        associationId,
+        userId: userIdAndUserPayload.userId,
+        associationId: userIdAndUserPayload.assoId,
         role: {
           name: 'Président',
         },
