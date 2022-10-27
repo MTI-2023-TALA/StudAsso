@@ -19,7 +19,7 @@ describe('EventsController', () => {
         date: new Date('15-02-2022'),
         content: 'content',
         associationId: 1,
-        association: { id: 1, name: 'Association 1' },
+        associationName: 'Association 1',
       },
       {
         id: 2,
@@ -27,7 +27,7 @@ describe('EventsController', () => {
         date: new Date('28-02-2022'),
         content: 'content',
         associationId: 2,
-        association: { id: 2, name: 'Association 2' },
+        associationName: 'Association 2',
       },
       {
         id: 3,
@@ -35,7 +35,7 @@ describe('EventsController', () => {
         date: new Date('13-03-2022'),
         content: 'content',
         associationId: 1,
-        association: { id: 1, name: 'Association 1' },
+        associationName: 'Association 1',
       },
     ];
 
@@ -67,7 +67,7 @@ describe('EventsController', () => {
                 id,
                 ...createEventPayload,
                 associationId,
-                association: { id: associationId, name: 'Association 1' },
+                associationName: 'Association 1',
               };
               mockedEvents.push(newEvent);
               return Promise.resolve(newEvent);
@@ -124,7 +124,7 @@ describe('EventsController', () => {
         id: mockedEvents.length + 1,
         ...createEventPayload,
         associationId,
-        association: { id: associationId, name: 'Association 1' },
+        associationName: 'Association 1',
       };
 
       expect(await controller.create(associationId, createEventPayload)).toEqual(newEvent);

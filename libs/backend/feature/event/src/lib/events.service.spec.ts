@@ -24,7 +24,7 @@ describe('EventsService', () => {
         date: new Date('15-02-2022'),
         content: 'content',
         associationId: 1,
-        association: { id: 1, name: 'Association 1' },
+        associationName: 'Association 1',
       },
       {
         id: 2,
@@ -32,7 +32,7 @@ describe('EventsService', () => {
         date: new Date('28-02-2022'),
         content: 'content',
         associationId: 2,
-        association: { id: 2, name: 'Association 2' },
+        associationName: 'Association 2',
       },
       {
         id: 3,
@@ -40,7 +40,7 @@ describe('EventsService', () => {
         date: new Date('13-03-2022'),
         content: 'content',
         associationId: 1,
-        association: { id: 1, name: 'Association 1' },
+        associationName: 'Association 1',
       },
     ];
 
@@ -71,7 +71,7 @@ describe('EventsService', () => {
               const newEvent: EventDto = {
                 id,
                 ...createEventPayload,
-                association: { id: createEventPayload.associationId, name: 'Association 1' },
+                associationName: 'Association 1',
               };
               mockedEvents.push(newEvent);
               return Promise.resolve(newEvent);
@@ -140,7 +140,7 @@ describe('EventsService', () => {
         id: mockedEvents.length + 1,
         ...createEventPayload,
         associationId,
-        association: { id: associationId, name: 'Association 1' },
+        associationName: 'Association 1',
       };
 
       expect(await service.create(associationId, createEventPayload)).toEqual(newEvent);

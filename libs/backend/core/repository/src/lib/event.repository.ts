@@ -16,7 +16,7 @@ const eventSelect = {
   content: true,
   associationId: true,
   association: {
-    select: { id: true, name: true },
+    select: { name: true },
   },
 };
 
