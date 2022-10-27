@@ -1,7 +1,7 @@
 import {
   AssociationDto,
-  AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
+  AssociationsMemberDto,
   CreateAssociationDto,
   QueryAssociationMembersDto,
   QueryPaginationDto,
@@ -93,6 +93,18 @@ export class AssociationsController {
       return await this.associationsService.update(+id, updateAssociationDto);
     } catch (error) {
       throw new BadRequestException(error?.message);
+    }
+  }
+
+  @Delete('member/:userId')
+  public async deleteUserFromAsso(
+    @Param('userId') userId: string,
+    @GetCurrentAssoId() assoId: number
+  ): Promise<AssociationsMemberDto> {
+    try {
+      return await this.associationsService.deleteUserFromAsso(+userId, assoId);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
     }
   }
 

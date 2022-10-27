@@ -12,6 +12,12 @@ export class AssociationsMemberModel {
   deletedAt: Date;
 }
 
+export class SimpleAssociationsMemberModel {
+  associationId: number;
+  userId: number;
+  roleId: number;
+}
+
 export class AssociationIdAndNameModel {
   associationId: number;
   association: AssociationNameModel;

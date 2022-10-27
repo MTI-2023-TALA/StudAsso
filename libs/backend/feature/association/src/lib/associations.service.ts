@@ -2,6 +2,7 @@ import {
   AssociationDto,
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
+  AssociationsMemberDto,
   CreateAssociationDto,
   QueryAssociationMembersDto,
   QueryPaginationDto,
@@ -128,6 +129,22 @@ export class AssociationsService {
         }
       }
     }
+  }
+
+  public async deleteUserFromAsso(userId: number, assoId: number): Promise<AssociationsMemberDto> {
+    const user = await this.userRepository.findOne(userId);
+    if (!user) throw new Error(ERROR.USER_NOT_FOUND);
+
+    const asso = await this.associationRepository.findOne(assoId);
+    if (!asso) throw new Error(ERROR.ASSO_NOT_FOUND);
+
+    const isInAsso = await this.associationsMemberRepository.isUserMemberOfAssociation(userId, assoId);
+    if (!isInAsso) throw new Error(ERROR.USER_NOT_MEMBER_OF_ASSO);
+
+    const isPresident = await this.associationsMemberRepository.isUserPresidentOfAssociation(userId, assoId);
+    if (isPresident) throw new Error(ERROR.CANNOT_KICK_PRESIDENT);
+
+    return this.associationsMemberRepository.delete({ userId, assoId });
   }
 
   private formatAsso(asso: AssociationWithPresidentModel): AssociationWithPresidentDto {
