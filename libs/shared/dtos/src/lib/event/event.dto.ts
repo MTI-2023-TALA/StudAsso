@@ -1,7 +1,7 @@
 import { IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
 
 import { QueryPaginationDto } from '../query/query.dto';
+import { Transform } from 'class-transformer';
 
 // Request DTOs
 
