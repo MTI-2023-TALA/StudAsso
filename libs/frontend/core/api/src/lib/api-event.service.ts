@@ -30,4 +30,12 @@ export class ApiEventService extends ApiBaseService {
   public findAll(query: QueryPagination = undefined): Observable<EventDto[]> {
     return this.apiService.get<EventDto[], QueryPagination>(this.url, query);
   }
+
+  public findAllByAssociationId(query: QueryPagination = undefined): Observable<EventDto[]> {
+    return this.apiService.get<EventDto[], QueryPagination>(`${this.url}/asso`, query);
+  }
+
+  public findAllByMyAssociationId(query: QueryPagination = undefined): Observable<EventDto[]> {
+    return this.apiService.get<EventDto[], QueryPagination>(`${this.url}/asso/me`, query);
+  }
 }
