@@ -51,4 +51,8 @@ export class EventDto {
   date: Date;
   content: string;
   associationId: number;
+  association: {
+    id: number;
+    name: string;
+  };
 }

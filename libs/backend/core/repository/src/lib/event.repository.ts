@@ -9,7 +9,16 @@ import {
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
-const eventSelect = { id: true, name: true, date: true, content: true, associationId: true };
+const eventSelect = {
+  id: true,
+  name: true,
+  date: true,
+  content: true,
+  associationId: true,
+  association: {
+    select: { id: true, name: true },
+  },
+};
 
 @Injectable()
 export class EventRepository {
@@ -36,7 +45,7 @@ export class EventRepository {
       skip: query.offset,
       take: query.limit,
       orderBy: {
-        date: 'asc',
+        date: query.isActive ? 'asc' : 'desc',
       },
       where: {
         date: query.isActive
