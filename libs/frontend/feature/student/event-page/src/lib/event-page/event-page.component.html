@@ -1,28 +1,24 @@
 <div class="host">
   <div class="incoming-event" *ngIf="eventList && eventList.length !== 0">
     <div class="title">Evénements à Venir</div>
-
     <div class="s-card-list" *ngFor="let item of eventList">
-      <div class="s-card">
-        <div class="s-card-header">
-          <div class="s-card-title">{{ item.name }}</div>
-          <div class="s-card-asso">Le {{ item.date | date: 'd/M/yy' }} - {{ item.association.name }}</div>
-        </div>
-        <div class="s-card-body">{{ item.content }}</div>
-      </div>
+      <ng-container [ngTemplateOutlet]="eventCard" [ngTemplateOutletContext]="{ event: item }"></ng-container>
     </div>
   </div>
   <div class="previous-event" *ngIf="pastEventList && pastEventList.length !== 0">
     <div class="title">Evénements Passé</div>
-
     <div class="s-card-list" *ngFor="let item of pastEventList">
-      <div class="s-card">
-        <div class="s-card-header">
-          <div class="s-card-title">{{ item.name }}</div>
-          <div class="s-card-asso">Le {{ item.date | date: 'd/M/yy' }} - {{ item.association.name }}</div>
-        </div>
-        <div class="s-card-body">{{ item.content }}</div>
-      </div>
+      <ng-container [ngTemplateOutlet]="eventCard" [ngTemplateOutletContext]="{ event: item }"></ng-container>
     </div>
   </div>
 </div>
+
+<ng-template #eventCard let-event="event">
+  <div class="s-card">
+    <div class="s-card-header">
+      <div class="s-card-title">{{ event.name }}</div>
+      <div class="s-card-asso">Le {{ event.date | date: 'd/M/yy' }} - {{ event.association.name }}</div>
+    </div>
+    <div class="s-card-body">{{ event.content }}</div>
+  </div>
+</ng-template>
