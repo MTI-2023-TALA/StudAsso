@@ -1,5 +1,6 @@
 import {
   AssociationDto,
+  AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   AssociationsMemberDto,
   CreateAssociationDto,
