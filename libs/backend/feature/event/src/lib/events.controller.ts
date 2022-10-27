@@ -36,6 +36,18 @@ export class EventsController {
     return this.eventsService.findAll(query);
   }
 
+  @Get('asso/me')
+  public async findAllByMyAssociationId(
+    @GetCurrentAssoId() assoId: number,
+    @Query() query: QueryPaginationDto
+  ): Promise<EventDto[]> {
+    try {
+      return await this.eventsService.findAllByAssociationId(+assoId, query);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @Get('asso/:id')
   public async findAllByAssociationId(
     @Param('id') id: string,

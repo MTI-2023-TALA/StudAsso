@@ -66,7 +66,7 @@ export class EventPageComponent implements OnInit {
 
   reloadData(pagination: Pagination) {
     this.isLoading = true;
-    this.api.findAll(pagination).subscribe((events: EventDto[]) => {
+    this.api.findAllByMyAssociationId(pagination).subscribe((events: EventDto[]) => {
       this.eventList = events.map((event) => ({ ...event, date: new Date(event.date).toLocaleDateString() }));
       this.isLoading = false;
     });
