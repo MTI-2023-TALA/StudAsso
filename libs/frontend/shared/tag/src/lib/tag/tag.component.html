@@ -5,7 +5,7 @@
   [class.tag-success]="type === TagType.Success"
   [class.tag-information]="type === TagType.Information"
   [class.clickable]="shouldBeClickable"
-  (click)="onClickCross()"
+  (click)="onClickCross($event)"
 >
   <div class="left">
     {{ message }}

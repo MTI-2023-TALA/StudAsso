@@ -3,9 +3,11 @@
 .multiple-select-list {
   display: flex;
   width: 100%;
+  min-height: 40px;
   max-width: 100%;
   background-color: $white;
   border: 1px solid #dbdbdb;
+  border-radius: 4px;
   color: #363636;
 
   .multiple-input {
@@ -16,6 +18,7 @@
     width: 100%;
     max-width: 100%;
     padding: 0.25rem;
+    cursor: pointer;
   }
 
   .right {
@@ -43,4 +46,10 @@
     align-items: center;
     flex-wrap: wrap;
   }
+}
+
+.mutliple-input-empty-space {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
 }

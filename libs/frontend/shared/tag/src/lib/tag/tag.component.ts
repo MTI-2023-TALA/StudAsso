@@ -19,8 +19,9 @@ export class TagComponent {
   @Input() value = '';
   @Output() clickTag = new EventEmitter<string>();
 
-  public onClickCross() {
+  public onClickCross(event: MouseEvent) {
     if (this.shouldBeClickable) {
+      event.stopPropagation();
       this.clickTag.emit(this.value);
     }
   }
