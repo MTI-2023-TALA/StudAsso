@@ -1,3 +1,4 @@
+import { Access, GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import {
   AssociationOfferApplicationDto,
   AssociationOfferApplicationReviewDto,
@@ -9,15 +10,15 @@ import {
   QueryPaginationDto,
 } from '@stud-asso/shared/dtos';
 import { Body, ConflictException, Delete, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
-import { GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import { AssociationOfferService } from './association-offer.service';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
 @SwaggerController('association_offers')
 export class AssociationOfferController {
   constructor(private associationOfferService: AssociationOfferService) {}
 
-  // put acl
+  @Access(PermissionId.OFFERS_MANAGEMENT)
   @Post()
   public async createAssociationOffer(
     @GetCurrentAssoId() assoId: number,
@@ -74,7 +75,6 @@ export class AssociationOfferController {
     }
   }
 
-  // put acl
   @Get('/application')
   public async findAllApplications(
     @GetCurrentAssoId() assoId: number,
@@ -83,7 +83,6 @@ export class AssociationOfferController {
     return this.associationOfferService.findAllApplications(assoId, query);
   }
 
-  // put acl
   @Get('/application/:id')
   public async findOneApplication(@Param('id') id: string): Promise<AssociationOfferApplicationReviewDto> {
     try {
@@ -101,7 +100,7 @@ export class AssociationOfferController {
     return this.associationOfferService.findStatsForOffers(assoId, query);
   }
 
-  // put acl
+  @Access(PermissionId.OFFERS_MANAGEMENT)
   @Delete('/application/:id')
   public async deleteApplication(@Param('id') id: string): Promise<AssociationOfferApplicationDto> {
     try {
