@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateNewsDto, NewsDto, PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET } from '@stud-asso/shared/dtos';
-import { ICreateNewsFormly, createNewsFormly } from './news-page.formly';
+import {
+  CreateNewsDto,
+  NewsDto,
+  PAGINATION_BASE_LIMIT,
+  PAGINATION_BASE_OFFSET,
+  UpdateNewsDto,
+} from '@stud-asso/shared/dtos';
+import { ICreateNewsFormly, createNewsFormly, updateNewsFormly } from './news-page.formly';
 import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
@@ -25,7 +31,20 @@ export class NewsPageComponent implements OnInit {
         size: 2,
       },
     ],
-    actions: [],
+    actions: [
+      {
+        label: 'Modifer',
+        action: (news) => {
+          return this.createModalUpdateNews(news);
+        },
+      },
+      {
+        label: 'Supprimer',
+        action: (news) => {
+          this.createModalDelete(news);
+        },
+      },
+    ],
   };
 
   newsList: NewsDto[] = [];
@@ -68,6 +87,41 @@ export class NewsPageComponent implements OnInit {
       fields: createNewsFormly,
       submitBtnText: 'Créer',
       submit: this.createNews(),
+    });
+  }
+
+  createModalUpdateNews(news: NewsDto): void {
+    this.modal.createForm({
+      title: "Modification d'une news",
+      fields: updateNewsFormly(news),
+      submitBtnText: 'Modifier',
+      submit: this.updateNews(news.id),
+    });
+  }
+
+  updateNews(id: number): (data: ICreateNewsFormly) => void {
+    return (data: ICreateNewsFormly) => {
+      const payload: UpdateNewsDto = { ...data };
+      this.api.update(id, payload).subscribe(() => {
+        this.toast.addAlert({ title: 'News modifiée', type: ToastType.Success });
+        this.reloadData(this.pagination);
+      });
+    };
+  }
+
+  createModalDelete(news: NewsDto) {
+    this.modal.createConfirmModal({
+      message: 'Êtes-vous sûr de vouloir supprimer cette news ?',
+      submit: () => {
+        this.deleteNews(news.id);
+      },
+    });
+  }
+
+  deleteNews(id: number): void {
+    this.api.delete(id).subscribe(() => {
+      this.toast.addAlert({ title: 'News supprimée', type: ToastType.Error });
+      this.reloadData(this.pagination);
     });
   }
 }
