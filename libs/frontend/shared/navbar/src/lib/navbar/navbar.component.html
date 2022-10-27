@@ -61,7 +61,12 @@
 
   <nav>
     <ul>
-      <a *ngFor="let item of navbarItems" class="is-size-6 has-text-weight-bold" [routerLink]="[item.url]">
+      <a
+        *ngFor="let item of navbarItems"
+        (click)="toggleNavbarCollapse()"
+        class="is-size-6 has-text-weight-bold"
+        [routerLink]="[item.url]"
+      >
         <li routerLinkActive="router-link-active" routerLinkActive="router-link-active">
           <p>
             <i class="bi bi-{{ item.icon }} p-2"></i>
