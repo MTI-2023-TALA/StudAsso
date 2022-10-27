@@ -11,7 +11,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CreateEventDto, EventDto, QueryPaginationDto, UpdateEventDto } from '@stud-asso/shared/dtos';
+import { CreateEventDto, EventDto, QueryEventDto, QueryPaginationDto, UpdateEventDto } from '@stud-asso/shared/dtos';
 import { EventsService } from './events.service';
 import { PermissionId } from '@stud-asso/shared/permission';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
@@ -34,6 +34,11 @@ export class EventsController {
   @Get()
   public async findAll(@Query() query: QueryPaginationDto): Promise<EventDto[]> {
     return this.eventsService.findAll(query);
+  }
+
+  @Get('active')
+  public async findAllActive(@Query() query: QueryEventDto): Promise<EventDto[]> {
+    return this.eventsService.findAllActive(query);
   }
 
   @Get('asso/me')

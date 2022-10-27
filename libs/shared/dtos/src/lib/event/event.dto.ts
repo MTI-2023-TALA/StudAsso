@@ -1,4 +1,7 @@
-import { IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+
+import { QueryPaginationDto } from '../query/query.dto';
+import { Transform } from 'class-transformer';
 
 // Request DTOs
 
@@ -28,6 +31,16 @@ export class UpdateEventDto {
   @IsOptional()
   @IsString()
   content: string;
+}
+
+// Query Request DTOs
+
+export class QueryEventDto extends QueryPaginationDto {
+  @IsBoolean()
+  @Transform(({ value }) => {
+    return [true, 'enabled', 'true', 1, '1'].indexOf(value) > -1;
+  })
+  isActive: boolean;
 }
 
 // Response DTOs

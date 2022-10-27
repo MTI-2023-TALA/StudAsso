@@ -1,3 +1,5 @@
+import { QueryPaginationModel } from './query.model';
+
 export class EventModel {
   id: number;
   name: string;
@@ -18,4 +20,8 @@ export class UpdateEventModel {
   date?: Date;
   content?: string;
   associationId?: number;
+}
+
+export class QueryEventModel extends QueryPaginationModel {
+  isActive?: boolean;
 }
