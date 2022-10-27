@@ -4,8 +4,10 @@ import {
   CreateFundingDto,
   FundingDto,
   OptionStatFundingDto,
+  QueryFundingStatusDto,
   QueryPaginationDto,
   StatFundingDto,
+  SumFundingStatusDto,
   UpdateFundingDto,
 } from '@stud-asso/shared/dtos';
 import { FundingService } from './funding.service';
@@ -28,6 +30,11 @@ export class FundingController {
   @Get()
   findAll(@GetCurrentAssoId() assoId: number, @Query() query: QueryPaginationDto): Promise<FundingDto[]> {
     return this.backendFeatureFundingService.findAll(assoId, query);
+  }
+
+  @Get('count')
+  getSumOfOfferSpecificStatus(@Query() query: QueryFundingStatusDto): Promise<SumFundingStatusDto> {
+    return this.backendFeatureFundingService.getSumOfOfferSpecificStatus(query);
   }
 
   @Get(':id')
