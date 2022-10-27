@@ -38,7 +38,7 @@ export class EventsController {
 
   @Get('active')
   public async findAllActive(@Query() query: QueryEventDto): Promise<EventDto[]> {
-    return this.eventsService.findALlActive(query);
+    return this.eventsService.findAllActive(query);
   }
 
   @Get('asso/me')

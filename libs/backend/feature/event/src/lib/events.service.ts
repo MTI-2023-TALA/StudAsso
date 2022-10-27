@@ -28,7 +28,7 @@ export class EventsService {
     return this.eventRepository.findAll(query);
   }
 
-  public async findALlActive(query: QueryEventDto) {
+  public async findAllActive(query: QueryEventDto): Promise<EventDto[]> {
     return this.eventRepository.findAllActive(query);
   }
 

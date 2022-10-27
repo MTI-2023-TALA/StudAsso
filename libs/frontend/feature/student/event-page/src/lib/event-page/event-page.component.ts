@@ -16,7 +16,7 @@ export class EventPageComponent implements OnInit {
     this.apiEventService
       .findAllActive({
         isActive: true,
-        limit: 10000,
+        limit: 0,
         offset: 0,
       })
       .subscribe((eventList) => {
