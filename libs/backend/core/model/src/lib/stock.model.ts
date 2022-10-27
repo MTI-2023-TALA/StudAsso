@@ -1,5 +1,6 @@
 import { SORT_ORDER, SORT_STOCK } from '@stud-asso/shared/dtos';
 
+import { Min } from 'class-validator';
 import { QueryPaginationModel } from './query.model';
 import { SimplifiedUserModel } from './user.model';
 
@@ -11,7 +12,14 @@ export class CreateStockModel {
   associationId: number;
 }
 
+export class UpdateStockModel {
+  name?: string;
+  @Min(0)
+  count?: number;
+}
+
 // Query Request Models
+
 export class QueryStockModel extends QueryPaginationModel {
   sort?: SORT_STOCK = SORT_STOCK.BY_NAME;
   order?: SORT_ORDER = SORT_ORDER.ASC;

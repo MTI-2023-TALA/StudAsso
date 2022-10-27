@@ -24,6 +24,11 @@ export class StocksService {
 
   public async create(userId: number, associationId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
     try {
+      const stock = await this.stockRepository.findOneByName(createBaseDto.name);
+      if (stock) {
+        return this.stockRepository.update(stock.id, { count: stock.count + createBaseDto.count });
+      }
+
       const createdStock: StockDto = await this.stockRepository.create({ ...createBaseDto, associationId });
       await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count, 'create');
       return createdStock;

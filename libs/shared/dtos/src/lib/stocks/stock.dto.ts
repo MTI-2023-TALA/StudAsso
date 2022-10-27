@@ -20,12 +20,12 @@ export class CreateStockDto {
 export class UpdateStockDto {
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsInt()
   @Min(0)
-  count: number;
+  count?: number;
 }
 
 export class CreateStockLogDto {
