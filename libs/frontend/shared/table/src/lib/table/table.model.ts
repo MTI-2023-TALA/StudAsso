@@ -1,5 +1,9 @@
 import { TableTextComponent } from '../table-text/table-text.component';
 
+export interface Pagination {
+  offset: number;
+  limit: number;
+}
 export interface ColumnTableConfiguration {
   title: string;
   size: number;

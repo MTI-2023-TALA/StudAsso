@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { FrontendSharedTagModule } from '@stud-asso/frontend-shared-tag';
 import { NgModule } from '@angular/core';
+import { PaginationComponent } from './pagination/pagination.component';
 import { TableComponent } from './table/table.component';
 import { TableDataViewComponent } from './table-item/table-data-view/table-data-view.component';
 import { TableDropdownComponent } from './table-item/table-dropdown/table-dropdown.component';
@@ -21,6 +22,7 @@ import { TableTextComponent } from './table-text/table-text.component';
     TableDataViewComponent,
     TableDropdownComponent,
     TableTagListComponent,
+    PaginationComponent,
   ],
   exports: [TableHeaderComponent, TableComponent],
 })

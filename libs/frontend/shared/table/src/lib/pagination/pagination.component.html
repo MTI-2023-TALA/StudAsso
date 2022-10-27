@@ -1,0 +1,19 @@
+<div class="s-pagination">
+  <div class="pagination-button">
+    <button class="button is-small" (click)="onClickPage(minPage)"><i class="bi bi-chevron-double-left"></i></button>
+    <button class="button is-small" (click)="onClickPage(currentPage - 1)"><i class="bi bi-chevron-left"></i></button>
+
+    <button
+      class="button is-small"
+      *ngFor="let btn of paginationAvailablePages"
+      [class.is-primary]="btn.isCurrentPage"
+      [disabled]="btn.isCurrentPage"
+      (click)="onClickPage(btn.pageNumber)"
+    >
+      {{ btn.pageNumber }}
+    </button>
+
+    <button class="button is-small" (click)="onClickPage(currentPage + 1)"><i class="bi bi-chevron-right"></i></button>
+    <button class="button is-small" (click)="onClickPage(maxPage)"><i class="bi bi-chevron-double-right"></i></button>
+  </div>
+</div>

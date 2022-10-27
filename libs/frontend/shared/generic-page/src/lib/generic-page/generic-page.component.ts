@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
-import { TableConfiguration } from '@stud-asso/frontend-shared-table';
+import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 @Component({
   selector: 'stud-asso-generic-page',
@@ -12,9 +11,12 @@ export class GenericPageComponent {
   @Input() buttonText: string;
   @Input() tableConfiguration: TableConfiguration;
   @Input() withButton = true;
+  @Input() shouldShowPagination = false;
   @Input() data: any[];
+  @Input() currentPagination: Pagination;
 
   @Output() buttonFunction = new EventEmitter<void>();
+  @Output() pagination = new EventEmitter<Pagination>();
 
   @Input() isLoading: boolean;
   onButtonClick() {
