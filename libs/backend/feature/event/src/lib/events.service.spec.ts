@@ -18,9 +18,30 @@ describe('EventsService', () => {
 
   beforeEach(async () => {
     mockedEvents = [
-      { id: 1, name: 'Event 1', date: new Date('15-02-2022'), content: 'content', associationId: 1 },
-      { id: 2, name: 'Event 2', date: new Date('28-02-2022'), content: 'content', associationId: 2 },
-      { id: 3, name: 'Event 3', date: new Date('13-03-2022'), content: 'content', associationId: 1 },
+      {
+        id: 1,
+        name: 'Event 1',
+        date: new Date('15-02-2022'),
+        content: 'content',
+        associationId: 1,
+        association: { id: 1, name: 'Association 1' },
+      },
+      {
+        id: 2,
+        name: 'Event 2',
+        date: new Date('28-02-2022'),
+        content: 'content',
+        associationId: 2,
+        association: { id: 2, name: 'Association 2' },
+      },
+      {
+        id: 3,
+        name: 'Event 3',
+        date: new Date('13-03-2022'),
+        content: 'content',
+        associationId: 1,
+        association: { id: 1, name: 'Association 1' },
+      },
     ];
 
     mockedAssociations = [
@@ -50,6 +71,7 @@ describe('EventsService', () => {
               const newEvent: EventDto = {
                 id,
                 ...createEventPayload,
+                association: { id: createEventPayload.associationId, name: 'Association 1' },
               };
               mockedEvents.push(newEvent);
               return Promise.resolve(newEvent);
@@ -118,6 +140,7 @@ describe('EventsService', () => {
         id: mockedEvents.length + 1,
         ...createEventPayload,
         associationId,
+        association: { id: associationId, name: 'Association 1' },
       };
 
       expect(await service.create(associationId, createEventPayload)).toEqual(newEvent);
