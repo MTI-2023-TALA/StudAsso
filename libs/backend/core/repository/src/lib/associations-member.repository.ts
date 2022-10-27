@@ -1,7 +1,9 @@
 import {
   AddRoleToUserModel,
+  AssoMemberPermissionsModel,
   AssociationMemberWithRoleWithoutIdsModel,
   QueryAssociationMembersModel,
+  UserIdAssoIdModel,
 } from '@stud-asso/backend/core/model';
 
 import { AssociationMember } from '@prisma/client';
@@ -65,5 +67,21 @@ export class AssociationsMemberRepository {
       where: { userId, associationId },
     });
     return isMemberOfAsso ? true : false;
+  }
+
+  public async findAssoMemberPermissions(userIdAssoIdPayload: UserIdAssoIdModel): Promise<AssoMemberPermissionsModel> {
+    return this.prisma.associationMember.findFirst({
+      where: {
+        userId: userIdAssoIdPayload.userId,
+        associationId: userIdAssoIdPayload.assoId,
+      },
+      select: {
+        role: {
+          select: {
+            permissions: true,
+          },
+        },
+      },
+    });
   }
 }

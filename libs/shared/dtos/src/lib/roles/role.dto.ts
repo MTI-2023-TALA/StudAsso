@@ -47,3 +47,7 @@ export class RoleDto {
   associationId: number;
   permissions: PermissionId[];
 }
+
+export class RoleOnlyPermissionsDto {
+  permissions: PermissionId[];
+}

@@ -32,3 +32,14 @@ export class AddRoleToUserModel {
   userId: number;
   roleId: number;
 }
+
+export class UserIdAssoIdModel {
+  userId: number;
+  assoId: number;
+}
+
+export class AssoMemberPermissionsModel {
+  role: {
+    permissions: string[];
+  };
+}
