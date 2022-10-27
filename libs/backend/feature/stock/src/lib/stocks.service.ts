@@ -12,7 +12,7 @@ import {
 
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { StockModel } from '@stud-asso/backend/core/model';
 
 @Injectable()
 export class StocksService {
@@ -23,17 +23,16 @@ export class StocksService {
   ) {}
 
   public async create(userId: number, associationId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
-    try {
-      const createdStock: StockDto = await this.stockRepository.create({ ...createBaseDto, associationId });
-      await this.createStocksLogs(createdStock.id, userId, createdStock.count, createdStock.count, 'create');
-      return createdStock;
-    } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2003' && error.meta.field_name === 'association (index)') {
-          throw new Error(ERROR.ASSO_NOT_FOUND);
-        }
-      }
+    let stock: StockModel = await this.stockRepository.findOneAssoStockByName(createBaseDto.name, associationId);
+    if (stock) {
+      stock = await this.stockRepository.update(stock.id, {
+        count: stock.count + createBaseDto.count,
+      });
+    } else {
+      stock = await this.stockRepository.create({ ...createBaseDto, associationId });
     }
+    await this.createStocksLogs(stock.id, userId, stock.count, stock.count, 'create');
+    return stock;
   }
 
   public async findAllAsso(id: number, query: QueryStockDto): Promise<StockDto[]> {

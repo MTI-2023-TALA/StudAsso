@@ -1,16 +1,5 @@
 import { Access, GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
-import {
-  BadRequestException,
-  Body,
-  ConflictException,
-  Delete,
-  Get,
-  NotFoundException,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
 import {
   CreateStockDto,
   QueryPaginationDto,
@@ -35,11 +24,7 @@ export class StocksController {
     @GetCurrentAssoId() assoId: number,
     @Body() createStockDto: CreateStockDto
   ): Promise<StockDto> {
-    try {
-      return await this.stocksService.create(userId, assoId, createStockDto);
-    } catch (error) {
-      throw new ConflictException(error?.message);
-    }
+    return await this.stocksService.create(userId, assoId, createStockDto);
   }
 
   @Access(PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT)

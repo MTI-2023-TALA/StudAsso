@@ -1,8 +1,7 @@
-import { CreateStockModel, QueryStockModel, StockModel } from '@stud-asso/backend/core/model';
+import { CreateStockModel, QueryStockModel, StockModel, UpdateStockModel } from '@stud-asso/backend/core/model';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
-import { UpdateStockDto } from '@stud-asso/shared/dtos';
 
 const stockSelect = { id: true, name: true, count: true, associationId: true };
 
@@ -36,8 +35,20 @@ export class StockRepository {
     return this.prisma.stock.findUnique({ where: { id }, select: stockSelect });
   }
 
-  public async update(id: number, updateRole: UpdateStockDto): Promise<StockModel> {
-    return this.prisma.stock.update({ where: { id }, data: updateRole, select: stockSelect });
+  public findOneAssoStockByName(name: string, associationId: number): Promise<StockModel> {
+    return this.prisma.stock.findFirst({
+      where: {
+        associationId,
+        name: {
+          equals: name,
+        },
+      },
+      select: stockSelect,
+    });
+  }
+
+  public async update(id: number, updateStockPayload: UpdateStockModel): Promise<StockModel> {
+    return this.prisma.stock.update({ where: { id }, data: updateStockPayload, select: stockSelect });
   }
 
   public async delete(id: number): Promise<StockModel> {
