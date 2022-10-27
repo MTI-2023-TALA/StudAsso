@@ -1,16 +1,5 @@
 import { Access, GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
-import {
-  BadRequestException,
-  Body,
-  ConflictException,
-  Delete,
-  Get,
-  NotFoundException,
-  Param,
-  Patch,
-  Post,
-  Query,
-} from '@nestjs/common';
+import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
 import {
   CreateStockDto,
   QueryPaginationDto,
