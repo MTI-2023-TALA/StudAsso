@@ -31,6 +31,7 @@ export class EventRepository {
   }
 
   public async findAllActive(query: QueryEventModel): Promise<EventModel[]> {
+    const today = new Date();
     return this.prisma.event.findMany({
       skip: query.offset,
       take: query.limit,
@@ -40,10 +41,10 @@ export class EventRepository {
       where: {
         date: query.isActive
           ? {
-              gte: new Date(),
+              gte: today,
             }
           : {
-              lt: new Date(),
+              lt: today,
             },
       },
       select: eventSelect,
