@@ -4,6 +4,7 @@ import {
   CreateRoleDto,
   QueryPaginationDto,
   RoleDto,
+  RoleOnlyPermissionsDto,
   UpdateRoleDto,
 } from '@stud-asso/shared/dtos';
 import {
@@ -70,6 +71,19 @@ export class RolesService {
       ...role,
       permissions: role.permissions as PermissionId[],
     }));
+  }
+
+  public async getMyPermissions(assoId: number, userId: number): Promise<RoleOnlyPermissionsDto> {
+    const user = await this.userRepository.findOne(userId);
+    if (!user) throw new Error(ERROR.USER_NOT_FOUND);
+
+    const asso = await this.associationRepository.findOne(assoId);
+    if (!asso) throw new Error(ERROR.ASSO_NOT_FOUND);
+
+    const perms = await this.associationsMemberRepository.findAssoMemberPermissions({ assoId, userId });
+    return {
+      permissions: perms.role.permissions as PermissionId[]
+    }
   }
 
   public async findOne(id: number): Promise<RoleDto> {

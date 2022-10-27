@@ -4,6 +4,7 @@ import {
   QueryPaginationModel,
   UpdateFundingModel,
 } from '@stud-asso/backend/core/model';
+import { FUNDING_STATUS, QueryFundingStatusDto } from '@stud-asso/shared/dtos';
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
@@ -36,6 +37,23 @@ export class FundingRepository {
     return this.prisma.funding.create({
       data: mydata,
       select: selectFundingModel,
+    });
+  }
+
+  getNbStatus(query: QueryFundingStatusDto): Promise<number> {
+    return this.prisma.funding.count({
+      where: {
+        status: query.status,
+      },
+    });
+  }
+
+  getNbAssoStatus(associationId: number, status: FUNDING_STATUS): Promise<number> {
+    return this.prisma.funding.count({
+      where: {
+        associationId,
+        status: status,
+      },
     });
   }
 
@@ -80,24 +98,6 @@ export class FundingRepository {
       },
       _sum: {
         amount: true,
-      },
-    });
-  }
-
-  getNbAccepted(associationId: number): Promise<number> {
-    return this.prisma.funding.count({
-      where: {
-        associationId,
-        status: 'ACCEPTED',
-      },
-    });
-  }
-
-  getNbRejected(associationId: number): Promise<number> {
-    return this.prisma.funding.count({
-      where: {
-        associationId,
-        status: 'REJECTED',
       },
     });
   }

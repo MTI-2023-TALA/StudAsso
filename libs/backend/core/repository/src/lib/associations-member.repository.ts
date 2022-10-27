@@ -1,7 +1,10 @@
 import {
   AddRoleToUserModel,
+  AssoMemberPermissionsModel,
   AssociationMemberWithRoleWithoutIdsModel,
   QueryAssociationMembersModel,
+  SimpleAssociationsMemberModel,
+  UserIdAssoIdModel,
 } from '@stud-asso/backend/core/model';
 
 import { AssociationMember } from '@prisma/client';
@@ -60,10 +63,55 @@ export class AssociationsMemberRepository {
     return this.prisma.associationMember.findMany(query);
   }
 
-  public async isUserMemberOfAssociation(userId: number, associationId: number): Promise<boolean> {
+  public async isUserMemberOfAssociation(userIdAndUserPayload: UserIdAssoIdModel): Promise<boolean> {
     const isMemberOfAsso = await this.prisma.associationMember.findFirst({
-      where: { userId, associationId },
+      where: {
+        userId: userIdAndUserPayload.userId,
+        associationId: userIdAndUserPayload.assoId,
+      },
     });
     return isMemberOfAsso ? true : false;
+  }
+
+  public async isUserPresidentOfAssociation(userIdAndUserPayload: UserIdAssoIdModel): Promise<boolean> {
+    const isPresidentOfAsso = await this.prisma.associationMember.findFirst({
+      where: {
+        userId: userIdAndUserPayload.userId,
+        associationId: userIdAndUserPayload.assoId,
+        role: {
+          name: 'Président',
+        },
+      },
+    });
+    return isPresidentOfAsso ? true : false;
+  }
+
+  public async findAssoMemberPermissions(userIdAssoIdPayload: UserIdAssoIdModel): Promise<AssoMemberPermissionsModel> {
+    return this.prisma.associationMember.findFirst({
+      where: {
+        userId: userIdAssoIdPayload.userId,
+        associationId: userIdAssoIdPayload.assoId,
+      },
+      select: {
+        role: {
+          select: {
+            permissions: true,
+          },
+        },
+      },
+    });
+  }
+
+  public async delete(userIdAssoIdPayload: UserIdAssoIdModel): Promise<SimpleAssociationsMemberModel> {
+    return this.prisma.associationMember.delete({
+      where: {
+        associationId_userId: { associationId: userIdAssoIdPayload.assoId, userId: userIdAssoIdPayload.userId },
+      },
+      select: {
+        associationId: true,
+        userId: true,
+        roleId: true,
+      },
+    });
   }
 }

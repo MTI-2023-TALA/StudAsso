@@ -12,6 +12,12 @@ export class AssociationsMemberModel {
   deletedAt: Date;
 }
 
+export class SimpleAssociationsMemberModel {
+  associationId: number;
+  userId: number;
+  roleId: number;
+}
+
 export class AssociationIdAndNameModel {
   associationId: number;
   association: AssociationNameModel;
@@ -31,4 +37,15 @@ export class AddRoleToUserModel {
   associationId: number;
   userId: number;
   roleId: number;
+}
+
+export class UserIdAssoIdModel {
+  userId: number;
+  assoId: number;
+}
+
+export class AssoMemberPermissionsModel {
+  role: {
+    permissions: string[];
+  };
 }

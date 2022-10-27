@@ -1,4 +1,6 @@
-import { FUNDING_STATUS } from '@stud-asso/shared/dtos';
+import { FUNDING_STATUS, IsValueInEnumValidator } from '@stud-asso/shared/dtos';
+
+import { Validate } from 'class-validator';
 
 // Request Models
 
@@ -9,8 +11,16 @@ export class CreateFundingModel {
 }
 
 export class UpdateFundingModel {
+  @Validate(IsValueInEnumValidator, [FUNDING_STATUS])
   status: FUNDING_STATUS;
   schoolComment?: string;
+}
+
+// Request Query Models
+
+export class QueryFundingStatusModel {
+  @Validate(IsValueInEnumValidator, [FUNDING_STATUS])
+  status?: FUNDING_STATUS = FUNDING_STATUS.PENDING;
 }
 
 // Response Models

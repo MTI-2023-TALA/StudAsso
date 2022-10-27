@@ -1,10 +1,11 @@
-import { Access, GetCurrentAssoId } from '@stud-asso/backend-core-auth';
+import { Access, GetCurrentAssoId, GetCurrentUserId } from '@stud-asso/backend-core-auth';
 import {
   AddRoleToUserDto,
   AssociationsMemberDto,
   CreateRoleDto,
   QueryPaginationDto,
   RoleDto,
+  RoleOnlyPermissionsDto,
   UpdateRoleDto,
 } from '@stud-asso/shared/dtos';
 import {
@@ -53,6 +54,18 @@ export class RolesController {
   @Get('/asso')
   public findAll(@GetCurrentAssoId() id: number, @Query() query: QueryPaginationDto): Promise<RoleDto[]> {
     return this.rolesService.findAll(id, query);
+  }
+
+  @Get('/permissions/me')
+  public async getMyPermissions(
+    @GetCurrentAssoId() assoId: number,
+    @GetCurrentUserId() userId: number
+  ): Promise<RoleOnlyPermissionsDto> {
+    try {
+      return await this.rolesService.getMyPermissions(assoId, userId);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
   }
 
   @Get(':id')

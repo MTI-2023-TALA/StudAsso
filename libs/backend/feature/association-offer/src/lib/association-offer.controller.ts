@@ -50,6 +50,18 @@ export class AssociationOfferController {
     return this.associationOfferService.findAllOffers(query);
   }
 
+  @Get('offers/current_asso')
+  public async findCurrentAssoOffers(
+    @GetCurrentAssoId() assoId: number,
+    @Query() query: QueryPaginationDto
+  ): Promise<AssociationOfferWithAssoAndRoleDto[]> {
+    try {
+      return await this.associationOfferService.findAllAssoOffers(assoId, query);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @Get('offers/:id')
   public async findAllAssoOffers(
     @Param('id') id: string,

@@ -1,4 +1,6 @@
-import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsBoolean, IsDateString, IsInt, IsNotEmpty, IsOptional, IsString, Validate } from 'class-validator';
+
+import { IsValueInEnumValidator } from '../validators/enum-validator';
 
 export enum FUNDING_STATUS {
   PENDING = 'PENDING',
@@ -25,6 +27,7 @@ export class CreateFundingDto {
 export class UpdateFundingDto {
   @IsNotEmpty()
   @IsString()
+  @Validate(IsValueInEnumValidator, [FUNDING_STATUS])
   status: FUNDING_STATUS;
 
   @IsOptional()
@@ -50,6 +53,15 @@ export class OptionStatFundingDto {
   nbRejected?: boolean;
 }
 
+// Request Query DTOs
+
+export class QueryFundingStatusDto {
+  @IsOptional()
+  @IsString()
+  @Validate(IsValueInEnumValidator, [FUNDING_STATUS])
+  status?: FUNDING_STATUS = FUNDING_STATUS.PENDING;
+}
+
 // Response DTOs
 
 export class FundingDto {
@@ -67,4 +79,8 @@ export class StatFundingDto {
   sum?: number;
   nbAccepted?: number;
   nbRefused?: number;
+}
+
+export class SumFundingStatusDto {
+  sum: number;
 }

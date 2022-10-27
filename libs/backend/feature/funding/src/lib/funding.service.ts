@@ -4,8 +4,10 @@ import {
   FUNDING_STATUS,
   FundingDto,
   OptionStatFundingDto,
+  QueryFundingStatusDto,
   QueryPaginationDto,
   StatFundingDto,
+  SumFundingStatusDto,
   UpdateFundingDto,
 } from '@stud-asso/shared/dtos';
 import { CreateFundingModel, FundingModel, UpdateFundingModel } from '@stud-asso/backend/core/model';
@@ -28,6 +30,11 @@ export class FundingService {
   public async findAll(assoId: number, query: QueryPaginationDto): Promise<FundingDto[]> {
     const fundings = await this.fundingRepository.findAll(assoId, query);
     return fundings.map((funding) => this.mapFundingModelToDto(funding));
+  }
+
+  public async getSumOfOfferSpecificStatus(query: QueryFundingStatusDto): Promise<SumFundingStatusDto> {
+    const sum = await this.fundingRepository.getNbStatus(query);
+    return { sum };
   }
 
   public async findOne(id: number): Promise<FundingDto> {
@@ -54,11 +61,11 @@ export class FundingService {
     }
 
     if (optionStatFundingDto.nbAccepted) {
-      stats.nbAccepted = await this.getNbAccepted(assoId);
+      stats.nbAccepted = await this.fundingRepository.getNbAssoStatus(assoId, FUNDING_STATUS.APPROVED);
     }
 
     if (optionStatFundingDto.nbRejected) {
-      stats.nbRefused = await this.getNbRejected(assoId);
+      stats.nbRefused = await this.fundingRepository.getNbAssoStatus(assoId, FUNDING_STATUS.REJECTED);
     }
 
     return stats;
@@ -70,14 +77,6 @@ export class FundingService {
   ): Promise<number> {
     const sum = await this.fundingRepository.getSumInInterval(assoId, { startDate, endDate });
     return sum._sum.amount;
-  }
-
-  private async getNbAccepted(assoId: number): Promise<number> {
-    return this.fundingRepository.getNbAccepted(assoId);
-  }
-
-  private async getNbRejected(assoId: number): Promise<number> {
-    return this.fundingRepository.getNbRejected(assoId);
   }
 
   private mapFundingModelToDto(funding: FundingModel): FundingDto {
