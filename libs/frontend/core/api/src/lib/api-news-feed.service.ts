@@ -1,4 +1,4 @@
-import { CreateNewsDto, NewsDto, NewsWithAssoNameDto } from '@stud-asso/shared/dtos';
+import { CreateNewsDto, NewsDto, NewsWithAssoNameDto, UpdateNewsDto } from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -25,5 +25,13 @@ export class ApiNewsFeedService extends ApiBaseService {
 
   public findAll(query: QueryPagination = undefined): Observable<NewsWithAssoNameDto[]> {
     return this.apiService.get<NewsWithAssoNameDto[], QueryPagination>(`${this.url}/assoWithAssoName`, query);
+  }
+
+  public update(id: number, payload: UpdateNewsDto): Observable<NewsDto> {
+    return this.apiService.patch<UpdateNewsDto, NewsDto, undefined>(`${this.url}/${id}`, payload);
+  }
+
+  public delete(id: number): Observable<NewsDto> {
+    return this.apiService.delete<NewsDto>(`${this.url}/${id}`);
   }
 }
