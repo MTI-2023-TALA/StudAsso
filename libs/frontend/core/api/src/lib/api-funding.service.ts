@@ -5,6 +5,7 @@ import { ApiService } from './api.service';
 import { AssociationOffer } from '@prisma/client';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryPagination } from './api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,18 +17,18 @@ export class ApiFundingService extends ApiBaseService {
   }
 
   public createFunding(offer: CreateFundingDto): Observable<AssociationOffer> {
-    return this.apiService.post<CreateFundingDto, AssociationOffer>(this.url, offer);
+    return this.apiService.post<CreateFundingDto, AssociationOffer, undefined>(this.url, offer);
   }
 
-  public findAll(): Observable<FundingDto[]> {
-    return this.apiService.get<FundingDto[]>(`${this.url}`);
+  public findAll(query: QueryPagination = undefined): Observable<FundingDto[]> {
+    return this.apiService.get<FundingDto[], QueryPagination>(`${this.url}`, query);
   }
 
   public find(id: number): Observable<FundingDto> {
-    return this.apiService.get<FundingDto>(`${this.url}/${id}`);
+    return this.apiService.get<FundingDto, undefined>(`${this.url}/${id}`);
   }
 
   public update(id: number, funding: UpdateFundingDto): Observable<FundingDto> {
-    return this.apiService.put<UpdateFundingDto, FundingDto>(`${this.url}/${id}`, funding);
+    return this.apiService.put<UpdateFundingDto, FundingDto, undefined>(`${this.url}/${id}`, funding);
   }
 }

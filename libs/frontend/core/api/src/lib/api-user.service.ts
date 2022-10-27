@@ -10,35 +10,34 @@ import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryPagination } from './api.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiUserService extends ApiBaseService {
-  private api: ApiService;
   constructor(apiService: ApiService) {
     super(apiService);
-    this.api = apiService;
     this.url = 'users';
   }
 
-  getIdAndEmail(): Observable<UserIdAndEmailDto[]> {
-    return this.api.get<UserIdAndEmailDto[]>(`${this.url}/idandemail`);
+  getIdAndEmail(query: QueryPagination = undefined): Observable<UserIdAndEmailDto[]> {
+    return this.apiService.get<UserIdAndEmailDto[], QueryPagination>(`${this.url}/idandemail`, query);
   }
 
   getUserAsso(): Observable<AssociationOfUserDto> {
-    return this.api.get<AssociationOfUserDto>(`${this.url}/asso`);
+    return this.apiService.get<AssociationOfUserDto, undefined>(`${this.url}/asso`);
   }
 
   getMe(): Observable<SimpleUserDto> {
-    return this.api.get<SimpleUserDto>(`${this.url}/me`);
+    return this.apiService.get<SimpleUserDto, undefined>(`${this.url}/me`);
   }
 
-  getMeAsso(): Observable<AssociationAndRoleNameDto[]> {
-    return this.api.get<AssociationAndRoleNameDto[]>(`${this.url}/me/asso`);
+  getMeAsso(query: QueryPagination = undefined): Observable<AssociationAndRoleNameDto[]> {
+    return this.apiService.get<AssociationAndRoleNameDto[], QueryPagination>(`${this.url}/me/asso`, query);
   }
 
   updateMe(data: UpdateUserFirstLastNameDto) {
-    return this.api.patch(`${this.url}/me`, data);
+    return this.apiService.patch(`${this.url}/me`, data);
   }
 }

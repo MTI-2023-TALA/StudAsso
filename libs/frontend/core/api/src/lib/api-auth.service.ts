@@ -15,26 +15,26 @@ export class ApiAuthService {
   }
 
   public signupLocal(payload: CreateAccountDto): Observable<TokenDto> {
-    return this.apiService.post<CreateAccountDto, TokenDto>(`${this.url}/local/signup`, payload);
+    return this.apiService.post<CreateAccountDto, TokenDto, undefined>(`${this.url}/local/signup`, payload);
   }
 
   public signinLocal(payload: AuthDto): Observable<TokenDto> {
-    return this.apiService.post<AuthDto, TokenDto>(`${this.url}/local/signin`, payload);
+    return this.apiService.post<AuthDto, TokenDto, undefined>(`${this.url}/local/signin`, payload);
   }
 
   public signinWithGoogle(payload: GoogleAuthDto): Observable<TokenDto> {
-    return this.apiService.post<GoogleAuthDto, TokenDto>(`${this.url}/google/login`, payload);
+    return this.apiService.post<GoogleAuthDto, TokenDto, undefined>(`${this.url}/google/login`, payload);
   }
 
   public logout(): Observable<boolean> {
-    return this.apiService.post<Record<string, never>, boolean>(`${this.url}/logout`, {});
+    return this.apiService.post<Record<string, never>, boolean, undefined>(`${this.url}/logout`, {});
   }
 
   public refreshToken(): Observable<TokenDto> {
-    return this.apiService.post<Record<string, never>, TokenDto>(`${this.url}/refresh`, {});
+    return this.apiService.post<Record<string, never>, TokenDto, undefined>(`${this.url}/refresh`, {});
   }
 
   public refreshTokenWithAssoId(payload: AssoIdOfUserDto): Observable<TokenDto> {
-    return this.apiService.post<AssoIdOfUserDto, TokenDto>(`${this.url}/local/refreshWithAssoId`, payload);
+    return this.apiService.post<AssoIdOfUserDto, TokenDto, undefined>(`${this.url}/local/refreshWithAssoId`, payload);
   }
 }

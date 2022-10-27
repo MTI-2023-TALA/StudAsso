@@ -4,6 +4,7 @@ import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryPagination } from './api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +16,11 @@ export class ApiStockService extends ApiBaseService {
   }
 
   public create(stock: CreateStockDto): Observable<StockDto> {
-    return this.apiService.post<CreateStockDto, StockDto>(this.url, stock);
+    return this.apiService.post<CreateStockDto, StockDto, undefined>(this.url, stock);
   }
 
   public update(id: number, stock: UpdateStockDto): Observable<StockDto> {
-    return this.apiService.patch<UpdateStockDto, StockDto>(`${this.url}/${id}`, stock);
+    return this.apiService.patch<UpdateStockDto, StockDto, undefined>(`${this.url}/${id}`, stock);
   }
 
   // TODO: Rework return type
@@ -28,14 +29,14 @@ export class ApiStockService extends ApiBaseService {
   }
 
   public findAllStockWithAssoId(): Observable<StockDto[]> {
-    return this.apiService.get<StockDto[]>(`${this.url}/asso`);
+    return this.apiService.get<StockDto[], undefined>(`${this.url}/asso`);
   }
 
-  public findAllAssoStockLog(): Observable<StockLogWithUserDto[]> {
-    return this.apiService.get<StockLogWithUserDto[]>(`${this.url}/assologs`);
+  public findAllAssoStockLog(query: QueryPagination = undefined): Observable<StockLogWithUserDto[]> {
+    return this.apiService.get<StockLogWithUserDto[], QueryPagination>(`${this.url}/assologs`, query);
   }
 
-  public findSpecificStockLogs(stockId: number): Observable<StockLogDto[]> {
-    return this.apiService.get<StockLogDto[]>(`${this.url}/logs/${stockId}`);
+  public findSpecificStockLogs(stockId: number, query: QueryPagination = undefined): Observable<StockLogDto[]> {
+    return this.apiService.get<StockLogDto[], QueryPagination>(`${this.url}/logs/${stockId}`, query);
   }
 }

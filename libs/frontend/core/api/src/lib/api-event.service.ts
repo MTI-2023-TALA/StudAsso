@@ -4,6 +4,7 @@ import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryPagination } from './api.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,7 @@ export class ApiEventService extends ApiBaseService {
   }
 
   public create(event: CreateEventDto): Observable<EventDto> {
-    return this.apiService.post<CreateEventDto, EventDto>(this.url, event);
+    return this.apiService.post<CreateEventDto, EventDto, undefined>(this.url, event);
   }
 
   public remove(id: number): Observable<EventDto> {
@@ -23,10 +24,10 @@ export class ApiEventService extends ApiBaseService {
   }
 
   public update(id: number, event: UpdateEventDto): Observable<EventDto> {
-    return this.apiService.patch<UpdateEventDto, EventDto>(`${this.url}/${id}`, event);
+    return this.apiService.patch<UpdateEventDto, EventDto, undefined>(`${this.url}/${id}`, event);
   }
 
-  public findAll(): Observable<EventDto[]> {
-    return this.apiService.get<EventDto[]>(this.url);
+  public findAll(query: QueryPagination = undefined): Observable<EventDto[]> {
+    return this.apiService.get<EventDto[], QueryPagination>(this.url, query);
   }
 }
