@@ -1,6 +1,6 @@
 <div class="host">
   <div class="incoming-event" *ngIf="eventList && eventList.length !== 0">
-    <div class="title">Evénements à Venir</div>
+    <div class="title">Evénements à venir</div>
     <div class="s-card-list" *ngFor="let item of eventList">
       <ng-container [ngTemplateOutlet]="eventCard" [ngTemplateOutletContext]="{ event: item }"></ng-container>
     </div>
