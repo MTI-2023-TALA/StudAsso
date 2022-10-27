@@ -12,6 +12,7 @@ import {
   CreateAssociationOfferModel,
   RoleModel,
   SimplifiedUserModel,
+  UserIdAssoIdModel,
 } from '@stud-asso/backend/core/model';
 import {
   AssociationOfferApplicationDto,
@@ -344,10 +345,12 @@ describe('AssociationOfferService', () => {
         {
           provide: AssociationsMemberRepository,
           useValue: {
-            isUserMemberOfAssociation: jest.fn((userId: number, associationId: number): Promise<boolean> => {
+            isUserMemberOfAssociation: jest.fn((userIdAndUserPayload: UserIdAssoIdModel): Promise<boolean> => {
               return Promise.resolve(
                 mockedAssociationsMembers.some(
-                  (member) => member.userId === userId && member.associationId === associationId
+                  (member) =>
+                    member.userId === userIdAndUserPayload.userId &&
+                    member.associationId === userIdAndUserPayload.assoId
                 )
               );
             }),
