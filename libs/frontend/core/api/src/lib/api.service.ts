@@ -22,7 +22,6 @@ export class ApiService {
     queryParam: QueryType | undefined = undefined
   ): Observable<TypeResult> {
     const queryParamCorrectType = queryParam as HttpParams;
-    console.log('Test');
     return this.http.post<TypeResult>(`/api/${url}`, payload, { params: queryParamCorrectType });
   }
 
