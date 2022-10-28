@@ -71,6 +71,7 @@
           <p>
             <i class="bi bi-{{ item.icon }} p-2"></i>
             <span *ngIf="shouldShowLargeNavbar">{{ item.title }}</span>
+            <stud-asso-tag *ngIf="item.hasTag" [message]="item.tagMessage?.()" [type]="'information'"></stud-asso-tag>
           </p>
         </li>
       </a>

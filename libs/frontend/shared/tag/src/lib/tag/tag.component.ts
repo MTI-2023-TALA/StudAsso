@@ -10,7 +10,7 @@ import { TagType } from './tag.model';
 export class TagComponent {
   TagType: typeof TagType = TagType;
   @Input() type: string = TagType.Default;
-  @Input() message = 'Ceci est un tag';
+  @Input() message: string | undefined = 'Ceci est un tag';
 
   @Input() icon = 'x';
   @Input() shouldDisplayIcon = false;

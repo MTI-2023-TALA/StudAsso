@@ -1,4 +1,6 @@
+import { ApiEventService, ApiRoleService } from '@stud-asso/frontend-core-api';
 import { IsNotSignGuard, IsSignGuard } from '@stud-asso/frontend-core-auth';
+import { Observable, of } from 'rxjs';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AssociationPageComponent } from '@stud-asso/frontend/feature/school/association-page';
@@ -11,7 +13,15 @@ import { NgModule } from '@angular/core';
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Associations', icon: 'person-lines-fill', url: '/associations' },
-  { title: 'Financement', icon: 'currency-dollar', url: '/financement' },
+  {
+    title: 'Financement',
+    icon: 'currency-dollar',
+    url: '/financement',
+    hasTag: true,
+    tagMessage: () => {
+      return 'Avoir la valeur ici';
+    },
+  },
 ];
 
 const routes: Routes = [
@@ -47,4 +57,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+  str = '';
+  constructor(private toto: ApiEventService) {}
+}

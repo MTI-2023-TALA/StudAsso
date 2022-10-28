@@ -8,7 +8,7 @@ export enum TagType {
 
 export interface Tag {
   type: string;
-  message: string;
+  message: string | undefined;
   icon?: string;
   shouldDisplayIcon?: boolean;
   shouldBeClickable?: boolean;

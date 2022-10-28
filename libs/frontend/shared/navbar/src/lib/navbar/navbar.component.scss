@@ -73,9 +73,13 @@ ul {
   background-color: $light-grey-100;
 }
 
+.info-tag {
+  display: flex;
+}
+
 @media screen and (max-width: 640px) {
   .is-mobile {
-    display:block;
+    display: block;
   }
 
   .not-mobile {
