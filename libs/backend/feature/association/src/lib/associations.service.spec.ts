@@ -257,6 +257,8 @@ describe('AssociationsService', () => {
       const associationId = 1;
       const expected: AssociationMemberWithRoleDto[] = [
         {
+          id: 1,
+          roleId: 1,
           userFullName: 'Anakin Skywalker',
           userEmail: 'anakin.skywalker@test.test',
           roleName: 'Président',
