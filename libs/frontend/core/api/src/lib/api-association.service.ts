@@ -2,6 +2,7 @@ import {
   AssociationDto,
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
+  AssociationsMemberDto,
   CreateAssociationDto,
   UpdateAssociationDto,
 } from '@stud-asso/shared/dtos';
@@ -44,5 +45,9 @@ export class ApiAssociationService extends ApiBaseService {
 
   public findMembers(query: QueryPagination = undefined): Observable<AssociationMemberWithRoleDto[]> {
     return this.apiService.get<AssociationMemberWithRoleDto[], QueryPagination>(`${this.url}/members`, query);
+  }
+
+  public deleteUserFromAsso(id: number): Observable<AssociationsMemberDto> {
+    return this.apiService.delete<AssociationsMemberDto>(`${this.url}/member/${id}`);
   }
 }
