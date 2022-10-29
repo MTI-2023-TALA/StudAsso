@@ -119,6 +119,10 @@ export class MemberPageComponent implements OnInit {
   }
 
   createModalRemoveMember(member: AssociationMember): void {
+    if (member.roleName === 'Président') {
+      this.toast.addAlert({ title: "Le président ne peut pas être exclu de l'association", type: ToastType.Error });
+      return;
+    }
     this.modal.createConfirmModal({
       message: `Êtes-vous sûr de vouloir exclure ${member.userFullName} <${member.userEmail}> de l'association ?`,
       submit: () => {
@@ -135,6 +139,10 @@ export class MemberPageComponent implements OnInit {
   }
 
   createModalUpdateRoleMember(member: AssociationMember) {
+    if (member.roleName === 'Président') {
+      this.toast.addAlert({ title: 'Le président ne peut pas changer de rôle', type: ToastType.Error });
+      return;
+    }
     this.modal.createForm({
       title: `Modification du role de ${member.userFullName} <${member.userEmail}>`,
       fields: updateMemberRoleFormly(this.rolesList, member),
