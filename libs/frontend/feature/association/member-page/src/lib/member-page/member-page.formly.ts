@@ -38,8 +38,8 @@ export function updateMemberRoleFormly(rolesList: SelectOption[], member: Associ
       type: Form.Select,
       defaultValue: member.roleId,
       templateOptions: {
-        label: `Nouveau role`,
-        placeholder: `Role du membre`,
+        label: `Nouveau rôle`,
+        placeholder: `Rôle du membre`,
         required: true,
         options: rolesList,
       },
