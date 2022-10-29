@@ -38,7 +38,7 @@ export function updateMemberRoleFormly(rolesList: SelectOption[], member: Associ
       type: Form.Select,
       defaultValue: member.roleId,
       templateOptions: {
-        label: `Role`,
+        label: `Nouveau role`,
         placeholder: `Role du membre`,
         required: true,
         options: rolesList,

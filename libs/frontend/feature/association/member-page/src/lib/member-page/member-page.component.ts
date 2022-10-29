@@ -112,7 +112,7 @@ export class MemberPageComponent implements OnInit {
   async createModalMember() {
     this.modal.createForm({
       title: "Ajout d'un membre",
-      fields: (await createMemberFormly(this.usersList, this.rolesList)) as FormlyFieldConfig[],
+      fields: createMemberFormly(this.usersList, this.rolesList),
       submitBtnText: 'Ajouter',
       submit: this.createMember(),
     });
