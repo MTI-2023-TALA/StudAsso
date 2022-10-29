@@ -8,7 +8,12 @@ import {
 } from '@stud-asso/shared/dtos';
 import { ApiAssociationService, ApiRoleService, ApiUserService } from '@stud-asso/frontend-core-api';
 import { Component, OnInit } from '@angular/core';
-import { ICreateMemberFormly, createMemberFormly } from './member-page.formly';
+import {
+  ICreateMemberFormly,
+  IUpdateMemberRoleFormly,
+  createMemberFormly,
+  updateMemberRoleFormly,
+} from './member-page.formly';
 import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
@@ -36,7 +41,20 @@ export class MemberPageComponent implements OnInit {
         size: 2,
       },
     ],
-    actions: [],
+    actions: [
+      {
+        label: 'Modifier le role',
+        action: (member: AssociationMember) => {
+          this.createModalUpdateRoleMember(member);
+        },
+      },
+      {
+        label: "Exclure de l'association",
+        action: (member: AssociationMember) => {
+          this.createModalRemoveMember(member);
+        },
+      },
+    ],
   };
 
   isLoading = true;
@@ -94,9 +112,51 @@ export class MemberPageComponent implements OnInit {
   async createModalMember() {
     this.modal.createForm({
       title: "Ajout d'un membre",
-      fields: (await createMemberFormly(this.usersList, this.rolesList)) as FormlyFieldConfig[],
+      fields: createMemberFormly(this.usersList, this.rolesList),
       submitBtnText: 'Ajouter',
       submit: this.createMember(),
+    });
+  }
+
+  createModalRemoveMember(member: AssociationMember): void {
+    if (member.roleName === 'Président') {
+      this.toast.addAlert({ title: "Le président ne peut pas être exclu de l'association", type: ToastType.Error });
+      return;
+    }
+    this.modal.createConfirmModal({
+      message: `Êtes-vous sûr de vouloir exclure ${member.userFullName} <${member.userEmail}> de l'association ?`,
+      submit: () => {
+        this.removeMemberFromAssociation(member.id);
+      },
+    });
+  }
+
+  removeMemberFromAssociation(id: number) {
+    this.apiAssociation.deleteUserFromAsso(id).subscribe(() => {
+      this.toast.addAlert({ title: 'Membre exclu', type: ToastType.Success });
+      this.reloadData(this.pagination);
+    });
+  }
+
+  createModalUpdateRoleMember(member: AssociationMember) {
+    if (member.roleName === 'Président') {
+      this.toast.addAlert({ title: 'Le président ne peut pas changer de rôle', type: ToastType.Error });
+      return;
+    }
+    this.modal.createForm({
+      title: `Modification du role de ${member.userFullName} <${member.userEmail}>`,
+      fields: updateMemberRoleFormly(this.rolesList, member),
+      submit: (model: IUpdateMemberRoleFormly) => {
+        this.updateMemberRole(member.id, +model.roleId);
+      },
+      submitBtnText: 'Modifier',
+    });
+  }
+
+  updateMemberRole(userId: number, roleId: number) {
+    this.apiRole.addRoleToUser({ userId, roleId }).subscribe(() => {
+      this.toast.addAlert({ title: 'Role modifié', type: ToastType.Success });
+      this.reloadData(this.pagination);
     });
   }
 }

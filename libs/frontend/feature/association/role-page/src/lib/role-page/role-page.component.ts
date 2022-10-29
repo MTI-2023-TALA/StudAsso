@@ -1,11 +1,11 @@
+import { ApiAssociationService, ApiRoleService } from '@stud-asso/frontend-core-api';
 import { Component, OnInit } from '@angular/core';
 import { ICreateRoleFormly, createRoleFormly } from './role-page.formly';
 import { PAGINATION_BASE_LIMIT, PAGINATION_BASE_OFFSET, RoleDto } from '@stud-asso/shared/dtos';
 import { Pagination, TableConfiguration, TableTagListComponent } from '@stud-asso/frontend-shared-table';
-import { PermissionId, permissions } from '@stud-asso/shared/permission';
+import { PermissionColor, PermissionId, permissions } from '@stud-asso/shared/permission';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
-import { ApiRoleService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { Tag } from '@stud-asso/frontend-shared-tag';
 
@@ -33,10 +33,9 @@ export class RolePageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
-        action: (data: number) => {
+        action: (data: Role) => {
           this.modifyModalRole(data);
         },
-        dataProperty: 'id',
       },
       {
         label: 'Supprimer',
@@ -55,7 +54,12 @@ export class RolePageComponent implements OnInit {
 
   isLoading = true;
 
-  constructor(private api: ApiRoleService, private modal: ModalService, private toast: ToastService) {}
+  constructor(
+    private apiAssociation: ApiAssociationService,
+    private api: ApiRoleService,
+    private modal: ModalService,
+    private toast: ToastService
+  ) {}
 
   ngOnInit() {
     this.reloadData(this.pagination);
@@ -67,9 +71,12 @@ export class RolePageComponent implements OnInit {
     this.api.findAllRoleWithAsso(pagination).subscribe((roles: RoleDto[]) => {
       this.roleList = roles.map((role) => ({
         ...role,
-        permissions: role.permissions.map((permission) => {
-          return { type: permissions[permission].color, message: permissions[permission].name };
-        }),
+        permissions:
+          role.name === 'Président'
+            ? [{ type: PermissionColor.INFORMATION, message: 'Toutes les permissions' }]
+            : role.permissions.map((permission) => {
+                return { type: permissions[permission].color, message: permissions[permission].name };
+              }),
       }));
       this.isLoading = false;
     });
@@ -78,15 +85,6 @@ export class RolePageComponent implements OnInit {
   onUpdatePagination(newPagination: Pagination) {
     this.pagination = newPagination;
     this.reloadData(this.pagination);
-  }
-
-  getSpecificRole(id: number): Role | null {
-    for (const role of this.roleList) {
-      if (role.id == id) {
-        return role;
-      }
-    }
-    return null;
   }
 
   handleError() {
@@ -102,13 +100,16 @@ export class RolePageComponent implements OnInit {
     });
   }
 
-  modifyModalRole(id: number) {
-    const role = this.getSpecificRole(id);
+  modifyModalRole(role: Role) {
+    if (role.name === 'Président') {
+      this.toast.addAlert({ title: 'Impossible de modifier le rôle Président', type: ToastType.Error });
+      return;
+    }
     this.modal.createForm({
       title: 'Modifier un rôle',
-      fields: createRoleFormly(role?.name),
+      fields: createRoleFormly(role.name),
       submitBtnText: 'Modifier',
-      submit: this.modifyRole(id),
+      submit: this.modifyRole(role.id),
     });
   }
 
@@ -130,12 +131,27 @@ export class RolePageComponent implements OnInit {
     };
   }
 
-  deleteModalRole(id: number, name: string) {
-    this.modal.createConfirmModal({
-      message: `Voulez-vous vraiment supprimer le rôle ${name} ?`,
-      submit: () => {
-        this.deleteRole(id);
-      },
+  async deleteModalRole(id: number, name: string) {
+    if (name === 'Président') {
+      this.toast.addAlert({ title: 'Impossible de supprimer le rôle Président', type: ToastType.Error });
+      return;
+    }
+    await this.apiAssociation.findMembers({ limit: 10000, offset: 0 }).subscribe((members) => {
+      const membersWithRole = members.filter((member) => member.roleId === id);
+      let removeMembers = '';
+      if (membersWithRole.length > 0) {
+        removeMembers += '⚠ Cela va exclure les members suivants : ';
+        membersWithRole.forEach((member) => {
+          removeMembers += `${member.userEmail} `;
+        });
+      }
+
+      this.modal.createConfirmModal({
+        message: `Voulez-vous vraiment supprimer le rôle ${name} ? ${removeMembers}`,
+        submit: () => {
+          this.deleteRole(id);
+        },
+      });
     });
   }
 

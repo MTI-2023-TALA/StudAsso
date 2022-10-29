@@ -72,6 +72,8 @@ export class AssociationWithPresidentDto {
 }
 
 export class AssociationMemberWithRoleDto {
+  id: number;
+  roleId: number;
   userFullName: string;
   userEmail: string;
   roleName: string;

@@ -99,6 +99,8 @@ export class AssociationsService {
       userFullName: `${member.user.firstname} ${member.user.lastname}`,
       userEmail: member.user.email,
       roleName: member.role.name,
+      roleId: member.role.id,
+      id: member.user.id,
     }));
   }
 

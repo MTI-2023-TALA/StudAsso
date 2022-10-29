@@ -186,7 +186,9 @@ describe('AssociationsController', () => {
                   return {
                     userFullName: `${user.firstname} ${user.lastname}`,
                     userEmail: user.email,
+                    id: user.id,
                     roleName: role.name,
+                    roleId: role.id,
                   };
                 });
                 return Promise.resolve(mappedMembers);
@@ -320,6 +322,8 @@ describe('AssociationsController', () => {
     it('should call associationService.findAssociationMembersWithRoles', async () => {
       const expected: AssociationMemberWithRoleDto[] = [
         {
+          id: 1,
+          roleId: 1,
           userFullName: 'Anakin Skywalker',
           userEmail: 'anakin.skywalker@test.test',
           roleName: 'Président',
