@@ -2,5 +2,6 @@ p {
   display: flex;
   height: 100%;
   align-items: center;
-  white-space: pre-line;
+  max-height: 4rem;
+  overflow-y: auto;
 }
