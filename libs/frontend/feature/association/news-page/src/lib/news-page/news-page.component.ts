@@ -12,6 +12,7 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiNewsFeedService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { createApplication } from '@angular/platform-browser';
 
 @Component({
   selector: 'stud-asso-news-page',
@@ -26,9 +27,14 @@ export class NewsPageComponent implements OnInit {
         size: 1,
       },
       {
+        title: 'Date',
+        dataProperty: 'createdAt',
+        size: 1,
+      },
+      {
         title: 'Contenu',
         dataProperty: 'content',
-        size: 2,
+        size: 4,
       },
     ],
     actions: [
@@ -66,7 +72,10 @@ export class NewsPageComponent implements OnInit {
     this.isLoading = true;
 
     this.api.findAllWithAsso(pagination).subscribe((newsList: NewsDto[]) => {
-      this.newsList = newsList;
+      this.newsList = newsList.map((news) => ({
+        ...news,
+        createdAt: new Date(news.createdAt).toLocaleDateString() as unknown as Date,
+      }));
       this.isLoading = false;
     });
   }
