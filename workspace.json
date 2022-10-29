@@ -7,6 +7,7 @@
     "backend-core-error": "libs/backend/core/error",
     "backend-core-model": "libs/backend/core/model",
     "backend-core-orm": "libs/backend/core/orm",
+    "backend-core-redis": "libs/backend/core/redis",
     "backend-core-repository": "libs/backend/core/repository",
     "backend-core-swagger": "libs/backend/core/swagger",
     "backend-feature-association": "libs/backend/feature/association",

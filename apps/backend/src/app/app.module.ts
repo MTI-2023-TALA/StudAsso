@@ -1,9 +1,7 @@
-import * as redisStore from 'cache-manager-redis-store';
-
 import { AccessGuard, AtGuard, BackendCoreAuthModule, SchoolEmployeeGuard } from '@stud-asso/backend-core-auth';
-import { CacheModule, Module } from '@nestjs/common';
 
 import { APP_GUARD } from '@nestjs/core';
+import { BackendCoreRedisModule } from '@stud-asso/backend/core/redis';
 import { BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
 import { BackendFeatureAssociationModule } from '@stud-asso/backend/feature/association';
 import { BackendFeatureAssociationOfferModule } from '@stud-asso/backend/feature/association-offer';
@@ -15,17 +13,12 @@ import { BackendFeatureRoleModule } from '@stud-asso/backend/feature/role';
 import { BackendFeatureStockModule } from '@stud-asso/backend/feature/stock';
 import { BackendFeatureUserModule } from '@stud-asso/backend/feature/user';
 import { ConfigModule } from '@nestjs/config';
+import { Module } from '@nestjs/common';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    CacheModule.register({
-      isGlobal: true,
-      store: redisStore,
-      host: 'localhost',
-      port: 6379,
-    }),
     BackendCoreAuthModule,
+    BackendCoreRedisModule,
     BackendCoreRepositoryModule,
     BackendFeatureAssociationModule,
     BackendFeatureAssociationOfferModule,
@@ -36,6 +29,7 @@ import { ConfigModule } from '@nestjs/config';
     BackendFeatureRoleModule,
     BackendFeatureStockModule,
     BackendFeatureUserModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [],
   providers: [

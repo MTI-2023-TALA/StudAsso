@@ -23,6 +23,7 @@
       "@stud-asso/backend/core/error": ["libs/backend/core/error/src/index.ts"],
       "@stud-asso/backend/core/model": ["libs/backend/core/model/src/index.ts"],
       "@stud-asso/backend/core/orm": ["libs/backend/core/orm/src/index.ts"],
+      "@stud-asso/backend/core/redis": ["libs/backend/core/redis/src/index.ts"],
       "@stud-asso/backend/core/repository": ["libs/backend/core/repository/src/index.ts"],
       "@stud-asso/backend/core/swagger": ["libs/backend/core/swagger/src/index.ts"],
       "@stud-asso/backend/feature/association": ["libs/backend/feature/association/src/index.ts"],

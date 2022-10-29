@@ -20,13 +20,15 @@ import { AssociationWithPresidentModel } from '@stud-asso/backend/core/model';
 import { ERROR } from '@stud-asso/backend/core/error';
 import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { RedisService } from '@stud-asso/backend/core/redis';
 
 @Injectable()
 export class AssociationsService {
   constructor(
     private readonly associationRepository: AssociationRepository,
-    private readonly roleRepository: RoleRepository,
     private readonly associationsMemberRepository: AssociationsMemberRepository,
+    private readonly redisService: RedisService,
+    private readonly roleRepository: RoleRepository,
     private readonly userRepository: UserRepository
   ) {}
 
@@ -53,6 +55,10 @@ export class AssociationsService {
         }
       }
     }
+  }
+
+  public async addImageToAssociation(assoId: number, associationImageDto: { image: File }) {
+    console.log(associationImageDto);
   }
 
   public async findAllWithPresident(query: QueryPaginationDto): Promise<AssociationWithPresidentDto[]> {

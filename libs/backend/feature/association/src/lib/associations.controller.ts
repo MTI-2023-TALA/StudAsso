@@ -21,7 +21,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
+import { GetCurrentAssoId, IsSchoolEmployee, Public } from '@stud-asso/backend-core-auth';
 import { AssociationsService } from './associations.service';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
@@ -36,6 +36,17 @@ export class AssociationsController {
       return await this.associationsService.create(createAssociationDto);
     } catch (error) {
       throw new ConflictException(error?.message);
+    }
+  }
+
+  @Public()
+  @Post('image')
+  public async addImageToAssociation(@GetCurrentAssoId() id: number, @Body() associationImageDto: { image: File }) {
+    console.log(id);
+    try {
+      return await this.associationsService.addImageToAssociation(id, associationImageDto);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
     }
   }
 
