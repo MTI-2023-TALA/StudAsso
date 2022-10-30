@@ -39,10 +39,8 @@ export class AssociationsController {
     }
   }
 
-  @Public()
   @Post('image')
   public async addImageToAssociation(@GetCurrentAssoId() id: number, @Body() associationImageDto: { image: File }) {
-    console.log(id);
     try {
       return await this.associationsService.addImageToAssociation(id, associationImageDto);
     } catch (error) {

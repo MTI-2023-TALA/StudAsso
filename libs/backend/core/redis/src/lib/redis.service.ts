@@ -6,7 +6,8 @@ export class RedisService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
   set(key: string, value: string, duration?: number): void {
-    duration ? this.cacheManager.set(key, value, { ttl: duration }) : this.cacheManager.set(key, value);
+    duration = duration ? duration : 0;
+    this.cacheManager.set(key, value, { ttl: duration });
   }
 
   get(key: string): Promise<string> {

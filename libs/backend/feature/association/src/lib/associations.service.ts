@@ -59,6 +59,7 @@ export class AssociationsService {
 
   public async addImageToAssociation(assoId: number, associationImageDto: { image: File }) {
     console.log(associationImageDto);
+    // await this.redisService.set(`association/${assoId}/image`, 'chibrax');
   }
 
   public async findAllWithPresident(query: QueryPaginationDto): Promise<AssociationWithPresidentDto[]> {
