@@ -28,7 +28,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { GetCurrentAssoId, IsSchoolEmployee, Public } from '@stud-asso/backend-core-auth';
+import { GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { AssociationsService } from './associations.service';
 import { FILE_SIZE } from '@stud-asso/backend/core/file-helper';
 import { FileInterceptor } from '@nestjs/platform-express';
