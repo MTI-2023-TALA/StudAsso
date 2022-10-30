@@ -58,7 +58,7 @@ export class AssociationsService {
     }
   }
 
-  public async addImageToAssociation(assoId: number, file: File): Promise<void> {
+  public async addImageToAssociation(assoId: number, file: Express.Multer.File): Promise<void> {
     const imageAsBase64 = await FileHelper.getBase64FromFile(file);
     this.redisService.set(`association/${assoId}/image`, imageAsBase64);
   }

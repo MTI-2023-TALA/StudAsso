@@ -1,3 +1,4 @@
+import 'multer';
 import {
   AssociationDto,
   AssociationMemberWithRoleDto,
@@ -33,7 +34,6 @@ import { AssociationsService } from './associations.service';
 import { FILE_SIZE } from '@stud-asso/backend/core/file-helper';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-
 @SwaggerController('associations')
 export class AssociationsController {
   constructor(private readonly associationsService: AssociationsService) {}
@@ -60,7 +60,7 @@ export class AssociationsController {
         ],
       })
     )
-    file: File
+    file: Express.Multer.File
   ): Promise<void> {
     try {
       return await this.associationsService.addImageToAssociation(assoId, file);

@@ -3,7 +3,7 @@ export const FILE_SIZE = {
 };
 
 export class FileHelper {
-  static getBase64FromFile(file: File): Promise<string> {
+  static async getBase64FromFile(file: Express.Multer.File): Promise<string> {
     return file['buffer'].toString('base64');
   }
 
