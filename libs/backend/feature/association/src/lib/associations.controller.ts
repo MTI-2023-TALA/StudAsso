@@ -1,4 +1,5 @@
 import 'multer';
+import { Access, GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import {
   AssociationDto,
   AssociationMemberWithRoleDto,
@@ -29,10 +30,10 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { AssociationsService } from './associations.service';
 import { FILE_SIZE } from '@stud-asso/backend/core/file-helper';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 @SwaggerController('associations')
 export class AssociationsController {
@@ -48,6 +49,7 @@ export class AssociationsController {
     }
   }
 
+  @Access(PermissionId.ASSO_MANAGEMENT)
   @Post('image')
   @UseInterceptors(FileInterceptor('file'))
   public async addImageToAssociation(

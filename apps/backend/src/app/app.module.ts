@@ -1,7 +1,6 @@
 import { AccessGuard, AtGuard, BackendCoreAuthModule, SchoolEmployeeGuard } from '@stud-asso/backend-core-auth';
 
 import { APP_GUARD } from '@nestjs/core';
-import { BackendCoreRedisModule } from '@stud-asso/backend/core/redis';
 import { BackendCoreRepositoryModule } from '@stud-asso/backend/core/repository';
 import { BackendFeatureAssociationModule } from '@stud-asso/backend/feature/association';
 import { BackendFeatureAssociationOfferModule } from '@stud-asso/backend/feature/association-offer';
