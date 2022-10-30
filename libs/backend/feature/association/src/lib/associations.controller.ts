@@ -14,15 +14,24 @@ import {
   Body,
   ConflictException,
   Delete,
+  FileTypeValidator,
   Get,
+  MaxFileSizeValidator,
   NotFoundException,
   Param,
+  ParseFilePipe,
   Patch,
   Post,
   Query,
+  Response,
+  StreamableFile,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { GetCurrentAssoId, IsSchoolEmployee, Public } from '@stud-asso/backend-core-auth';
 import { AssociationsService } from './associations.service';
+import { FILE_SIZE } from '@stud-asso/backend/core/file-helper';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
 @SwaggerController('associations')
@@ -40,11 +49,35 @@ export class AssociationsController {
   }
 
   @Post('image')
-  public async addImageToAssociation(@GetCurrentAssoId() id: number, @Body() associationImageDto: { image: File }) {
+  @UseInterceptors(FileInterceptor('file'))
+  public async addImageToAssociation(
+    @GetCurrentAssoId() assoId: number,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: FILE_SIZE.THREE_MB }),
+          new FileTypeValidator({ fileType: 'image' }),
+        ],
+      })
+    )
+    file: File
+  ): Promise<void> {
     try {
-      return await this.associationsService.addImageToAssociation(id, associationImageDto);
+      return await this.associationsService.addImageToAssociation(assoId, file);
     } catch (error) {
       throw new BadRequestException(error?.message);
+    }
+  }
+
+  @Get('image/:id')
+  public async getImageFromAssociation(
+    @Response({ passthrough: true }) res: Response,
+    @Param('id') id: string
+  ): Promise<StreamableFile> {
+    try {
+      return await this.associationsService.getImageFromAssociation(res, +id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
     }
   }
 
