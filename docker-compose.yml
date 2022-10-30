@@ -46,6 +46,7 @@ services:
       - frontend
     depends_on:
       - database
+      - redis
     container_name: studasso-backend
   database:
     image: postgres:14.5-alpine3.16
@@ -60,6 +61,19 @@ services:
     networks:
       - backend
     container_name: studasso-database
+  redis:
+    image: redis:6.2-alpine
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - stud-asso:/redis
+    networks:
+      - backend
+    container_name: studasso-redis
 
 volumes:
   stud-asso:

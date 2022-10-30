@@ -1,3 +1,5 @@
+import 'multer';
+import { Access, GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import {
   AssociationDto,
   AssociationMemberWithRoleDto,
@@ -14,17 +16,25 @@ import {
   Body,
   ConflictException,
   Delete,
+  FileTypeValidator,
   Get,
+  MaxFileSizeValidator,
   NotFoundException,
   Param,
+  ParseFilePipe,
   Patch,
   Post,
   Query,
+  Response,
+  StreamableFile,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
-import { GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { AssociationsService } from './associations.service';
+import { FILE_SIZE } from '@stud-asso/backend/core/file-helper';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
-
 @SwaggerController('associations')
 export class AssociationsController {
   constructor(private readonly associationsService: AssociationsService) {}
@@ -36,6 +46,40 @@ export class AssociationsController {
       return await this.associationsService.create(createAssociationDto);
     } catch (error) {
       throw new ConflictException(error?.message);
+    }
+  }
+
+  @Access(PermissionId.ASSO_MANAGEMENT)
+  @Post('image')
+  @UseInterceptors(FileInterceptor('file'))
+  public async addImageToAssociation(
+    @GetCurrentAssoId() assoId: number,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: FILE_SIZE.THREE_MB }),
+          new FileTypeValidator({ fileType: 'image' }),
+        ],
+      })
+    )
+    file: Express.Multer.File
+  ): Promise<void> {
+    try {
+      return await this.associationsService.addImageToAssociation(assoId, file);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
+  }
+
+  @Get('image/:id')
+  public async getImageFromAssociation(
+    @Response({ passthrough: true }) res: Response,
+    @Param('id') id: string
+  ): Promise<StreamableFile> {
+    try {
+      return await this.associationsService.getImageFromAssociation(res, +id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
     }
   }
 

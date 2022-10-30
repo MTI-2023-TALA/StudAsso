@@ -15,18 +15,21 @@ import {
   RoleRepository,
   UserRepository,
 } from '@stud-asso/backend/core/repository';
+import { Injectable, StreamableFile } from '@nestjs/common';
 
 import { AssociationWithPresidentModel } from '@stud-asso/backend/core/model';
 import { ERROR } from '@stud-asso/backend/core/error';
-import { Injectable } from '@nestjs/common';
+import { FileHelper } from '@stud-asso/backend/core/file-helper';
 import { Prisma } from '@prisma/client';
+import { RedisService } from '@stud-asso/backend/core/redis';
 
 @Injectable()
 export class AssociationsService {
   constructor(
     private readonly associationRepository: AssociationRepository,
-    private readonly roleRepository: RoleRepository,
     private readonly associationsMemberRepository: AssociationsMemberRepository,
+    private readonly redisService: RedisService,
+    private readonly roleRepository: RoleRepository,
     private readonly userRepository: UserRepository
   ) {}
 
@@ -53,6 +56,22 @@ export class AssociationsService {
         }
       }
     }
+  }
+
+  public async addImageToAssociation(assoId: number, file: Express.Multer.File): Promise<void> {
+    const imageAsBase64 = await FileHelper.getBase64FromFile(file);
+    this.redisService.set(`association/${assoId}/image`, imageAsBase64);
+  }
+
+  public async getImageFromAssociation(res: Response, assoId: number): Promise<StreamableFile> {
+    const imageAsBase64 = await this.redisService.get(`association/${assoId}/image`);
+    const imageAsBuffer = await FileHelper.getFileFromBase64(imageAsBase64);
+
+    (res as unknown as any).set({
+      'Content-Type': 'application/json',
+      'Content-Disposition': `attachment; filename="association_${assoId}_image.png"`,
+    });
+    return new StreamableFile(imageAsBuffer);
   }
 
   public async findAllWithPresident(query: QueryPaginationDto): Promise<AssociationWithPresidentDto[]> {

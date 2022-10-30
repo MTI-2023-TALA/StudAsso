@@ -16,7 +16,6 @@ import { Module } from '@nestjs/common';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
     BackendCoreAuthModule,
     BackendCoreRepositoryModule,
     BackendFeatureAssociationModule,
@@ -28,6 +27,7 @@ import { Module } from '@nestjs/common';
     BackendFeatureRoleModule,
     BackendFeatureStockModule,
     BackendFeatureUserModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
   controllers: [],
   providers: [

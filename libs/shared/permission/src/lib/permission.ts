@@ -1,6 +1,7 @@
 import { PermissionColor } from './color';
 
 export enum PermissionId {
+  ASSO_MANAGEMENT = 'ASSO_MANAGEMENT',
   EVENT_MANAGEMENT = 'EVENT_MANAGEMENT',
   FUNDING_MANAGEMENT = 'FUNDING_MANAGEMENT',
   MEMBER_ADD = 'MEMBER_ADD',
@@ -24,6 +25,12 @@ export interface Permissions {
 }
 
 export const permissions: Permissions = {
+  ASSO_MANAGEMENT: {
+    id: PermissionId.ASSO_MANAGEMENT,
+    name: 'Association Management',
+    color: PermissionColor.INFORMATION,
+    description: 'Association Management',
+  },
   EVENT_MANAGEMENT: {
     id: PermissionId.EVENT_MANAGEMENT,
     name: 'Event Management',

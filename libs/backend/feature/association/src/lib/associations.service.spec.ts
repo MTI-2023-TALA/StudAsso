@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import 'multer';
 
 import {
   AddRoleToUserModel,
@@ -25,6 +26,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AssociationsService } from './associations.service';
 import { ERROR } from '@stud-asso/backend/core/error';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { RedisService } from '@stud-asso/backend/core/redis';
 
 describe('AssociationsService', () => {
   let service: AssociationsService;
@@ -208,6 +210,10 @@ describe('AssociationsService', () => {
               return Promise.resolve(mockedUsers.find((user) => user.id === id));
             }),
           },
+        },
+        {
+          provide: RedisService,
+          useValue: {},
         },
       ],
     }).compile();

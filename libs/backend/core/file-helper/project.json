@@ -1,0 +1,16 @@
+{
+  "name": "backend-core-file-helper",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/backend/core/file-helper/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/backend/core/file-helper/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["type:backend", "type:backend-core"]
+}
