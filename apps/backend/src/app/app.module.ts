@@ -18,7 +18,6 @@ import { Module } from '@nestjs/common';
 @Module({
   imports: [
     BackendCoreAuthModule,
-    BackendCoreRedisModule,
     BackendCoreRepositoryModule,
     BackendFeatureAssociationModule,
     BackendFeatureAssociationOfferModule,
