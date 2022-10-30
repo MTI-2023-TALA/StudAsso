@@ -63,7 +63,7 @@ export class AssociationsService {
     this.redisService.set(`association/${assoId}/image`, imageAsBase64);
   }
 
-  public async getImageFromAssociation(res, assoId: number) {
+  public async getImageFromAssociation(res, assoId: number): Promise<StreamableFile> {
     const imageAsBase64 = await this.redisService.get(`association/${assoId}/image`);
     const imageAsBuffer = await FileHelper.getFileFromBase64(imageAsBase64);
 
