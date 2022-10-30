@@ -60,7 +60,7 @@ export class AssociationsService {
 
   public async addImageToAssociation(assoId: number, file: File): Promise<void> {
     const imageAsBase64 = await FileHelper.getBase64FromFile(file);
-    await this.redisService.set(`association/${assoId}/image`, imageAsBase64);
+    this.redisService.set(`association/${assoId}/image`, imageAsBase64);
   }
 
   public async getImageFromAssociation(res, assoId: number) {
