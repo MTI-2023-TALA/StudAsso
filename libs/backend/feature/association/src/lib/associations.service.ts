@@ -63,11 +63,11 @@ export class AssociationsService {
     this.redisService.set(`association/${assoId}/image`, imageAsBase64);
   }
 
-  public async getImageFromAssociation(res, assoId: number): Promise<StreamableFile> {
+  public async getImageFromAssociation(res: Response, assoId: number): Promise<StreamableFile> {
     const imageAsBase64 = await this.redisService.get(`association/${assoId}/image`);
     const imageAsBuffer = await FileHelper.getFileFromBase64(imageAsBase64);
 
-    res.set({
+    (res as unknown as any).set({
       'Content-Type': 'application/json',
       'Content-Disposition': `attachment; filename="association_${assoId}_image.png"`,
     });
