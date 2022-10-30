@@ -5,7 +5,7 @@ import { Cache } from 'cache-manager';
 export class RedisService {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
-  set(key: string, value: string, duration: number = 0): void {
+  set(key: string, value: string, duration = 0): void {
     this.cacheManager.set(key, value, { ttl: duration });
   }
 
