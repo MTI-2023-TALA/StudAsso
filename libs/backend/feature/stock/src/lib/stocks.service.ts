@@ -24,13 +24,12 @@ export class StocksService {
 
   public async create(userId: number, associationId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
     createBaseDto.name = createBaseDto.name.trim();
-    let action = 'create';
 
     // If Stock is deleted
     let stock: StockModel = await this.stockRepository.findOneDeleted(associationId, createBaseDto.name);
     if (stock) {
       stock = await this.stockRepository.updateDeleted(stock.id, { count: createBaseDto.count });
-      await this.createStocksLogs(stock.id, userId, stock.count, stock.count, action);
+      await this.createStocksLogs(stock.id, userId, stock.count, stock.count, 'create');
       return stock;
     }
 
@@ -40,14 +39,13 @@ export class StocksService {
       stock = await this.stockRepository.update(stock.id, {
         count: stock.count + createBaseDto.count,
       });
-      action = 'update';
-      await this.createStocksLogs(stock.id, userId, stock.count, stock.count, action);
+      await this.createStocksLogs(stock.id, userId, stock.count, stock.count, 'update');
       return stock;
     }
 
     // Else create new stock
     stock = await this.stockRepository.create({ ...createBaseDto, associationId });
-    await this.createStocksLogs(stock.id, userId, stock.count, stock.count, action);
+    await this.createStocksLogs(stock.id, userId, stock.count, stock.count, 'create');
     return stock;
   }
 
