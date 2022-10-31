@@ -23,14 +23,28 @@ export class StocksService {
   ) {}
 
   public async create(userId: number, associationId: number, createBaseDto: CreateStockDto): Promise<StockDto> {
-    let stock: StockModel = await this.stockRepository.findOneAssoStockByName(createBaseDto.name, associationId);
+    createBaseDto.name = createBaseDto.name.trim();
+
+    // If Stock is deleted
+    let stock: StockModel = await this.stockRepository.findOneDeleted(associationId, createBaseDto.name);
+    if (stock) {
+      stock = await this.stockRepository.restoreDeletedStock(stock.id, { count: createBaseDto.count });
+      await this.createStocksLogs(stock.id, userId, stock.count, stock.count, 'create');
+      return stock;
+    }
+
+    // If Stock already exists -> update count
+    stock = await this.stockRepository.findOneAssoStockByName(createBaseDto.name, associationId);
     if (stock) {
       stock = await this.stockRepository.update(stock.id, {
         count: stock.count + createBaseDto.count,
       });
-    } else {
-      stock = await this.stockRepository.create({ ...createBaseDto, associationId });
+      await this.createStocksLogs(stock.id, userId, stock.count, stock.count, 'update');
+      return stock;
     }
+
+    // Else create new stock
+    stock = await this.stockRepository.create({ ...createBaseDto, associationId });
     await this.createStocksLogs(stock.id, userId, stock.count, stock.count, 'create');
     return stock;
   }
