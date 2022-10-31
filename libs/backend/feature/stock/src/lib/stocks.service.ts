@@ -28,7 +28,7 @@ export class StocksService {
     // If Stock is deleted
     let stock: StockModel = await this.stockRepository.findOneDeleted(associationId, createBaseDto.name);
     if (stock) {
-      stock = await this.stockRepository.updateDeleted(stock.id, { count: createBaseDto.count });
+      stock = await this.stockRepository.restoreDeletedStock(stock.id, { count: createBaseDto.count });
       await this.createStocksLogs(stock.id, userId, stock.count, stock.count, 'create');
       return stock;
     }
