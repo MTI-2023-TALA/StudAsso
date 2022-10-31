@@ -90,7 +90,6 @@ export class StocksController {
   @Access(PermissionId.STOCK_MANAGEMENT)
   @Delete(':id')
   public async delete(@Param('id') id: string, @GetCurrentUserId() userId: number): Promise<StockDto> {
-    //TODO: soft delete and careful with stock logs
     try {
       return await this.stocksService.delete(+id, userId);
     } catch (error) {

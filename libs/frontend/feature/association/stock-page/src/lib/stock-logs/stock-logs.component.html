@@ -11,7 +11,7 @@
     <stud-asso-tag [message]="'Mise à jour'" [type]="'information'" class="right-pad-tag"></stud-asso-tag>
     [{{ log.createdAt | date: 'd/M/y H:m' }}] {{ log.user.firstname }} {{ log.user.lastname }} a modifié
     &NonBreakingSpace; <span class="bold"> {{ log.stock.name }} </span> &NonBreakingSpace;: {{ log.oldCount }}
-    <i class="bi bi-arrow-right"></i>{{ log.newCount }}
+    &NonBreakingSpace; <i class="bi bi-arrow-right"></i> &NonBreakingSpace; {{ log.newCount }}
   </div>
 </ng-template>
 

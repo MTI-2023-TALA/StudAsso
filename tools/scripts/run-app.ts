@@ -20,7 +20,7 @@ console.log = (...args: any[]) => {
 function runDb() {
   console.log(chalk.green('Starting database...'));
   try {
-    execSync('docker-compose up -d database', { stdio: 'inherit' });
+    execSync('docker-compose up -d database redis', { stdio: 'inherit' });
     console.log(chalk.green('✔ Database started'));
   } catch {
     console.log(chalk.red('❌ Failed to start database'));
