@@ -61,15 +61,13 @@ export class StockRepository {
   }
 
   public async update(id: number, updateStockPayload: UpdateStockModel): Promise<StockModel> {
-    const value = await this.prisma.stock.updateMany({ where: { id }, data: updateStockPayload });
-    console.log('value', value);
+    await this.prisma.stock.updateMany({ where: { id }, data: updateStockPayload });
     return this.findOne(id);
   }
 
   public async updateDeleted(id: number, updateStockPayload: UpdateStockModel) {
     updateStockPayload['deletedAt'] = null;
-    console.log(updateStockPayload);
-    const value = await this.prisma.stock.updateMany({
+    await this.prisma.stock.updateMany({
       where: {
         id,
         NOT: {
@@ -78,7 +76,6 @@ export class StockRepository {
       },
       data: updateStockPayload,
     });
-    console.log('value', value);
     return this.findOne(id);
   }
 
