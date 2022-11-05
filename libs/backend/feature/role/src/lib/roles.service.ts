@@ -94,8 +94,8 @@ export class RolesService {
     const assoMember = await this.associationsMemberRepository.findOne(associationId, addRoleToUserDto.userId);
     if (!assoMember) throw new Error(ERROR.USER_NOT_MEMBER_OF_ASSO);
 
-    const oldRole = await this.roleRepository.findOne(assoMember.roleId);
-    if (oldRole.name === 'Président') throw new Error(ERROR.CANNOT_UPDATE_PRESIDENT);
+    // const oldRole = await this.roleRepository.findOne(assoMember.roleId);
+    // if (oldRole.name === 'Président') throw new Error(ERROR.CANNOT_UPDATE_PRESIDENT);
 
     await this.verifyIfRoleCanBeAdded(associationId, addRoleToUserDto);
     return await this.associationsMemberRepository.update({ ...addRoleToUserDto, associationId });
