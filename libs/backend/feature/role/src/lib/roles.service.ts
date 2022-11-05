@@ -55,10 +55,7 @@ export class RolesService {
     const asso = await this.associationRepository.findOne(associationId);
     if (!asso) throw new Error(ERROR.ASSO_NOT_FOUND);
 
-    const role = await this.roleRepository.findOne(addRoleToUserDto.roleId);
-    if (!role) throw new Error(ERROR.ROLE_NOT_FOUND);
-
-    if (role.associationId !== associationId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
+    await this.verifyIfRoleCanBeAdded(associationId, addRoleToUserDto);
     return await this.associationsMemberRepository.linkUserToRole({ ...addRoleToUserDto, associationId });
   }
 
@@ -97,10 +94,7 @@ export class RolesService {
     const assoMember = await this.associationsMemberRepository.findOne(associationId, addRoleToUserDto.userId);
     if (!assoMember) throw new Error(ERROR.USER_NOT_MEMBER_OF_ASSO);
 
-    const role = await this.roleRepository.findOne(addRoleToUserDto.roleId);
-    if (!role) throw new Error(ERROR.ROLE_NOT_FOUND);
-    if (role.associationId !== associationId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
-
+    await this.verifyIfRoleCanBeAdded(associationId, addRoleToUserDto);
     return await this.associationsMemberRepository.update({ ...addRoleToUserDto, associationId });
   }
 
@@ -133,5 +127,17 @@ export class RolesService {
       ...deletedRole,
       permissions: deletedRole.permissions as PermissionId[],
     };
+  }
+
+  private async verifyIfRoleCanBeAdded(associationId: number, addRoleToUserDto: AddRoleToUserDto): Promise<void> {
+    const role = await this.roleRepository.findOne(addRoleToUserDto.roleId);
+    if (!role) throw new Error(ERROR.ROLE_NOT_FOUND);
+
+    if (role.associationId !== associationId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
+
+    if (role.name === 'Président') {
+      const presidentOfAsso = await this.associationRepository.findAssoPresident(associationId);
+      if (presidentOfAsso) throw new Error(ERROR.ASSO_ALREADY_HAS_PRESIDENT);
+    }
   }
 }

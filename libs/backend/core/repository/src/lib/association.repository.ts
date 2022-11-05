@@ -114,6 +114,35 @@ export class AssociationRepository {
     });
   }
 
+  public async findAssoPresident(associationId: number) {
+    return this.prisma.associationMember.findFirst({
+      where: {
+        associationId: associationId,
+        role: {
+          name: 'Président',
+        },
+      },
+      select: {
+        userId: true,
+        associationId: true,
+        role: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+            firstname: true,
+            lastname: true,
+            email: true,
+          },
+        },
+      },
+    });
+  }
+
   public async getCreationDate(associationId: number): Promise<Date> {
     const creationDate = await this.prisma.association.findFirst({
       where: {
