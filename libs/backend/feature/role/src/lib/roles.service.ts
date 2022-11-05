@@ -45,22 +45,20 @@ export class RolesService {
     }
   }
 
-  public async addRoleToUser(associationId, addRoleToUserDto: AddRoleToUserDto): Promise<AssociationsMemberDto> {
+  public async addRoleToUser(
+    associationId: number,
+    addRoleToUserDto: AddRoleToUserDto
+  ): Promise<AssociationsMemberDto> {
     const user = await this.userRepository.findOne(addRoleToUserDto.userId);
-    if (!user) {
-      throw new Error(ERROR.USER_NOT_FOUND);
-    }
+    if (!user) throw new Error(ERROR.USER_NOT_FOUND);
 
     const asso = await this.associationRepository.findOne(associationId);
-    if (!asso) {
-      throw new Error(ERROR.ASSO_NOT_FOUND);
-    }
+    if (!asso) throw new Error(ERROR.ASSO_NOT_FOUND);
 
     const role = await this.roleRepository.findOne(addRoleToUserDto.roleId);
-    if (!role) {
-      throw new Error(ERROR.ROLE_NOT_FOUND);
-    }
+    if (!role) throw new Error(ERROR.ROLE_NOT_FOUND);
 
+    if (role.associationId !== associationId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
     return await this.associationsMemberRepository.linkUserToRole({ ...addRoleToUserDto, associationId });
   }
 
@@ -82,14 +80,28 @@ export class RolesService {
 
     const perms = await this.associationsMemberRepository.findAssoMemberPermissions({ assoId, userId });
     return {
-      permissions: perms.role.permissions as PermissionId[]
-    }
+      permissions: perms.role.permissions as PermissionId[],
+    };
   }
 
   public async findOne(id: number): Promise<RoleDto> {
     const role = await this.roleRepository.findOne(id);
     if (!role) throw new Error(ERROR.ROLE_NOT_FOUND);
     return { ...role, permissions: role.permissions as PermissionId[] };
+  }
+
+  public async updateUserRole(
+    associationId: number,
+    addRoleToUserDto: AddRoleToUserDto
+  ): Promise<AssociationsMemberDto> {
+    const assoMember = await this.associationsMemberRepository.findOne(associationId, addRoleToUserDto.userId);
+    if (!assoMember) throw new Error(ERROR.USER_NOT_MEMBER_OF_ASSO);
+
+    const role = await this.roleRepository.findOne(addRoleToUserDto.roleId);
+    if (!role) throw new Error(ERROR.ROLE_NOT_FOUND);
+    if (role.associationId !== associationId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
+
+    return await this.associationsMemberRepository.update({ ...addRoleToUserDto, associationId });
   }
 
   public async update(id: number, updateRoleDto: UpdateRoleDto): Promise<RoleDto> {

@@ -7,17 +7,22 @@ import {
   UserIdAssoIdModel,
 } from '@stud-asso/backend/core/model';
 
-import { AssociationMember } from '@prisma/client';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 import { SORT_ASSO_MEMBERS } from '@stud-asso/shared/dtos';
+
+const selectAssoMemberModel = {
+  associationId: true,
+  userId: true,
+  roleId: true,
+};
 
 @Injectable()
 export class AssociationsMemberRepository {
   constructor(private prisma: PrismaService) {}
 
-  public async linkUserToRole(addRoleToUserDto: AddRoleToUserModel): Promise<AssociationMember> {
-    return this.prisma.associationMember.create({ data: addRoleToUserDto });
+  public async linkUserToRole(addRoleToUserModel: AddRoleToUserModel): Promise<SimpleAssociationsMemberModel> {
+    return this.prisma.associationMember.create({ data: addRoleToUserModel, select: selectAssoMemberModel });
   }
 
   public findAssociationMembersWithRoles(
@@ -99,6 +104,25 @@ export class AssociationsMemberRepository {
           },
         },
       },
+    });
+  }
+
+  public findOne(associationId: number, userId: number): Promise<SimpleAssociationsMemberModel> {
+    return this.prisma.associationMember.findUnique({
+      where: {
+        associationId_userId: { associationId, userId },
+      },
+      select: selectAssoMemberModel,
+    });
+  }
+
+  public async update(addRoleToUserModel: AddRoleToUserModel): Promise<SimpleAssociationsMemberModel> {
+    return this.prisma.associationMember.update({
+      where: {
+        associationId_userId: { associationId: addRoleToUserModel.associationId, userId: addRoleToUserModel.userId },
+      },
+      data: addRoleToUserModel,
+      select: selectAssoMemberModel,
     });
   }
 
