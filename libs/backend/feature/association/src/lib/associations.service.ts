@@ -88,16 +88,19 @@ export class AssociationsService {
   }
 
   public async findAssociationPresident(associationId: number): Promise<UserDto> {
+    const association = await this.associationRepository.findOne(associationId);
+    if (!association) throw new Error(ERROR.ASSO_NOT_FOUND);
+
     const president = await this.associationRepository.findAssociationPresident(associationId);
     if (!president) {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
     return {
-      id: president.associationsMembers[0].userId,
-      firstname: president.associationsMembers[0].user.firstname,
-      lastname: president.associationsMembers[0].user.lastname,
-      email: president.associationsMembers[0].user.email,
-      isSchoolEmployee: president.associationsMembers[0].user.isSchoolEmployee,
+      id: president.user.id,
+      firstname: president.user.firstname,
+      lastname: president.user.lastname,
+      email: president.user.email,
+      isSchoolEmployee: president.user.isSchoolEmployee,
     };
   }
 

@@ -2,6 +2,7 @@ import { SORT_ASSO_MEMBERS, SORT_ORDER } from '@stud-asso/shared/dtos';
 
 import { QueryPaginationModel } from './query.model';
 import { RoleNameModel } from './role.model';
+import { SimplifiedUserModel } from './user.model';
 import { UserIdAndUserModel } from './associations-member.model';
 
 // Request Models
@@ -35,7 +36,7 @@ export class AssociationWithPresidentModel {
 }
 
 export class AssociationPresidentModel {
-  associationsMembers: UserIdAndUserModel[];
+  user: SimplifiedUserModel;
 }
 
 export class AssociationNameModel {

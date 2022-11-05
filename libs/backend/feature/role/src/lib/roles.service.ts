@@ -136,7 +136,7 @@ export class RolesService {
     if (role.associationId !== associationId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
 
     if (role.name === 'Président') {
-      const presidentOfAsso = await this.associationRepository.findAssoPresident(associationId);
+      const presidentOfAsso = await this.associationRepository.findAssociationPresident(associationId);
       if (presidentOfAsso) throw new Error(ERROR.ASSO_ALREADY_HAS_PRESIDENT);
     }
   }
