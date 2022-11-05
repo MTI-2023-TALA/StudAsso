@@ -120,15 +120,6 @@ export class AssociationsController {
     }
   }
 
-  @Get('president/:id')
-  public async findAssociationPresident(@Param('id') id: string): Promise<UserDto> {
-    try {
-      return await this.associationsService.findAssociationPresident(+id);
-    } catch (error) {
-      throw new NotFoundException(error?.message);
-    }
-  }
-
   @Patch(':id')
   public async update(
     @Param('id') id: string,
