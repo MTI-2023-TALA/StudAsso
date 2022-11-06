@@ -3,11 +3,11 @@ import {
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   AssociationsMemberDto,
+  ChangePresidentDto,
   CreateAssociationDto,
   QueryAssociationMembersDto,
   QueryPaginationDto,
   UpdateAssociationDto,
-  UserDto,
 } from '@stud-asso/shared/dtos';
 import {
   AssociationRepository,
@@ -72,6 +72,41 @@ export class AssociationsService {
       'Content-Disposition': `attachment; filename="association_${assoId}_image.png"`,
     });
     return new StreamableFile(imageAsBuffer);
+  }
+
+  public async changeAssociationPresident(assoId: number, changePresidentDto: ChangePresidentDto) {
+    const currentPresident = await this.associationRepository.findAssociationPresident(assoId);
+    if (currentPresident.user.id === changePresidentDto.newPresidentId)
+      throw new Error(ERROR.CANNOT_UPDATE_TO_SAME_PRESIDENT);
+
+    const roleToUpdateOldPresidentTo = await this.roleRepository.findOne(changePresidentDto.changeToRoleId);
+    if (!roleToUpdateOldPresidentTo) throw new Error(ERROR.ROLE_NOT_FOUND);
+    if (roleToUpdateOldPresidentTo.associationId !== assoId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
+    if (roleToUpdateOldPresidentTo.name === 'Président') throw new Error(ERROR.CANNOT_UPDATE_PRESIDENT_ROLE);
+
+    const newPresident = await this.userRepository.findOne(changePresidentDto.newPresidentId);
+    if (!newPresident) throw new Error(ERROR.USER_NOT_FOUND);
+
+    const isNewPresidentMemberOfAsso = await this.associationsMemberRepository.isUserMemberOfAssociation({
+      userId: newPresident.id,
+      assoId,
+    });
+    if (!isNewPresidentMemberOfAsso) throw new Error(ERROR.USER_NOT_MEMBER_OF_ASSO);
+
+    const presidentRole = await this.roleRepository.findByName(assoId, 'Président');
+    if (!presidentRole) throw new Error(ERROR.ASSOCIATION_HAS_NO_PRESIDENT);
+
+    await this.associationsMemberRepository.update({
+      associationId: assoId,
+      userId: currentPresident.user.id,
+      roleId: changePresidentDto.changeToRoleId,
+    });
+
+    return this.associationsMemberRepository.update({
+      associationId: assoId,
+      userId: changePresidentDto.newPresidentId,
+      roleId: presidentRole.id,
+    });
   }
 
   public async findAllWithPresident(query: QueryPaginationDto): Promise<AssociationWithPresidentDto[]> {

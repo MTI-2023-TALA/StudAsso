@@ -1,15 +1,15 @@
 import 'multer';
-import { Access, GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
+import { Access, GetCurrentAssoId, IsPresident, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import {
   AssociationDto,
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   AssociationsMemberDto,
+  ChangePresidentDto,
   CreateAssociationDto,
   QueryAssociationMembersDto,
   QueryPaginationDto,
   UpdateAssociationDto,
-  UserDto,
 } from '@stud-asso/shared/dtos';
 import {
   BadRequestException,
@@ -66,6 +66,19 @@ export class AssociationsController {
   ): Promise<void> {
     try {
       return await this.associationsService.addImageToAssociation(assoId, file);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
+  }
+
+  @IsPresident()
+  @Post('president/change')
+  public async changeAssociationPresident(
+    @GetCurrentAssoId() assoId: number,
+    @Body() changePresidentDto: ChangePresidentDto
+  ) {
+    try {
+      return await this.associationsService.changeAssociationPresident(assoId, changePresidentDto);
     } catch (error) {
       throw new BadRequestException(error?.message);
     }

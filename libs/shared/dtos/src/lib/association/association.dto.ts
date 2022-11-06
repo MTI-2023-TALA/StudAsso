@@ -29,6 +29,16 @@ export class UpdateAssociationDto {
   description?: string;
 }
 
+export class ChangePresidentDto {
+  @IsNotEmpty()
+  @IsInt()
+  changeToRoleId: number;
+
+  @IsNotEmpty()
+  @IsInt()
+  newPresidentId: number;
+}
+
 // Query Request DTOs
 
 export enum SORT_ASSO_MEMBERS {

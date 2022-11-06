@@ -94,8 +94,8 @@ export class RolesService {
     const assoMember = await this.associationsMemberRepository.findOne(associationId, addRoleToUserDto.userId);
     if (!assoMember) throw new Error(ERROR.USER_NOT_MEMBER_OF_ASSO);
 
-    // const oldRole = await this.roleRepository.findOne(assoMember.roleId);
-    // if (oldRole.name === 'Président') throw new Error(ERROR.CANNOT_UPDATE_PRESIDENT);
+    const oldRole = await this.roleRepository.findOne(assoMember.roleId);
+    if (oldRole.name === 'Président') throw new Error(ERROR.CANNOT_UPDATE_PRESIDENT_ROLE);
 
     await this.verifyIfRoleCanBeAdded(associationId, addRoleToUserDto);
     return await this.associationsMemberRepository.update({ ...addRoleToUserDto, associationId });
@@ -136,11 +136,7 @@ export class RolesService {
     const role = await this.roleRepository.findOne(addRoleToUserDto.roleId);
     if (!role) throw new Error(ERROR.ROLE_NOT_FOUND);
 
+    if (role.name === 'Président') throw new Error(ERROR.CANNOT_ADD_PRESIDENT_ROLE);
     if (role.associationId !== associationId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
-    // if (role.name === 'Président') throw new Error(ERROR.CANNOT_ADD_PRESIDENT);
-    if (role.name === 'Président') {
-      const presidentOfAsso = await this.associationRepository.findAssociationPresident(associationId);
-      if (presidentOfAsso) throw new Error(ERROR.ASSO_ALREADY_HAS_PRESIDENT);
-    }
   }
 }
