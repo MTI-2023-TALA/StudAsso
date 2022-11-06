@@ -13,7 +13,7 @@ export class AccessGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
     private readonly associationsMemberRepository: AssociationsMemberRepository,
-    private roleRepository: RoleRepository
+    private readonly roleRepository: RoleRepository
   ) {}
 
   canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
