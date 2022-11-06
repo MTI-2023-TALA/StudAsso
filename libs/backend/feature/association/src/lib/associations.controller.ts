@@ -76,7 +76,7 @@ export class AssociationsController {
   public async changeAssociationPresident(
     @GetCurrentAssoId() assoId: number,
     @Body() changePresidentDto: ChangePresidentDto
-  ) {
+  ): Promise<AssociationsMemberDto> {
     try {
       return await this.associationsService.changeAssociationPresident(assoId, changePresidentDto);
     } catch (error) {
