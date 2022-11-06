@@ -4,9 +4,9 @@ export * from './lib/decorators/access.decorator';
 export * from './lib/decorators/get-current-asso-id.decorator';
 export * from './lib/decorators/get-current-user-id.decorator';
 export * from './lib/decorators/get-current-user.decorator';
+export * from './lib/decorators/is-president.decorator';
 export * from './lib/decorators/public.decorator';
 export * from './lib/decorators/school-employee.decorator';
-export * from './lib/decorators/is-president.decorator';
 
 export * from './lib/guards/access.guard';
 export * from './lib/guards/at.guard';
