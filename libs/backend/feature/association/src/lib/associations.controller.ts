@@ -1,15 +1,15 @@
 import 'multer';
-import { Access, GetCurrentAssoId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
+import { Access, GetCurrentAssoId, IsPresident, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import {
   AssociationDto,
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   AssociationsMemberDto,
+  ChangePresidentDto,
   CreateAssociationDto,
   QueryAssociationMembersDto,
   QueryPaginationDto,
   UpdateAssociationDto,
-  UserDto,
 } from '@stud-asso/shared/dtos';
 import {
   BadRequestException,
@@ -71,6 +71,19 @@ export class AssociationsController {
     }
   }
 
+  @IsPresident()
+  @Post('president/change')
+  public async changeAssociationPresident(
+    @GetCurrentAssoId() assoId: number,
+    @Body() changePresidentDto: ChangePresidentDto
+  ): Promise<AssociationsMemberDto> {
+    try {
+      return await this.associationsService.changeAssociationPresident(assoId, changePresidentDto);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
+  }
+
   @Get('image/:id')
   public async getImageFromAssociation(
     @Response({ passthrough: true }) res: Response,
@@ -115,15 +128,6 @@ export class AssociationsController {
   public async findOneWithPresident(@Param('id') id: string): Promise<AssociationWithPresidentDto> {
     try {
       return await this.associationsService.findOneWithPresident(+id);
-    } catch (error) {
-      throw new NotFoundException(error?.message);
-    }
-  }
-
-  @Get('president/:id')
-  public async findAssociationPresident(@Param('id') id: string): Promise<UserDto> {
-    try {
-      return await this.associationsService.findAssociationPresident(+id);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

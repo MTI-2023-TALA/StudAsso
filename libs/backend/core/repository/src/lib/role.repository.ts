@@ -23,7 +23,10 @@ export class RoleRepository {
   }
 
   public async createRolePresident(associationId: number): Promise<RoleModel> {
-    return this.prisma.role.create({ data: { name: 'Président', associationId }, select: simpleUserSelect });
+    return this.prisma.role.create({
+      data: { name: 'Président', associationId },
+      select: simpleUserSelect,
+    });
   }
 
   public async findAll(id: number, queryPaginationModel: QueryPaginationModel): Promise<RoleModel[]> {
@@ -45,6 +48,10 @@ export class RoleRepository {
 
   public async findOne(id: number): Promise<RoleModel> {
     return this.prisma.role.findUnique({ where: { id }, select: simpleUserSelect });
+  }
+
+  public async findByName(associationId: number, name: string): Promise<RoleModel> {
+    return this.prisma.role.findFirst({ where: { associationId, name }, select: simpleUserSelect });
   }
 
   public async update(id: number, updateRole: UpdateRoleModel): Promise<RoleModel> {

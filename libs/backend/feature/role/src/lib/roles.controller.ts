@@ -39,7 +39,7 @@ export class RolesController {
   }
 
   @Access(PermissionId.MEMBER_ADD)
-  @Post('/user')
+  @Post('user')
   public async addRoleToUser(
     @GetCurrentAssoId() associationId: number,
     @Body() addRoleToUser: AddRoleToUserDto
@@ -51,12 +51,12 @@ export class RolesController {
     }
   }
 
-  @Get('/asso')
+  @Get('asso')
   public findAll(@GetCurrentAssoId() id: number, @Query() query: QueryPaginationDto): Promise<RoleDto[]> {
     return this.rolesService.findAll(id, query);
   }
 
-  @Get('/permissions/me')
+  @Get('permissions/me')
   public async getMyPermissions(
     @GetCurrentAssoId() assoId: number,
     @GetCurrentUserId() userId: number
@@ -72,6 +72,19 @@ export class RolesController {
   async findOne(@Param('id') id: string): Promise<RoleDto> {
     try {
       return await this.rolesService.findOne(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
+  @Access(PermissionId.MEMBER_ADD)
+  @Patch('user')
+  public async updateUserRole(
+    @GetCurrentAssoId() associationId: number,
+    @Body() addRoleToUser: AddRoleToUserDto
+  ): Promise<AssociationsMemberDto> {
+    try {
+      return await this.rolesService.updateUserRole(associationId, addRoleToUser);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

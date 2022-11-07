@@ -87,27 +87,21 @@ export class AssociationRepository {
   }
 
   public async findAssociationPresident(associationId: number): Promise<AssociationPresidentModel> {
-    return this.prisma.association.findFirst({
+    return this.prisma.associationMember.findFirst({
       where: {
-        id: associationId,
-        roles: {
-          some: {
-            name: 'Président',
-          },
+        associationId,
+        role: {
+          name: 'Président',
         },
       },
       select: {
-        associationsMembers: {
+        user: {
           select: {
-            userId: true,
-            user: {
-              select: {
-                firstname: true,
-                lastname: true,
-                email: true,
-                isSchoolEmployee: true,
-              },
-            },
+            id: true,
+            firstname: true,
+            lastname: true,
+            email: true,
+            isSchoolEmployee: true,
           },
         },
       },

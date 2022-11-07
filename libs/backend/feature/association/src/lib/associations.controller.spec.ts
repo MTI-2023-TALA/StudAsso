@@ -162,16 +162,6 @@ describe('AssociationsController', () => {
                 isSchoolEmployee: user.isSchoolEmployee,
               });
             }),
-            findAssociationPresident: jest.fn((associationId: number): Promise<UserDto> => {
-              const president = mockedAssociations.find((asso) => asso.id === associationId);
-              if (!president) throw new Error(ERROR.ASSO_NOT_FOUND);
-              const presidentRole = mockedRoles.find(
-                (role) => role.associationId === associationId && role.name === 'Président'
-              );
-              const assoMember = mockedAssociationsMember.find((assoMember) => assoMember.roleId === presidentRole.id);
-              const user = mockedUsers.find((user) => user.id === assoMember.userId);
-              return Promise.resolve(user);
-            }),
             findAssociationMembersWithRoles: jest.fn(
               (associationId: number): Promise<AssociationMemberWithRoleDto[]> => {
                 const association = mockedAssociations.find((asso) => asso.id === associationId);
@@ -298,23 +288,6 @@ describe('AssociationsController', () => {
 
     it('should call associationService.findOneWithPresident and fail', async () => {
       expect(controller.findOneWithPresident('-1')).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
-    });
-  });
-
-  describe('findAssociationPresident', () => {
-    it('should call associationService.findAssociationPresident', async () => {
-      const expected: UserDto = {
-        id: 1,
-        firstname: 'Anakin',
-        lastname: 'Skywalker',
-        email: 'anakin.skywalker@test.test',
-        isSchoolEmployee: false,
-      };
-      expect(await controller.findAssociationPresident('1')).toEqual(expected);
-    });
-
-    it('should call associationService.findAssociationPresident and fail', async () => {
-      expect(controller.findAssociationPresident('-1')).rejects.toThrow(new Error(ERROR.ASSO_NOT_FOUND));
     });
   });
 

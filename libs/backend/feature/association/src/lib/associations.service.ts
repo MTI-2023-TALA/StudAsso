@@ -3,11 +3,11 @@ import {
   AssociationMemberWithRoleDto,
   AssociationWithPresidentDto,
   AssociationsMemberDto,
+  ChangePresidentDto,
   CreateAssociationDto,
   QueryAssociationMembersDto,
   QueryPaginationDto,
   UpdateAssociationDto,
-  UserDto,
 } from '@stud-asso/shared/dtos';
 import {
   AssociationRepository,
@@ -74,6 +74,41 @@ export class AssociationsService {
     return new StreamableFile(imageAsBuffer);
   }
 
+  public async changeAssociationPresident(assoId: number, changePresidentDto: ChangePresidentDto): Promise<AssociationsMemberDto> {
+    const currentPresident = await this.associationRepository.findAssociationPresident(assoId);
+    if (currentPresident.user.id === changePresidentDto.newPresidentId)
+      throw new Error(ERROR.CANNOT_UPDATE_TO_SAME_PRESIDENT);
+
+    const roleToUpdateOldPresidentTo = await this.roleRepository.findOne(changePresidentDto.changeToRoleId);
+    if (!roleToUpdateOldPresidentTo) throw new Error(ERROR.ROLE_NOT_FOUND);
+    if (roleToUpdateOldPresidentTo.associationId !== assoId) throw new Error(ERROR.ROLE_NOT_IN_ASSO);
+    if (roleToUpdateOldPresidentTo.name === 'Président') throw new Error(ERROR.CANNOT_UPDATE_PRESIDENT_ROLE);
+
+    const newPresident = await this.userRepository.findOne(changePresidentDto.newPresidentId);
+    if (!newPresident) throw new Error(ERROR.USER_NOT_FOUND);
+
+    const isNewPresidentMemberOfAsso = await this.associationsMemberRepository.isUserMemberOfAssociation({
+      userId: newPresident.id,
+      assoId,
+    });
+    if (!isNewPresidentMemberOfAsso) throw new Error(ERROR.USER_NOT_MEMBER_OF_ASSO);
+
+    const presidentRole = await this.roleRepository.findByName(assoId, 'Président');
+    if (!presidentRole) throw new Error(ERROR.ASSOCIATION_HAS_NO_PRESIDENT);
+
+    await this.associationsMemberRepository.update({
+      associationId: assoId,
+      userId: currentPresident.user.id,
+      roleId: changePresidentDto.changeToRoleId,
+    });
+
+    return this.associationsMemberRepository.update({
+      associationId: assoId,
+      userId: changePresidentDto.newPresidentId,
+      roleId: presidentRole.id,
+    });
+  }
+
   public async findAllWithPresident(query: QueryPaginationDto): Promise<AssociationWithPresidentDto[]> {
     const assos = await this.associationRepository.findAllWithPresident(query);
     return assos.map((a) => this.formatAsso(a));
@@ -85,20 +120,6 @@ export class AssociationsService {
       throw new Error(ERROR.ASSO_NOT_FOUND);
     }
     return this.formatAsso(asso);
-  }
-
-  public async findAssociationPresident(associationId: number): Promise<UserDto> {
-    const president = await this.associationRepository.findAssociationPresident(associationId);
-    if (!president) {
-      throw new Error(ERROR.ASSO_NOT_FOUND);
-    }
-    return {
-      id: president.associationsMembers[0].userId,
-      firstname: president.associationsMembers[0].user.firstname,
-      lastname: president.associationsMembers[0].user.lastname,
-      email: president.associationsMembers[0].user.email,
-      isSchoolEmployee: president.associationsMembers[0].user.isSchoolEmployee,
-    };
   }
 
   public async findAssociationMembersWithRoles(
