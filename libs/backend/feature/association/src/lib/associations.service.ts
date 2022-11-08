@@ -55,6 +55,7 @@ export class AssociationsService {
           throw new Error(ERROR.ASSO_NAME_ALREADY_EXISTS);
         }
       }
+      throw error;
     }
   }
 
@@ -74,7 +75,10 @@ export class AssociationsService {
     return new StreamableFile(imageAsBuffer);
   }
 
-  public async changeAssociationPresident(assoId: number, changePresidentDto: ChangePresidentDto): Promise<AssociationsMemberDto> {
+  public async changeAssociationPresident(
+    assoId: number,
+    changePresidentDto: ChangePresidentDto
+  ): Promise<AssociationsMemberDto> {
     const currentPresident = await this.associationRepository.findAssociationPresident(assoId);
     if (currentPresident.user.id === changePresidentDto.newPresidentId)
       throw new Error(ERROR.CANNOT_UPDATE_TO_SAME_PRESIDENT);
@@ -158,6 +162,7 @@ export class AssociationsService {
           throw new Error(ERROR.ASSO_NAME_ALREADY_EXISTS);
         }
       }
+      throw error;
     }
   }
 
@@ -170,6 +175,7 @@ export class AssociationsService {
           throw new Error(ERROR.ASSO_NOT_FOUND);
         }
       }
+      throw error;
     }
   }
 

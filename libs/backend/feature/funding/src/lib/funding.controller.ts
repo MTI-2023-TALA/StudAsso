@@ -42,7 +42,7 @@ export class FundingController {
     try {
       return await this.backendFeatureFundingService.findOne(+id);
     } catch (error) {
-      throw new NotFoundException(error);
+      throw new NotFoundException(error?.message);
     }
   }
 

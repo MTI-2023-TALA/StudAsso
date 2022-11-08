@@ -87,6 +87,7 @@ export class AssociationOfferService {
           throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_ALREADY_EXISTS);
         }
       }
+      throw error;
     }
   }
 
