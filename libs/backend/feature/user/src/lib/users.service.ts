@@ -100,6 +100,7 @@ export class UsersService {
           throw new Error(ERROR.EMAIL_ALREADY_USED);
         }
       }
+      throw error;
     }
   }
 

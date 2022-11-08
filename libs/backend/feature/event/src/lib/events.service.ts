@@ -24,6 +24,7 @@ export class EventsService {
           throw new Error(ERROR.ASSO_NOT_FOUND);
         }
       }
+      throw error;
     }
   }
 
@@ -69,6 +70,7 @@ export class EventsService {
           throw new Error(ERROR.EVENT_NOT_FOUND);
         }
       }
+      throw error;
     }
   }
 

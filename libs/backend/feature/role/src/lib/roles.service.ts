@@ -42,6 +42,7 @@ export class RolesService {
           throw new Error(ERROR.ASSO_NOT_FOUND);
         }
       }
+      throw error;
     }
   }
 
@@ -118,6 +119,7 @@ export class RolesService {
           throw new Error(ERROR.ROLE_NAME_ALREADY_EXISTS);
         }
       }
+      throw error;
     }
   }
 

@@ -26,6 +26,7 @@ export class NewsService {
           }
         }
       }
+      throw error;
     }
   }
 
@@ -77,6 +78,7 @@ export class NewsService {
           throw new Error(ERROR.NEWS_NOT_FOUND);
         }
       }
+      throw error;
     }
   }
 }

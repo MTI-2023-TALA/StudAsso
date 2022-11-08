@@ -45,6 +45,7 @@ export class AuthService {
           throw new Error(ERROR.EMAIL_ALREADY_USED);
         }
       }
+      throw error;
     }
 
     const tokens = await this._getTokens(user.id, dto.email);
