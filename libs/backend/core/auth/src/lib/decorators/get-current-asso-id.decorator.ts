@@ -1,8 +1,11 @@
-import { ExecutionContext, createParamDecorator } from '@nestjs/common';
+import { ExecutionContext, UnauthorizedException, createParamDecorator } from '@nestjs/common';
 
 export const getCurrentUserAssociationId = (context: ExecutionContext): number => {
   const request = context.switchToHttp().getRequest();
-  return request.user.assoId;
+
+  const assoId = request.user.assoId;
+  if (!assoId) throw new UnauthorizedException();
+  return assoId;
 };
 
 export const GetCurrentAssoId = createParamDecorator((_: undefined, context: ExecutionContext): number => {
