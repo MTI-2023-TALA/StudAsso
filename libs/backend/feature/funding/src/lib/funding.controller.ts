@@ -27,8 +27,14 @@ export class FundingController {
     return this.backendFeatureFundingService.create(assoId, userId, createFundingDto);
   }
 
+  @IsSchoolEmployee()
   @Get()
-  findAll(@GetCurrentAssoId() assoId: number, @Query() query: QueryPaginationDto): Promise<FundingDto[]> {
+  findAll(@Query() query: QueryPaginationDto): Promise<FundingDto[]> {
+    return this.backendFeatureFundingService.findAll(undefined, query);
+  }
+
+  @Get('/me')
+  findAllByCurrentAsso(@GetCurrentAssoId() assoId: number, @Query() query: QueryPaginationDto): Promise<FundingDto[]> {
     return this.backendFeatureFundingService.findAll(assoId, query);
   }
 

@@ -21,7 +21,11 @@ export class ApiFundingService extends ApiBaseService {
   }
 
   public findAll(query: QueryPagination = undefined): Observable<FundingDto[]> {
-    return this.apiService.get<FundingDto[], QueryPagination>(`${this.url}`, query);
+    return this.apiService.get<FundingDto[], QueryPagination>(this.url, query);
+  }
+
+  public findAllByAsso(query: QueryPagination = undefined): Observable<FundingDto[]> {
+    return this.apiService.get<FundingDto[], QueryPagination>(`${this.url}/me`, query);
   }
 
   public find(id: number): Observable<FundingDto> {
