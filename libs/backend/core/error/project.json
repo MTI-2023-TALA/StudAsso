@@ -1,4 +1,5 @@
 {
+  "name": "backend-core-error",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/backend/core/error/src",
   "projectType": "library",

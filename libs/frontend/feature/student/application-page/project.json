@@ -1,4 +1,5 @@
 {
+  "name": "frontend-feature-student-application-page",
   "projectType": "library",
   "sourceRoot": "libs/frontend/feature/student/application-page/src",
   "prefix": "stud-asso",

@@ -27,6 +27,7 @@
     "frontend-core-i18n": "libs/frontend/core/i18n",
     "frontend-core-main-changeable-data": "libs/frontend/core/main-changeable-data",
     "frontend-core-storage": "libs/frontend/core/storage",
+    "frontend-feature-association-association-page": "libs/frontend/feature/association/association-page",
     "frontend-feature-association-event-page": "libs/frontend/feature/association/event-page",
     "frontend-feature-association-financement-page": "libs/frontend/feature/association/financement-page",
     "frontend-feature-association-member-page": "libs/frontend/feature/association/member-page",

@@ -1,4 +1,5 @@
 {
+  "name": "frontend-student-e2e",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/frontend/student-e2e/src",
   "projectType": "application",

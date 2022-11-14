@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { StockLogsComponent, StockPageComponent } from '@stud-asso/frontend/feature/association/stock-page';
 import { TabBarComponent, TabBarItem } from '@stud-asso/frontend-shared-tab-bar';
 
+import { AssociationPageComponent } from '@stud-asso/frontend/feature/association/association-page';
 import { EventPageComponent } from '@stud-asso/frontend/feature/association/event-page';
 import { FinancementPageComponent } from '@stud-asso/frontend/feature/association/financement-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
@@ -22,6 +23,7 @@ const mainRouteConfig: NavbarItem[] = [
   { title: 'Stocks', icon: 'cart', url: '/stock' },
   { title: 'Offres', icon: 'clipboard-plus', url: '/offers' },
   { title: 'Financements', icon: 'currency-dollar', url: '/financements' },
+  { title: 'Mon association', icon: 'info-circle', url: '/association' },
 ];
 
 const stockRoutes: TabBarItem[] = [
@@ -109,6 +111,10 @@ const routes: Routes = [
       {
         path: 'financements',
         component: FinancementPageComponent,
+      },
+      {
+        path: 'association',
+        component: AssociationPageComponent,
       },
       {
         path: 'my-account',

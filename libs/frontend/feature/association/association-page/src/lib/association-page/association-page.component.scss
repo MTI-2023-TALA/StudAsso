@@ -1,0 +1,24 @@
+@import 'base/variables';
+
+.host {
+  padding: 0 3rem;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 0;
+}
+
+.input {
+  cursor: default;
+}
+
+.textarea {
+  cursor: default;
+}
+
+.main-asso {
+  display: flex;
+  gap: 1.5rem;
+}

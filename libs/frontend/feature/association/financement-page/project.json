@@ -1,4 +1,5 @@
 {
+  "name": "frontend-feature-association-financement-page",
   "projectType": "library",
   "sourceRoot": "libs/frontend/feature/association/financement-page/src",
   "prefix": "stud-asso",
