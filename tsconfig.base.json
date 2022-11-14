@@ -81,9 +81,6 @@
       "@stud-asso/frontend/feature/school/financement-page": [
         "libs/frontend/feature/school/financement-page/src/index.ts"
       ],
-      "@stud-asso/frontend/feature/student/application-page": [
-        "libs/frontend/feature/student/application-page/src/index.ts"
-      ],
       "@stud-asso/frontend/feature/student/association-list-page": [
         "libs/frontend/feature/student/association-list-page/src/index.ts"
       ],

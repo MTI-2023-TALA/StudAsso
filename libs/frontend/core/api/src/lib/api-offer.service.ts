@@ -34,6 +34,16 @@ export class ApiOfferService extends ApiBaseService {
     return this.apiService.get<AssociationOfferWithAssoAndRoleDto[], QueryPagination>(`${this.url}`, query);
   }
 
+  public findAllOfferOfAsso(
+    assoId: number,
+    query: QueryPagination = undefined
+  ): Observable<AssociationOfferWithAssoAndRoleDto[]> {
+    return this.apiService.get<AssociationOfferWithAssoAndRoleDto[], QueryPagination>(
+      `${this.url}/offers/${assoId}`,
+      query
+    );
+  }
+
   public findAllApplication(query: QueryPagination = undefined): Observable<AssociationOfferApplicationReviewDto[]> {
     return this.apiService.get<AssociationOfferApplicationReviewDto[], QueryPagination>(
       `${this.url}/application`,

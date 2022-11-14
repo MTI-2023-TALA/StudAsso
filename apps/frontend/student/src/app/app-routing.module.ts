@@ -6,7 +6,6 @@ import { IsNotSignGuard, IsSignGuard } from '@stud-asso/frontend-core-auth';
 import { NavbarItem, SimpleRouterOutletComponent } from '@stud-asso/frontend-shared-navbar';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ApplicationPageComponent } from '@stud-asso/frontend/feature/student/application-page';
 import { EventPageComponent } from '@stud-asso/frontend/feature/student/event-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
 import { MainRoutingComponent } from '@stud-asso/frontend-shared-main-routing-component';
@@ -18,7 +17,6 @@ const mainRouteConfig: NavbarItem[] = [
   { title: 'News', icon: 'newspaper', url: '/news' },
   { title: 'Evénements', icon: 'calendar-date', url: '/event' },
   { title: 'Associations', icon: 'house-door', url: '/associations' },
-  { title: 'Postuler', icon: 'clipboard-plus', url: '/applications' },
 ];
 
 const routes: Routes = [
@@ -55,10 +53,6 @@ const routes: Routes = [
       {
         path: 'news',
         component: NewsPageComponent,
-      },
-      {
-        path: 'applications',
-        component: ApplicationPageComponent,
       },
       {
         path: 'my-account',
