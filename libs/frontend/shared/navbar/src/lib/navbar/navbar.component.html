@@ -78,7 +78,12 @@
   </nav>
 
   <div class="u-f-center">
-    <a class="button" [routerLink]="['/my-account']" routerLinkActive="router-link-active">
+    <a
+      class="button"
+      [routerLink]="['/my-account']"
+      routerLinkActive="router-link-active"
+      (click)="toggleNavbarCollapse()"
+    >
       <i class="bi bi-person p-2"></i>
       <span *ngIf="shouldShowLargeNavbar">{{ 'my-account' | translate }}</span>
     </a>

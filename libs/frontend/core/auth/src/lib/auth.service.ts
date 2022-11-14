@@ -98,6 +98,7 @@ export class AuthService {
   public redirectAfterSucessfullLogin() {
     const appName = LocalStorageHelper.getData(LocalStorageKey.APP_NAME);
     if (appName === AppName.ASSOCIATION) this.router.navigateByUrl('/select-asso');
+    else if (appName === AppName.STUDENT) this.router.navigateByUrl('/news');
     else this.router.navigateByUrl('/');
   }
 
