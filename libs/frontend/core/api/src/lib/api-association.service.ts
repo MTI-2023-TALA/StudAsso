@@ -43,6 +43,10 @@ export class ApiAssociationService extends ApiBaseService {
     return this.apiService.get<AssociationWithPresidentDto, undefined>(`${this.url}/${id}`);
   }
 
+  public findCurrent(): Observable<AssociationWithPresidentDto> {
+    return this.apiService.get<AssociationWithPresidentDto, undefined>(`${this.url}/current`);
+  }
+
   public findMembers(query: QueryPagination = undefined): Observable<AssociationMemberWithRoleDto[]> {
     return this.apiService.get<AssociationMemberWithRoleDto[], QueryPagination>(`${this.url}/members`, query);
   }

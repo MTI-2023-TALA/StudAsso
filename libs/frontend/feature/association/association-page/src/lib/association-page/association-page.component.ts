@@ -31,7 +31,7 @@ export class AssociationPageComponent implements OnInit {
     const assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
     if (assoId) {
       this.assoId = assoId;
-      this.apiAssociationService.findOneWithPresident(assoId).subscribe((asso) => {
+      this.apiAssociationService.findCurrent().subscribe((asso) => {
         this.association = asso;
         this.isLoading = false;
       });
