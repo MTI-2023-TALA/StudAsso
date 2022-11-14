@@ -1,0 +1,19 @@
+<stud-asso-spinner *ngIf="isLoading"></stud-asso-spinner>
+<div *ngIf="!isLoading">
+  <div class="host">
+    <div class="top">
+      <div class="left title">Mon association</div>
+      <div class="right">
+        <button class="button" (click)="openModalUpdateAssoInformation()">
+          Modifier les informations de l'association
+        </button>
+      </div>
+    </div>
+    <div class="main">
+      <div class="item">Nom :</div>
+      <input disabled value="{{ association.name }}" class="input" />
+      <div class="item">Description:</div>
+      <input disabled class="textarea" value=" {{ association.description }}" />
+    </div>
+  </div>
+</div>

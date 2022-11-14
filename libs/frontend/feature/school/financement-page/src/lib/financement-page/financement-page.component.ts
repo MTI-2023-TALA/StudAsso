@@ -120,9 +120,9 @@ export class FinancementPageComponent implements OnInit {
     switch (status) {
       case 'PENDING':
         return { type: TagType.Warning, message: 'En attente' };
-      case 'ACCEPTED':
+      case 'APPROVED':
         return { type: TagType.Success, message: 'Approuvée' };
-      case 'REFUSED':
+      case 'REJECTED':
         return { type: TagType.Error, message: 'Rejetée' };
       default:
         return { type: TagType.Default, message: status };

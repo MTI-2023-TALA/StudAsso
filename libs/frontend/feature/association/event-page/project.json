@@ -1,4 +1,5 @@
 {
+  "name": "frontend-feature-association-event-page",
   "projectType": "library",
   "sourceRoot": "libs/frontend/feature/association/event-page/src",
   "prefix": "stud-asso",

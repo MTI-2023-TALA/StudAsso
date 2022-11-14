@@ -1,4 +1,5 @@
 {
+  "name": "backend-feature-stock",
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/backend/feature/stock/src",
   "targets": {

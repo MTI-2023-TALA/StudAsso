@@ -1,4 +1,5 @@
 {
+  "name": "frontend-feature-association-offer-page",
   "projectType": "library",
   "sourceRoot": "libs/frontend/feature/association/offer-page/src",
   "prefix": "stud-asso",

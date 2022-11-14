@@ -1,4 +1,5 @@
 {
+  "name": "frontend-core-main-changeable-data",
   "projectType": "library",
   "sourceRoot": "libs/frontend/core/main-changeable-data/src",
   "prefix": "stud-asso",
