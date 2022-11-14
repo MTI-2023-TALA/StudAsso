@@ -62,7 +62,7 @@ export class FinancementPageComponent implements OnInit {
 
   reloadData(pagination: Pagination) {
     this.isLoading = true;
-    this.api.findAll(pagination).subscribe((fundings: FundingDto[]) => {
+    this.api.findAllByAsso(pagination).subscribe((fundings: FundingDto[]) => {
       this.financeList = fundings.map((funding) => ({
         ...funding,
         status: this._getTagFromString(funding.status),
