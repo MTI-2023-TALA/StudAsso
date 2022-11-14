@@ -68,11 +68,16 @@
         [routerLink]="[item.url]"
       >
         <li routerLinkActive="router-link-active" routerLinkActive="router-link-active">
-          <p>
+          <div class="u-f-center">
             <i class="bi bi-{{ item.icon }} p-2"></i>
             <span *ngIf="shouldShowLargeNavbar">{{ item.title }}</span>
-            <stud-asso-tag *ngIf="item.hasTag" [message]="item.tagMessage?.()" [type]="'information'"></stud-asso-tag>
-          </p>
+            <stud-asso-tag
+              class="u-p-l-1"
+              *ngIf="item.hasTag && shouldShowLargeNavbar"
+              [message]="item.tagMessage?.()"
+              [type]="'information'"
+            ></stud-asso-tag>
+          </div>
         </li>
       </a>
     </ul>

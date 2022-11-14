@@ -1,8 +1,7 @@
-import { ApiEventService, ApiRoleService } from '@stud-asso/frontend-core-api';
 import { IsNotSignGuard, IsSignGuard } from '@stud-asso/frontend-core-auth';
-import { Observable, of } from 'rxjs';
 import { RouterModule, Routes } from '@angular/router';
 
+import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { AssociationPageComponent } from '@stud-asso/frontend/feature/school/association-page';
 import { FinancementPageComponent } from '@stud-asso/frontend/feature/school/financement-page';
 import { LoginPageComponent } from '@stud-asso/frontend/shared/login-page';
@@ -18,9 +17,7 @@ const mainRouteConfig: NavbarItem[] = [
     icon: 'currency-dollar',
     url: '/financement',
     hasTag: true,
-    tagMessage: () => {
-      return 'Avoir la valeur ici';
-    },
+    tagMessage: 'financeTagKey',
   },
 ];
 

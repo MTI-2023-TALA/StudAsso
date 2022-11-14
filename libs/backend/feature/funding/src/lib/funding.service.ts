@@ -68,6 +68,10 @@ export class FundingService {
       stats.nbRefused = await this.fundingRepository.getNbAssoStatus(assoId, FUNDING_STATUS.REJECTED);
     }
 
+    if (optionStatFundingDto.nbPending) {
+      stats.nbPending = await this.fundingRepository.getNbAssoStatus(assoId, FUNDING_STATUS.PENDING);
+    }
+
     return stats;
   }
 

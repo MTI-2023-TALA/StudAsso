@@ -51,6 +51,10 @@ export class OptionStatFundingDto {
   @IsOptional()
   @IsBoolean()
   nbRejected?: boolean;
+
+  @IsOptional()
+  @IsBoolean()
+  nbPending?: boolean;
 }
 
 // Request Query DTOs
@@ -79,6 +83,7 @@ export class StatFundingDto {
   sum?: number;
   nbAccepted?: number;
   nbRefused?: number;
+  nbPending?: number;
 }
 
 export class SumFundingStatusDto {
