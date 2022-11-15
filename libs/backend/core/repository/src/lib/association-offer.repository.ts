@@ -1,4 +1,5 @@
 import {
+  AssociationOfferApplicantsModel,
   AssociationOfferModel,
   AssociationOfferStatsModel,
   AssociationOfferWithAssoAndRoleModel,
@@ -29,6 +30,17 @@ const fancyAssoOfferSelect = {
     select: {
       id: true,
       name: true,
+    },
+  },
+};
+
+const offerApplicantSelect = {
+  user: {
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      email: true,
     },
   },
 };
@@ -65,6 +77,18 @@ export class AssociationOfferRepository {
         },
       },
       select: fancyAssoOfferSelect,
+    });
+  }
+
+  public async findOfferApplicants(associationOfferId: number): Promise<AssociationOfferApplicantsModel[]> {
+    return this.prisma.associationOfferApplication.findMany({
+      where: {
+        associationOfferId,
+      },
+      select: offerApplicantSelect,
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }
 

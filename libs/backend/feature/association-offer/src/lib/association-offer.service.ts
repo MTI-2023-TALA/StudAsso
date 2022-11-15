@@ -7,6 +7,7 @@ import {
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
   QueryPaginationDto,
+  SimpleUserNoSchoolEmployeeDto,
 } from '@stud-asso/shared/dtos';
 import {
   AssociationOfferApplicationRepository,
@@ -117,6 +118,18 @@ export class AssociationOfferService {
     if (!application) throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
 
     return this.formatApplicationReview(application);
+  }
+
+  public async findOfferApplicants(id): Promise<SimpleUserNoSchoolEmployeeDto[]> {
+    const application = await this.associationOfferApplicationRepository.findOne(id);
+    if (!application) throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
+
+    return (await this.associationOfferRepository.findOfferApplicants(id)).map((application) => ({
+      id: application.user.id,
+      firstname: application.user.firstname,
+      lastname: application.user.lastname,
+      email: application.user.email,
+    }));
   }
 
   public async findStatsForOffers(

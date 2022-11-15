@@ -8,6 +8,7 @@ import {
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
   QueryPaginationDto,
+  SimpleUserNoSchoolEmployeeDto,
 } from '@stud-asso/shared/dtos';
 import { Body, ConflictException, Delete, Get, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { AssociationOfferService } from './association-offer.service';
@@ -87,6 +88,15 @@ export class AssociationOfferController {
   public async findOneApplication(@Param('id') id: string): Promise<AssociationOfferApplicationReviewDto> {
     try {
       return await this.associationOfferService.findOneApplication(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
+  @Get('/application/:id/applicants')
+  public async findOfferApplicants(@Param('id') id: string): Promise<SimpleUserNoSchoolEmployeeDto[]> {
+    try {
+      return await this.associationOfferService.findOfferApplicants(+id);
     } catch (error) {
       throw new NotFoundException(error?.message);
     }

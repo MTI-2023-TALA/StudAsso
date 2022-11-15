@@ -76,11 +76,11 @@ export class SimpleUserDto {
   isSchoolEmployee: boolean;
 }
 
-export class UserWithoutIdDto {
+export class SimpleUserNoSchoolEmployeeDto {
+  id: number;
   firstname: string;
   lastname: string;
   email: string;
-  isSchoolEmployee: boolean;
 }
 
 export class AssociationOfUserDto {
