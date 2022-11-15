@@ -7,6 +7,7 @@ import { IUpdateUserInfo, updateUserInfo } from './my-account-page.formly';
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { MainChangeableDataService } from '@stud-asso/frontend/core/main-changeable-data';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 import { Router } from '@angular/router';
 
 @Component({
@@ -25,6 +26,7 @@ export class MyAccountPageComponent implements OnInit {
     private userApi: ApiUserService,
     private apiAuthService: ApiAuthService,
     private modal: ModalService,
+    private permissionService: PermissionService,
     private mainChangeableDataService: MainChangeableDataService
   ) {}
 
@@ -69,6 +71,7 @@ export class MyAccountPageComponent implements OnInit {
     this.apiAuthService.refreshTokenWithAssoId({ assoId: id }).subscribe((token: TokenDto) => {
       this.authService.setToken(token);
       this.router.navigate(['/']);
+      this.permissionService.setPermission();
     });
   }
 

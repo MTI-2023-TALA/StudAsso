@@ -17,8 +17,8 @@ import {
 import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
-import { FormlyFieldConfig } from '@ngx-formly/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
 
 export type AssociationMember = AssociationMemberWithRoleDto & { identity: string };
@@ -62,6 +62,7 @@ export class MemberPageComponent implements OnInit {
   rolesList: SelectOption[] = [];
   membersList: AssociationMember[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
+  permissionId = PermissionId;
 
   constructor(
     private modal: ModalService,

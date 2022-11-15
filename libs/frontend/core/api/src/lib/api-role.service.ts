@@ -1,4 +1,11 @@
-import { AddRoleToUserDto, AssociationsMemberDto, CreateRoleDto, RoleDto, UpdateRoleDto } from '@stud-asso/shared/dtos';
+import {
+  AddRoleToUserDto,
+  AssociationsMemberDto,
+  CreateRoleDto,
+  RoleDto,
+  RoleOnlyPermissionsDto,
+  UpdateRoleDto,
+} from '@stud-asso/shared/dtos';
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
@@ -34,5 +41,9 @@ export class ApiRoleService extends ApiBaseService {
 
   public addRoleToUser(user: AddRoleToUserDto): Observable<AssociationsMemberDto> {
     return this.apiService.post<AddRoleToUserDto, AssociationsMemberDto, undefined>(`${this.url}/user`, user);
+  }
+
+  public getMyPerms(query: QueryPagination = undefined): Observable<RoleOnlyPermissionsDto> {
+    return this.apiService.get<RoleOnlyPermissionsDto, QueryPagination>(`${this.url}/permissions/me`, query);
   }
 }

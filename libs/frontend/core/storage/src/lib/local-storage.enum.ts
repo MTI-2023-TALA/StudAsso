@@ -11,6 +11,7 @@ export enum LocalStorageKey {
   REFRESH_TOKEN = 'global.refresh-token',
   ENABLE_LARGE_NAVBAR = 'global.enable-large-navbar',
   ASSOCIATION_NAME = 'association.association-name',
+  PERMISSIONS = 'association.permission',
   // TO BE DELETED AND USE THE JWT INSTEAD
   ASSOCIATION_ID = 'association.association-id',
 }

@@ -1,0 +1,32 @@
+import { AssociationWithPresidentDto, RoleOnlyPermissionsDto, SimpleUserDto } from '@stud-asso/shared/dtos';
+import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
+
+import { ApiRoleService } from '@stud-asso/frontend-core-api';
+import { Injectable } from '@angular/core';
+import { PermissionId } from '@stud-asso/shared/permission';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class PermissionService {
+  currentAsso: AssociationWithPresidentDto;
+  currentUser: SimpleUserDto;
+
+  constructor(private apiRoleService: ApiRoleService) {}
+
+  async setPermission() {
+    this.apiRoleService.getMyPerms().subscribe((perms) => {
+      LocalStorageHelper.setData(LocalStorageKey.PERMISSIONS, perms);
+    });
+  }
+
+  hasPermission(permission: PermissionId): boolean {
+    const perms: RoleOnlyPermissionsDto | null = LocalStorageHelper.getData(LocalStorageKey.PERMISSIONS);
+    if (perms) {
+      return perms.permissions.includes(permission) || perms.permissions.length == 0;
+    } else {
+      this.setPermission();
+      return this.hasPermission(permission);
+    }
+  }
+}

@@ -2,7 +2,7 @@
   <div *ngIf="!isLoading">
     <div class="top">
       <div class="left title">{{ title }}</div>
-      <div class="right" *ngIf="withButton">
+      <div class="right" *ngIf="withButton && permissionService.hasPermission(creationPermission)">
         <button class="button" (click)="onButtonClick()">{{ buttonText }}</button>
       </div>
     </div>
@@ -12,6 +12,7 @@
       [shouldShowPagination]="shouldShowPagination"
       [currentPagination]="currentPagination"
       (pagination)="pagination.emit($event)"
+      [managementPermission]="managementPermission"
     >
     </stud-asso-table>
   </div>

@@ -5,6 +5,7 @@ import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-st
 
 import { AuthService } from '@stud-asso/frontend-core-auth';
 import { MainChangeableDataService } from '@stud-asso/frontend/core/main-changeable-data';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,7 +22,8 @@ export class SelectionAssoPageComponent implements OnInit {
     private api: ApiUserService,
     private authService: AuthService,
     private apiAuthService: ApiAuthService,
-    private mainChangeableDataService: MainChangeableDataService
+    private mainChangeableDataService: MainChangeableDataService,
+    private permissionService: PermissionService
   ) {}
 
   ngOnInit() {
@@ -39,6 +41,7 @@ export class SelectionAssoPageComponent implements OnInit {
     this.apiAuthService.refreshTokenWithAssoId({ assoId: id }).subscribe((token: TokenDto) => {
       this.authService.setToken(token);
       this.router.navigate(['/']);
+      this.permissionService.setPermission();
     });
   }
 
