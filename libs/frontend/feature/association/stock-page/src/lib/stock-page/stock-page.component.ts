@@ -50,7 +50,7 @@ export class StockPageComponent implements OnInit {
   stockList: StockDto[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = false;
-  permissionId = PermissionId;
+  PermissionId = PermissionId;
 
   constructor(
     private api: ApiStockService,

@@ -49,7 +49,7 @@ export class FinancementPageComponent implements OnInit {
   };
   financeList: Funding[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
-  permissionId = PermissionId;
+  PermissionId = PermissionId;
 
   isLoading = true;
 

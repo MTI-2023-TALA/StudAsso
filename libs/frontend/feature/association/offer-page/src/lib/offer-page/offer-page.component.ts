@@ -84,7 +84,7 @@ export class OfferPageComponent {
   applicationList: ApplicationDto[] = [];
   paginationApplication: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
-  permissionId = PermissionId;
+  PermissionId = PermissionId;
 
   constructor(
     private apiOffer: ApiOfferService,

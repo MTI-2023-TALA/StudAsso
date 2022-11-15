@@ -56,7 +56,7 @@ export class RolePageComponent implements OnInit {
   };
 
   isLoading = true;
-  permissionId = PermissionId;
+  PermissionId = PermissionId;
 
   constructor(
     private apiAssociation: ApiAssociationService,

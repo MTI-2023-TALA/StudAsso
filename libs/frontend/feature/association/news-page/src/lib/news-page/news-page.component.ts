@@ -60,7 +60,7 @@ export class NewsPageComponent implements OnInit {
   newsList: NewsDto[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
-  permissionId = PermissionId;
+  PermissionId = PermissionId;
 
   constructor(
     private api: ApiNewsFeedService,

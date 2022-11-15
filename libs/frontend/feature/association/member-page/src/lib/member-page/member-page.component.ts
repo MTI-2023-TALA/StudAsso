@@ -65,7 +65,7 @@ export class MemberPageComponent implements OnInit {
   rolesList: SelectOption[] = [];
   membersList: AssociationMember[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
-  permissionId = PermissionId;
+  PermissionId = PermissionId;
 
   constructor(
     private modal: ModalService,
