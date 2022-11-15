@@ -1,5 +1,5 @@
+import { AppName, LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { AssociationWithPresidentDto, RoleOnlyPermissionsDto, SimpleUserDto } from '@stud-asso/shared/dtos';
-import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { Observable, firstValueFrom } from 'rxjs';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
@@ -21,6 +21,7 @@ export class PermissionService {
   }
 
   async hasPermission(permission: PermissionId): Promise<boolean> {
+    if (LocalStorageHelper.getData(LocalStorageKey.APP_NAME) !== AppName.ASSOCIATION) return true;
     const perms: RoleOnlyPermissionsDto | null = LocalStorageHelper.getData(LocalStorageKey.PERMISSIONS);
     if (perms) {
       return perms.permissions.includes(permission) || perms.roleName == 'Président';
@@ -31,6 +32,7 @@ export class PermissionService {
   }
 
   async hasAnyPermission(permissions: PermissionId[]): Promise<boolean> {
+    if (LocalStorageHelper.getData(LocalStorageKey.APP_NAME) !== AppName.ASSOCIATION) return true;
     const perms: RoleOnlyPermissionsDto | null = LocalStorageHelper.getData(LocalStorageKey.PERMISSIONS);
     if (perms) {
       let result = perms.roleName == 'Président';
@@ -43,6 +45,7 @@ export class PermissionService {
   }
 
   async isPresident(): Promise<boolean> {
+    if (LocalStorageHelper.getData(LocalStorageKey.APP_NAME) !== AppName.ASSOCIATION) return true;
     const perms: RoleOnlyPermissionsDto | null = LocalStorageHelper.getData(LocalStorageKey.PERMISSIONS);
     if (perms) {
       return perms.roleName == 'Président';
