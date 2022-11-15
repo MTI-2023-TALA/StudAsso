@@ -48,9 +48,8 @@ export class NavbarComponent implements OnInit {
 
   async setShowNavbar() {
     for (const item of this.navbarItems) {
-      if (item.permission) {
-        item.shouldShow = await this.permissionService.hasPermission(item.permission);
-        console.log(item.title, item.permission, item.shouldShow);
+      if (item.permissions) {
+        item.shouldShow = await this.permissionService.hasAnyPermission(item.permissions);
       } else {
         item.shouldShow = true;
       }

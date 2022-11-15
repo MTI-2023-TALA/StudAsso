@@ -29,4 +29,16 @@ export class PermissionService {
       return this.hasPermission(permission);
     }
   }
+
+  async hasAnyPermission(permissions: PermissionId[]): Promise<boolean> {
+    const perms: RoleOnlyPermissionsDto | null = LocalStorageHelper.getData(LocalStorageKey.PERMISSIONS);
+    if (perms) {
+      let result = perms.roleName == 'Président';
+      for (const permission of permissions) result = result || perms.permissions.includes(permission);
+      return result;
+    } else {
+      await this.setPermission();
+      return this.hasAnyPermission(permissions);
+    }
+  }
 }

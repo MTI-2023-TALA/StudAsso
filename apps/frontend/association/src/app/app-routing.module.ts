@@ -21,7 +21,12 @@ import { SelectionAssoPageComponent } from '@stud-asso/frontend/feature/associat
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Membres', icon: 'people', url: '/members' },
   { title: 'News', icon: 'newspaper', url: '/news' },
-  { title: 'Stocks', icon: 'cart', url: '/stock', permission: PermissionId.STOCK_READ },
+  {
+    title: 'Stocks',
+    icon: 'cart',
+    url: '/stock',
+    permissions: [PermissionId.STOCK_READ, PermissionId.STOCK_MANAGEMENT],
+  },
   { title: 'Offres', icon: 'clipboard-plus', url: '/offers' },
   { title: 'Financements', icon: 'currency-dollar', url: '/financements' },
   { title: 'Mon association', icon: 'info-circle', url: '/association' },
