@@ -33,6 +33,17 @@ const fancyAssoOfferSelect = {
   },
 };
 
+const offerApplicantSelect = {
+  user: {
+    select: {
+      id: true,
+      firstname: true,
+      lastname: true,
+      email: true,
+    },
+  },
+};
+
 @Injectable()
 export class AssociationOfferRepository {
   constructor(private prisma: PrismaService) {}
@@ -65,6 +76,19 @@ export class AssociationOfferRepository {
         },
       },
       select: fancyAssoOfferSelect,
+    });
+  }
+
+  public async findOfferApplicants(associationOfferId: number) {
+    return this.prisma.associationOfferApplication.findMany({
+      where: {
+        associationOfferId,
+      },
+      select: offerApplicantSelect,
+
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
   }
 

@@ -92,6 +92,15 @@ export class AssociationOfferController {
     }
   }
 
+  @Get('/application/:id/applicants')
+  public async findOfferApplicants(@Param('id') id: string) {
+    try {
+      return await this.associationOfferService.findOfferApplicants(+id);
+    } catch (error) {
+      throw new NotFoundException(error?.message);
+    }
+  }
+
   @Get('/stats')
   public async findStatsForOffers(
     @GetCurrentAssoId() assoId: number,
