@@ -51,7 +51,6 @@ export class FinancementPageComponent implements OnInit {
     actions: [
       {
         label: 'Etudier',
-        shouldShow: true,
         action: (data: number) => {
           this.studyModalFinance(data);
         },

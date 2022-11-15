@@ -15,6 +15,8 @@ import { PermissionService } from '@stud-asso/frontend/shared/permission';
   styleUrls: ['./stock-page.component.scss'],
 })
 export class StockPageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -50,7 +52,6 @@ export class StockPageComponent implements OnInit {
   stockList: StockDto[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = false;
-  PermissionId = PermissionId;
 
   constructor(
     private api: ApiStockService,

@@ -35,7 +35,6 @@ export class AssociationPageComponent implements OnInit {
     actions: [
       {
         label: 'Postuler',
-        shouldShow: true,
         action: (id: number) => {
           this.postulateApplication(id);
         },

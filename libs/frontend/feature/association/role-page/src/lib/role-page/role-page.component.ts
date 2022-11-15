@@ -17,6 +17,8 @@ type Role = Omit<RoleDto, 'permissions'> & { permissions: Tag[] };
   templateUrl: './role-page.component.html',
 })
 export class RolePageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -56,7 +58,6 @@ export class RolePageComponent implements OnInit {
   };
 
   isLoading = true;
-  PermissionId = PermissionId;
 
   constructor(
     private apiAssociation: ApiAssociationService,

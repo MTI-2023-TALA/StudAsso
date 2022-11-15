@@ -31,7 +31,7 @@ export class TableDropdownComponent implements OnInit {
   async shouldShowButton(): Promise<boolean> {
     let result = false;
     for (const action of this.tableConfiguration.actions) {
-      result = result || (await action.shouldShow);
+      if (action.shouldShow) result = result || (await action.shouldShow);
     }
     this.shouldShowDropdown = result;
     return result;

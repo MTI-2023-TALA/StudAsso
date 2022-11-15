@@ -14,13 +14,14 @@ import { ApiNewsFeedService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { PermissionId } from '@stud-asso/shared/permission';
 import { PermissionService } from '@stud-asso/frontend/shared/permission';
-import { createApplication } from '@angular/platform-browser';
 
 @Component({
   selector: 'stud-asso-news-page',
   templateUrl: './news-page.component.html',
 })
 export class NewsPageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -60,7 +61,6 @@ export class NewsPageComponent implements OnInit {
   newsList: NewsDto[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
-  PermissionId = PermissionId;
 
   constructor(
     private api: ApiNewsFeedService,

@@ -17,6 +17,8 @@ type Funding = Omit<FundingDto, 'status'> & { status: Tag };
   templateUrl: './financement-page.component.html',
 })
 export class FinancementPageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -49,7 +51,6 @@ export class FinancementPageComponent implements OnInit {
   };
   financeList: Funding[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
-  PermissionId = PermissionId;
 
   isLoading = true;
 

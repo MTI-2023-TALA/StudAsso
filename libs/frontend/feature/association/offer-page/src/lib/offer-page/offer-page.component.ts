@@ -27,6 +27,8 @@ export type ApplicationDto = Omit<AssociationOfferApplicationReviewDto, 'applica
   templateUrl: './offer-page.component.html',
 })
 export class OfferPageComponent {
+  PermissionId = PermissionId;
+
   tableConfigurationOffer: TableConfiguration = {
     columns: [
       {
@@ -84,7 +86,6 @@ export class OfferPageComponent {
   applicationList: ApplicationDto[] = [];
   paginationApplication: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
-  PermissionId = PermissionId;
 
   constructor(
     private apiOffer: ApiOfferService,

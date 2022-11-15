@@ -29,6 +29,8 @@ export type AssociationMember = AssociationMemberWithRoleDto & { identity: strin
   templateUrl: './member-page.component.html',
 })
 export class MemberPageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -65,7 +67,6 @@ export class MemberPageComponent implements OnInit {
   rolesList: SelectOption[] = [];
   membersList: AssociationMember[] = [];
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
-  PermissionId = PermissionId;
 
   constructor(
     private modal: ModalService,
