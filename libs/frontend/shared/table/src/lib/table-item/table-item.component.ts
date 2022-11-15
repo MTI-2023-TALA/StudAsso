@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener, Input } from '@angular/core';
 
-import { PermissionId } from '@stud-asso/shared/permission';
 import { PermissionService } from '@stud-asso/frontend/shared/permission';
 import { TableConfiguration } from '../table/table.model';
 
@@ -12,11 +11,10 @@ import { TableConfiguration } from '../table/table.model';
 export class TableItemComponent {
   @Input() tableConfiguration: TableConfiguration;
   @Input() data: any;
-  @Input() managementPermission: PermissionId;
 
   dropdownIsActive = false;
 
-  constructor(private eltRef: ElementRef, public permissionService: PermissionService) {}
+  constructor(private eltRef: ElementRef) {}
 
   toggleDropdown() {
     this.dropdownIsActive = !this.dropdownIsActive;

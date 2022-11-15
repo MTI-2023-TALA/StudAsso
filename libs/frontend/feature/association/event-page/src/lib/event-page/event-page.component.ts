@@ -6,6 +6,8 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionId } from '@stud-asso/shared/permission';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 
 interface Event {
   id: number;
@@ -36,6 +38,7 @@ export class EventPageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
+        shouldShow: this.permissionService.hasPermission(PermissionId.EVENT_MANAGEMENT),
         action: (date: number) => {
           this.modifyModalEvent(date);
         },
@@ -43,6 +46,7 @@ export class EventPageComponent implements OnInit {
       },
       {
         label: 'Supprimer',
+        shouldShow: this.permissionService.hasPermission(PermissionId.EVENT_MANAGEMENT),
         action: (data: { id: number; name: string }) => {
           this.deleteModalEvent(data.id, data.name);
         },
@@ -53,7 +57,12 @@ export class EventPageComponent implements OnInit {
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
 
-  constructor(private api: ApiEventService, private modal: ModalService, private toast: ToastService) {}
+  constructor(
+    private api: ApiEventService,
+    private modal: ModalService,
+    private toast: ToastService,
+    private permissionService: PermissionService
+  ) {}
 
   ngOnInit() {
     this.reloadData(this.pagination);

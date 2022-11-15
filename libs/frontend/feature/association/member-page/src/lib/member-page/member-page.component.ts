@@ -19,6 +19,7 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { PermissionId } from '@stud-asso/shared/permission';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
 
 export type AssociationMember = AssociationMemberWithRoleDto & { identity: string };
@@ -44,12 +45,14 @@ export class MemberPageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier le role',
+        shouldShow: this.permissionService.hasPermission(PermissionId.ROLE_MANAGEMENT),
         action: (member: AssociationMember) => {
           this.createModalUpdateRoleMember(member);
         },
       },
       {
         label: "Exclure de l'association",
+        shouldShow: this.permissionService.hasPermission(PermissionId.MEMBER_REMOVE),
         action: (member: AssociationMember) => {
           this.createModalRemoveMember(member);
         },
@@ -69,7 +72,8 @@ export class MemberPageComponent implements OnInit {
     private toast: ToastService,
     private apiUser: ApiUserService,
     private apiRole: ApiRoleService,
-    private apiAssociation: ApiAssociationService
+    private apiAssociation: ApiAssociationService,
+    private permissionService: PermissionService
   ) {}
 
   ngOnInit(): void {

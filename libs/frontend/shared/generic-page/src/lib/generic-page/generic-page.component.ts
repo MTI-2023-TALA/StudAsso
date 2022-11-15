@@ -18,7 +18,6 @@ export class GenericPageComponent {
   @Input() data: any[];
   @Input() currentPagination: Pagination;
   @Input() creationPermission: PermissionId;
-  @Input() managementPermission: PermissionId;
 
   @Output() buttonFunction = new EventEmitter<void>();
   @Output() pagination = new EventEmitter<Pagination>();

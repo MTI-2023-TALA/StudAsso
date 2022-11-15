@@ -13,6 +13,8 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { Component } from '@angular/core';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionId } from '@stud-asso/shared/permission';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 import { SelectOption } from '@stud-asso/frontend-shared-formly';
 
 export type OfferDto = Omit<AssociationOfferDto, 'deadline'> & { deadline: string };
@@ -67,6 +69,7 @@ export class OfferPageComponent {
     actions: [
       {
         label: 'Examiner',
+        shouldShow: this.permissionService.hasPermission(PermissionId.OFFERS_MANAGEMENT),
         action: (data: { id: number; userId: number; roleId: number; motivation: string }) => {
           this.confirmModalMember(data.id, data.userId, data.roleId, data.motivation);
         },
@@ -86,7 +89,8 @@ export class OfferPageComponent {
     private apiOffer: ApiOfferService,
     private apiRole: ApiRoleService,
     private modal: ModalService,
-    private toast: ToastService
+    private toast: ToastService,
+    private permissionService: PermissionService
   ) {}
 
   ngOnInit(): void {

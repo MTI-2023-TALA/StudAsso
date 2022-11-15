@@ -7,6 +7,8 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiFundingService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionId } from '@stud-asso/shared/permission';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 
 type Funding = Omit<FundingDto, 'status' | 'createdAt'> & {
   status: Tag;
@@ -49,6 +51,7 @@ export class FinancementPageComponent implements OnInit {
     actions: [
       {
         label: 'Etudier',
+        shouldShow: true,
         action: (data: number) => {
           this.studyModalFinance(data);
         },
