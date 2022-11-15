@@ -1,4 +1,5 @@
 import {
+  AssociationOfferApplicantsModel,
   AssociationOfferModel,
   AssociationOfferStatsModel,
   AssociationOfferWithAssoAndRoleModel,
@@ -79,13 +80,12 @@ export class AssociationOfferRepository {
     });
   }
 
-  public async findOfferApplicants(associationOfferId: number) {
+  public async findOfferApplicants(associationOfferId: number): Promise<AssociationOfferApplicantsModel[]> {
     return this.prisma.associationOfferApplication.findMany({
       where: {
         associationOfferId,
       },
       select: offerApplicantSelect,
-
       orderBy: {
         createdAt: 'desc',
       },

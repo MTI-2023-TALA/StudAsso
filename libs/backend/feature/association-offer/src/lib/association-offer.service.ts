@@ -7,6 +7,7 @@ import {
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
   QueryPaginationDto,
+  SimpleUserNoSchoolEmployeeDto,
 } from '@stud-asso/shared/dtos';
 import {
   AssociationOfferApplicationRepository,
@@ -119,7 +120,7 @@ export class AssociationOfferService {
     return this.formatApplicationReview(application);
   }
 
-  public async findOfferApplicants(id) {
+  public async findOfferApplicants(id): Promise<SimpleUserNoSchoolEmployeeDto[]> {
     const application = await this.associationOfferApplicationRepository.findOne(id);
     if (!application) throw new Error(ERROR.ASSOCIATION_OFFER_APPLICATION_NOT_FOUND);
 

@@ -2,6 +2,8 @@
 
 import { IsDateString, IsInt, IsNotEmpty } from 'class-validator';
 
+import { SimpleUserNoSchoolEmployeeDto } from '../user/user.dto';
+
 export class CreateAssociationOfferDto {
   @IsNotEmpty()
   @IsInt()
@@ -36,4 +38,8 @@ export class AssociationOfferStatsDto {
   roleId: number;
   roleName: string;
   numberOfApplications: number;
+}
+
+export class AssociationOfferApplicantsDto {
+  user: SimpleUserNoSchoolEmployeeDto;
 }

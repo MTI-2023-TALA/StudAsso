@@ -1,5 +1,6 @@
 import { AssociationNameModel } from './association.model';
 import { RoleNameModel } from './role.model';
+import { SimpleUserNoSchoolEmployeeModel } from './user.model';
 
 // Request Models
 export class CreateAssociationOfferModel {
@@ -28,4 +29,8 @@ export class AssociationOfferStatsModel {
   deadline: Date;
   role: RoleNameModel;
   numberOfApplications: number;
+}
+
+export class AssociationOfferApplicantsModel {
+  user: SimpleUserNoSchoolEmployeeModel;
 }
