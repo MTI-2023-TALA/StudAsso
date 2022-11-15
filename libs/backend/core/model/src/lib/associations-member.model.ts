@@ -46,6 +46,7 @@ export class UserIdAssoIdModel {
 
 export class AssoMemberPermissionsModel {
   role: {
+    name: string;
     permissions: string[];
   };
 }

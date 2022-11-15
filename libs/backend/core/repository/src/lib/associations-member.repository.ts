@@ -100,6 +100,7 @@ export class AssociationsMemberRepository {
       select: {
         role: {
           select: {
+            name: true,
             permissions: true,
           },
         },
