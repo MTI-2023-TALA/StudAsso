@@ -14,13 +14,14 @@ import { NavbarItem } from '@stud-asso/frontend-shared-navbar';
 import { NewsPageComponent } from '@stud-asso/frontend/feature/association/news-page';
 import { NgModule } from '@angular/core';
 import { OfferPageComponent } from '@stud-asso/frontend/feature/association/offer-page';
+import { PermissionId } from '@stud-asso/shared/permission';
 import { RolePageComponent } from '@stud-asso/frontend/feature/association/role-page';
 import { SelectionAssoPageComponent } from '@stud-asso/frontend/feature/association/select-association-page';
 
 const mainRouteConfig: NavbarItem[] = [
   { title: 'Membres', icon: 'people', url: '/members' },
   { title: 'News', icon: 'newspaper', url: '/news' },
-  { title: 'Stocks', icon: 'cart', url: '/stock' },
+  { title: 'Stocks', icon: 'cart', url: '/stock', permission: PermissionId.STOCK_READ },
   { title: 'Offres', icon: 'clipboard-plus', url: '/offers' },
   { title: 'Financements', icon: 'currency-dollar', url: '/financements' },
   { title: 'Mon association', icon: 'info-circle', url: '/association' },

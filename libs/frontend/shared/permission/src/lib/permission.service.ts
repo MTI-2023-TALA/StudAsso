@@ -1,5 +1,6 @@
 import { AssociationWithPresidentDto, RoleOnlyPermissionsDto, SimpleUserDto } from '@stud-asso/shared/dtos';
 import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
+import { Observable, firstValueFrom } from 'rxjs';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
 import { Injectable } from '@angular/core';
@@ -14,7 +15,7 @@ export class PermissionService {
 
   constructor(private apiRoleService: ApiRoleService) {}
 
-  async setPermission() {
+  setPermission() {
     this.apiRoleService.getMyPerms().subscribe((perms) => {
       LocalStorageHelper.setData(LocalStorageKey.PERMISSIONS, perms);
     });
