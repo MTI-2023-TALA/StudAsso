@@ -41,4 +41,14 @@ export class PermissionService {
       return this.hasAnyPermission(permissions);
     }
   }
+
+  async isPresident(): Promise<boolean> {
+    const perms: RoleOnlyPermissionsDto | null = LocalStorageHelper.getData(LocalStorageKey.PERMISSIONS);
+    if (perms) {
+      return perms.roleName == 'Président';
+    } else {
+      await this.setPermission();
+      return this.isPresident();
+    }
+  }
 }
