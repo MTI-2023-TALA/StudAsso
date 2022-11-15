@@ -65,7 +65,6 @@ services:
     image: redis:6.2-alpine
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
-    restart: always
     ports:
       - '6379:6379'
     command: redis-server --save 20 1 --loglevel warning
