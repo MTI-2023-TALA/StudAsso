@@ -9,7 +9,7 @@ import { PermissionService } from '@stud-asso/frontend/shared/permission';
   selector: 'stud-asso-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class NavbarComponent implements OnInit {
   @Input() title = '';
