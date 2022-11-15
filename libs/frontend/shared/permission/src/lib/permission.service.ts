@@ -23,7 +23,7 @@ export class PermissionService {
   hasPermission(permission: PermissionId): boolean {
     const perms: RoleOnlyPermissionsDto | null = LocalStorageHelper.getData(LocalStorageKey.PERMISSIONS);
     if (perms) {
-      return perms.permissions.includes(permission) || perms.permissions.length == 0;
+      return perms.permissions.includes(permission) || perms.roleName == 'Président';
     } else {
       this.setPermission();
       return this.hasPermission(permission);
