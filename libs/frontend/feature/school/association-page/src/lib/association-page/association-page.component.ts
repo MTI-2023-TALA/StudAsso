@@ -36,6 +36,7 @@ export class AssociationPageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
+        shouldShow: true,
         action: (data: number) => {
           this.modifyModalAssociation(data);
         },
@@ -43,6 +44,7 @@ export class AssociationPageComponent implements OnInit {
       },
       {
         label: 'Supprimer',
+        shouldShow: true,
         action: (data: { id: number; name: string }) => {
           this.deleteModalAssociation(data.id, data.name);
         },
