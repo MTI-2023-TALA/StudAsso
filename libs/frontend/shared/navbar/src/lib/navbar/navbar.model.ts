@@ -5,4 +5,5 @@ export interface NavbarItem {
   icon: string;
   url: string;
   permission?: PermissionId;
+  shouldShow?: boolean;
 }

@@ -15,8 +15,9 @@ export class TableDropdownComponent implements OnInit {
   shouldShowDropdown = false;
 
   constructor(private eltRef: ElementRef) {}
+
   ngOnInit(): void {
-    this.shouldShowDropdown = this.shouldShowButton();
+    this.shouldShowButton();
   }
 
   toggleDropdown() {
@@ -27,11 +28,12 @@ export class TableDropdownComponent implements OnInit {
     action(data);
   }
 
-  shouldShowButton(): boolean {
+  async shouldShowButton(): Promise<boolean> {
     let result = false;
     for (const action of this.tableConfiguration.actions) {
-      result = result || action.shouldShow;
+      result = result || (await action.shouldShow);
     }
+    this.shouldShowDropdown = result;
     return result;
   }
 

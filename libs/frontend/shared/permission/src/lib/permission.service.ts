@@ -15,18 +15,17 @@ export class PermissionService {
 
   constructor(private apiRoleService: ApiRoleService) {}
 
-  setPermission() {
-    this.apiRoleService.getMyPerms().subscribe((perms) => {
-      LocalStorageHelper.setData(LocalStorageKey.PERMISSIONS, perms);
-    });
+  async setPermission(): Promise<void> {
+    const perm = await firstValueFrom<RoleOnlyPermissionsDto>(this.apiRoleService.getMyPerms());
+    LocalStorageHelper.setData(LocalStorageKey.PERMISSIONS, perm);
   }
 
-  hasPermission(permission: PermissionId): boolean {
+  async hasPermission(permission: PermissionId): Promise<boolean> {
     const perms: RoleOnlyPermissionsDto | null = LocalStorageHelper.getData(LocalStorageKey.PERMISSIONS);
     if (perms) {
       return perms.permissions.includes(permission) || perms.roleName == 'Président';
     } else {
-      this.setPermission();
+      await this.setPermission();
       return this.hasPermission(permission);
     }
   }

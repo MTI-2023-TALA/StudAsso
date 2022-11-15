@@ -11,7 +11,7 @@ import { PermissionService } from '@stud-asso/frontend/shared/permission';
   styleUrls: ['./navbar.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   @Input() title = '';
   @Input() navbarItems: NavbarItem[] = [];
 
@@ -32,6 +32,10 @@ export class NavbarComponent {
     }
   }
 
+  ngOnInit(): void {
+    this.setShowNavbar();
+  }
+
   toggleShowLargeNavbar() {
     this.shouldShowLargeNavbar = !this.shouldShowLargeNavbar;
     LocalStorageHelper.setData(LocalStorageKey.ENABLE_LARGE_NAVBAR, this.shouldShowLargeNavbar);
@@ -40,5 +44,16 @@ export class NavbarComponent {
 
   toggleNavbarCollapse() {
     this.isNavbarCollapsed = !this.isNavbarCollapsed;
+  }
+
+  async setShowNavbar() {
+    for (const item of this.navbarItems) {
+      if (item.permission) {
+        item.shouldShow = await this.permissionService.hasPermission(item.permission);
+        console.log(item.title, item.permission, item.shouldShow);
+      } else {
+        item.shouldShow = true;
+      }
+    }
   }
 }
