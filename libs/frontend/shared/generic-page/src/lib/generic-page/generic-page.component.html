@@ -2,7 +2,7 @@
   <div *ngIf="!isLoading">
     <div class="top">
       <div class="left title">{{ title }}</div>
-      <div class="right" *ngIf="withButton && permissionService.hasPermission(creationPermission)">
+      <div class="right" *ngIf="withButton && shouldShowButton">
         <button class="button" (click)="onButtonClick()">{{ buttonText }}</button>
       </div>
     </div>

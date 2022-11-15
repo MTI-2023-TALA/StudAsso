@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Pagination, TableConfiguration } from '@stud-asso/frontend-shared-table';
 
 import { PermissionId } from '@stud-asso/shared/permission';
@@ -9,7 +9,7 @@ import { PermissionService } from '@stud-asso/frontend/shared/permission';
   templateUrl: './generic-page.component.html',
   styleUrls: ['./generic-page.component.scss'],
 })
-export class GenericPageComponent {
+export class GenericPageComponent implements OnInit {
   @Input() title: string;
   @Input() buttonText: string;
   @Input() tableConfiguration: TableConfiguration;
@@ -23,9 +23,20 @@ export class GenericPageComponent {
   @Output() pagination = new EventEmitter<Pagination>();
 
   @Input() isLoading: boolean;
+
+  shouldShowButton = false;
+
   onButtonClick() {
     this.buttonFunction.emit();
   }
 
   constructor(public permissionService: PermissionService) {}
+
+  ngOnInit(): void {
+    this.setShowButton();
+  }
+
+  async setShowButton() {
+    this.shouldShowButton = await this.permissionService.hasPermission(this.creationPermission);
+  }
 }
