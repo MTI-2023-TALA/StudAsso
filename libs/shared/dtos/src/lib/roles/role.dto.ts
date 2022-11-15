@@ -49,5 +49,6 @@ export class RoleDto {
 }
 
 export class RoleOnlyPermissionsDto {
+  roleName: string;
   permissions: PermissionId[];
 }

@@ -70,14 +70,9 @@ export class RolesService {
   }
 
   public async getMyPermissions(assoId: number, userId: number): Promise<RoleOnlyPermissionsDto> {
-    const user = await this.userRepository.findOne(userId);
-    if (!user) throw new Error(ERROR.USER_NOT_FOUND);
-
-    const asso = await this.associationRepository.findOne(assoId);
-    if (!asso) throw new Error(ERROR.ASSO_NOT_FOUND);
-
     const perms = await this.associationsMemberRepository.findAssoMemberPermissions({ assoId, userId });
     return {
+      roleName: perms.role.name,
       permissions: perms.role.permissions as PermissionId[],
     };
   }
