@@ -14,6 +14,7 @@ export interface ColumnTableConfiguration {
 export interface ActionTableConfiguration {
   label: string;
   action: (data: any) => void;
+  shouldShow?: boolean | Promise<boolean>;
   dataProperty?: string;
 }
 

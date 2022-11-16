@@ -6,6 +6,8 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
 import { AssociationDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionId } from '@stud-asso/shared/permission';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 
 @Component({
   selector: 'stud-asso-association-page',
@@ -16,15 +18,18 @@ export class AssociationPageComponent implements OnInit {
   association: AssociationDto;
   assoId: number;
   isLoading = true;
+  shouldShowButton = false;
 
   constructor(
     private apiAssociationService: ApiAssociationService,
     private modal: ModalService,
-    private toast: ToastService
+    private toast: ToastService,
+    private permissionService: PermissionService
   ) {}
 
   ngOnInit(): void {
     this.reloadData();
+    this.setShowButton();
   }
 
   private reloadData() {
@@ -36,6 +41,10 @@ export class AssociationPageComponent implements OnInit {
         this.isLoading = false;
       });
     }
+  }
+
+  async setShowButton() {
+    this.shouldShowButton = await this.permissionService.isPresident();
   }
 
   updateAssoInformation(): (data: IUpdateAssoInfo) => void {

@@ -52,6 +52,7 @@
     "frontend-shared-modal": "libs/frontend/shared/modal",
     "frontend-shared-my-account-page": "libs/frontend/shared/my-account-page",
     "frontend-shared-navbar": "libs/frontend/shared/navbar",
+    "frontend-shared-permission": "libs/frontend/shared/permission",
     "frontend-shared-table": "libs/frontend/shared/table",
     "frontend-shared-tag": "libs/frontend/shared/tag",
     "frontend-shared-toast": "libs/frontend/shared/toast",

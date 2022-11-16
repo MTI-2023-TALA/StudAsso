@@ -105,6 +105,7 @@ export class AuthService {
   private reset() {
     LocalStorageHelper.removeData(LocalStorageKey.JWT_TOKEN);
     LocalStorageHelper.removeData(LocalStorageKey.REFRESH_TOKEN);
+    LocalStorageHelper.removeData(LocalStorageKey.PERMISSIONS);
     window.clearInterval(this.refreshId);
     this.isConnected = false;
   }

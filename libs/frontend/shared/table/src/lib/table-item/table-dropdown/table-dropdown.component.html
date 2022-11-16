@@ -1,18 +1,26 @@
 <div class="dropdown is-right" [class.is-active]="dropdownIsActive">
   <div class="dropdown-trigger">
-    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu" (click)="toggleDropdown()">
+    <button
+      class="button"
+      aria-haspopup="true"
+      aria-controls="dropdown-menu"
+      (click)="toggleDropdown()"
+      *ngIf="shouldShowDropdown"
+    >
       <i class="bi bi-list"></i>
     </button>
   </div>
   <div class="dropdown-menu" id="dropdown-menu" role="menu">
     <div class="dropdown-content" *ngIf="tableConfiguration && tableConfiguration.actions">
-      <div
-        *ngFor="let action of tableConfiguration.actions"
-        class="dropdown-item"
-        (click)="sendActionEvent(action.action, action.dataProperty ? data[action.dataProperty] : data)"
-      >
-        {{ action.label }}
-      </div>
+      <ng-container *ngFor="let action of tableConfiguration.actions">
+        <div
+          class="dropdown-item"
+          (click)="sendActionEvent(action.action, action.dataProperty ? data[action.dataProperty] : data)"
+          *ngIf="action.shouldShow"
+        >
+          {{ action.label }}
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>

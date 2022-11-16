@@ -4,7 +4,7 @@
     <div class="top">
       <div class="left title">Mon association</div>
       <div class="right">
-        <button class="button" (click)="openModalUpdateAssoInformation()">
+        <button class="button" (click)="openModalUpdateAssoInformation()" *ngIf="shouldShowButton">
           Modifier les informations de l'association
         </button>
       </div>

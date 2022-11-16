@@ -67,7 +67,7 @@
         class="is-size-6 has-text-weight-bold"
         [routerLink]="[item.url]"
       >
-        <li routerLinkActive="router-link-active" routerLinkActive="router-link-active">
+        <li routerLinkActive="router-link-active" routerLinkActive="router-link-active" *ngIf="item.shouldShow">
           <p>
             <i class="bi bi-{{ item.icon }} p-2"></i>
             <span *ngIf="shouldShowLargeNavbar">{{ item.title }}</span>

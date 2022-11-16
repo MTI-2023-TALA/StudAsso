@@ -12,13 +12,16 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiNewsFeedService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { createApplication } from '@angular/platform-browser';
+import { PermissionId } from '@stud-asso/shared/permission';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 
 @Component({
   selector: 'stud-asso-news-page',
   templateUrl: './news-page.component.html',
 })
 export class NewsPageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -40,12 +43,14 @@ export class NewsPageComponent implements OnInit {
     actions: [
       {
         label: 'Modifer',
+        shouldShow: this.permissionService.hasPermission(PermissionId.NEWS_MANAGEMENT),
         action: (news) => {
           return this.createModalUpdateNews(news);
         },
       },
       {
         label: 'Supprimer',
+        shouldShow: this.permissionService.hasPermission(PermissionId.NEWS_MANAGEMENT),
         action: (news) => {
           this.createModalDelete(news);
         },
@@ -57,7 +62,12 @@ export class NewsPageComponent implements OnInit {
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = true;
 
-  constructor(private api: ApiNewsFeedService, private modal: ModalService, private toast: ToastService) {}
+  constructor(
+    private api: ApiNewsFeedService,
+    private modal: ModalService,
+    private toast: ToastService,
+    private permissionService: PermissionService
+  ) {}
 
   ngOnInit(): void {
     this.reloadData(this.pagination);

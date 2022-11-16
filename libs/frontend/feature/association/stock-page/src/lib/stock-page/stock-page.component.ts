@@ -6,6 +6,8 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiStockService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionId } from '@stud-asso/shared/permission';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 
 @Component({
   selector: 'stud-asso-stock-page',
@@ -13,6 +15,8 @@ import { ModalService } from '@stud-asso/frontend-shared-modal';
   styleUrls: ['./stock-page.component.scss'],
 })
 export class StockPageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -29,6 +33,7 @@ export class StockPageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
+        shouldShow: this.permissionService.hasPermission(PermissionId.STOCK_MANAGEMENT),
         action: (data: number) => {
           this.modifyModalStock(data);
         },
@@ -36,6 +41,7 @@ export class StockPageComponent implements OnInit {
       },
       {
         label: 'Supprimer',
+        shouldShow: this.permissionService.hasPermission(PermissionId.STOCK_MANAGEMENT),
         action: (data: { id: number; name: string }) => {
           this.deleteModalStock(data.id, data.name);
         },
@@ -47,7 +53,12 @@ export class StockPageComponent implements OnInit {
   pagination: Pagination = { limit: PAGINATION_BASE_LIMIT, offset: PAGINATION_BASE_OFFSET };
   isLoading = false;
 
-  constructor(private api: ApiStockService, private modal: ModalService, private toast: ToastService) {}
+  constructor(
+    private api: ApiStockService,
+    private modal: ModalService,
+    private toast: ToastService,
+    private permissionService: PermissionService
+  ) {}
 
   ngOnInit(): void {
     this.reloadData(this.pagination);

@@ -7,6 +7,8 @@ import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiFundingService } from '@stud-asso/frontend-core-api';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionId } from '@stud-asso/shared/permission';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 
 type Funding = Omit<FundingDto, 'status'> & { status: Tag };
 
@@ -15,6 +17,8 @@ type Funding = Omit<FundingDto, 'status'> & { status: Tag };
   templateUrl: './financement-page.component.html',
 })
 export class FinancementPageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -37,6 +41,7 @@ export class FinancementPageComponent implements OnInit {
     actions: [
       {
         label: 'Etudier',
+        shouldShow: this.permissionService.hasPermission(PermissionId.FUNDING_MANAGEMENT),
         action: (data: number) => {
           this.studyModalFinance(data);
         },
@@ -49,7 +54,12 @@ export class FinancementPageComponent implements OnInit {
 
   isLoading = true;
 
-  constructor(private modal: ModalService, private toast: ToastService, private api: ApiFundingService) {}
+  constructor(
+    private modal: ModalService,
+    private toast: ToastService,
+    private api: ApiFundingService,
+    private permissionService: PermissionService
+  ) {}
 
   ngOnInit() {
     this.reloadData(this.pagination);

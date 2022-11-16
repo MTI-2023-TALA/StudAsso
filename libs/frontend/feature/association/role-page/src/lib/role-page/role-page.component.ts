@@ -7,6 +7,7 @@ import { PermissionColor, PermissionId, permissions } from '@stud-asso/shared/pe
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ModalService } from '@stud-asso/frontend-shared-modal';
+import { PermissionService } from '@stud-asso/frontend/shared/permission';
 import { Tag } from '@stud-asso/frontend-shared-tag';
 
 type Role = Omit<RoleDto, 'permissions'> & { permissions: Tag[] };
@@ -16,6 +17,8 @@ type Role = Omit<RoleDto, 'permissions'> & { permissions: Tag[] };
   templateUrl: './role-page.component.html',
 })
 export class RolePageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {
@@ -33,12 +36,14 @@ export class RolePageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
+        shouldShow: this.permissionService.hasPermission(PermissionId.ROLE_MANAGEMENT),
         action: (data: Role) => {
           this.modifyModalRole(data);
         },
       },
       {
         label: 'Supprimer',
+        shouldShow: this.permissionService.hasPermission(PermissionId.ROLE_MANAGEMENT),
         action: (data: { id: number; name: string }) => {
           this.deleteModalRole(data.id, data.name);
         },
@@ -58,7 +63,8 @@ export class RolePageComponent implements OnInit {
     private apiAssociation: ApiAssociationService,
     private api: ApiRoleService,
     private modal: ModalService,
-    private toast: ToastService
+    private toast: ToastService,
+    private permissionService: PermissionService
   ) {}
 
   ngOnInit() {
