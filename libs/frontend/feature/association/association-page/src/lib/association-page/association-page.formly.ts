@@ -27,3 +27,17 @@ export interface IUpdateAssoInfo {
   name: string;
   description: string;
 }
+
+export const updateAssociationImage: FormlyFieldConfig[] = [
+  {
+    key: 'image',
+    type: Form.File,
+    templateOptions: {
+      label: 'Image',
+    },
+  },
+];
+
+export interface IUpdateImageAsso {
+  image: File;
+}

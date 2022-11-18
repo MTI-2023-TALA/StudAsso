@@ -5,11 +5,17 @@
       <div class="left title">Mon association</div>
       <div class="right">
         <button class="button" (click)="openModalUpdateAssoInformation()" *ngIf="shouldShowButton">
-          Modifier les informations de l'association
+          Modifier les informations
         </button>
+        <button class="button" (click)="openModalUpdateAssoImage()">Modifier l'image</button>
       </div>
     </div>
     <div class="main">
+      <div class="item">Image :</div>
+      <div>
+        <img width="200px" src="{{ this.assoImageUrl }}" alt="" />
+      </div>
+
       <div class="item">Nom :</div>
       <input disabled value="{{ association.name }}" class="input" />
       <div class="item">Description:</div>

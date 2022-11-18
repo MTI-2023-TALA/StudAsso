@@ -22,3 +22,9 @@
   display: flex;
   gap: 1.5rem;
 }
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}

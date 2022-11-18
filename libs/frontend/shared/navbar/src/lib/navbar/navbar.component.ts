@@ -19,6 +19,8 @@ export class NavbarComponent implements OnInit {
   @Output() shouldShowLargeNavbarChange = new EventEmitter<boolean>();
 
   assoName: string | null;
+  assoId: number | null;
+  assoImageURL: string | null = null;
   isNavbarCollapsed = true;
 
   constructor(
@@ -27,6 +29,8 @@ export class NavbarComponent implements OnInit {
   ) {
     if (LocalStorageHelper.getData(LocalStorageKey.ASSOCIATION_NAME)) {
       this.mainChangeableDataService.associationName$.subscribe((assoName) => {
+        this.assoId = LocalStorageHelper.getData<number>(LocalStorageKey.ASSOCIATION_ID);
+        this.assoImageURL = `/api/associations/image/${this.assoId}`;
         this.assoName = assoName;
       });
     }

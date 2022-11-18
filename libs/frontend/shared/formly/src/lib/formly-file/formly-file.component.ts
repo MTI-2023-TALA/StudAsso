@@ -29,9 +29,14 @@ export class FormlyFileComponent extends FieldType<FieldTypeConfig> implements O
       for (let i = 0; i < target.files.length; i++) {
         const file = target.files.item(i);
         if (file) {
+          this.updateValue(file);
           this.files.push({ name: file.name });
         }
       }
     }
+  }
+
+  updateValue(file: File) {
+    this.formControl.setValue(file);
   }
 }

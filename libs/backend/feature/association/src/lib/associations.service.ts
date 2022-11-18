@@ -18,6 +18,7 @@ import {
 import { Injectable, StreamableFile } from '@nestjs/common';
 
 import { AssociationWithPresidentModel } from '@stud-asso/backend/core/model';
+import { DEFAULT_IMAGE } from './default-image';
 import { ERROR } from '@stud-asso/backend/core/error';
 import { FileHelper } from '@stud-asso/backend/core/file-helper';
 import { Prisma } from '@prisma/client';
@@ -65,14 +66,24 @@ export class AssociationsService {
   }
 
   public async getImageFromAssociation(res: Response, assoId: number): Promise<StreamableFile> {
-    const imageAsBase64 = await this.redisService.get(`association/${assoId}/image`);
-    const imageAsBuffer = await FileHelper.getFileFromBase64(imageAsBase64);
+    try {
+      const imageAsBase64 = await this.redisService.get(`association/${assoId}/image`);
+      const imageAsBuffer = await FileHelper.getFileFromBase64(imageAsBase64);
 
-    (res as unknown as any).set({
-      'Content-Type': 'application/json',
-      'Content-Disposition': `attachment; filename="association_${assoId}_image.png"`,
-    });
-    return new StreamableFile(imageAsBuffer);
+      (res as unknown as any).set({
+        'Content-Type': 'application/json',
+        'Content-Disposition': `attachment; filename="association_${assoId}_image.png"`,
+      });
+
+      return new StreamableFile(imageAsBuffer);
+    } catch (error) {
+      (res as unknown as any).set({
+        'Content-Type': 'image/svg+xml',
+        'Content-Disposition': `attachment; filename="association_${assoId}_image.svg"`,
+      });
+      // No  Image found getting the default image
+      return new StreamableFile(Buffer.from(DEFAULT_IMAGE, 'utf-8'));
+    }
   }
 
   public async changeAssociationPresident(

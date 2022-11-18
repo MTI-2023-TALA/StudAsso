@@ -1,17 +1,4 @@
-<div class="is-mobile">
-  <div class="title">
-    <span class="menu-bar" (click)="toggleNavbarCollapse()">
-      <i *ngIf="isNavbarCollapsed" class="bi bi-list"></i>
-      <i *ngIf="!isNavbarCollapsed" class="bi bi-x"></i>
-    </span>
-    <span>Stud'Asso</span>
-  </div>
-</div>
-
-<div class="host" [class.navbar-collapsed]="!isNavbarCollapsed" [class.show-large-navbar]="shouldShowLargeNavbar">
-  <h1 class="title u-f-center u-f-space-evenly p-4 not-mobile">
-    <svg
-      *ngIf="!assoId"
+export const DEFAULT_IMAGE = `<svg
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 102.54 73.74"
@@ -46,48 +33,4 @@
           />
         </g>
       </g>
-    </svg>
-    <img class="logo" *ngIf="assoId" src="{{ assoImageURL }}" alt="" />
-    <span *ngIf="shouldShowLargeNavbar" class="title">
-      <span *ngIf="assoName">{{ assoName }}</span>
-      <span *ngIf="!assoName">{{ 'appName' | translate }}</span>
-    </span>
-  </h1>
-
-  <div class="u-f-center not-mobile" [studAssoTooltip]="'Ceci est un tooltip'" placement="top">
-    <button class="button" (click)="toggleShowLargeNavbar()">
-      <i *ngIf="shouldShowLargeNavbar" class="bi bi-arrow-left-square"></i>
-      <i *ngIf="!shouldShowLargeNavbar" class="bi bi-arrow-right-square"></i>
-    </button>
-  </div>
-
-  <nav>
-    <ul>
-      <a
-        *ngFor="let item of navbarItems"
-        (click)="toggleNavbarCollapse()"
-        class="is-size-6 has-text-weight-bold"
-        [routerLink]="[item.url]"
-      >
-        <li routerLinkActive="router-link-active" routerLinkActive="router-link-active" *ngIf="item.shouldShow">
-          <p>
-            <i class="bi bi-{{ item.icon }} p-2"></i>
-            <span *ngIf="shouldShowLargeNavbar">{{ item.title }}</span>
-          </p>
-        </li>
-      </a>
-    </ul>
-  </nav>
-
-  <div class="u-f-center">
-    <a
-      class="button"
-      [routerLink]="['/my-account']"
-      routerLinkActive="router-link-active"
-      (click)="toggleNavbarCollapse()"
-    >
-      <i class="bi bi-person p-2"></i>
-      <span *ngIf="shouldShowLargeNavbar">{{ 'my-account' | translate }}</span>
-    </a>
-  </div>
-</div>
+    </svg>`;

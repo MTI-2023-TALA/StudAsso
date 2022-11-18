@@ -1,5 +1,5 @@
 import 'multer';
-import { Access, GetCurrentAssoId, IsPresident, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
+import { Access, GetCurrentAssoId, IsPresident, IsSchoolEmployee, Public } from '@stud-asso/backend-core-auth';
 import {
   AssociationDto,
   AssociationMemberWithRoleDto,
@@ -85,6 +85,7 @@ export class AssociationsController {
   }
 
   @Get('image/:id')
+  @Public()
   public async getImageFromAssociation(
     @Response({ passthrough: true }) res: Response,
     @Param('id') id: string
