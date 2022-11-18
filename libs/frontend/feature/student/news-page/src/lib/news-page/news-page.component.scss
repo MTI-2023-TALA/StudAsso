@@ -23,6 +23,15 @@
       font-weight: $font-weight-bold;
       color: $dark-grey-600;
     }
+
+    .s-card-asso {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+      color: $dark-grey-600;
+    }
   }
 
   .s-card-body {
@@ -36,4 +45,10 @@
     flex-direction: row-reverse;
     padding: 1rem 0rem 0rem 0rem;
   }
+}
+
+.logo {
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
 }

@@ -4,7 +4,12 @@
   <div class="t-card-list">
     <a *ngFor="let item of associationList" [routerLink]="[item.id]">
       <div class="t-card">
-        <div class="t-title">{{ item.name }}</div>
+        <div class="t-title">
+          <img class="logo" src="{{ item.imageUrl }}" alt="" />
+          <div>
+            {{ item.name }}
+          </div>
+        </div>
         <div class="t-body">{{ item.description }}</div>
         <div class="t-footer">Président: {{ item.email }}</div>
       </div>

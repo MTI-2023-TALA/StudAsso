@@ -12,6 +12,10 @@ import { ModalService } from '@stud-asso/frontend-shared-modal';
 import { TableConfiguration } from '@stud-asso/frontend-shared-table';
 import { postulateApplicationFormly } from './application.formly';
 
+interface AssociationWithImageUrl extends AssociationWithPresidentDto {
+  imageUrl: string;
+}
+
 export type OfferDto = Omit<AssociationOfferWithAssoAndRoleDto, 'deadline'> & { deadline: string };
 @Component({
   selector: 'stud-asso-association-page',
@@ -48,7 +52,7 @@ export class AssociationPageComponent implements OnInit {
   isLoading = true;
 
   id: number;
-  association: AssociationWithPresidentDto;
+  association: AssociationWithImageUrl;
 
   constructor(
     private route: ActivatedRoute,
@@ -70,7 +74,7 @@ export class AssociationPageComponent implements OnInit {
     this.isLoading = true;
     Promise.all([
       this.apiAssociationService.findOneWithPresident(this.id).subscribe((association) => {
-        this.association = association;
+        this.association = { ...association, imageUrl: `/api/associations/image/${association.id}` };
         this.apiOfferService
           .findAllOfferOfAsso(association.id)
           .subscribe((offerList: AssociationOfferWithAssoAndRoleDto[]) => {

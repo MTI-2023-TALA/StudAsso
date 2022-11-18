@@ -20,7 +20,13 @@
   <div class="s-card">
     <div class="s-card-header">
       <div class="s-card-title">{{ event.name }}</div>
-      <div class="s-card-asso">Le {{ event.date | date: 'd/M/yy' }} - {{ event.associationName }}</div>
+      <div class="s-card-asso">
+        <div>Le {{ event.date | date: 'd/M/yy' }}</div>
+        <img src="{{ event.imageUrl }}" alt="" class="logo" />
+        <div>
+          {{ event.associationName }}
+        </div>
+      </div>
     </div>
     <div class="s-card-body">{{ event.content }}</div>
   </div>

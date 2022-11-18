@@ -35,6 +35,15 @@
     white-space: pre-line;
   }
 
+  .s-card-asso {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: $dark-grey-600;
+  }
+
   .s-card-footer {
     display: flex;
     justify-content: space-between;
@@ -42,4 +51,9 @@
     flex-direction: row-reverse;
     padding: 1rem 0rem 0rem 0rem;
   }
+}
+
+.logo {
+  width: 2rem;
+  height: 2rem;
 }
