@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { IUpdateAssoInfo, updateAssociation } from './association-page.formly';
+import {
+  IUpdateAssoInfo,
+  IUpdateImageAsso,
+  updateAssociation,
+  updateAssociationImage,
+} from './association-page.formly';
 import { LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { ToastService, ToastType } from '@stud-asso/frontend-shared-toast';
 
 import { ApiAssociationService } from '@stud-asso/frontend-core-api';
 import { AssociationDto } from '@stud-asso/shared/dtos';
 import { ModalService } from '@stud-asso/frontend-shared-modal';
-import { PermissionId } from '@stud-asso/shared/permission';
 import { PermissionService } from '@stud-asso/frontend/shared/permission';
 
 @Component({
@@ -17,6 +21,7 @@ import { PermissionService } from '@stud-asso/frontend/shared/permission';
 export class AssociationPageComponent implements OnInit {
   association: AssociationDto;
   assoId: number;
+  assoImageUrl: string;
   isLoading = true;
   shouldShowButton = false;
 
@@ -30,6 +35,7 @@ export class AssociationPageComponent implements OnInit {
   ngOnInit(): void {
     this.reloadData();
     this.setShowButton();
+    this.assoImageUrl = this.apiAssociationService.getUrlToImageFromAssociation(this.assoId);
   }
 
   private reloadData() {
@@ -68,5 +74,26 @@ export class AssociationPageComponent implements OnInit {
       submitBtnText: 'Modifier',
       submit: this.updateAssoInformation(),
     });
+  }
+
+  openModalUpdateAssoImage() {
+    this.modal.createForm({
+      title: 'Modifier mon image',
+      fields: updateAssociationImage,
+      submitBtnText: 'Modifier',
+      submit: this.updateImageAsso(),
+    });
+  }
+
+  updateImageAsso() {
+    return (data: IUpdateImageAsso) => {
+      this.apiAssociationService.uploadImage(data.image).subscribe(() => {
+        this.toast.addAlert({
+          title: "Modification de l'image effectuée",
+          type: ToastType.Success,
+          subTitle: 'Pour voir la nouvelle image, rechargez la page',
+        });
+      });
+    };
   }
 }

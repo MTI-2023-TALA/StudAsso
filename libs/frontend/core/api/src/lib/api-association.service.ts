@@ -9,6 +9,7 @@ import {
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QueryPagination } from './api.model';
@@ -17,7 +18,7 @@ import { QueryPagination } from './api.model';
   providedIn: 'root',
 })
 export class ApiAssociationService extends ApiBaseService {
-  constructor(apiService: ApiService) {
+  constructor(apiService: ApiService, private http: HttpClient) {
     super(apiService);
     this.url = 'associations';
   }
@@ -53,5 +54,15 @@ export class ApiAssociationService extends ApiBaseService {
 
   public deleteUserFromAsso(id: number): Observable<AssociationsMemberDto> {
     return this.apiService.delete<AssociationsMemberDto>(`${this.url}/member/${id}`);
+  }
+
+  public uploadImage(file: File): Observable<void> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<void>(`api/${this.url}/image`, formData);
+  }
+
+  public getUrlToImageFromAssociation(id: number): string {
+    return `/api/${this.url}/image/${id}`;
   }
 }

@@ -11,6 +11,7 @@
 <div class="host" [class.navbar-collapsed]="!isNavbarCollapsed" [class.show-large-navbar]="shouldShowLargeNavbar">
   <h1 class="title u-f-center u-f-space-evenly p-4 not-mobile">
     <svg
+      *ngIf="!assoId"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 0 102.54 73.74"
@@ -46,6 +47,7 @@
         </g>
       </g>
     </svg>
+    <img class="logo" *ngIf="assoId" src="{{ assoImageURL }}" alt="" />
     <span *ngIf="shouldShowLargeNavbar" class="title">
       <span *ngIf="assoName">{{ assoName }}</span>
       <span *ngIf="!assoName">{{ 'appName' | translate }}</span>

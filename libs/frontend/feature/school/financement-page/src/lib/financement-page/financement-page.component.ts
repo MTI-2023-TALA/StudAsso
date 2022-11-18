@@ -54,6 +54,7 @@ export class FinancementPageComponent implements OnInit {
         action: (data: number) => {
           this.studyModalFinance(data);
         },
+        shouldShow: true,
         dataProperty: 'id',
       },
     ],
