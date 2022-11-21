@@ -1,28 +1,25 @@
-import { IsBoolean, IsEmail, IsOptional, IsString } from 'class-validator';
-
 import { AssociationIdAndNameModel } from './associations-member.model';
+import { IsEmail } from 'class-validator';
 
 // Request Models
 
-export class UpdateUserModel {
-  @IsOptional()
-  @IsString()
-  firstname?: string;
+export class CreateUserModel {
+  firstname: string;
+  lastname: string;
 
-  @IsOptional()
-  @IsString()
+  @IsEmail()
+  email: string;
+  isSchoolEmployee: boolean;
+  passwordHash: string;
+}
+
+export class UpdateUserModel {
+  firstname?: string;
   lastname?: string;
 
-  @IsOptional()
   @IsEmail()
   email?: string;
-
-  @IsOptional()
-  @IsBoolean()
   isSchoolEmployee?: boolean;
-
-  @IsOptional()
-  @IsString()
   passwordHash?: string;
 }
 
