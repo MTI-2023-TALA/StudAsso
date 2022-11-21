@@ -3,11 +3,12 @@ import {
   AssociationOfUserModel,
   QueryPaginationModel,
   SimplifiedUserModel,
+  UpdateUserModel,
   UserIdAndEmailModel,
   UserModel,
 } from '@stud-asso/backend/core/model';
-import { CreateUserDto, UpdateUserDto } from '@stud-asso/shared/dtos';
 
+import { CreateUserDto } from '@stud-asso/shared/dtos';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@stud-asso/backend/core/orm';
 
@@ -101,10 +102,10 @@ export class UserRepository {
     return this.prisma.user.findUnique({ where: { id } });
   }
 
-  public async update(id: number, updateUser: UpdateUserDto): Promise<SimplifiedUserModel> {
+  public async update(id: number, updateUserPayload: UpdateUserModel): Promise<SimplifiedUserModel> {
     return this.prisma.user.update({
       where: { id },
-      data: updateUser,
+      data: updateUserPayload,
       select: simplifiedUserSelect,
     });
   }

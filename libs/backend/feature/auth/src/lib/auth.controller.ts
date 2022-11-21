@@ -1,5 +1,13 @@
-import { AssoIdOfUserDto, AuthDto, CreateAccountDto, GoogleAuthDto, TokenDto } from '@stud-asso/shared/dtos';
-import { BadRequestException, Body, Post, UseGuards } from '@nestjs/common';
+import {
+  AssoIdOfUserDto,
+  AuthDto,
+  CreateAccountDto,
+  GoogleAuthDto,
+  TokenDto,
+  UpdatePasswordDto,
+  UserDto,
+} from '@stud-asso/shared/dtos';
+import { BadRequestException, Body, Patch, Post, UseGuards } from '@nestjs/common';
 import { GetCurrentUser, GetCurrentUserId, Public, RtGuard } from '@stud-asso/backend-core-auth';
 
 import { AuthService } from './auth.service';
@@ -23,7 +31,11 @@ export class AuthController {
   @Public()
   @Post('local/signin')
   async signinLocal(@Body() dto: AuthDto): Promise<TokenDto> {
-    return this.authService.signinLocal(dto);
+    try {
+      return await this.authService.signinLocal(dto);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
   }
 
   @Public()
@@ -58,5 +70,17 @@ export class AuthController {
     @Body() assoIdDto: AssoIdOfUserDto
   ): Promise<TokenDto> {
     return this.authService.refreshWithAssoId(userId, userEmail, assoIdDto.assoId);
+  }
+
+  @Patch('password/me')
+  async updateCurrentUserPassword(
+    @GetCurrentUserId() userId: number,
+    @Body() updatePasswordPayload: UpdatePasswordDto
+  ): Promise<UserDto> {
+    try {
+      return await this.authService.updateCurrentUserPassword(userId, updatePasswordPayload);
+    } catch (error) {
+      throw new BadRequestException(error?.message);
+    }
   }
 }

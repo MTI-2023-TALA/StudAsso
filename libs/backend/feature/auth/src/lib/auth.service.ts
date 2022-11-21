@@ -1,7 +1,7 @@
 import * as argon from 'argon2';
 
 import { Auth, google } from 'googleapis';
-import { AuthDto, CreateAccountDto, CreateUserDto, TokenDto, UserDto } from '@stud-asso/shared/dtos';
+import { AuthDto, CreateAccountDto, CreateUserDto, TokenDto, UpdatePasswordDto, UserDto } from '@stud-asso/shared/dtos';
 import { ForbiddenException, Injectable } from '@nestjs/common';
 
 import { ConfigService } from '@nestjs/config';
@@ -156,5 +156,15 @@ export class AuthService {
       accessToken: at,
       refreshToken: rt,
     };
+  }
+
+  async updateCurrentUserPassword(userId: number, updatePasswordPayload: UpdatePasswordDto): Promise<UserDto> {
+    const user = await this.userRepository.findOne(userId);
+
+    const oldPasswordMatches = await argon.verify(user.passwordHash, updatePasswordPayload.oldPassword);
+    if (!oldPasswordMatches) throw new Error(ERROR.BAD_PASSWORD);
+
+    const newPassword = await argon.hash(updatePasswordPayload.newPassword);
+    return this.userRepository.update(userId, { passwordHash: newPassword });
   }
 }
