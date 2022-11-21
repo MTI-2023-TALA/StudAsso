@@ -1,4 +1,29 @@
 import { AssociationIdAndNameModel } from './associations-member.model';
+import { IsEmail } from 'class-validator';
+
+// Request Models
+
+export class CreateUserModel {
+  firstname: string;
+  lastname: string;
+
+  @IsEmail()
+  email: string;
+  isSchoolEmployee: boolean;
+  passwordHash: string;
+}
+
+export class UpdateUserModel {
+  firstname?: string;
+  lastname?: string;
+
+  @IsEmail()
+  email?: string;
+  isSchoolEmployee?: boolean;
+  passwordHash?: string;
+}
+
+// Response Models
 
 export class UserModel {
   id: number;

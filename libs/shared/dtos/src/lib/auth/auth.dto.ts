@@ -1,5 +1,7 @@
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
+// Request DTOs
+
 export class CreateAccountDto {
   @IsNotEmpty()
   @IsEmail()
@@ -17,6 +19,18 @@ export class CreateAccountDto {
   @IsNotEmpty()
   lastname: string;
 }
+
+export class UpdatePasswordDto {
+  @IsNotEmpty()
+  @IsString()
+  oldPassword: string;
+
+  @IsNotEmpty()
+  @IsString()
+  newPassword: string;
+}
+
+// Response DTOs
 
 export class AuthDto {
   @IsNotEmpty()
