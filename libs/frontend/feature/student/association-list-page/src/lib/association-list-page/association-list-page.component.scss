@@ -19,6 +19,9 @@
 }
 
 .t-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: $font-size-xxm;
   font-weight: $font-weight-bold;
   color: $dark-grey-600;
@@ -34,4 +37,9 @@
   align-items: center;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.logo {
+  width: 2rem;
+  height: 2rem;
 }

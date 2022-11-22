@@ -3,14 +3,18 @@ import { Component, OnInit } from '@angular/core';
 import { ApiEventService } from '@stud-asso/frontend-core-api';
 import { EventDto } from '@stud-asso/shared/dtos';
 
+interface EventWithImageUrl extends EventDto {
+  imageUrl: string;
+}
+
 @Component({
   selector: 'stud-asso-event-page',
   templateUrl: './event-page.component.html',
   styleUrls: ['./event-page.component.scss'],
 })
 export class EventPageComponent implements OnInit {
-  eventList: EventDto[];
-  pastEventList: EventDto[];
+  eventList: EventWithImageUrl[];
+  pastEventList: EventWithImageUrl[];
   constructor(private apiEventService: ApiEventService) {}
 
   ngOnInit(): void {
@@ -21,7 +25,10 @@ export class EventPageComponent implements OnInit {
         offset: 0,
       })
       .subscribe((eventList) => {
-        this.eventList = eventList;
+        this.eventList = eventList.map((event) => ({
+          ...event,
+          imageUrl: `/api/associations/image/${event.associationId}`,
+        }));
       });
     this.apiEventService
       .findAllActive({
@@ -30,7 +37,10 @@ export class EventPageComponent implements OnInit {
         offset: 0,
       })
       .subscribe((eventList) => {
-        this.pastEventList = eventList;
+        this.pastEventList = eventList.map((event) => ({
+          ...event,
+          imageUrl: `/api/associations/image/${event.associationId}`,
+        }));
       });
   }
 
