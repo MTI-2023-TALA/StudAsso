@@ -1,14 +1,8 @@
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
 import { AuthService } from './auth.service';
 import { AuthServiceMock } from '@stud-asso/frontend/testing/common-mock';
 import { IsNotSignGuard } from './is-not-sign.guard';
-
-class RouterMock {
-  navigateByUrl(url: string) {
-    return url;
-  }
-}
 
 describe('IsNotSignGuard', () => {
   let guard: IsNotSignGuard;

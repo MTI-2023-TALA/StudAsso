@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
 
-interface rtJwt {
+interface RtJWT {
   exp: number;
   iat: number;
 }
@@ -39,7 +39,7 @@ export class AuthService {
 
   public isSignIn(): boolean {
     if (this.refreshToken) {
-      const rtJwt: rtJwt = jwt_decode(this.refreshToken);
+      const rtJwt: RtJWT = jwt_decode(this.refreshToken);
       // Token expired
       if (rtJwt.exp > Date.now()) {
         this.reset();

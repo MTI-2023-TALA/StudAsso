@@ -62,7 +62,6 @@ export const studyFinanceFormly = (
     type: Form.Select,
     templateOptions: {
       label: `Statut de la demande`,
-      //TODO: Rendre ça automatique
       options: [
         { label: 'Approuver', value: FUNDING_STATUS.APPROVED },
         { label: 'Rejeter', value: FUNDING_STATUS.REJECTED },

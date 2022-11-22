@@ -1,10 +1,10 @@
 import { AppName, LocalStorageHelper, LocalStorageKey } from '@stud-asso/frontend-core-storage';
 import { AssociationWithPresidentDto, RoleOnlyPermissionsDto, SimpleUserDto } from '@stud-asso/shared/dtos';
-import { Observable, firstValueFrom } from 'rxjs';
 
 import { ApiRoleService } from '@stud-asso/frontend-core-api';
 import { Injectable } from '@angular/core';
 import { PermissionId } from '@stud-asso/shared/permission';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',

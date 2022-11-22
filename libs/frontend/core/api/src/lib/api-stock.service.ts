@@ -23,7 +23,6 @@ export class ApiStockService extends ApiBaseService {
     return this.apiService.patch<UpdateStockDto, StockDto, undefined>(`${this.url}/${id}`, stock);
   }
 
-  // TODO: Rework return type
   public remove(id: number): Observable<StockDto> {
     return this.apiService.delete<StockDto>(`${this.url}/${id}`);
   }

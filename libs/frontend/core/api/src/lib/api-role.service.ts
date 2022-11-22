@@ -30,7 +30,6 @@ export class ApiRoleService extends ApiBaseService {
     return this.apiService.patch<UpdateRoleDto, RoleDto, undefined>(`${this.url}/${id}`, role);
   }
 
-  // TODO: Rework return type
   public remove(id: number): Observable<RoleDto> {
     return this.apiService.delete<RoleDto>(`${this.url}/${id}`);
   }
