@@ -1,6 +1,7 @@
 import {
   AssociationOfferApplicationDto,
   AssociationOfferApplicationReviewDto,
+  AssociationOfferDto,
   AssociationOfferWithAssoAndRoleDto,
   CreateAssociationOfferApplicationDto,
   CreateAssociationOfferDto,
@@ -8,7 +9,6 @@ import {
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
-import { AssociationOffer } from '@prisma/client';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QueryPagination } from './api.model';
@@ -22,12 +22,12 @@ export class ApiOfferService extends ApiBaseService {
     this.url = 'association_offers';
   }
 
-  public createApplication(offer: CreateAssociationOfferDto): Observable<AssociationOffer> {
-    return this.apiService.post<CreateAssociationOfferDto, AssociationOffer, undefined>(this.url, offer);
+  public createApplication(offer: CreateAssociationOfferDto): Observable<AssociationOfferDto> {
+    return this.apiService.post<CreateAssociationOfferDto, AssociationOfferDto, undefined>(this.url, offer);
   }
 
-  public findAll(query: QueryPagination = undefined): Observable<AssociationOffer[]> {
-    return this.apiService.get<AssociationOffer[], QueryPagination>(`${this.url}/stats`, query);
+  public findAll(query: QueryPagination = undefined): Observable<AssociationOfferDto[]> {
+    return this.apiService.get<AssociationOfferDto[], QueryPagination>(`${this.url}/stats`, query);
   }
 
   public findAllOffer(query: QueryPagination = undefined): Observable<AssociationOfferWithAssoAndRoleDto[]> {

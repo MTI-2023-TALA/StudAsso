@@ -2,7 +2,6 @@ import { CreateFundingDto, FundingDto, UpdateFundingDto } from '@stud-asso/share
 
 import { ApiBaseService } from './api-base.service';
 import { ApiService } from './api.service';
-import { AssociationOffer } from '@prisma/client';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QueryPagination } from './api.model';
@@ -16,8 +15,8 @@ export class ApiFundingService extends ApiBaseService {
     this.url = 'funding';
   }
 
-  public createFunding(offer: CreateFundingDto): Observable<AssociationOffer> {
-    return this.apiService.post<CreateFundingDto, AssociationOffer, undefined>(this.url, offer);
+  public createFunding(offer: CreateFundingDto): Observable<FundingDto> {
+    return this.apiService.post<CreateFundingDto, FundingDto, undefined>(this.url, offer);
   }
 
   public findAll(query: QueryPagination = undefined): Observable<FundingDto[]> {

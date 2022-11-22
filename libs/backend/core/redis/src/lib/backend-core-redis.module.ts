@@ -1,18 +1,18 @@
-import * as redisStore from 'cache-manager-redis-store';
-
 import { CacheModule, Module } from '@nestjs/common';
 
+import { CacheConfigService } from './cache-config.service';
+import { ConfigModule } from '@nestjs/config';
 import { RedisService } from './redis.service';
 
 @Module({
   imports: [
-    CacheModule.register({
-      store: redisStore,
-      host: 'localhost',
-      port: 6379,
+    CacheModule.registerAsync({
+      imports: [ConfigModule],
+      extraProviders: [CacheConfigService],
+      useExisting: CacheConfigService,
     }),
   ],
-  providers: [RedisService],
+  providers: [RedisService, CacheConfigService],
   exports: [RedisService],
 })
 export class BackendCoreRedisModule {}
