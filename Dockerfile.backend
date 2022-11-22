@@ -1,10 +1,12 @@
-FROM node:lts-alpine as build-stage
+FROM node:19-bullseye-slim as build-stage
 ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?schema=public
+ENV NODE_ENV=build-stage
 
 WORKDIR /app
 
 # Install dependencies
 COPY ./package*.json /app/
+COPY ./tools /app/tools
 RUN npm ci
 
 # Copy the app
@@ -22,6 +24,9 @@ ENV NODE_ENV production
 ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?schema=public
 ENV AT_SECRET=secret
 ENV RT_SECRET=secret
+ENV REDIS_PORT=6379
+ENV REDIS_HOST=studasso-redis
+ENV NODE_ENV=production
 
 WORKDIR /app
 

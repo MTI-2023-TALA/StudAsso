@@ -1,8 +1,10 @@
 FROM node:lts-alpine as build-stage
 WORKDIR /app
+ENV NODE_ENV=build-stage
 
 # Install dependencies
 COPY ./package*.json /app/
+COPY ./tools /app/tools
 RUN npm ci
 
 # Copy the app

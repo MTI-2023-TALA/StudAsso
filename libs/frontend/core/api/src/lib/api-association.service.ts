@@ -31,7 +31,6 @@ export class ApiAssociationService extends ApiBaseService {
     return this.apiService.patch<UpdateAssociationDto, AssociationDto, undefined>(`${this.url}/${id}`, association);
   }
 
-  // TODO: Rework return type
   public remove(id: number): Observable<AssociationDto> {
     return this.apiService.delete<AssociationDto>(`${this.url}/${id}`);
   }

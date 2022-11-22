@@ -28,6 +28,8 @@ function generateEnvFile() {
     writeEnvVariable(envFile, 'AT_SECRET', `"${randomBytes(256).toString('base64')}"`);
     writeEnvVariable(envFile, 'RT_SECRET', `"${randomBytes(256).toString('base64')}"`);
     writeEnvVariable(envFile, 'DATABASE_URL', '"postgresql://postgres:password@localhost:5432/studasso?schema=public"');
+    writeEnvVariable(envFile, 'REDIS_PORT', '"6379"');
+    writeEnvVariable(envFile, 'REDIS_HOST', '"localhost"');
   } catch {
     console.log(chalk.red('❌ Failed to write to .env file'));
   }

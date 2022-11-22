@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener, Input } from '@angular/core';
 
-import { PermissionService } from '@stud-asso/frontend/shared/permission';
 import { TableConfiguration } from '../table/table.model';
 
 @Component({
