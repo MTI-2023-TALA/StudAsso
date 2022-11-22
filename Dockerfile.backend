@@ -1,6 +1,6 @@
 FROM node:19-bullseye-slim as build-stage
 ENV DATABASE_URL=postgresql://postgres:password@studasso-database:5432/studasso?schema=public
-ENV NODE_ENV=production
+ENV NODE_ENV=build-stage
 
 WORKDIR /app
 
