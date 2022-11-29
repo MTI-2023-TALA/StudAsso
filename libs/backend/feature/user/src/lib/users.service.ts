@@ -37,9 +37,9 @@ export class UsersService {
     };
   }
 
-  public async findAllByName(name: string, query: QueryPaginationDto): Promise<UserDto[]> {
-    return this.userRepository.findAllByName(name, query);
-  }
+  // public async findAllByName(name: string, query: QueryPaginationDto): Promise<UserDto[]> {
+  //   return this.userRepository.findAllByName(name, query);
+  // }
 
   public async findCurrentUserInfo(userId: number): Promise<SimpleUserDto> {
     const user = await this.userRepository.findOne(userId);

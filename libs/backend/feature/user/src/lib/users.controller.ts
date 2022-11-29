@@ -10,7 +10,7 @@ import {
 } from '@stud-asso/shared/dtos';
 import { BadRequestException, Body, Delete, Get, NotFoundException, Param, Patch, Query } from '@nestjs/common';
 
-import { GetCurrentUserId } from '@stud-asso/backend-core-auth';
+import { GetCurrentUserId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
 import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
 import { UsersService } from './users.service';
@@ -19,6 +19,7 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @IsSchoolEmployee()
   @Get()
   public async findAll(@Query() query: QueryPaginationDto): Promise<UserDto[]> {
     return this.usersService.findAll(query);
@@ -34,10 +35,10 @@ export class UsersController {
     return this.usersService.findAssoOfUser(userId);
   }
 
-  @Get('name/:name')
-  public async findAllByName(@Param('name') name: string, @Query() query: QueryPaginationDto): Promise<UserDto[]> {
-    return this.usersService.findAllByName(name, query);
-  }
+  // @Get('name/:name')
+  // public async findAllByName(@Param('name') name: string, @Query() query: QueryPaginationDto): Promise<UserDto[]> {
+  //   return this.usersService.findAllByName(name, query);
+  // }
 
   @Get('me')
   public async findCurrentUserInfo(@GetCurrentUserId() userId: number): Promise<SimpleUserDto> {

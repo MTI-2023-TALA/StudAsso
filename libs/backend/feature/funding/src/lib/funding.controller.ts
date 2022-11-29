@@ -1,5 +1,5 @@
 import { Access, GetCurrentAssoId, GetCurrentUserId, IsSchoolEmployee } from '@stud-asso/backend-core-auth';
-import { Body, Controller, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Get, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
 import {
   CreateFundingDto,
   FundingDto,
@@ -12,8 +12,9 @@ import {
 } from '@stud-asso/shared/dtos';
 import { FundingService } from './funding.service';
 import { PermissionId } from '@stud-asso/shared/permission';
+import { SwaggerController } from '@stud-asso/backend/core/swagger';
 
-@Controller('funding')
+@SwaggerController('funding')
 export class FundingController {
   constructor(private backendFeatureFundingService: FundingService) {}
 

@@ -84,6 +84,7 @@ export class AssociationOfferController {
     return this.associationOfferService.findAllApplications(assoId, query);
   }
 
+  @Access(PermissionId.OFFERS_MANAGEMENT)
   @Get('/application/:id')
   public async findOneApplication(@Param('id') id: string): Promise<AssociationOfferApplicationReviewDto> {
     try {
@@ -93,6 +94,7 @@ export class AssociationOfferController {
     }
   }
 
+  @Access(PermissionId.OFFERS_MANAGEMENT)
   @Get('/application/:id/applicants')
   public async findOfferApplicants(@Param('id') id: string): Promise<SimpleUserNoSchoolEmployeeDto[]> {
     try {
