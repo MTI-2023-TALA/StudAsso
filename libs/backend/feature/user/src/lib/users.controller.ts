@@ -35,11 +35,6 @@ export class UsersController {
     return this.usersService.findAssoOfUser(userId);
   }
 
-  // @Get('name/:name')
-  // public async findAllByName(@Param('name') name: string, @Query() query: QueryPaginationDto): Promise<UserDto[]> {
-  //   return this.usersService.findAllByName(name, query);
-  // }
-
   @Get('me')
   public async findCurrentUserInfo(@GetCurrentUserId() userId: number): Promise<SimpleUserDto> {
     try {

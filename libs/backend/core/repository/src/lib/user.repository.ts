@@ -56,23 +56,6 @@ export class UserRepository {
     });
   }
 
-  // public async findAllByName(name: string, queryPaginationModel: QueryPaginationModel): Promise<SimplifiedUserModel[]> {
-  //   return this.prisma.user.findMany({
-  //     skip: queryPaginationModel.offset,
-  //     take: queryPaginationModel.limit,
-  //     where: {
-  //       OR: [{ firstname: { contains: name } }, { lastname: { contains: name } }],
-  //     },
-  //     select: {
-  //       id: true,
-  //       firstname: true,
-  //       lastname: true,
-  //       email: true,
-  //       isSchoolEmployee: true,
-  //     },
-  //   });
-  // }
-
   public async findCurrentUserAsso(
     userId: number,
     queryPaginationModel: QueryPaginationModel
