@@ -19,6 +19,7 @@ export class MyAccountPageComponent implements OnInit {
   user: SimpleUserDto | null = null;
   userAssociationList: AssociationAndRoleNameDto[] = [];
   shouldDisplayAssoList = false;
+  isLoading = true;
 
   constructor(
     private router: Router,
@@ -36,13 +37,20 @@ export class MyAccountPageComponent implements OnInit {
   }
 
   reloadData() {
-    this.userApi.getMe().subscribe((user) => {
-      this.user = user;
-    });
-
+    this.isLoading = true;
     if (this.shouldDisplayAssoList) {
-      this.userApi.getMeAsso().subscribe((asso) => {
-        this.userAssociationList = asso;
+      Promise.all([
+        this.userApi.getMe().subscribe((user) => {
+          this.user = user;
+        }),
+        this.userApi.getMeAsso().subscribe((asso) => {
+          this.userAssociationList = asso;
+        }),
+      ]).finally(() => (this.isLoading = false));
+    } else {
+      this.userApi.getMe().subscribe((user) => {
+        this.user = user;
+        this.isLoading = false;
       });
     }
   }
