@@ -134,6 +134,7 @@ export class AssociationsController {
     }
   }
 
+  @Access(PermissionId.ASSO_MANAGEMENT)
   @Patch(':id')
   public async update(
     @Param('id') id: string,
@@ -146,6 +147,7 @@ export class AssociationsController {
     }
   }
 
+  @Access(PermissionId.MEMBER_REMOVE)
   @Delete('member/:userId')
   public async deleteUserFromAsso(
     @Param('userId') userId: string,
@@ -158,6 +160,7 @@ export class AssociationsController {
     }
   }
 
+  @IsSchoolEmployee()
   @Delete(':id')
   public async delete(@Param('id') id: string): Promise<AssociationDto> {
     try {

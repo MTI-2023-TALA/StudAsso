@@ -113,11 +113,6 @@ describe('UsersService', () => {
                 associationsMembers,
               });
             }),
-            findAllByName: jest.fn((name: string) => {
-              return Promise.resolve(
-                mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
-              );
-            }),
             findCurrentUserAsso: jest.fn((userId: number) => {
               const associationsAndRoleName = [];
               const filteredAssociationMembers = mockedAssociationsMember.filter(
@@ -204,20 +199,6 @@ describe('UsersService', () => {
       };
 
       expect(await service.findAssoOfUser(userId)).toEqual(expected);
-    });
-  });
-
-  describe('Find Users By Name', () => {
-    it('should find no users by name', async () => {
-      const name = 'Toto';
-
-      expect(await service.findAllByName(name, {})).toEqual([]);
-    });
-
-    it('should find 1 user by name', async () => {
-      const name = 'Sky';
-
-      expect(await service.findAllByName(name, {})).toEqual([mockedUsers[0]]);
     });
   });
 

@@ -112,11 +112,6 @@ describe('UsersController', () => {
               });
               return Promise.resolve({ id, associationsId });
             }),
-            findAllByName: jest.fn((name: string) => {
-              return Promise.resolve(
-                mockedUsers.filter((user) => user.lastname.includes(name) || user.firstname.includes(name))
-              );
-            }),
             findCurrentUserInfo: jest.fn((userId: number) => {
               const user = mockedUsers.find((user) => user.id === userId);
               if (!user) {
@@ -227,18 +222,6 @@ describe('UsersController', () => {
       };
 
       expect(await controller.findAssoOfUser(userId)).toEqual(expected);
-    });
-  });
-
-  describe('Find Users By Name', () => {
-    it('should find no users by name', async () => {
-      const name = 'Toto';
-      expect(await controller.findAllByName(name, {})).toEqual([]);
-    });
-
-    it('should find 1 user by name', async () => {
-      const name = 'Sky';
-      expect(await controller.findAllByName(name, {})).toEqual([mockedUsers[0]]);
     });
   });
 
