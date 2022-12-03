@@ -1,5 +1,6 @@
 import * as argon from 'argon2';
 
+import { FileHelper } from '../../libs/backend/core/file-helper/src';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -30,6 +31,11 @@ async function truncate() {
 
 async function hashData(data: string): Promise<string> {
   return argon.hash(data);
+}
+
+async function setAssoImage(id: number, file: Express.Multer.File) {
+  const imageAsBase64 = await FileHelper.getBase64FromFile(file);
+  this.redisService.set(`association/${id}/image`, imageAsBase64);
 }
 
 const associations = [
