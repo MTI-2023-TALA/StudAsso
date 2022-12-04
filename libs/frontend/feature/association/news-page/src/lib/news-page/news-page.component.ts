@@ -42,7 +42,7 @@ export class NewsPageComponent implements OnInit {
     ],
     actions: [
       {
-        label: 'Modifer',
+        label: 'Modifier',
         shouldShow: this.permissionService.hasPermission(PermissionId.NEWS_MANAGEMENT),
         action: (news) => {
           return this.createModalUpdateNews(news);

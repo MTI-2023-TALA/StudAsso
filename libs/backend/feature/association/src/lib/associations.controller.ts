@@ -134,7 +134,6 @@ export class AssociationsController {
     }
   }
 
-  @Access(PermissionId.ASSO_MANAGEMENT)
   @Patch(':id')
   public async update(
     @Param('id') id: string,

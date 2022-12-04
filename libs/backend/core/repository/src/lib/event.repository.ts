@@ -68,7 +68,7 @@ export class EventRepository {
       skip: queryPaginationModel.offset,
       take: queryPaginationModel.limit,
       orderBy: {
-        date: 'asc',
+        date: 'desc',
       },
       where: { associationId },
       select: eventSelect,

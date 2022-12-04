@@ -7,7 +7,8 @@ export const studyFinanceFormly = (
   name: string | null = null,
   amount: number | null = null,
   content: string | null = null,
-  schoolComment: string | null = null
+  schoolComment: string | null = null,
+  status: FUNDING_STATUS | null = null
 ): FormlyFieldConfig[] => [
   {
     key: 'name',
@@ -60,6 +61,7 @@ export const studyFinanceFormly = (
   {
     key: 'status',
     type: Form.Select,
+    defaultValue: status,
     templateOptions: {
       label: `Statut de la demande`,
       options: [
