@@ -39,14 +39,14 @@ export class MemberPageComponent implements OnInit {
         size: 1,
       },
       {
-        title: 'Role',
+        title: 'Rôle',
         dataProperty: 'roleName',
         size: 2,
       },
     ],
     actions: [
       {
-        label: 'Modifier le role',
+        label: 'Modifier le rôle',
         shouldShow: this.permissionService.hasPermission(PermissionId.ROLE_MANAGEMENT),
         action: (member: AssociationMember) => {
           this.createModalUpdateRoleMember(member);
@@ -160,7 +160,7 @@ export class MemberPageComponent implements OnInit {
   }
 
   updateMemberRole(userId: number, roleId: number) {
-    this.apiRole.addRoleToUser({ userId, roleId }).subscribe(() => {
+    this.apiRole.updateUserRole({ userId, roleId }).subscribe(() => {
       this.toast.addAlert({ title: 'Role modifié', type: ToastType.Success });
       this.reloadData(this.pagination);
     });

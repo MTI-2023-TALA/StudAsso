@@ -27,12 +27,12 @@ export class FinancementPageComponent implements OnInit {
         dataProperty: 'name',
       },
       {
-        title: 'Somme demandé',
+        title: 'Somme demandée',
         size: 2,
         dataProperty: 'amount',
       },
       {
-        title: 'Status',
+        title: 'Statut',
         size: 2,
         dataProperty: 'status',
         dataViewComponent: TableTagListComponent,

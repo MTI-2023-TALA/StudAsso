@@ -1,5 +1,7 @@
 import { Form, SelectOption } from '@stud-asso/frontend-shared-formly';
 
+import { FormlyFieldConfig } from '@ngx-formly/core';
+
 export const createAssociationFormly = async (usersList: SelectOption[]) => {
   return [
     {
@@ -33,10 +35,14 @@ export const createAssociationFormly = async (usersList: SelectOption[]) => {
   ];
 };
 
-export const modifyAssociationFormly = [
+export const modifyAssociationFormly = (
+  name: string | null = null,
+  description: string | null = null
+): FormlyFieldConfig[] => [
   {
     key: 'name',
     type: Form.Input,
+    defaultValue: name,
     templateOptions: {
       label: `Nom de l'association`,
       placeholder: `Nom de l'association`,
@@ -46,6 +52,7 @@ export const modifyAssociationFormly = [
   {
     key: 'description',
     type: Form.TextArea,
+    defaultValue: description,
     templateOptions: {
       label: `Description de l'association`,
       placeholder: `Ceci est une description obligatoire.`,

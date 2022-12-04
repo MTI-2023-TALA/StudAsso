@@ -28,7 +28,7 @@ export class AssociationPageComponent implements OnInit {
   tableConfiguration: TableConfiguration = {
     columns: [
       {
-        title: 'Association',
+        title: 'Associations',
         size: 2,
         dataProperty: 'name',
       },
@@ -36,16 +36,17 @@ export class AssociationPageComponent implements OnInit {
     actions: [
       {
         label: 'Modifier',
-        action: (data: number) => {
+        action: (data: AssociationWithPresidentDto) => {
           this.modifyModalAssociation(data);
         },
-        dataProperty: 'id',
+        shouldShow: true,
       },
       {
         label: 'Supprimer',
         action: (data: { id: number; name: string }) => {
           this.deleteModalAssociation(data.id, data.name);
         },
+        shouldShow: true,
       },
     ],
   };
@@ -98,12 +99,12 @@ export class AssociationPageComponent implements OnInit {
     });
   }
 
-  async modifyModalAssociation(id: number) {
+  async modifyModalAssociation(association: AssociationWithPresidentDto) {
     this.modal.createForm({
       title: 'Modifier une association',
-      fields: modifyAssociationFormly,
+      fields: modifyAssociationFormly(association.name, association.description),
       submitBtnText: 'Modifier',
-      submit: this.modifyAssociation(id),
+      submit: this.modifyAssociation(association.id),
     });
   }
 
@@ -122,7 +123,7 @@ export class AssociationPageComponent implements OnInit {
 
   async deleteModalAssociation(id: number, name: string) {
     this.modal.createModal(ConfirmModalComponent, {
-      message: `Etes vous sur de voulour supprimer l'association ${name} ?`,
+      message: `Êtes-vous sûr de vouloir supprimer l'association ${name} ?`,
       submit: () => {
         this.deleteAssociation(id);
       },

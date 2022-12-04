@@ -30,7 +30,7 @@ export class FinancementPageComponent implements OnInit {
         dataProperty: 'name',
       },
       {
-        title: 'Somme demandé',
+        title: 'Somme demandée',
         size: 1,
         dataProperty: 'amount',
       },
@@ -97,7 +97,13 @@ export class FinancementPageComponent implements OnInit {
     this.api.find(id).subscribe((funding) => {
       this.modal.createForm({
         title: `Etude de la demande de financement ${funding.name}`,
-        fields: studyFinanceFormly(funding.name, funding.amount, funding.motivation),
+        fields: studyFinanceFormly(
+          funding.name,
+          funding.amount,
+          funding.motivation,
+          funding.schoolComment,
+          funding.status
+        ),
         submitBtnText: 'Envoyer',
         submit: this.acceptFinance(id),
       });
