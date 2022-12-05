@@ -77,6 +77,9 @@ export class AssociationOfferRepository {
         },
       },
       select: fancyAssoOfferSelect,
+      orderBy: {
+        deadline: 'asc',
+      },
     });
   }
 
@@ -110,6 +113,9 @@ export class AssociationOfferRepository {
             name: true,
           },
         },
+      },
+      orderBy: {
+        deadline: 'asc',
       },
     });
 

@@ -62,6 +62,13 @@ export class AssociationOfferApplicationRepository {
       take: queryPaginationModel.limit,
       where: { associationOffer: { associationId } },
       select: assoOfferApplicationReviewSelect,
+      orderBy: {
+        associationOffer: {
+          role: {
+            name: 'asc',
+          },
+        },
+      },
     });
   }
 

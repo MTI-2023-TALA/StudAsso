@@ -35,6 +35,7 @@ export class RoleRepository {
       take: queryPaginationModel.limit,
       where: { associationId: id },
       select: simpleUserSelect,
+      orderBy: { name: 'asc' },
     });
   }
 
