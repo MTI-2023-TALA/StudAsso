@@ -3,7 +3,6 @@ import {
   AssociationWithPresidentDto,
   PAGINATION_BASE_LIMIT,
   PAGINATION_BASE_OFFSET,
-  QueryPaginationDto,
   UserIdAndEmailDto,
 } from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
