@@ -3,6 +3,7 @@ import {
   AssociationWithPresidentDto,
   PAGINATION_BASE_LIMIT,
   PAGINATION_BASE_OFFSET,
+  QueryPaginationDto,
   UserIdAndEmailDto,
 } from '@stud-asso/shared/dtos';
 import { Component, OnInit } from '@angular/core';
@@ -79,7 +80,7 @@ export class AssociationPageComponent implements OnInit {
       this.apiAssociation.findAll(pagination).subscribe((associations: AssociationWithPresidentDto[]) => {
         this.associationList = associations;
       }),
-      this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
+      this.apiUser.getIdAndEmail({ offset: 0, limit: 1000 }).subscribe((users: UserIdAndEmailDto[]) => {
         this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
       }),
     ]).finally(() => (this.isLoading = false));
