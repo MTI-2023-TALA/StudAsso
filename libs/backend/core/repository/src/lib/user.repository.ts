@@ -33,6 +33,9 @@ export class UserRepository {
         id: true,
         email: true,
       },
+      orderBy: {
+        email: 'asc',
+      },
     });
   }
 

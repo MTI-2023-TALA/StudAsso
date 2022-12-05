@@ -40,7 +40,12 @@ export class AssociationRepository {
   }
 
   public async findAll(): Promise<AssociationModel[]> {
-    return this.prisma.association.findMany({ select: assoSelect });
+    return this.prisma.association.findMany({
+      select: assoSelect,
+      orderBy: {
+        name: 'asc',
+      },
+    });
   }
 
   public async findOne(id: number): Promise<AssociationModel> {
@@ -69,6 +74,9 @@ export class AssociationRepository {
         },
       },
       select: assoWithPresidentSelect,
+      orderBy: {
+        name: 'asc',
+      },
     });
   }
 
