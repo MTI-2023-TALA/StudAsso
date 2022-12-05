@@ -7,10 +7,10 @@
     </div>
   </div>
   <div class="main">
-    <div class="item">Nom: {{ user?.firstname }}</div>
-    <div class="item">Prénom: {{ user?.lastname }}</div>
-    <div class="item">Email: {{ user?.email }}</div>
-    <div class="item">Statut: {{ user?.isSchoolEmployee ? "Employé de l'école" : 'Etudiant' }}</div>
+    <div class="item"><strong>Nom: </strong> {{ user?.firstname }}</div>
+    <div class="item"><strong>Prénom: </strong> {{ user?.lastname }}</div>
+    <div class="item"><strong>Email: </strong> {{ user?.email }}</div>
+    <div class="item"><strong>Statut: </strong> {{ user?.isSchoolEmployee ? "Employé de l'école" : 'Etudiant' }}</div>
   </div>
   <div class="asso-list" *ngIf="shouldDisplayAssoList">
     <div class="u-m-t-2 title">Mes associations</div>

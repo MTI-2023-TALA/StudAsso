@@ -93,7 +93,7 @@ export class MemberPageComponent implements OnInit {
       this.apiRole.findAllRoleWithAsso().subscribe((roles: AssociationDto[]) => {
         this.rolesList = roles.map((role) => ({ label: role.name, value: role.id.toString() }));
       }),
-      this.apiUser.getIdAndEmail().subscribe((users: UserIdAndEmailDto[]) => {
+      this.apiUser.getIdAndEmail({ offset: 0, limit: 1000 }).subscribe((users: UserIdAndEmailDto[]) => {
         this.usersList = users.map((user) => ({ label: user.email, value: user.id.toString() }));
       }),
       this.apiAssociation.findMembers(pagination).subscribe((members: AssociationMemberWithRoleDto[]) => {
