@@ -22,6 +22,8 @@ interface Event {
   templateUrl: './event-page.component.html',
 })
 export class EventPageComponent implements OnInit {
+  PermissionId = PermissionId;
+
   tableConfiguration: TableConfiguration = {
     columns: [
       {

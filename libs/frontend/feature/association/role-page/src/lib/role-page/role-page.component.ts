@@ -180,7 +180,7 @@ export class RolePageComponent implements OnInit {
       };
       this.api.update(id, payload).subscribe({
         complete: () => {
-          this.toast.addAlert({ title: `Nom du rôle modifié`, type: ToastType.Success });
+          this.toast.addAlert({ title: `Rôle modifié`, type: ToastType.Success });
           this.reloadData(this.pagination);
         },
         error: this.handleError(),

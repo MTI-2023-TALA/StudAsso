@@ -43,10 +43,10 @@ export class AssociationPageComponent implements OnInit {
       },
       {
         label: 'Supprimer',
+        shouldShow: true,
         action: (data: { id: number; name: string }) => {
           this.deleteModalAssociation(data.id, data.name);
         },
-        shouldShow: true,
       },
     ],
   };
